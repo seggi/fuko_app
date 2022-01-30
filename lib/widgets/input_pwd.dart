@@ -22,10 +22,6 @@ class _PwdInputFieldState extends State<PwdInputField> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // decoration: BoxDecoration(
-      //     borderRadius: BorderRadius.circular(8.0),
-      //     color: fkInputFormColor,
-      //     border: Border.all(color: fkInputFormBorderColor)),
       child: TextFormField(
         keyboardType: TextInputType.text,
         obscureText: _passwordVisibility,

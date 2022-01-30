@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:fuko_app/screens/auth/signup.dart';
+import 'package:fuko_app/screens/screens/home.dart';
 import 'package:fuko_app/widgets/custom_btn.dart';
 import 'package:fuko_app/widgets/input_pwd.dart';
 import 'package:fuko_app/widgets/other_input.dart';
@@ -63,16 +65,25 @@ class _LoginPageState extends State<LoginPage> {
           PwdInputField(),
           verticalSpaceLarge,
           authButtom(
-              context: context,
-              title: 'Login',
-              btnColor: ftBtnColorBgSolid,
-              textColor: fkWhiteText),
+            context: context,
+            title: 'Login',
+            btnColor: ftBtnColorBgSolid,
+            textColor: fkWhiteText,
+            fn: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => HomePage()));
+            },
+          ),
           verticalSpaceRegular,
           authButtom(
               context: context,
               title: 'Sign Up',
               btnColor: ftBtnColorBgSolid,
-              textColor: fkWhiteText),
+              textColor: fkWhiteText,
+              fn: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => SignUpPage()));
+              }),
         ])
       ],
     );

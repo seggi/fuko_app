@@ -4,7 +4,7 @@ import 'package:fuko_app/screens/auth/signup.dart';
 import 'package:fuko_app/screens/screens/home.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 
-Widget authButtom({context, title, btnColor, textColor}) {
+Widget authButtom({context, title, btnColor, textColor, fn}) {
   return Container(
     width: MediaQuery.of(context).size.width,
     padding: EdgeInsets.only(top: 4.0, bottom: 4.0),
@@ -16,29 +16,22 @@ Widget authButtom({context, title, btnColor, textColor}) {
             borderRadius: BorderRadius.circular(8.0),
             border: Border.all(color: ftBtnColorBgSolid, width: 2.0)),
     child: TextButton(
-      child: title == "Login"
-          ? Text(
-              title,
-              style: TextStyle(
-                  color: textColor,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 20.0),
-            )
-          : Text(
-              title,
-              style: TextStyle(
-                  color: Colors.black87,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 20.0),
-            ),
-      onPressed: () {
-        title == "Login"
-            ? Navigator.push(
-                context, MaterialPageRoute(builder: (context) => HomePage()))
-            : Navigator.push(
-                context, MaterialPageRoute(builder: (context) => SignUpPage()));
-      },
-    ),
+        child: title == "Login"
+            ? Text(
+                title,
+                style: TextStyle(
+                    color: textColor,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 20.0),
+              )
+            : Text(
+                title,
+                style: TextStyle(
+                    color: Colors.black87,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 20.0),
+              ),
+        onPressed: fn),
   );
 }
 

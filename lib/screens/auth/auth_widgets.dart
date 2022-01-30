@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 
@@ -55,15 +56,22 @@ class FkAuthWidgets {
   static Widget authInputFieldBox(context, {List<Widget> itemList = const []}) {
     return Expanded(
       child: Container(
-        padding: EdgeInsets.all(20.0),
+          child: NotificationListener<OverscrollIndicatorNotification>(
+        onNotification: (OverscrollIndicatorNotification? overscroll) {
+          overscroll!.disallowIndicator();
+          return true;
+        },
         child: SingleChildScrollView(
+          physics: ClampingScrollPhysics(),
+          padding: EdgeInsets.all(20.0),
           child: Form(
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             child: Column(
               children: [...itemList],
             ),
           ),
         ),
-      ),
+      )),
     );
   }
 }

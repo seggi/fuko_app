@@ -17,7 +17,7 @@ class FukoApp extends StatelessWidget {
         // textTheme: GoogleFonts.robotoTextTheme(),
         colorScheme: ColorScheme.fromSwatch().copyWith(
           primary: fkDefaultColor,
-          secondary: const Color(0xFFFFC107),
+          secondary: const Color(0XFFF9F9F9),
         ),
       ),
       debugShowCheckedModeBanner: false,
