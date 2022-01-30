@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fuko_app/screens/auth/login.dart';
-import 'package:fuko_app/screens/pages/loan.dart';
+import 'package:fuko_app/screens/screens/loan.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);

@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:fuko_app/widgets/custom_btn.dart';
 import 'package:fuko_app/widgets/input_pwd.dart';
 import 'package:fuko_app/widgets/other_input.dart';
+import 'package:fuko_app/widgets/shared/style.dart';
+import 'package:fuko_app/widgets/shared/ui_helper.dart';
+
+import 'auth_widgets.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key? key}) : super(key: key);
@@ -11,111 +15,66 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  FkAuthWidgets fkAuthWidgets = new FkAuthWidgets();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-          child: Container(
-        height: MediaQuery.of(context).size.height,
-        child: SingleChildScrollView(
-            child: Container(
-          child: Column(
-            children: [
-              SizedBox(
-                height: 5,
-              ),
-              topContent(),
-              SizedBox(
-                height: 10,
-              ),
-              loginInputField(),
-              SizedBox(
-                height: 40,
-              ),
-            ],
-          ),
-        )),
-      )),
-    );
-  }
-
-  Widget topContent() {
-    return Container(
-      margin: EdgeInsets.only(right: 30, left: 30),
-      child: Column(
-        children: [
-          Align(
-              alignment: Alignment.bottomRight,
-              child: IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.language_outlined,
-                    color: Colors.blue,
-                  ))),
-          SizedBox(
-            height: 30,
-          ),
-          Container(
-            margin: EdgeInsets.only(top: 20),
+    return FkAuthWidgets.body(
+      context,
+      itemList: [
+        FkAuthWidgets.topItemsBox(context, itemList: [
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
             child: Align(
-                alignment: Alignment.bottomLeft,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Align(
-                      alignment: Alignment.bottomLeft,
-                      child: Text(
-                        "Fuko",
-                        style: TextStyle(
-                            fontSize: 35,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.cyan[800]),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.bottomLeft,
-                      child: Text(
-                        "Login",
-                        style: TextStyle(
-                            color: Colors.black54,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 20),
-                      ),
-                    )
-                  ],
-                )),
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget loginInputField() {
-    final colorOne = Colors.cyan[900];
-    final colorTwo = Colors.cyan[50];
-    final textColorOne = Colors.white;
-    final textColorTwo = Colors.black54;
-    return Container(
-      padding: EdgeInsets.only(left: 30, right: 30, top: 30),
-      child: Form(
-        child: Column(
-          children: [
-            usernameFormField(),
-            SizedBox(
-              height: 30,
+                alignment: Alignment.bottomRight,
+                child: IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      Icons.language_outlined,
+                      color: Colors.deepOrange,
+                    ))),
+          ),
+          fkAuthWidgets.authTopContent(itemList: [
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: Text(
+                "Login",
+                style: TextStyle(
+                    color: fkGreyText,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 16),
+              ),
             ),
-            PwdInputField(),
-            SizedBox(
-              height: 60,
-            ),
-            customButtom(context, 'Login', colorOne, textColorOne),
-            SizedBox(
-              height: 35,
-            ),
-            customButtom(context, 'Sign up', colorTwo, textColorTwo),
-          ],
-        ),
-      ),
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: Text(
+                "Welcom to Fuko App, first of all start by login.\nFor you to get access on what we reserved for you.",
+                style: TextStyle(
+                    color: fkGreyText,
+                    fontWeight: FontWeight.w300,
+                    fontSize: 14),
+              ),
+            )
+          ])
+        ]),
+        // Bottom Widgets
+        FkAuthWidgets.authInputFieldBox(context, itemList: [
+          usernameFormField(),
+          verticalSpaceRegular,
+          PwdInputField(),
+          verticalSpaceLarge,
+          authButtom(
+              context: context,
+              title: 'Login',
+              btnColor: ftBtnColorBgSolid,
+              textColor: fkWhiteText),
+          verticalSpaceRegular,
+          authButtom(
+              context: context,
+              title: 'Sign Up',
+              btnColor: ftBtnColorBgSolid,
+              textColor: fkWhiteText),
+        ])
+      ],
     );
   }
 }
