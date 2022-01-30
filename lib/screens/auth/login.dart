@@ -32,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed: () {},
                     icon: Icon(
                       Icons.language_outlined,
-                      color: Colors.deepOrange,
+                      color: Colors.deepOrangeAccent,
                     ))),
           ),
           fkAuthWidgets.authTopContent(itemList: [
