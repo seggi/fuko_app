@@ -1,19 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 import 'package:fuko_app/screens/auth/login.dart';
+import 'package:fuko_app/widgets/shared/style.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(FukoApp());
 }
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+class FukoApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Fuko',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        // textTheme: GoogleFonts.robotoTextTheme(),
+        colorScheme: ColorScheme.fromSwatch().copyWith(
+          primary: fkDefaultColor,
+          secondary: const Color(0XFFF9F9F9),
+        ),
       ),
+      debugShowCheckedModeBanner: false,
       home: LoginPage(),
     );
   }

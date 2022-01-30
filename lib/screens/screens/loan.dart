@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fuko_app/screens/pages/home.dart';
+import 'package:fuko_app/screens/screens/home.dart';
 
 class LoanPage extends StatefulWidget {
   LoanPage({Key? key}) : super(key: key);

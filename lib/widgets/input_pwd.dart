@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fuko_app/widgets/shared/style.dart';
 
 class PwdInputField extends StatefulWidget {
   PwdInputField({Key? key}) : super(key: key);
@@ -21,10 +22,6 @@ class _PwdInputFieldState extends State<PwdInputField> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: Colors.blue[50],
-      ),
       child: TextFormField(
         keyboardType: TextInputType.text,
         obscureText: _passwordVisibility,
@@ -41,10 +38,10 @@ class _PwdInputFieldState extends State<PwdInputField> {
                   !_passwordVisibility
                       ? Icons.visibility
                       : Icons.visibility_off,
-                  color: Colors.cyan[900])),
+                  color: fkDefaultColor)),
           border: OutlineInputBorder(
-              borderSide: BorderSide.none,
-              borderRadius: BorderRadius.circular(10)),
+              borderSide: BorderSide(color: fkInputFormBorderColor, width: 1.0),
+              borderRadius: BorderRadius.circular(8.0)),
         ),
       ),
     );
