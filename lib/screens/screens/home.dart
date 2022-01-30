@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fuko_app/screens/auth/login.dart';
-import 'package:fuko_app/screens/screens/loan.dart';
+import 'package:fuko_app/screens/screens/content_box_widgets.dart';
+import 'package:fuko_app/widgets/other_widgets.dart';
+import 'package:fuko_app/widgets/shared/style.dart';
+import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
@@ -10,225 +13,129 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  FkContentBoxWidgets fkContentBoxWidgets = new FkContentBoxWidgets();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-          child: Container(
-        height: MediaQuery.of(context).size.height,
-        child: SingleChildScrollView(
-            child: Container(
-          height: MediaQuery.of(context).size.height,
-          child: Stack(
-            children: [
-              Column(
-                children: [
-                  SizedBox(
-                    height: 10,
-                  ),
-                  topContent(),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  buttonsContent(),
-                ],
-              ),
-              Positioned(
-                bottom: 0.0,
-                width: MediaQuery.of(context).size.width,
-                child: totalCashRemain(),
-              )
-            ],
-          ),
-        )),
-      )),
-    );
-  }
-
-  Widget topContent() {
-    return Container(
-      height: 100,
-      child: Column(
-        children: [
-          Container(
-              margin: EdgeInsets.only(right: 20, left: 20),
-              alignment: Alignment.bottomRight,
-              child: IconButton(
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => LoginPage()));
-                  },
-                  icon: Icon(
-                    Icons.logout,
-                    color: Colors.black,
-                    size: 20,
-                  ))),
-          SizedBox(
-            height: 40,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget totalCashRemain() {
-    return Container(
-      color: Colors.cyan[900],
-      padding: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 20),
-      height: 150,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            margin: EdgeInsets.only(top: 10),
-            child: Text(
-              "Rwf",
-              style: TextStyle(
-                  color: Colors.white60,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600),
-            ),
-          ),
-          SizedBox(
-            width: 5,
-          ),
-          Container(
-            child: Text(
-              "5,000, 000.00",
-              style: TextStyle(
-                  color: Colors.white60,
-                  fontSize: 40,
-                  fontWeight: FontWeight.w400),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget buttonsContent() {
-    return Container(
-      padding: EdgeInsets.all(20),
-      child: Column(
-        children: [
-          Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-            Container(
-              width: 100,
-              child: TextButton(
-                child: Column(
-                  children: [
-                    Icon(
-                      Icons.calculate,
-                      size: 30,
-                      color: Colors.cyan[900],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      "Budget",
-                      style: TextStyle(
-                          color: Colors.black54,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 12),
-                    )
-                  ],
-                ),
-                onPressed: () {},
-              ),
-            ),
-            SizedBox(
-              width: 40,
-            ),
-            Container(
-              width: 100,
-              child: TextButton(
-                child: Column(
-                  children: [
-                    Icon(
-                      Icons.savings,
-                      size: 30,
-                      color: Colors.cyan[900],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      "Savings",
-                      style: TextStyle(
-                          color: Colors.black54,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 12),
-                    )
-                  ],
-                ),
-                onPressed: () {},
-              ),
-            ),
-          ]),
-          SizedBox(
-            height: 40,
-          ),
-          Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-            Container(
-              width: 100,
-              child: TextButton(
-                child: Column(
-                  children: [
-                    Icon(
-                      Icons.account_balance,
-                      size: 30,
-                      color: Colors.cyan[900],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      "Loan",
-                      style: TextStyle(
-                          color: Colors.black54,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 12),
-                    )
-                  ],
-                ),
+    return FkContentBoxWidgets.body(context, itemList: [
+      Padding(
+        padding: const EdgeInsets.only(right: 8.0),
+        child: Align(
+            alignment: Alignment.bottomRight,
+            child: IconButton(
                 onPressed: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => LoanPage()));
+                      MaterialPageRoute(builder: (context) => LoginPage()));
                 },
+                icon: Icon(
+                  Icons.logout,
+                  color: Colors.deepOrangeAccent,
+                  size: 20,
+                ))),
+      ),
+      fkContentBoxWidgets.initialItems(
+        itemList: [
+          Align(
+            alignment: Alignment.bottomLeft,
+            child: Text(
+              "Marugira Seggi",
+              style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.w600,
+                  color: fkBlackText),
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomLeft,
+            child: Text(
+              "Your current wallet amount is",
+              style: TextStyle(
+                  color: fkGreyText, fontWeight: FontWeight.w400, fontSize: 16),
+            ),
+          ),
+          verticalSpaceTiny,
+          Card(
+            elevation: 8.0,
+            color: fkDefaultColor,
+            child: Container(
+              height: 100,
+              padding: EdgeInsets.only(left: 20.0, right: 20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Rwf",
+                        style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            color: fkGreyText),
+                      ),
+                      Text(
+                        "500,000",
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            fontSize: 35,
+                            fontWeight: FontWeight.w600,
+                            color: fkGreyText),
+                      ),
+                    ],
+                  ),
+                  Container(
+                    alignment: Alignment.center,
+                    child: Icon(
+                      Icons.account_balance_wallet,
+                      size: 24,
+                      color: fkGreyText,
+                    ),
+                  )
+                ],
               ),
             ),
-            SizedBox(
-              width: 40,
-            ),
-            Container(
-              width: 100,
-              child: TextButton(
-                child: Column(
-                  children: [
-                    Icon(
-                      Icons.money_off,
-                      size: 30,
-                      color: Colors.cyan[900],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      "Depts",
-                      style: TextStyle(
-                          color: Colors.black54,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 12),
-                    )
-                  ],
-                ),
-                onPressed: () {},
-              ),
-            ),
-          ])
+          ),
         ],
       ),
-    );
+      FkContentBoxWidgets.buttonsItemsBox(context, itemList: [
+        Align(
+          alignment: Alignment.bottomLeft,
+          child: Text(
+            "Total amounts on each operation",
+            style: TextStyle(
+                color: fkGreyText, fontWeight: FontWeight.w400, fontSize: 14),
+          ),
+        ),
+        verticalSpaceTiny,
+        homeCard(
+            leadingIcon: Icons.savings,
+            currency: "Rwf",
+            amount: "10,000",
+            titleTxt: "Savings",
+            fn: () {}),
+        verticalSpaceTiny,
+        homeCard(
+            leadingIcon: Icons.account_balance,
+            currency: "Rwf",
+            amount: "30,500",
+            titleTxt: "Loan",
+            fn: () {}),
+        verticalSpaceTiny,
+        homeCard(
+            leadingIcon: Icons.money_off,
+            currency: "Rwf",
+            amount: "105,000",
+            titleTxt: "Depts",
+            fn: () {}),
+        verticalSpaceTiny,
+        homeCard(
+            leadingIcon: Icons.schedule_outlined,
+            currency: "Rwf",
+            amount: "535 000",
+            titleTxt: "Budget",
+            fn: () {}),
+        verticalSpaceMedium,
+      ])
+    ]);
   }
 }
