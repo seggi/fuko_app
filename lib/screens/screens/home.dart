@@ -103,7 +103,7 @@ class _HomePageState extends State<HomePage> {
           child: Text(
             "Total amounts on each operation",
             style: TextStyle(
-                color: fkBlueText, fontWeight: FontWeight.w400, fontSize: 14),
+                color: fkGreyText, fontWeight: FontWeight.w400, fontSize: 14),
           ),
         ),
         verticalSpaceTiny,

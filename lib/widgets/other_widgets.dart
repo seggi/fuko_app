@@ -27,7 +27,7 @@ Widget homeCard({leadingIcon, currency, amount, titleTxt, fn}) {
         ),
         subtitle: Text(titleTxt,
             style: TextStyle(
-                color: fkBlueText, fontWeight: FontWeight.w300, fontSize: 16)),
+                color: fkGreyText, fontWeight: FontWeight.w300, fontSize: 16)),
         trailing: IconButton(
           icon: Icon(Icons.more_horiz_rounded),
           onPressed: fn,
