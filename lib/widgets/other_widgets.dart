@@ -8,7 +8,7 @@ Widget homeCard({leadingIcon, currency, amount, titleTxt, fn}) {
       child: ListTile(
         leading: Icon(
           leadingIcon,
-          color: fkBlueText,
+          color: fkDefaultColor,
         ),
         title: Row(
           children: [
