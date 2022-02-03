@@ -1,28 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:fuko_app/screens/screens/content_box_widgets.dart';
-import 'package:fuko_app/screens/screens/savings.dart';
 import 'package:fuko_app/widgets/other_widgets.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
-class HomePage extends StatefulWidget {
-  HomePage({Key? key}) : super(key: key);
+class SavingPage extends StatefulWidget {
+  SavingPage({Key? key}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _SavingPageState createState() => _SavingPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _SavingPageState extends State<SavingPage> {
   FkContentBoxWidgets fkContentBoxWidgets = new FkContentBoxWidgets();
   @override
   Widget build(BuildContext context) {
-    return FkContentBoxWidgets.body(context, 'home', itemList: [
+    return FkContentBoxWidgets.body(context, 'savings', itemList: [
       Padding(
-          padding: const EdgeInsets.only(right: 8.0),
+          padding: const EdgeInsets.only(right: 20.0, left: 20.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              IconButton(onPressed: () {}, icon: Icon(Icons.menu)),
+              IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: Icon(Icons.arrow_back_ios)),
               IconButton(onPressed: () {}, icon: Icon(Icons.notifications))
             ],
           )),
@@ -31,7 +34,7 @@ class _HomePageState extends State<HomePage> {
           Align(
             alignment: Alignment.bottomLeft,
             child: Text(
-              "Marugira Seggi",
+              "Expenses",
               style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.w600,
@@ -41,7 +44,7 @@ class _HomePageState extends State<HomePage> {
           Align(
             alignment: Alignment.bottomLeft,
             child: Text(
-              "Your current wallet amount is",
+              "Total Expenses Amount in the current month",
               style: TextStyle(
                   color: fkGreyText, fontWeight: FontWeight.w400, fontSize: 16),
             ),
@@ -68,7 +71,7 @@ class _HomePageState extends State<HomePage> {
                             color: fkGreyText),
                       ),
                       Text(
-                        "500,000",
+                        "10,000",
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             fontSize: 35,
@@ -79,10 +82,13 @@ class _HomePageState extends State<HomePage> {
                   ),
                   Container(
                     alignment: Alignment.center,
-                    child: Icon(
-                      Icons.account_balance_wallet,
-                      size: 24,
-                      color: fkGreyText,
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.arrow_right_alt,
+                        size: 24,
+                        color: fkGreyText,
+                      ),
+                      onPressed: () {},
                     ),
                   )
                 ],
@@ -101,36 +107,41 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         verticalSpaceTiny,
-        // Saving Screen
-        homeCard(
-            leadingIcon: Icons.savings,
+        reportCard(
+            leadingText: "01",
             currency: "Rwf",
             amount: "10,000",
-            titleTxt: "Savings",
-            fn: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => SavingPage()));
-            }),
+            titleTxt: "Mafuta",
+            bdTxt: "Mafuta ya OK",
+            fn: () {}),
         verticalSpaceTiny,
-        homeCard(
-            leadingIcon: Icons.account_balance,
+        reportCard(
+            leadingText: "02",
             currency: "Rwf",
             amount: "30,500",
-            titleTxt: "Loan",
+            titleTxt: "Riz",
+            bdTxt: "4 sacs du Riz",
             fn: () {}),
         verticalSpaceTiny,
-        homeCard(
-            leadingIcon: Icons.money_off,
+        reportCard(
+            leadingText: "03",
             currency: "Rwf",
             amount: "105,000",
-            titleTxt: "Depts",
+            titleTxt: "L'eaux",
             fn: () {}),
         verticalSpaceTiny,
-        homeCard(
-            leadingIcon: Icons.schedule_outlined,
+        reportCard(
+            leadingText: "13",
             currency: "Rwf",
-            amount: "535 000",
-            titleTxt: "Budget",
+            amount: "56000",
+            titleTxt: "Savons",
+            fn: () {}),
+        verticalSpaceMedium,
+        reportCard(
+            leadingText: "20",
+            currency: "Rwf",
+            amount: "35000",
+            titleTxt: "Electricity",
             fn: () {}),
         verticalSpaceMedium,
       ])
