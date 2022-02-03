@@ -1,26 +1,42 @@
 import 'package:flutter/material.dart';
 
 class FkContentBoxWidgets {
-  static Widget body(context, {List<Widget> itemList = const []}) {
-    return Scaffold(
-      body: SafeArea(
-        child: Container(
-          height: MediaQuery.of(context).size.height,
-          child: Container(
-            child: Column(
-              children: [...itemList],
+  static Widget body(context, screenName, {List<Widget> itemList = const []}) {
+    return screenName == "home"
+        ? Scaffold(
+            body: SafeArea(
+              child: Container(
+                height: MediaQuery.of(context).size.height,
+                child: Container(
+                  child: Column(
+                    children: [...itemList],
+                  ),
+                ),
+              ),
             ),
-          ),
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Add your onPressed code here!
-        },
-        backgroundColor: Colors.deepOrange,
-        child: const Icon(Icons.add),
-      ),
-    );
+          )
+        : Scaffold(
+            body: SafeArea(
+              child: Container(
+                height: MediaQuery.of(context).size.height,
+                child: Container(
+                  child: Column(
+                    children: [...itemList],
+                  ),
+                ),
+              ),
+            ),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                // Add your onPressed code here!
+              },
+              backgroundColor: Colors.deepOrange,
+              child: const Icon(
+                Icons.add,
+                size: 30,
+              ),
+            ),
+          );
   }
 
   static Widget topItemsBox(contex, {List<Widget> itemList = const []}) {

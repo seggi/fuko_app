@@ -16,7 +16,7 @@ class _HomePageState extends State<HomePage> {
   FkContentBoxWidgets fkContentBoxWidgets = new FkContentBoxWidgets();
   @override
   Widget build(BuildContext context) {
-    return FkContentBoxWidgets.body(context, itemList: [
+    return FkContentBoxWidgets.body(context, 'home', itemList: [
       Padding(
           padding: const EdgeInsets.only(right: 8.0),
           child: Row(

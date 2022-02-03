@@ -15,9 +15,9 @@ class _SavingPageState extends State<SavingPage> {
   FkContentBoxWidgets fkContentBoxWidgets = new FkContentBoxWidgets();
   @override
   Widget build(BuildContext context) {
-    return FkContentBoxWidgets.body(context, itemList: [
+    return FkContentBoxWidgets.body(context, 'savings', itemList: [
       Padding(
-          padding: const EdgeInsets.only(right: 8.0),
+          padding: const EdgeInsets.only(right: 20.0, left: 20.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -71,7 +71,7 @@ class _SavingPageState extends State<SavingPage> {
                             color: fkGreyText),
                       ),
                       Text(
-                        "500,000",
+                        "10,000",
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             fontSize: 35,
