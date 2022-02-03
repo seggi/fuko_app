@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fuko_app/screens/auth/login.dart';
 import 'package:fuko_app/screens/screens/content_box_widgets.dart';
 import 'package:fuko_app/widgets/other_widgets.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
@@ -18,20 +17,14 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return FkContentBoxWidgets.body(context, itemList: [
       Padding(
-        padding: const EdgeInsets.only(right: 8.0),
-        child: Align(
-            alignment: Alignment.bottomRight,
-            child: IconButton(
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => LoginPage()));
-                },
-                icon: Icon(
-                  Icons.logout,
-                  color: Colors.deepOrangeAccent,
-                  size: 20,
-                ))),
-      ),
+          padding: const EdgeInsets.only(right: 8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              IconButton(onPressed: () {}, icon: Icon(Icons.menu)),
+              IconButton(onPressed: () {}, icon: Icon(Icons.notifications))
+            ],
+          )),
       fkContentBoxWidgets.initialItems(
         itemList: [
           Align(

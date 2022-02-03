@@ -10,7 +10,7 @@ Widget homeCard({leadingIcon, currency, amount, titleTxt, fn}) {
           leadingIcon,
           color: fkDefaultColor,
         ),
-        title: Row(
+        subtitle: Row(
           children: [
             Text(currency,
                 style: TextStyle(
@@ -20,14 +20,14 @@ Widget homeCard({leadingIcon, currency, amount, titleTxt, fn}) {
             horizontalSpaceTiny,
             Text(amount,
                 style: TextStyle(
-                    color: fkBlackText,
+                    color: fkGreyText,
                     fontWeight: FontWeight.w600,
                     fontSize: 18)),
           ],
         ),
-        subtitle: Text(titleTxt,
+        title: Text(titleTxt,
             style: TextStyle(
-                color: fkGreyText, fontWeight: FontWeight.w300, fontSize: 16)),
+                color: fkBlackText, fontWeight: FontWeight.w400, fontSize: 18)),
         trailing: IconButton(
           icon: Icon(Icons.more_horiz_rounded),
           onPressed: fn,
