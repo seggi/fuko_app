@@ -13,6 +13,13 @@ class FkContentBoxWidgets {
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Add your onPressed code here!
+        },
+        backgroundColor: Colors.deepOrange,
+        child: const Icon(Icons.add),
+      ),
     );
   }
 
