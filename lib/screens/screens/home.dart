@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fuko_app/screens/screens/content_box_widgets.dart';
-import 'package:fuko_app/screens/screens/savings.dart';
+import 'package:fuko_app/screens/screens/expenses.dart';
 import 'package:fuko_app/widgets/other_widgets.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
@@ -109,7 +109,7 @@ class _HomePageState extends State<HomePage> {
             titleTxt: "Savings",
             fn: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => SavingPage()));
+                  MaterialPageRoute(builder: (context) => ExpensesPage()));
             }),
         verticalSpaceTiny,
         homeCard(

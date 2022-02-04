@@ -43,27 +43,28 @@ Widget reportCard({leadingText, currency, amount, titleTxt, bdTxt, fn}) {
   return Container(
     child: Card(
       child: ExpansionTile(
-        leading: Container(
-          height: 80.0,
-          width: 80.0,
-          padding: EdgeInsets.all(8.0),
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: fkDefaultColor,
-          ),
-          child: Column(
-            children: [
-              Icon(
-                Icons.calendar_today,
-                color: fkGreyText,
-                size: 15,
+        leading: ClipRRect(
+          borderRadius: BorderRadius.circular(8),
+          child: Container(
+            width: 50,
+            height: 50,
+            padding: EdgeInsets.all(8.0),
+            color: fkBlueText,
+            child: FittedBox(
+              child: Column(
+                children: [
+                  Text(
+                    "Feb",
+                    style: TextStyle(fontSize: 15, color: fkWhiteText),
+                  ),
+                  Text(leadingText,
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w800,
+                          fontSize: 24))
+                ],
               ),
-              Text(leadingText,
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 20))
-            ],
+            ),
           ),
         ),
         subtitle: Row(
