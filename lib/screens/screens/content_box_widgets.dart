@@ -83,3 +83,26 @@ class FkContentBoxWidgets {
     );
   }
 }
+
+// Bottom Navigation Bar
+
+class FkContentBoxWidgetsWithBottomBar {
+  static Widget body(
+      {screenBox,
+      List<BottomNavigationBarItem> bottomItemList = const [],
+      selectedIndexItem,
+      onItemTappedIcon}) {
+    return Scaffold(
+      appBar: AppBar(),
+      body: Container(
+        child: screenBox,
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: [...bottomItemList],
+        currentIndex: selectedIndexItem,
+        selectedItemColor: Colors.amber[800],
+        onTap: onItemTappedIcon,
+      ),
+    );
+  }
+}

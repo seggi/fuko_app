@@ -4,14 +4,16 @@ import 'package:fuko_app/widgets/other_widgets.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
-class SavingPage extends StatefulWidget {
-  SavingPage({Key? key}) : super(key: key);
+import 'expenses/expenses_details.dart';
+
+class ExpensesPage extends StatefulWidget {
+  ExpensesPage({Key? key}) : super(key: key);
 
   @override
-  _SavingPageState createState() => _SavingPageState();
+  _ExpensesPageState createState() => _ExpensesPageState();
 }
 
-class _SavingPageState extends State<SavingPage> {
+class _ExpensesPageState extends State<ExpensesPage> {
   FkContentBoxWidgets fkContentBoxWidgets = new FkContentBoxWidgets();
   @override
   Widget build(BuildContext context) {
@@ -82,31 +84,45 @@ class _SavingPageState extends State<SavingPage> {
                   ),
                   Container(
                     alignment: Alignment.center,
-                    child: IconButton(
-                      icon: Icon(
-                        Icons.arrow_right_alt,
-                        size: 24,
-                        color: fkGreyText,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8.0),
+                      child: Container(
+                        color: fkBlueText,
+                        child: IconButton(
+                          icon: Icon(
+                            Icons.arrow_right_alt,
+                            size: 30,
+                            color: fkWhiteText,
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        ExpenseOptionsScreen()));
+                          },
+                        ),
                       ),
-                      onPressed: () {},
                     ),
                   )
                 ],
               ),
             ),
           ),
+          verticalSpaceTiny,
+          Align(
+            alignment: Alignment.bottomLeft,
+            child: Text(
+              "Total amounts for this Febuary",
+              style: TextStyle(
+                  color: fkBlackText,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 14),
+            ),
+          ),
         ],
       ),
       FkContentBoxWidgets.buttonsItemsBox(context, itemList: [
-        Align(
-          alignment: Alignment.bottomLeft,
-          child: Text(
-            "Total amounts on each operation",
-            style: TextStyle(
-                color: fkGreyText, fontWeight: FontWeight.w400, fontSize: 14),
-          ),
-        ),
-        verticalSpaceTiny,
         reportCard(
             leadingText: "01",
             currency: "Rwf",
