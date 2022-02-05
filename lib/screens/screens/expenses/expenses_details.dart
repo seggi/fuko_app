@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fuko_app/screens/screens/content_box_widgets.dart';
+import 'package:fuko_app/screens/screens/expenses/expense_sam_detials.dart';
 import 'package:fuko_app/screens/screens/expenses/sammany.dart';
 
 class ExpenseOptionsScreen extends StatefulWidget {
@@ -15,10 +16,7 @@ class _ExpenseOptionsScreenState extends State<ExpenseOptionsScreen> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     SammaryScreen(),
-    Text(
-      'Index 1: Details',
-      style: optionStyle,
-    ),
+    ExpensesSammaryDetails(),
   ];
 
   void _onItemTapped(int index) {

@@ -103,6 +103,16 @@ class _HomePageState extends State<HomePage> {
         verticalSpaceTiny,
         // Saving Screen
         homeCard(
+            leadingIcon: Icons.calculate,
+            currency: "Rwf",
+            amount: "105,000",
+            titleTxt: "Expenses",
+            fn: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => ExpensesPage()));
+            }),
+        verticalSpaceTiny,
+        homeCard(
             leadingIcon: Icons.savings,
             currency: "Rwf",
             amount: "10,000",

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fuko_app/screens/screens/content_box_widgets.dart';
+import 'package:fuko_app/screens/screens/expenses/add_expenses.dart';
 import 'package:fuko_app/widgets/other_widgets.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
@@ -17,7 +18,10 @@ class _ExpensesPageState extends State<ExpensesPage> {
   FkContentBoxWidgets fkContentBoxWidgets = new FkContentBoxWidgets();
   @override
   Widget build(BuildContext context) {
-    return FkContentBoxWidgets.body(context, 'savings', itemList: [
+    return FkContentBoxWidgets.body(context, 'savings', fn: () {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => AddExpensesScreen()));
+    }, itemList: [
       Padding(
           padding: const EdgeInsets.only(right: 20.0, left: 20.0),
           child: Row(
@@ -160,7 +164,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
             titleTxt: "Electricity",
             fn: () {}),
         verticalSpaceMedium,
-      ])
+      ]),
     ]);
   }
 }
