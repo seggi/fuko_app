@@ -18,6 +18,11 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   FkAuthWidgets fkAuthWidgets = new FkAuthWidgets();
+  // Login controllers
+  final _formKey = GlobalKey<FormState>();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController usernameController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return FkAuthWidgets.body(
@@ -59,10 +64,12 @@ class _LoginPageState extends State<LoginPage> {
           ])
         ]),
         // Bottom Widgets
-        FkAuthWidgets.authInputFieldBox(context, itemList: [
-          usernameFormField(),
+        FkAuthWidgets.authInputFieldBox(context, formKey: _formKey, itemList: [
+          usernameFormField(usernameController: usernameController),
           verticalSpaceRegular,
-          PwdInputField(),
+          PwdInputField(
+            passwordController: passwordController,
+          ),
           verticalSpaceLarge,
           authButtom(
             context: context,

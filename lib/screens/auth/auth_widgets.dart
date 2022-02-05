@@ -52,7 +52,8 @@ class FkAuthWidgets {
     );
   }
 
-  static Widget authInputFieldBox(context, {List<Widget> itemList = const []}) {
+  static Widget authInputFieldBox(context,
+      {formKey, List<Widget> itemList = const []}) {
     return Expanded(
       child: Container(
           child: NotificationListener<OverscrollIndicatorNotification>(
@@ -64,6 +65,7 @@ class FkAuthWidgets {
           physics: ClampingScrollPhysics(),
           padding: EdgeInsets.all(20.0),
           child: Form(
+            key: formKey,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             child: Column(
               children: [...itemList],
