@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fuko_app/widgets/custom_btn.dart';
+import 'package:fuko_app/widgets/drop_down_box.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
@@ -18,8 +18,8 @@ class _SammaryScreenState extends State<SammaryScreen> {
       child: Column(
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [customTextButton(btnTxt: "Year")],
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [CustomDropDownBox()],
           ),
           Align(
             alignment: Alignment.bottomLeft,
@@ -37,87 +37,50 @@ class _SammaryScreenState extends State<SammaryScreen> {
             ),
           ),
           verticalSpaceRegular,
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          summaryYearReport(month: "January", currency: "Rwf", amount: "2000"),
+          Divider(
+            thickness: 1,
+          ),
+          summaryYearReport(month: "February", currency: "Rwf", amount: "1800")
+        ],
+      ),
+    );
+  }
+
+  Widget summaryYearReport({month, currency, amount}) {
+    return Container(
+      margin: EdgeInsets.only(top: 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "$month",
+            style: TextStyle(
+                fontSize: 18, fontWeight: FontWeight.w500, color: Colors.blue),
+          ),
+          verticalSpaceSmall,
+          Row(
             children: [
-              Container(
-                margin: EdgeInsets.only(top: 8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Febuary",
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500,
-                          color: fkBlackText),
-                    ),
-                    verticalSpaceSmall,
-                    Row(
-                      children: [
-                        Text(
-                          "Rwf",
-                          style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                              color: fkGreyText),
-                        ),
-                        Text(
-                          "450,000",
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                              fontSize: 35,
-                              fontWeight: FontWeight.w600,
-                              color: fkGreyText),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+              Text(
+                "$currency",
+                style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    color: fkGreyText),
               ),
-              Divider(
-                thickness: 2,
+              SizedBox(
+                width: 2,
               ),
-              Container(
-                margin: EdgeInsets.only(top: 8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "June",
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500,
-                          color: fkBlackText),
-                    ),
-                    verticalSpaceSmall,
-                    Row(
-                      children: [
-                        Text(
-                          "Rwf",
-                          style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                              color: fkGreyText),
-                        ),
-                        Text(
-                          "30,000",
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                              fontSize: 35,
-                              fontWeight: FontWeight.w600,
-                              color: fkGreyText),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              Divider(
-                thickness: 2,
+              Text(
+                "$amount",
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.w600,
+                    color: fkBlackText),
               ),
             ],
-          )
+          ),
         ],
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fuko_app/widgets/shared/style.dart';
 
 class FkContentBoxWidgets {
   static Widget body(context, screenName, {List<Widget> itemList = const []}) {
@@ -100,7 +101,7 @@ class FkContentBoxWidgetsWithBottomBar {
       bottomNavigationBar: BottomNavigationBar(
         items: [...bottomItemList],
         currentIndex: selectedIndexItem,
-        selectedItemColor: Colors.amber[800],
+        selectedItemColor: fkDefaultColor,
         onTap: onItemTappedIcon,
       ),
     );
