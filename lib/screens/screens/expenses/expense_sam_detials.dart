@@ -15,7 +15,7 @@ class _ExpensesSammaryDetailsState extends State<ExpensesSammaryDetails> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(20.0),
+      padding: EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
       child: Column(
         children: [
           Row(

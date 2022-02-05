@@ -84,17 +84,20 @@ class _CustomExpandedListTileState extends State<CustomExpandedListTile> {
       ),
       children: <Widget>[
         ListTile(
-          leading: Container(
-            width: 40,
-            height: 40,
-            padding: EdgeInsets.all(8.0),
-            color: fkBlueText,
-            child: FittedBox(
-                child: Text(data['date'],
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w800,
-                        fontSize: 24))),
+          leading: ClipRRect(
+            borderRadius: BorderRadius.circular(8.0),
+            child: Container(
+              width: 35,
+              height: 35,
+              padding: EdgeInsets.all(8.0),
+              color: fkBlueText,
+              child: FittedBox(
+                  child: Text(data['date'],
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w800,
+                          fontSize: 24))),
+            ),
           ),
           title: Column(
             children: [
@@ -130,17 +133,20 @@ class _CustomExpandedListTileState extends State<CustomExpandedListTile> {
           thickness: 1,
         ),
         ListTile(
-          leading: Container(
-            width: 40,
-            height: 40,
-            padding: EdgeInsets.all(8.0),
-            color: fkBlueText,
-            child: FittedBox(
-                child: Text("05",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w800,
-                        fontSize: 24))),
+          leading: ClipRRect(
+            borderRadius: BorderRadius.circular(8.0),
+            child: Container(
+              width: 35,
+              height: 35,
+              padding: EdgeInsets.all(8.0),
+              color: fkBlueText,
+              child: FittedBox(
+                  child: Text("05",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w800,
+                          fontSize: 24))),
+            ),
           ),
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

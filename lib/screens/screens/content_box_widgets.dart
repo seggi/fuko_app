@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:fuko_app/widgets/shared/style.dart';
 
 class FkContentBoxWidgets {
-  static Widget body(context, screenName, {List<Widget> itemList = const []}) {
+  static Widget body(context, screenName,
+      {List<Widget> itemList = const [], fn}) {
     return screenName == "home"
         ? Scaffold(
             body: SafeArea(
@@ -28,9 +28,7 @@ class FkContentBoxWidgets {
               ),
             ),
             floatingActionButton: FloatingActionButton(
-              onPressed: () {
-                // Add your onPressed code here!
-              },
+              onPressed: fn,
               backgroundColor: Colors.deepOrangeAccent,
               child: const Icon(
                 Icons.add,
@@ -86,7 +84,6 @@ class FkContentBoxWidgets {
 }
 
 // Bottom Navigation Bar
-
 class FkContentBoxWidgetsWithBottomBar {
   static Widget body(
       {screenBox,
@@ -103,6 +100,28 @@ class FkContentBoxWidgetsWithBottomBar {
         currentIndex: selectedIndexItem,
         selectedItemColor: Colors.deepOrangeAccent,
         onTap: onItemTappedIcon,
+      ),
+    );
+  }
+}
+
+class FkAddDataFormBox {
+  static Widget body(context, {List<Widget> itemList = const []}) {
+    return Scaffold(
+      appBar: AppBar(),
+      body: SafeArea(
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          child: Expanded(
+            child: Container(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [...itemList],
+                ),
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
