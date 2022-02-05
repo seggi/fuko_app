@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
 class CustomDropDownBox extends StatefulWidget {
@@ -16,13 +17,18 @@ class _CustomDropDownBoxState extends State<CustomDropDownBox> {
     return Container(
       child: Row(
         children: [
-          Text("Year"),
+          Text(
+            "Year",
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+          ),
           horizontalSpaceRegular,
           DropdownButton<String>(
             value: dropdownValue,
             icon: const Icon(Icons.arrow_drop_down),
             elevation: 16,
             underline: SizedBox(),
+            style: TextStyle(
+                fontSize: 14, fontWeight: FontWeight.w600, color: fkGreyText),
             onChanged: (String? newValue) {
               setState(() {
                 dropdownValue = newValue!;

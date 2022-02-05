@@ -31,7 +31,7 @@ class FkContentBoxWidgets {
               onPressed: () {
                 // Add your onPressed code here!
               },
-              backgroundColor: Colors.deepOrange,
+              backgroundColor: Colors.deepOrangeAccent,
               child: const Icon(
                 Icons.add,
                 size: 30,
@@ -101,7 +101,7 @@ class FkContentBoxWidgetsWithBottomBar {
       bottomNavigationBar: BottomNavigationBar(
         items: [...bottomItemList],
         currentIndex: selectedIndexItem,
-        selectedItemColor: fkDefaultColor,
+        selectedItemColor: Colors.deepOrangeAccent,
         onTap: onItemTappedIcon,
       ),
     );
