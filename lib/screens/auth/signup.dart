@@ -17,6 +17,14 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   FkAuthWidgets fkAuthWidgets = new FkAuthWidgets();
+  // Declare TextInputForm
+  final _formKey = GlobalKey<FormState>();
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController reppeatPasswordController = TextEditingController();
+  TextEditingController birthDateController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return FkAuthWidgets.body(
@@ -47,14 +55,19 @@ class _SignUpPageState extends State<SignUpPage> {
           ])
         ]),
         // Bottom Widgets
-        FkAuthWidgets.authInputFieldBox(context, itemList: [
-          usernameFormField(),
+        FkAuthWidgets.authInputFieldBox(context, formKey: _formKey, itemList: [
+          usernameFormField(usernameController: usernameController),
           verticalSpaceRegular,
-          EmailInputFeild(),
+          EmailInputFeild(
+            emailController: emailController,
+          ),
           verticalSpaceRegular,
-          PwdInputField(),
+          PwdInputField(
+            passwordController: passwordController,
+          ),
           verticalSpaceRegular,
-          reppeatFormField(),
+          reppeatFormField(
+              reppeatPasswordController: reppeatPasswordController),
           verticalSpaceLarge,
           authButtom(
               context: context,

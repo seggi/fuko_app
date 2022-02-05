@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 
-Widget usernameFormField() {
+Widget usernameFormField({usernameController = ""}) {
   return Container(
       child: TextFormField(
+    controller: usernameController,
     keyboardType: TextInputType.text,
     textInputAction: TextInputAction.next,
     decoration: InputDecoration(
@@ -16,9 +17,10 @@ Widget usernameFormField() {
   ));
 }
 
-Widget reppeatFormField() {
+Widget reppeatFormField({reppeatPasswordController = ""}) {
   return Container(
     child: TextFormField(
+      controller: reppeatPasswordController,
       keyboardType: TextInputType.text,
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(

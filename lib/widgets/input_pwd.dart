@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 
 class PwdInputField extends StatefulWidget {
-  PwdInputField({Key? key}) : super(key: key);
+  final TextEditingController passwordController;
+
+  PwdInputField({Key? key, required this.passwordController}) : super(key: key);
 
   @override
   _PwdInputFieldState createState() => _PwdInputFieldState();
@@ -21,8 +23,10 @@ class _PwdInputFieldState extends State<PwdInputField> {
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController passwordController = widget.passwordController;
     return Container(
       child: TextFormField(
+        controller: passwordController,
         keyboardType: TextInputType.text,
         obscureText: _passwordVisibility,
         decoration: InputDecoration(
