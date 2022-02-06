@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:fuko_app/screens/screens/content_box_widgets.dart';
-import 'package:fuko_app/screens/screens/expenses/expense_sam_detials.dart';
-import 'package:fuko_app/screens/screens/expenses/sammany.dart';
+import 'package:fuko_app/screens/content_box_widgets.dart';
+import 'package:fuko_app/screens/expenses/expense_sam_detials.dart';
+import 'package:fuko_app/screens/expenses/sammany.dart';
 
 class ExpenseOptionsScreen extends StatefulWidget {
   const ExpenseOptionsScreen({Key? key}) : super(key: key);

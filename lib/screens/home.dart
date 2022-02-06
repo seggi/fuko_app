@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:fuko_app/screens/screens/content_box_widgets.dart';
-import 'package:fuko_app/screens/screens/expenses.dart';
+import 'package:fuko_app/controllers/navigation.dart';
+import 'package:fuko_app/screens/content_box_widgets.dart';
 import 'package:fuko_app/widgets/other_widgets.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
@@ -16,6 +17,8 @@ class _HomePageState extends State<HomePage> {
   FkContentBoxWidgets fkContentBoxWidgets = new FkContentBoxWidgets();
   @override
   Widget build(BuildContext context) {
+    NavigationController navigation =
+        Provider.of<NavigationController>(context, listen: false);
     return FkContentBoxWidgets.body(context, 'home', itemList: [
       Padding(
           padding: const EdgeInsets.only(right: 8.0),
@@ -108,8 +111,7 @@ class _HomePageState extends State<HomePage> {
             amount: "105,000",
             titleTxt: "Expenses",
             fn: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => ExpensesPage()));
+              navigation.changeScreen('/expenses');
             }),
         verticalSpaceTiny,
         homeCard(
@@ -118,8 +120,8 @@ class _HomePageState extends State<HomePage> {
             amount: "10,000",
             titleTxt: "Savings",
             fn: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => ExpensesPage()));
+              // Navigator.push(context,
+              //     MaterialPageRoute(builder: (context) => ExpensesPage()));
             }),
         verticalSpaceTiny,
         homeCard(

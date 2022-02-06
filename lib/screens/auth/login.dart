@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:fuko_app/controllers/navigation.dart';
 import 'package:fuko_app/screens/auth/signup.dart';
-import 'package:fuko_app/screens/screens/home.dart';
 import 'package:fuko_app/widgets/custom_btn.dart';
 import 'package:fuko_app/widgets/input_pwd.dart';
 import 'package:fuko_app/widgets/other_input.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
+import 'package:provider/provider.dart';
 
 import 'auth_widgets.dart';
 
@@ -25,6 +26,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    NavigationController navigation =
+        Provider.of<NavigationController>(context, listen: false);
     return FkAuthWidgets.body(
       context,
       itemList: [
@@ -77,8 +80,7 @@ class _LoginPageState extends State<LoginPage> {
             btnColor: ftBtnColorBgSolid,
             textColor: fkWhiteText,
             fn: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => HomePage()));
+              navigation.changeScreen('/home');
             },
           ),
           verticalSpaceRegular,
