@@ -1,7 +1,6 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:fuko_app/core/user.dart';
+import 'package:fuko_app/utils/api.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:fuko_app/screens/auth/auth_widgets.dart';
@@ -11,8 +10,6 @@ import 'package:fuko_app/widgets/input_pwd.dart';
 import 'package:fuko_app/widgets/other_input.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
-
-import 'package:fuko_app/utils/api.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -78,8 +75,7 @@ class _SignUpPageState extends State<SignUpPage> {
         "birth_date": birthDateController.text,
       };
 
-      final response = await http.post(
-          Uri.parse('https://fuko-backend.herokuapp.com/api/user/signup'),
+      final response = await http.post(Uri.parse(Network.register),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
           },
@@ -91,9 +87,10 @@ class _SignUpPageState extends State<SignUpPage> {
         });
 
         Map<String, dynamic> jsonResponse = jsonDecode(response.body);
-        if (!jsonResponse['error']) {
+        if (jsonResponse['code'] == 'success') {
           ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text("${jsonResponse['message']}")));
+          Navigator.of(context).pushNamed('/');
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text("${jsonResponse['message']}")));
@@ -108,6 +105,7 @@ class _SignUpPageState extends State<SignUpPage> {
         if (jsonResponse['code'] == 'success') {
           scaffoldMessenger!.showSnackBar(
               SnackBar(content: Text("${jsonResponse['message']}")));
+          Navigator.of(context).pushNamed('/');
         } else {
           scaffoldMessenger!.showSnackBar(
               SnackBar(content: Text("${jsonResponse['message']}")));
@@ -165,14 +163,20 @@ class _SignUpPageState extends State<SignUpPage> {
           reppeatFormField(
               reppeatPasswordController: reppeatPasswordController),
           verticalSpaceLarge,
-          authButtom(
-              context: context,
-              title: 'Sign Up',
-              btnColor: ftBtnColorBgSolid,
-              textColor: fkWhiteText,
-              fn: () {
-                signUp();
-              }),
+          isLoading == false
+              ? authButtom(
+                  context: context,
+                  title: 'Sign Up',
+                  btnColor: ftBtnColorBgSolid,
+                  textColor: fkWhiteText,
+                  fn: () {
+                    signUp();
+                  })
+              : const SizedBox(
+                  height: 20,
+                  width: 20,
+                  child: CircularProgressIndicator(),
+                ),
           verticalSpaceRegular,
           authButtom(
               context: context,

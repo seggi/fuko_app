@@ -1,10 +1,17 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
+import 'package:fuko_app/core/user.dart';
 import 'package:fuko_app/screens/auth/signup.dart';
+import 'package:fuko_app/utils/api.dart';
 import 'package:fuko_app/widgets/custom_btn.dart';
 import 'package:fuko_app/widgets/input_pwd.dart';
 import 'package:fuko_app/widgets/other_input.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'auth_widgets.dart';
 
@@ -18,9 +25,64 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   FkAuthWidgets fkAuthWidgets = FkAuthWidgets();
   // Login controllers
-  final _formKey = GlobalKey<FormState>();
+  bool isLoading = false;
+  final _formKey = GlobalKey();
   TextEditingController passwordController = TextEditingController();
   TextEditingController usernameController = TextEditingController();
+
+  late ScaffoldMessengerState scaffoldMessenger = ScaffoldMessenger.of(context);
+
+  login() async {
+    setState(() {
+      isLoading = false;
+    });
+
+    final String username = usernameController.text;
+    final String password = passwordController.text;
+
+    if (usernameController.text.isEmpty) {
+      scaffoldMessenger
+          .showSnackBar(const SnackBar(content: Text("Please Enter Username")));
+    }
+
+    if (passwordController.text.isEmpty) {
+      scaffoldMessenger
+          .showSnackBar(const SnackBar(content: Text("Please Enter Password")));
+    } else {
+      final response = await http.post(
+        Uri.parse(Network.login),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(
+            <String, String>{'username': username, 'password': password}),
+      );
+
+      if (response.statusCode == 201) {
+        User user = User.fromJson(jsonDecode(response.body));
+        print(user);
+        savePref(1, user.email, user.token);
+        Navigator.pushReplacementNamed(context, "/home");
+        // Navigator.of(context).pushReplacementNamed("/home");
+      } else {
+        scaffoldMessenger.showSnackBar(const SnackBar(
+          content: Text(
+            "Wrong password or username",
+            style: TextStyle(color: Colors.red),
+          ),
+        ));
+      }
+    }
+  }
+
+  savePref(int value, String code, String message) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+
+    preferences.setInt("int", value);
+    preferences.setString("code", code);
+    preferences.setString("message", message);
+    preferences.commit();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,15 +132,20 @@ class _LoginPageState extends State<LoginPage> {
             passwordController: passwordController,
           ),
           verticalSpaceLarge,
-          authButtom(
-            context: context,
-            title: 'Login',
-            btnColor: ftBtnColorBgSolid,
-            textColor: fkWhiteText,
-            fn: () {
-              Navigator.of(context).pushNamed('/home');
-            },
-          ),
+          isLoading == false
+              ? authButtom(
+                  context: context,
+                  title: 'Login',
+                  btnColor: ftBtnColorBgSolid,
+                  textColor: fkWhiteText,
+                  fn: () {
+                    login();
+                  })
+              : const SizedBox(
+                  height: 20,
+                  width: 20,
+                  child: CircularProgressIndicator(),
+                ),
           verticalSpaceRegular,
           authButtom(
               context: context,

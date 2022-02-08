@@ -4,7 +4,7 @@ import 'package:fuko_app/widgets/shared/style.dart';
 Widget authButtom({context, title, btnColor, textColor, fn}) {
   return Container(
     width: MediaQuery.of(context).size.width,
-    padding: EdgeInsets.only(top: 4.0, bottom: 4.0),
+    padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
     decoration: title == "Login"
         ? BoxDecoration(
             color: btnColor, borderRadius: BorderRadius.circular(8.0))
@@ -23,7 +23,7 @@ Widget authButtom({context, title, btnColor, textColor, fn}) {
               )
             : Text(
                 title,
-                style: TextStyle(
+                style: const TextStyle(
                     color: Colors.black87,
                     fontWeight: FontWeight.w600,
                     fontSize: 20.0),
@@ -34,7 +34,7 @@ Widget authButtom({context, title, btnColor, textColor, fn}) {
 
 // Textutton
 Widget customTextButton({btnTxt}) {
-  return Container(
+  return SizedBox(
     width: 100,
     child: TextButton(
       style: TextButton.styleFrom(
