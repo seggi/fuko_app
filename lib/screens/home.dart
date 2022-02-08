@@ -1,34 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:fuko_app/screens/screens/content_box_widgets.dart';
-import 'package:fuko_app/screens/screens/expenses.dart';
+import 'package:fuko_app/screens/content_box_widgets.dart';
 import 'package:fuko_app/widgets/other_widgets.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key? key}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  FkContentBoxWidgets fkContentBoxWidgets = new FkContentBoxWidgets();
+  FkContentBoxWidgets fkContentBoxWidgets = FkContentBoxWidgets();
   @override
   Widget build(BuildContext context) {
     return FkContentBoxWidgets.body(context, 'home', itemList: [
       Padding(
-          padding: const EdgeInsets.only(right: 8.0),
+          padding: const EdgeInsets.only(right: 8.0, left: 8.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              IconButton(onPressed: () {}, icon: Icon(Icons.menu)),
-              IconButton(onPressed: () {}, icon: Icon(Icons.notifications))
+              IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
+              IconButton(
+                  onPressed: () {}, icon: const Icon(Icons.notifications))
             ],
           )),
       fkContentBoxWidgets.initialItems(
-        itemList: [
-          Align(
+        itemList: <Widget>[
+          const Align(
             alignment: Alignment.bottomLeft,
             child: Text(
               "Marugira Seggi",
@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage> {
                   color: fkBlackText),
             ),
           ),
-          Align(
+          const Align(
             alignment: Alignment.bottomLeft,
             child: Text(
               "Your current wallet amount is",
@@ -52,14 +52,14 @@ class _HomePageState extends State<HomePage> {
             color: fkDefaultColor,
             child: Container(
               height: 100,
-              padding: EdgeInsets.only(left: 20.0, right: 20.0),
+              padding: const EdgeInsets.only(left: 20.0, right: 20.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                    children: const <Widget>[
                       Text(
                         "Rwf",
                         style: TextStyle(
@@ -79,7 +79,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   Container(
                     alignment: Alignment.center,
-                    child: Icon(
+                    child: const Icon(
                       Icons.account_balance_wallet,
                       size: 24,
                       color: fkGreyText,
@@ -92,7 +92,7 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       FkContentBoxWidgets.buttonsItemsBox(context, itemList: [
-        Align(
+        const Align(
           alignment: Alignment.bottomLeft,
           child: Text(
             "Total amounts on each operation",
@@ -108,8 +108,7 @@ class _HomePageState extends State<HomePage> {
             amount: "105,000",
             titleTxt: "Expenses",
             fn: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => ExpensesPage()));
+              Navigator.of(context).pushNamed('/expenses');
             }),
         verticalSpaceTiny,
         homeCard(
@@ -118,8 +117,8 @@ class _HomePageState extends State<HomePage> {
             amount: "10,000",
             titleTxt: "Savings",
             fn: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => ExpensesPage()));
+              // Navigator.push(context,
+              //     MaterialPageRoute(builder: (context) => ExpensesPage()));
             }),
         verticalSpaceTiny,
         homeCard(

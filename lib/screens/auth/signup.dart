@@ -31,7 +31,7 @@ class _SignUpPageState extends State<SignUpPage> {
       context,
       itemList: [
         FkAuthWidgets.topItemsBox(context, itemList: [
-          fkAuthWidgets.authTopContent(itemList: [
+          fkAuthWidgets.authTopContent(itemList: const [
             Align(
               alignment: Alignment.bottomLeft,
               child: Text(

@@ -16,10 +16,10 @@ class _AddExpensesScreenState extends State<AddExpensesScreen> {
   Widget build(BuildContext context) {
     return FkAddDataFormBox.body(context, itemList: [
       Container(
-        padding: EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20.0),
         alignment: Alignment.bottomLeft,
         child: RichText(
-          text: TextSpan(
+          text: const TextSpan(
             text: 'Add Expenses',
             style: TextStyle(
                 fontSize: 18, color: fkBlackText, fontWeight: FontWeight.w300),
@@ -27,7 +27,7 @@ class _AddExpensesScreenState extends State<AddExpensesScreen> {
         ),
       ),
       Container(
-        margin: EdgeInsets.only(top: 20),
+        margin: const EdgeInsets.only(top: 20),
         child: Form(
             autovalidateMode: AutovalidateMode.always,
             onChanged: () {
@@ -41,10 +41,10 @@ class _AddExpensesScreenState extends State<AddExpensesScreen> {
                       keyboardType: TextInputType.text,
                       textInputAction: TextInputAction.next,
                       decoration: InputDecoration(
-                          icon: Icon(Icons.monetization_on),
+                          icon: const Icon(Icons.monetization_on),
                           hintText: 'Amount',
                           border: OutlineInputBorder(
-                              borderSide: BorderSide(
+                              borderSide: const BorderSide(
                                   color: fkInputFormBorderColor, width: 1.0),
                               borderRadius: BorderRadius.circular(8.0))),
                       onSaved: (String? value) {},
@@ -56,10 +56,10 @@ class _AddExpensesScreenState extends State<AddExpensesScreen> {
                       keyboardType: TextInputType.text,
                       textInputAction: TextInputAction.next,
                       decoration: InputDecoration(
-                          icon: Icon(Icons.title),
+                          icon: const Icon(Icons.title),
                           hintText: 'Title',
                           border: OutlineInputBorder(
-                              borderSide: BorderSide(
+                              borderSide: const BorderSide(
                                   color: fkInputFormBorderColor, width: 1.0),
                               borderRadius: BorderRadius.circular(8.0))),
                       onSaved: (String? value) {},
@@ -71,10 +71,10 @@ class _AddExpensesScreenState extends State<AddExpensesScreen> {
                       keyboardType: TextInputType.multiline,
                       maxLines: 8,
                       decoration: InputDecoration(
-                          icon: Icon(Icons.description),
+                          icon: const Icon(Icons.description),
                           hintText: 'description',
                           border: OutlineInputBorder(
-                              borderSide: BorderSide(
+                              borderSide: const BorderSide(
                                   color: fkInputFormBorderColor, width: 1.0),
                               borderRadius: BorderRadius.circular(8.0))),
                       onSaved: (String? value) {},
@@ -88,7 +88,7 @@ class _AddExpensesScreenState extends State<AddExpensesScreen> {
                       constraints: BoxConstraints.tight(const Size(300, 50)),
                       child: TextButton(
                           onPressed: () {},
-                          child: Text(
+                          child: const Text(
                             "Add",
                             style: TextStyle(
                               color: fkWhiteText,

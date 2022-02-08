@@ -14,20 +14,20 @@ class _SammaryScreenState extends State<SammaryScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
+      padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
       child: Column(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
-            children: [CustomDropDownBox()],
+            children: const [CustomDropDownBox()],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
+            children: <Widget>[
               Align(
                 alignment: Alignment.bottomLeft,
                 child: RichText(
-                  text: TextSpan(
+                  text: const TextSpan(
                     text: 'Total Amount',
                     style: TextStyle(
                         fontSize: 18,
@@ -37,7 +37,7 @@ class _SammaryScreenState extends State<SammaryScreen> {
                 ),
               ),
               Row(
-                children: [
+                children: const <Widget>[
                   Text(
                     "Rwf",
                     style: TextStyle(
@@ -64,10 +64,10 @@ class _SammaryScreenState extends State<SammaryScreen> {
           Align(
             alignment: Alignment.bottomLeft,
             child: RichText(
-              text: TextSpan(
+              text: const TextSpan(
                 text: 'Sammary on Expenses for',
                 style: TextStyle(fontSize: 16, color: fkGreyText),
-                children: const <TextSpan>[
+                children: <TextSpan>[
                   TextSpan(
                       text: ' 2021',
                       style: TextStyle(
@@ -85,12 +85,12 @@ class _SammaryScreenState extends State<SammaryScreen> {
               children: [
                 summaryYearReport(
                     month: "January", currency: "Rwf", amount: "2500"),
-                Divider(
+                const Divider(
                   thickness: 1,
                 ),
                 summaryYearReport(
                     month: "June", currency: "Rwf", amount: "5000"),
-                Divider(
+                const Divider(
                   thickness: 1,
                 ),
                 summaryYearReport(
@@ -105,19 +105,19 @@ class _SammaryScreenState extends State<SammaryScreen> {
 
   Widget summaryYearReport({month, currency, amount}) {
     return Container(
-      margin: EdgeInsets.only(top: 8, bottom: 20),
+      margin: const EdgeInsets.only(top: 8, bottom: 20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
             children: [
-              Icon(Icons.date_range),
-              SizedBox(
+              const Icon(Icons.date_range),
+              const SizedBox(
                 width: 10,
               ),
               Text(
                 "$month",
-                style: TextStyle(
+                style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                     color: fkBlueText),
@@ -128,18 +128,18 @@ class _SammaryScreenState extends State<SammaryScreen> {
             children: [
               Text(
                 "$currency",
-                style: TextStyle(
+                style: const TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w500,
                     color: fkGreyText),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 2,
               ),
               Text(
                 "$amount",
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(
+                style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.w600,
                     color: fkBlackText),

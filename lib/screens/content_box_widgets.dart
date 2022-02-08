@@ -6,24 +6,20 @@ class FkContentBoxWidgets {
     return screenName == "home"
         ? Scaffold(
             body: SafeArea(
-              child: Container(
+              child: SizedBox(
                 height: MediaQuery.of(context).size.height,
-                child: Container(
-                  child: Column(
-                    children: [...itemList],
-                  ),
+                child: Column(
+                  children: [...itemList],
                 ),
               ),
             ),
           )
         : Scaffold(
             body: SafeArea(
-              child: Container(
+              child: SizedBox(
                 height: MediaQuery.of(context).size.height,
-                child: Container(
-                  child: Column(
-                    children: [...itemList],
-                  ),
+                child: Column(
+                  children: [...itemList],
                 ),
               ),
             ),
@@ -39,18 +35,16 @@ class FkContentBoxWidgets {
   }
 
   static Widget topItemsBox(contex, {List<Widget> itemList = const []}) {
-    return Container(
-      child: Column(
-        children: [
-          ...itemList,
-        ],
-      ),
+    return Column(
+      children: [
+        ...itemList,
+      ],
     );
   }
 
   Widget initialItems({List<Widget> itemList = const []}) {
     return Container(
-      padding: EdgeInsets.all(20.0),
+      padding: const EdgeInsets.all(20.0),
       child: Align(
           alignment: Alignment.bottomLeft,
           child: Column(
@@ -62,15 +56,14 @@ class FkContentBoxWidgets {
 
   static buttonsItemsBox(contex, {List<Widget> itemList = const []}) {
     return Expanded(
-      child: Container(
-          child: NotificationListener<OverscrollIndicatorNotification>(
+      child: NotificationListener<OverscrollIndicatorNotification>(
         onNotification: (OverscrollIndicatorNotification? overscroll) {
           overscroll!.disallowIndicator();
           return true;
         },
         child: SingleChildScrollView(
-          physics: ClampingScrollPhysics(),
-          padding: EdgeInsets.only(left: 20.0, right: 20.0),
+          physics: const ClampingScrollPhysics(),
+          padding: const EdgeInsets.only(left: 20.0, right: 20.0),
           child: Form(
             autovalidateMode: AutovalidateMode.onUserInteraction,
             child: Column(
@@ -78,7 +71,7 @@ class FkContentBoxWidgets {
             ),
           ),
         ),
-      )),
+      ),
     );
   }
 }
@@ -87,11 +80,14 @@ class FkContentBoxWidgets {
 class FkContentBoxWidgetsWithBottomBar {
   static Widget body(
       {screenBox,
+      titleTxt,
       List<BottomNavigationBarItem> bottomItemList = const [],
       selectedIndexItem,
       onItemTappedIcon}) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text(titleTxt),
+      ),
       body: Container(
         child: screenBox,
       ),
@@ -110,14 +106,12 @@ class FkAddDataFormBox {
     return Scaffold(
       appBar: AppBar(),
       body: SafeArea(
-        child: Container(
+        child: SizedBox(
           height: MediaQuery.of(context).size.height,
           child: Expanded(
-            child: Container(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [...itemList],
-                ),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [...itemList],
               ),
             ),
           ),

@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:fuko_app/screens/screens/content_box_widgets.dart';
-import 'package:fuko_app/screens/screens/expenses/add_expenses.dart';
+import 'package:fuko_app/screens/content_box_widgets.dart';
 import 'package:fuko_app/widgets/other_widgets.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
-
-import 'expenses/expenses_details.dart';
 
 class ExpensesPage extends StatefulWidget {
   ExpensesPage({Key? key}) : super(key: key);
@@ -15,12 +12,11 @@ class ExpensesPage extends StatefulWidget {
 }
 
 class _ExpensesPageState extends State<ExpensesPage> {
-  FkContentBoxWidgets fkContentBoxWidgets = new FkContentBoxWidgets();
+  FkContentBoxWidgets fkContentBoxWidgets = FkContentBoxWidgets();
   @override
   Widget build(BuildContext context) {
     return FkContentBoxWidgets.body(context, 'savings', fn: () {
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => AddExpensesScreen()));
+      Navigator.of(context).pushNamed('/add-expense');
     }, itemList: [
       Padding(
           padding: const EdgeInsets.only(right: 20.0, left: 20.0),
@@ -31,13 +27,14 @@ class _ExpensesPageState extends State<ExpensesPage> {
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  icon: Icon(Icons.arrow_back_ios)),
-              IconButton(onPressed: () {}, icon: Icon(Icons.notifications))
+                  icon: const Icon(Icons.arrow_back_ios)),
+              IconButton(
+                  onPressed: () {}, icon: const Icon(Icons.notifications))
             ],
           )),
       fkContentBoxWidgets.initialItems(
         itemList: [
-          Align(
+          const Align(
             alignment: Alignment.bottomLeft,
             child: Text(
               "Expenses",
@@ -47,7 +44,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
                   color: fkBlackText),
             ),
           ),
-          Align(
+          const Align(
             alignment: Alignment.bottomLeft,
             child: Text(
               "Total Expenses Amount in the current month",
@@ -61,14 +58,14 @@ class _ExpensesPageState extends State<ExpensesPage> {
             color: fkDefaultColor,
             child: Container(
               height: 100,
-              padding: EdgeInsets.only(left: 20.0, right: 20.0),
+              padding: const EdgeInsets.only(left: 20.0, right: 20.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                    children: const [
                       Text(
                         "Rwf",
                         style: TextStyle(
@@ -93,17 +90,14 @@ class _ExpensesPageState extends State<ExpensesPage> {
                       child: Container(
                         color: fkBlueText,
                         child: IconButton(
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.arrow_right_alt,
                             size: 30,
                             color: fkWhiteText,
                           ),
                           onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        ExpenseOptionsScreen()));
+                            Navigator.of(context).pushNamed("/expense-options",
+                                arguments: "Expenses");
                           },
                         ),
                       ),
@@ -114,7 +108,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
             ),
           ),
           verticalSpaceTiny,
-          Align(
+          const Align(
             alignment: Alignment.bottomLeft,
             child: Text(
               "Total amounts for this Febuary",

@@ -5,12 +5,10 @@ class FkAuthWidgets {
   static Widget body(context, {List<Widget> itemList = const []}) {
     return Scaffold(
       body: SafeArea(
-        child: Container(
+        child: SizedBox(
           height: MediaQuery.of(context).size.height,
-          child: Container(
-            child: Column(
-              children: [...itemList],
-            ),
+          child: Column(
+            children: [...itemList],
           ),
         ),
       ),
@@ -18,25 +16,23 @@ class FkAuthWidgets {
   }
 
   static Widget topItemsBox(contex, {List<Widget> itemList = const []}) {
-    return Container(
-      child: Column(
-        children: [
-          ...itemList,
-        ],
-      ),
+    return Column(
+      children: [
+        ...itemList,
+      ],
     );
   }
 
   Widget authTopContent({List<Widget> itemList = const []}) {
     return Container(
-      margin: EdgeInsets.only(top: 20),
-      padding: EdgeInsets.all(20.0),
+      margin: const EdgeInsets.only(top: 20),
+      padding: const EdgeInsets.all(20.0),
       child: Align(
           alignment: Alignment.bottomLeft,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Align(
+              const Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(
                   "Fuko",
@@ -55,15 +51,14 @@ class FkAuthWidgets {
   static Widget authInputFieldBox(context,
       {formKey, List<Widget> itemList = const []}) {
     return Expanded(
-      child: Container(
-          child: NotificationListener<OverscrollIndicatorNotification>(
+      child: NotificationListener<OverscrollIndicatorNotification>(
         onNotification: (OverscrollIndicatorNotification? overscroll) {
           overscroll!.disallowIndicator();
           return true;
         },
         child: SingleChildScrollView(
-          physics: ClampingScrollPhysics(),
-          padding: EdgeInsets.all(20.0),
+          physics: const ClampingScrollPhysics(),
+          padding: const EdgeInsets.all(20.0),
           child: Form(
             key: formKey,
             autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -72,7 +67,7 @@ class FkAuthWidgets {
             ),
           ),
         ),
-      )),
+      ),
     );
   }
 }

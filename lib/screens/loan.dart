@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fuko_app/screens/screens/home.dart';
 
 class LoanPage extends StatefulWidget {
   LoanPage({Key? key}) : super(key: key);
@@ -31,10 +30,10 @@ class _LoanPageState extends State<LoanPage> {
                             children: [
                               TextButton(
                                   onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => HomePage()));
+                                    // Navigator.push(
+                                    //     context,
+                                    //     MaterialPageRoute(
+                                    //         builder: (context) => HomePage()));
                                   },
                                   child: Text(
                                     "Back",
