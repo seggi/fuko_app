@@ -1,24 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:fuko_app/controllers/navigation.dart';
 import 'package:fuko_app/screens/auth/signup.dart';
 import 'package:fuko_app/widgets/custom_btn.dart';
 import 'package:fuko_app/widgets/input_pwd.dart';
 import 'package:fuko_app/widgets/other_input.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
-import 'package:provider/provider.dart';
 
 import 'auth_widgets.dart';
 
 class LoginPage extends StatefulWidget {
-  LoginPage({Key? key}) : super(key: key);
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
-  FkAuthWidgets fkAuthWidgets = new FkAuthWidgets();
+  FkAuthWidgets fkAuthWidgets = FkAuthWidgets();
   // Login controllers
   final _formKey = GlobalKey<FormState>();
   TextEditingController passwordController = TextEditingController();
@@ -26,11 +24,9 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    NavigationController navigation =
-        Provider.of<NavigationController>(context, listen: false);
     return FkAuthWidgets.body(
       context,
-      itemList: [
+      itemList: <Widget>[
         FkAuthWidgets.topItemsBox(context, itemList: [
           Padding(
             padding: const EdgeInsets.only(right: 8.0),
@@ -38,12 +34,12 @@ class _LoginPageState extends State<LoginPage> {
                 alignment: Alignment.bottomRight,
                 child: IconButton(
                     onPressed: () {},
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.language_outlined,
-                      color: Colors.deepOrangeAccent,
+                      color: fkBlueText,
                     ))),
           ),
-          fkAuthWidgets.authTopContent(itemList: [
+          fkAuthWidgets.authTopContent(itemList: const [
             Align(
               alignment: Alignment.bottomLeft,
               child: Text(
@@ -80,7 +76,7 @@ class _LoginPageState extends State<LoginPage> {
             btnColor: ftBtnColorBgSolid,
             textColor: fkWhiteText,
             fn: () {
-              navigation.changeScreen('/home');
+              Navigator.of(context).pushNamed('/home');
             },
           ),
           verticalSpaceRegular,

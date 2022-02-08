@@ -4,7 +4,8 @@ import 'package:fuko_app/screens/expenses/expense_sam_detials.dart';
 import 'package:fuko_app/screens/expenses/sammany.dart';
 
 class ExpenseOptionsScreen extends StatefulWidget {
-  const ExpenseOptionsScreen({Key? key}) : super(key: key);
+  final String data;
+  const ExpenseOptionsScreen({Key? key, required this.data}) : super(key: key);
 
   @override
   _ExpenseOptionsScreenState createState() => _ExpenseOptionsScreenState();
@@ -30,7 +31,8 @@ class _ExpenseOptionsScreenState extends State<ExpenseOptionsScreen> {
     return FkContentBoxWidgetsWithBottomBar.body(
         selectedIndexItem: _selectedIndex,
         onItemTappedIcon: _onItemTapped,
-        bottomItemList: [
+        titleTxt: widget.data,
+        bottomItemList: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.summarize),
             label: 'Sammary',

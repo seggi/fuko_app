@@ -15,14 +15,14 @@ class _ExpensesSammaryDetailsState extends State<ExpensesSammaryDetails> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
+      padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
       child: Column(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              CustomDropDownBox(),
-              IconButton(onPressed: () {}, icon: Icon(Icons.search))
+              const CustomDropDownBox(),
+              IconButton(onPressed: () {}, icon: const Icon(Icons.search))
             ],
           ),
           verticalSpaceSmall,
@@ -32,7 +32,7 @@ class _ExpensesSammaryDetailsState extends State<ExpensesSammaryDetails> {
               Align(
                 alignment: Alignment.bottomLeft,
                 child: RichText(
-                  text: TextSpan(
+                  text: const TextSpan(
                     text: 'Total Amount',
                     style: TextStyle(
                         fontSize: 18,
@@ -42,7 +42,7 @@ class _ExpensesSammaryDetailsState extends State<ExpensesSammaryDetails> {
                 ),
               ),
               Row(
-                children: [
+                children: const [
                   Text(
                     "Rwf",
                     style: TextStyle(
@@ -69,7 +69,7 @@ class _ExpensesSammaryDetailsState extends State<ExpensesSammaryDetails> {
           Align(
             alignment: Alignment.bottomLeft,
             child: RichText(
-              text: TextSpan(
+              text: const TextSpan(
                 text: 'Details on all Expenses',
                 style: TextStyle(fontSize: 16, color: fkBlackText),
               ),
@@ -88,7 +88,7 @@ class _ExpensesSammaryDetailsState extends State<ExpensesSammaryDetails> {
         child: Column(
           children: [
             CustomExpandedListTile(
-              data: {
+              data: const {
                 "month": "January",
                 "currency": "Rwf",
                 "totalAmount": "2500",
@@ -99,7 +99,7 @@ class _ExpensesSammaryDetailsState extends State<ExpensesSammaryDetails> {
             ),
             verticalSpaceTiny,
             CustomExpandedListTile(
-              data: {
+              data: const {
                 "month": "June",
                 "currency": "Rwf",
                 "totalAmount": "5000",
