@@ -1,9 +1,9 @@
-import 'package:shared_preferences/shared_preferences.dart';
-
-const signupUrl = "https://fuko-backend.herokuapp.com/api/user/signup";
-const loginUrl = "https://fuko-backend.herokuapp.com/api/user/login";
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class Network {
-  final String _url = 'https://fuko-backend.herokuapp.com/api/user';
-  var token;
+  static String? liveUrl =
+      dotenv.env['LOCAL_URL'] ?? "https://fuko-backend.herokuapp.com/api/user";
+
+  static String login = liveUrl! + "/signup";
+  static String register = liveUrl! + "/login";
 }
