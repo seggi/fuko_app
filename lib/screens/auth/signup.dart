@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:fuko_app/core/user.dart';
+import 'package:http/http.dart' as http;
+
 import 'package:fuko_app/screens/auth/auth_widgets.dart';
-import 'package:fuko_app/screens/auth/login.dart';
 import 'package:fuko_app/widgets/custom_btn.dart';
 import 'package:fuko_app/widgets/input_email.dart';
 import 'package:fuko_app/widgets/input_pwd.dart';
@@ -8,22 +12,112 @@ import 'package:fuko_app/widgets/other_input.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
+import 'package:fuko_app/utils/api.dart';
+
 class SignUpPage extends StatefulWidget {
-  SignUpPage({Key? key}) : super(key: key);
+  const SignUpPage({Key? key}) : super(key: key);
 
   @override
   _SignUpPageState createState() => _SignUpPageState();
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  FkAuthWidgets fkAuthWidgets = new FkAuthWidgets();
+  bool isLoading = false;
+  FkAuthWidgets fkAuthWidgets = FkAuthWidgets();
   // Declare TextInputForm
-  final _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey();
   TextEditingController usernameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController reppeatPasswordController = TextEditingController();
   TextEditingController birthDateController = TextEditingController();
+
+  late final ScaffoldMessengerState? scaffoldMessenger =
+      ScaffoldMessenger.of(context);
+  late RegExp reg = RegExp(
+      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+
+  signUp() async {
+    if (usernameController.text.isEmpty) {
+      scaffoldMessenger!
+          .showSnackBar(const SnackBar(content: Text("Please Enter Username")));
+      // return;
+    }
+
+    if (!reg.hasMatch(emailController.text)) {
+      scaffoldMessenger!
+          .showSnackBar(const SnackBar(content: Text("Enter a Valid Email")));
+      // return;
+    }
+
+    if (reppeatPasswordController.text.isEmpty ||
+        reppeatPasswordController.text.length < 6) {
+      scaffoldMessenger!.showSnackBar(const SnackBar(
+          content: Text("Reppeat Password should be min 6 characters")));
+      // return;
+    }
+
+    if (passwordController.text.isEmpty || passwordController.text.length < 6) {
+      scaffoldMessenger!.showSnackBar(
+          const SnackBar(content: Text("Password should be min 6 characters")));
+      // return;
+    }
+    if (passwordController.text != reppeatPasswordController.text) {
+      scaffoldMessenger!.showSnackBar(
+          const SnackBar(content: Text("Passwords did not match!")));
+      // return;
+    } else {
+      setState(() {
+        isLoading = true;
+      });
+
+      Map<String, dynamic> data = {
+        "username": usernameController.text,
+        "email": emailController.text,
+        "password": passwordController.text,
+        "birth_date": birthDateController.text,
+      };
+
+      final response = await http.post(
+          Uri.parse('https://fuko-backend.herokuapp.com/api/user/signup'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: jsonEncode(data));
+
+      if (response.statusCode == 200) {
+        setState(() {
+          isLoading = false;
+        });
+
+        Map<String, dynamic> jsonResponse = jsonDecode(response.body);
+        if (!jsonResponse['error']) {
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("${jsonResponse['message']}")));
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("${jsonResponse['message']}")));
+        }
+      } else if (response.statusCode == 201) {
+        setState(() {
+          isLoading = false;
+        });
+
+        Map<String, dynamic> jsonResponse = jsonDecode(response.body);
+
+        if (jsonResponse['code'] == 'success') {
+          scaffoldMessenger!.showSnackBar(
+              SnackBar(content: Text("${jsonResponse['message']}")));
+        } else {
+          scaffoldMessenger!.showSnackBar(
+              SnackBar(content: Text("${jsonResponse['message']}")));
+        }
+      } else {
+        scaffoldMessenger!
+            .showSnackBar(const SnackBar(content: Text("Please Try again")));
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +156,8 @@ class _SignUpPageState extends State<SignUpPage> {
             emailController: emailController,
           ),
           verticalSpaceRegular,
+          birthDateFormField(birthDateController: birthDateController),
+          verticalSpaceRegular,
           PwdInputField(
             passwordController: passwordController,
           ),
@@ -74,17 +170,16 @@ class _SignUpPageState extends State<SignUpPage> {
               title: 'Sign Up',
               btnColor: ftBtnColorBgSolid,
               textColor: fkWhiteText,
-              fn: () {}),
+              fn: () {
+                signUp();
+              }),
           verticalSpaceRegular,
           authButtom(
               context: context,
               title: 'Login',
               btnColor: ftBtnColorBgSolid,
               textColor: fkWhiteText,
-              fn: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => LoginPage()));
-              }),
+              fn: () {}),
           verticalSpaceRegular,
         ])
       ],
