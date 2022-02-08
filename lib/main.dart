@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:fuko_app/controllers/route_generator.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
+Future main() async {
+  await dotenv.load();
   runApp(FukoApp());
 }
 

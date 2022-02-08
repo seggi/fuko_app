@@ -35,7 +35,7 @@ class _LoanPageState extends State<LoanPage> {
                                     //     MaterialPageRoute(
                                     //         builder: (context) => HomePage()));
                                   },
-                                  child: Text(
+                                  child: const Text(
                                     "Back",
                                     style: TextStyle(
                                         color: Colors.white,
@@ -44,7 +44,7 @@ class _LoanPageState extends State<LoanPage> {
                                   )),
                               IconButton(
                                   onPressed: () {},
-                                  icon: Icon(
+                                  icon: const Icon(
                                     Icons.date_range,
                                     size: 28,
                                     color: Colors.white,
