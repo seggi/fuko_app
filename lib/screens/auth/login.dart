@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:fuko_app/core/user_preferences.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:fuko_app/core/user.dart';
@@ -11,7 +12,6 @@ import 'package:fuko_app/widgets/input_pwd.dart';
 import 'package:fuko_app/widgets/other_input.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'auth_widgets.dart';
 
@@ -24,6 +24,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   FkAuthWidgets fkAuthWidgets = FkAuthWidgets();
+
   // Login controllers
   bool isLoading = false;
   final _formKey = GlobalKey();
@@ -49,21 +50,17 @@ class _LoginPageState extends State<LoginPage> {
       scaffoldMessenger
           .showSnackBar(const SnackBar(content: Text("Please Enter Password")));
     } else {
-      final response = await http.post(
-        Uri.parse(Network.login),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(
-            <String, String>{'username': username, 'password': password}),
-      );
+      final response = await http.post(Uri.parse(Network.login),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: jsonEncode(
+              <String, String>{'username': username, 'password': password}));
 
       if (response.statusCode == 201) {
         User user = User.fromJson(jsonDecode(response.body));
-        print(user);
-        savePref(1, user.email, user.token);
+        UserPreferences.setToken(user.token);
         Navigator.pushReplacementNamed(context, "/home");
-        // Navigator.of(context).pushReplacementNamed("/home");
       } else {
         scaffoldMessenger.showSnackBar(const SnackBar(
           content: Text(
@@ -73,15 +70,6 @@ class _LoginPageState extends State<LoginPage> {
         ));
       }
     }
-  }
-
-  savePref(int value, String code, String message) async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-
-    preferences.setInt("int", value);
-    preferences.setString("code", code);
-    preferences.setString("message", message);
-    preferences.commit();
   }
 
   @override

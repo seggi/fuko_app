@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:fuko_app/core/user_preferences.dart';
+// import 'package:flushbar/flushbar.dart';
+
 import 'package:fuko_app/screens/content_box_widgets.dart';
 import 'package:fuko_app/widgets/other_widgets.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
@@ -23,7 +26,13 @@ class _HomePageState extends State<HomePage> {
             children: [
               IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
               IconButton(
-                  onPressed: () {}, icon: const Icon(Icons.notifications))
+                  onPressed: () {}, icon: const Icon(Icons.notifications)),
+              IconButton(
+                  onPressed: () {
+                    UserPreferences.removeToken();
+                    Navigator.pushReplacementNamed(context, "/");
+                  },
+                  icon: const Icon(Icons.logout))
             ],
           )),
       fkContentBoxWidgets.initialItems(
