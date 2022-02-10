@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:fuko_app/core/user_preferences.dart';
 import 'package:fuko_app/screens/home.dart';
+import 'package:fuko_app/utils/jwt_decode.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:fuko_app/core/user.dart';
@@ -119,9 +120,8 @@ class _LoginPageState extends State<LoginPage> {
                       if (response.statusCode == 201) {
                         User user = User.fromJson(jsonDecode(response.body));
                         UserPreferences.setToken(user.token);
-                        // Navigator.pushReplacementNamed(context, "/home");
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (context) => const HomePage()));
+                        Navigator.pushReplacementNamed(context, "/home",
+                            arguments: fkJwtDecode(tokenKey: user.token));
                       } else {
                         scaffoldMessenger.showSnackBar(const SnackBar(
                           content: Text(

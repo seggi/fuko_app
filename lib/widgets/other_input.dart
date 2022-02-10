@@ -35,7 +35,7 @@ Widget reppeatFormField({reppeatPasswordController = ""}) {
 Widget birthDateFormField({birthDateController = ""}) {
   return TextFormField(
     controller: birthDateController,
-    keyboardType: TextInputType.datetime,
+    keyboardType: TextInputType.number,
     textInputAction: TextInputAction.next,
     decoration: InputDecoration(
         hintText: 'Birth date',

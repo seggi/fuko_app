@@ -22,3 +22,9 @@ class User {
         token: responseData['access_token']);
   }
 }
+
+class TokenObject {
+  late Map<String, dynamic>? tokenData;
+  late String expiredDate;
+  TokenObject({required this.tokenData, required this.expiredDate});
+}
