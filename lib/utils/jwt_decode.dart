@@ -3,7 +3,7 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 Map<String, dynamic> fkJwtDecode({tokenKey}) {
   String token = tokenKey;
 
-  Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
+  Map decodedToken = JwtDecoder.decode(token);
   bool isTokenExpired = JwtDecoder.isExpired(token);
 
   if (!isTokenExpired) {}

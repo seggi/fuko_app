@@ -2,36 +2,49 @@ import 'package:flutter/material.dart';
 
 class FkContentBoxWidgets {
   static Widget body(context, screenName,
-      {List<Widget> itemList = const [], fn}) {
-    return screenName == "home"
-        ? Scaffold(
-            body: SafeArea(
-              child: SizedBox(
-                height: MediaQuery.of(context).size.height,
-                child: Column(
-                  children: [...itemList],
+      {widTxt = "", List<Widget> itemList = const [], fn}) {
+    if (screenName == "home") {
+      return Scaffold(
+        body: SafeArea(
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height,
+            child: Column(
+              children: [...itemList],
+            ),
+          ),
+        ),
+      );
+    } else {
+      return widTxt == ""
+          ? Scaffold(
+              body: SafeArea(
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height,
+                  child: Column(
+                    children: [...itemList],
+                  ),
                 ),
               ),
-            ),
-          )
-        : Scaffold(
-            body: SafeArea(
-              child: SizedBox(
-                height: MediaQuery.of(context).size.height,
-                child: Column(
-                  children: [...itemList],
+              floatingActionButton: FloatingActionButton(
+                onPressed: fn,
+                backgroundColor: Colors.deepOrangeAccent,
+                child: const Icon(
+                  Icons.add,
+                  size: 30,
                 ),
               ),
-            ),
-            floatingActionButton: FloatingActionButton(
-              onPressed: fn,
-              backgroundColor: Colors.deepOrangeAccent,
-              child: const Icon(
-                Icons.add,
-                size: 30,
+            )
+          : Scaffold(
+              body: SafeArea(
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height,
+                  child: Column(
+                    children: [...itemList],
+                  ),
+                ),
               ),
-            ),
-          );
+            );
+    }
   }
 
   static Widget topItemsBox(contex, {List<Widget> itemList = const []}) {
@@ -81,23 +94,33 @@ class FkContentBoxWidgetsWithBottomBar {
   static Widget body(
       {screenBox,
       titleTxt,
+      widTxt = "",
       List<BottomNavigationBarItem> bottomItemList = const [],
       selectedIndexItem,
       onItemTappedIcon}) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(titleTxt),
-      ),
-      body: Container(
-        child: screenBox,
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: [...bottomItemList],
-        currentIndex: selectedIndexItem,
-        selectedItemColor: Colors.deepOrangeAccent,
-        onTap: onItemTappedIcon,
-      ),
-    );
+    return widTxt == ""
+        ? Scaffold(
+            appBar: AppBar(
+              title: Text(titleTxt),
+            ),
+            body: Container(
+              child: screenBox,
+            ),
+            bottomNavigationBar: BottomNavigationBar(
+              items: [...bottomItemList],
+              currentIndex: selectedIndexItem,
+              selectedItemColor: Colors.deepOrangeAccent,
+              onTap: onItemTappedIcon,
+            ),
+          )
+        : Scaffold(
+            appBar: AppBar(
+              title: Text(titleTxt),
+            ),
+            body: Container(
+              child: screenBox,
+            ),
+          );
   }
 }
 

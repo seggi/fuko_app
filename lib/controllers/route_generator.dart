@@ -29,6 +29,12 @@ class RouteGenerator {
       case '/expenses/details':
         return MaterialPageRoute(
             builder: (_) => const ExpensesSammaryDetails());
+      case '/complete-profile':
+        if (args is String) {
+          return MaterialPageRoute(builder: (_) => CompleteProfile(data: args));
+        }
+        return MaterialPageRoute(
+            builder: (_) => CompleteProfile(data: "seggi"));
       default:
         return _errorRoute();
     }

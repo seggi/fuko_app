@@ -33,9 +33,13 @@ Widget authButtom({context, title, btnColor, textColor, fn}) {
 }
 
 // Textutton
-Widget customTextButton({btnTxt}) {
-  return SizedBox(
-    width: 100,
+Widget customTextButton(context, {btnTxt, fn}) {
+  return Container(
+    width: MediaQuery.of(context).size.width,
+    decoration: BoxDecoration(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(8.0),
+        border: Border.all(color: ftBtnColorBgSolid, width: 2.0)),
     child: TextButton(
       style: TextButton.styleFrom(
           padding: const EdgeInsets.all(8.0),

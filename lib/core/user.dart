@@ -1,6 +1,6 @@
 class User {
   // int userId;
-  // String name;
+  Map data;
   String email;
   String birthDate;
   String token;
@@ -9,6 +9,7 @@ class User {
       {
       //   required this.userId,
       // required this.name,
+      required this.data,
       required this.email,
       required this.birthDate,
       required this.token});
@@ -17,6 +18,7 @@ class User {
     return User(
         // userId: responseData['id'],
         // name: responseData['name'],
+        data: responseData['data'],
         email: responseData['message'],
         birthDate: responseData['code'],
         token: responseData['access_token']);

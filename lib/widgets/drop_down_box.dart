@@ -17,7 +17,7 @@ class _CustomDropDownBoxState extends State<CustomDropDownBox> {
     return Container(
       child: Row(
         children: [
-          Text(
+          const Text(
             "Year",
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
           ),
@@ -26,8 +26,8 @@ class _CustomDropDownBoxState extends State<CustomDropDownBox> {
             value: dropdownValue,
             icon: const Icon(Icons.arrow_drop_down),
             elevation: 16,
-            underline: SizedBox(),
-            style: TextStyle(
+            underline: const SizedBox(),
+            style: const TextStyle(
                 fontSize: 14, fontWeight: FontWeight.w600, color: fkGreyText),
             onChanged: (String? newValue) {
               setState(() {
