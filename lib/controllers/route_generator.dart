@@ -33,8 +33,7 @@ class RouteGenerator {
         if (args is String) {
           return MaterialPageRoute(builder: (_) => CompleteProfile(data: args));
         }
-        return MaterialPageRoute(
-            builder: (_) => CompleteProfile(data: "seggi"));
+        return _errorRoute();
       default:
         return _errorRoute();
     }
