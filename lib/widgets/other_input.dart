@@ -35,7 +35,7 @@ Widget reppeatFormField({reppeatPasswordController = ""}) {
 Widget birthDateFormField({birthDateController = ""}) {
   return TextFormField(
     controller: birthDateController,
-    keyboardType: TextInputType.datetime,
+    keyboardType: TextInputType.number,
     textInputAction: TextInputAction.next,
     decoration: InputDecoration(
         hintText: 'Birth date',
@@ -45,5 +45,21 @@ Widget birthDateFormField({birthDateController = ""}) {
             borderSide:
                 const BorderSide(color: fkInputFormBorderColor, width: 1.0),
             borderRadius: BorderRadius.circular(8.0))),
+  );
+}
+
+Widget commonFormField({hintTxt, inpIcon}) {
+  return TextFormField(
+    // controller: commonController,
+    keyboardType: TextInputType.text,
+    textInputAction: TextInputAction.next,
+    decoration: InputDecoration(
+      hintText: '$hintTxt',
+      suffixIcon: Icon(inpIcon, color: fkDefaultColor),
+      border: OutlineInputBorder(
+          borderSide:
+              const BorderSide(color: fkInputFormBorderColor, width: 1.0),
+          borderRadius: BorderRadius.circular(8.0)),
+    ),
   );
 }

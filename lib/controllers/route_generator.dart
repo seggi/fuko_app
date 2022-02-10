@@ -4,14 +4,16 @@ import 'package:fuko_app/screens/screen_list.dart';
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     final args = settings.arguments;
-    WidgetBuilder builder;
     switch (settings.name) {
       case '/':
         return MaterialPageRoute(builder: (_) => const LoginPage());
       case '/signup':
-        return MaterialPageRoute(builder: (_) => SignUpPage());
+        return MaterialPageRoute(builder: (_) => const SignUpPage());
       case '/home':
-        return MaterialPageRoute(builder: (_) => const HomePage());
+        if (args is Map) {
+          return MaterialPageRoute(builder: (_) => HomePage(data: args));
+        }
+        return _errorRoute();
       case '/expenses':
         return MaterialPageRoute(builder: (_) => ExpensesPage());
       case '/expense-options':
@@ -27,6 +29,12 @@ class RouteGenerator {
       case '/expenses/details':
         return MaterialPageRoute(
             builder: (_) => const ExpensesSammaryDetails());
+      case '/complete-profile':
+        if (args is String) {
+          return MaterialPageRoute(builder: (_) => CompleteProfile(data: args));
+        }
+        return MaterialPageRoute(
+            builder: (_) => CompleteProfile(data: "seggi"));
       default:
         return _errorRoute();
     }

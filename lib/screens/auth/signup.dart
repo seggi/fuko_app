@@ -183,7 +183,9 @@ class _SignUpPageState extends State<SignUpPage> {
               title: 'Login',
               btnColor: ftBtnColorBgSolid,
               textColor: fkWhiteText,
-              fn: () {}),
+              fn: () {
+                Navigator.of(context).pushNamed("/");
+              }),
           verticalSpaceRegular,
         ])
       ],

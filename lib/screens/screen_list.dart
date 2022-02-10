@@ -7,3 +7,4 @@ export './expenses/expense_sam_detials.dart';
 export './expenses/sammany.dart';
 export './expenses/add_expenses.dart';
 export './expenses/expenses_details.dart';
+export './auth/complete_profile.dart';
