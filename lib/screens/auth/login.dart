@@ -1,7 +1,10 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:fuko_app/core/user_preferences.dart';
+import 'package:fuko_app/screens/home.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:fuko_app/core/user.dart';
@@ -24,53 +27,12 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   FkAuthWidgets fkAuthWidgets = FkAuthWidgets();
-
+  late String isSignedIn;
   // Login controllers
   bool isLoading = false;
   final _formKey = GlobalKey();
   TextEditingController passwordController = TextEditingController();
   TextEditingController usernameController = TextEditingController();
-
-  late ScaffoldMessengerState scaffoldMessenger = ScaffoldMessenger.of(context);
-
-  login() async {
-    setState(() {
-      isLoading = false;
-    });
-
-    final String username = usernameController.text;
-    final String password = passwordController.text;
-
-    if (usernameController.text.isEmpty) {
-      scaffoldMessenger
-          .showSnackBar(const SnackBar(content: Text("Please Enter Username")));
-    }
-
-    if (passwordController.text.isEmpty) {
-      scaffoldMessenger
-          .showSnackBar(const SnackBar(content: Text("Please Enter Password")));
-    } else {
-      final response = await http.post(Uri.parse(Network.login),
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-          },
-          body: jsonEncode(
-              <String, String>{'username': username, 'password': password}));
-
-      if (response.statusCode == 201) {
-        User user = User.fromJson(jsonDecode(response.body));
-        UserPreferences.setToken(user.token);
-        Navigator.pushReplacementNamed(context, "/home");
-      } else {
-        scaffoldMessenger.showSnackBar(const SnackBar(
-          content: Text(
-            "Wrong password or username",
-            style: TextStyle(color: Colors.red),
-          ),
-        ));
-      }
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -126,8 +88,49 @@ class _LoginPageState extends State<LoginPage> {
                   title: 'Login',
                   btnColor: ftBtnColorBgSolid,
                   textColor: fkWhiteText,
-                  fn: () {
-                    login();
+                  fn: () async {
+                    late ScaffoldMessengerState scaffoldMessenger =
+                        ScaffoldMessenger.of(context);
+                    setState(() {
+                      isLoading = false;
+                    });
+
+                    final String username = usernameController.text;
+                    final String password = passwordController.text;
+
+                    if (usernameController.text.isEmpty) {
+                      scaffoldMessenger.showSnackBar(const SnackBar(
+                          content: Text("Please Enter Username")));
+                    }
+
+                    if (passwordController.text.isEmpty) {
+                      scaffoldMessenger.showSnackBar(const SnackBar(
+                          content: Text("Please Enter Password")));
+                    } else {
+                      final response = await http.post(Uri.parse(Network.login),
+                          headers: <String, String>{
+                            'Content-Type': 'application/json; charset=UTF-8',
+                          },
+                          body: jsonEncode(<String, String>{
+                            'username': username,
+                            'password': password
+                          }));
+
+                      if (response.statusCode == 201) {
+                        User user = User.fromJson(jsonDecode(response.body));
+                        UserPreferences.setToken(user.token);
+                        // Navigator.pushReplacementNamed(context, "/home");
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                            builder: (context) => const HomePage()));
+                      } else {
+                        scaffoldMessenger.showSnackBar(const SnackBar(
+                          content: Text(
+                            "Wrong password or username",
+                            style: TextStyle(color: Colors.red),
+                          ),
+                        ));
+                      }
+                    }
                   })
               : const SizedBox(
                   height: 20,

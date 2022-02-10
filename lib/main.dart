@@ -14,20 +14,6 @@ Future main() async {
 class FukoApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Fuko();
-  }
-}
-
-class Fuko extends StatefulWidget {
-  const Fuko({Key? key}) : super(key: key);
-
-  @override
-  _FukoState createState() => _FukoState();
-}
-
-class _FukoState extends State<Fuko> {
-  @override
-  Widget build(BuildContext context) {
     return FutureBuilder(
         future: UserPreferences.getToken(),
         builder: (context, snapshot) {
