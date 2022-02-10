@@ -4,7 +4,7 @@ import 'package:fuko_app/screens/screen_list.dart';
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     final args = settings.arguments;
-
+    WidgetBuilder builder;
     switch (settings.name) {
       case '/':
         return MaterialPageRoute(builder: (_) => const LoginPage());
