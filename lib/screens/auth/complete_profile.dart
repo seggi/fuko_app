@@ -36,19 +36,16 @@ class _CompleteProfileState extends State<CompleteProfile> {
     if (firstNameController.text.isEmpty) {
       scaffoldMessenger!
           .showSnackBar(const SnackBar(content: Text("Please Enter Username")));
-      // return;
     }
 
     if (lastNameController.text.isEmpty) {
       scaffoldMessenger!
           .showSnackBar(const SnackBar(content: Text("Enter a Valid Email")));
-      // return;
     }
 
     if (phoneNumberController.text.isEmpty) {
       scaffoldMessenger!.showSnackBar(
           const SnackBar(content: Text("Passwords did not match!")));
-      // return;
     } else {
       setState(() {
         isLoading = true;
@@ -63,10 +60,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
         "gender": selectedItem
       };
       final response = await http.post(Uri.parse(Network.completeProfile),
-          headers: {
-            'Content-Type': 'application/json; charset=UTF-8',
-            'Authorization': "Bearer ${widget.data['token']}",
-          },
+          headers: Network.authorizedHeaders(token: widget.data['token']),
           body: jsonEncode(data));
 
       if (response.statusCode == 200) {
@@ -78,7 +72,8 @@ class _CompleteProfileState extends State<CompleteProfile> {
         if (jsonResponse['code'] == 'success') {
           ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text("${jsonResponse['message']}")));
-          Navigator.of(context).pushNamed('/home');
+          Navigator.pushReplacementNamed(context, "/home",
+              arguments: widget.data);
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text("${jsonResponse['message']}")));
@@ -189,17 +184,15 @@ class _CompleteProfileState extends State<CompleteProfile> {
                       ),
                     ),
                     verticalSpaceLarge,
-                    // isLoading == false
-                    // ?
-                    customTextButton(context, btnTxt: "Start", fn: () {
-                      confirmData();
-                    }),
-                    // :
-                    // const SizedBox(
-                    //     height: 20,
-                    //     width: 20,
-                    //     child: CircularProgressIndicator(),
-                    //   ),
+                    isLoading == false
+                        ? customTextButton(context, btnTxt: "Start", fn: () {
+                            confirmData();
+                          })
+                        : const SizedBox(
+                            height: 20,
+                            width: 20,
+                            child: CircularProgressIndicator(),
+                          ),
                     verticalSpaceRegular,
                   ],
                 )),
