@@ -111,6 +111,9 @@ class _SignUpPageState extends State<SignUpPage> {
               SnackBar(content: Text("${jsonResponse['message']}")));
         }
       } else {
+        setState(() {
+          isLoading = false;
+        });
         scaffoldMessenger!
             .showSnackBar(const SnackBar(content: Text("Please Try again")));
       }

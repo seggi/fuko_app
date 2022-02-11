@@ -11,9 +11,9 @@ import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
 class CompleteProfile extends StatefulWidget {
-  final String data;
+  final Map data;
 
-  const CompleteProfile({Key? key, required this.data}) : super(key: key);
+  CompleteProfile({Key? key, required this.data}) : super(key: key);
 
   @override
   _CompleteProfileState createState() => _CompleteProfileState();
@@ -36,19 +36,16 @@ class _CompleteProfileState extends State<CompleteProfile> {
     if (firstNameController.text.isEmpty) {
       scaffoldMessenger!
           .showSnackBar(const SnackBar(content: Text("Please Enter Username")));
-      // return;
     }
 
     if (lastNameController.text.isEmpty) {
       scaffoldMessenger!
           .showSnackBar(const SnackBar(content: Text("Enter a Valid Email")));
-      // return;
     }
 
     if (phoneNumberController.text.isEmpty) {
       scaffoldMessenger!.showSnackBar(
           const SnackBar(content: Text("Passwords did not match!")));
-      // return;
     } else {
       setState(() {
         isLoading = true;
@@ -59,14 +56,11 @@ class _CompleteProfileState extends State<CompleteProfile> {
         "last_name": lastNameController.text,
         "phone": phoneNumberController.text,
         "status": true,
-        "user_id": "24",
+        "user_id": widget.data['data']['user_id'],
         "gender": selectedItem
       };
-
       final response = await http.post(Uri.parse(Network.completeProfile),
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-          },
+          headers: Network.authorizedHeaders(token: widget.data['token']),
           body: jsonEncode(data));
 
       if (response.statusCode == 200) {
@@ -78,7 +72,8 @@ class _CompleteProfileState extends State<CompleteProfile> {
         if (jsonResponse['code'] == 'success') {
           ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text("${jsonResponse['message']}")));
-          Navigator.of(context).pushNamed('/home');
+          Navigator.pushReplacementNamed(context, "/home",
+              arguments: widget.data);
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text("${jsonResponse['message']}")));
@@ -99,7 +94,9 @@ class _CompleteProfileState extends State<CompleteProfile> {
               SnackBar(content: Text("${jsonResponse['message']}")));
         }
       } else {
-        print("${response.statusCode}");
+        setState(() {
+          isLoading = false;
+        });
         scaffoldMessenger!
             .showSnackBar(const SnackBar(content: Text("Please Try again")));
       }
@@ -108,7 +105,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
 
   @override
   Widget build(BuildContext context) {
-    final String username = widget.data;
+    final String username = widget.data['data']['username'];
     return FkContentBoxWidgets.body(context, "complete profile",
         widTxt: "complete profile",
         itemList: [
@@ -190,17 +187,15 @@ class _CompleteProfileState extends State<CompleteProfile> {
                       ),
                     ),
                     verticalSpaceLarge,
-                    // isLoading == false
-                    // ?
-                    customTextButton(context, btnTxt: "Start", fn: () {
-                      confirmData();
-                    }),
-                    // :
-                    // const SizedBox(
-                    //     height: 20,
-                    //     width: 20,
-                    //     child: CircularProgressIndicator(),
-                    //   ),
+                    isLoading == false
+                        ? customTextButton(context, btnTxt: "Start", fn: () {
+                            confirmData();
+                          })
+                        : const SizedBox(
+                            height: 20,
+                            width: 20,
+                            child: CircularProgressIndicator(),
+                          ),
                     verticalSpaceRegular,
                   ],
                 )),

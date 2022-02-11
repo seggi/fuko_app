@@ -36,8 +36,8 @@ class FkContentBoxWidgets {
             )
           : Scaffold(
               body: SafeArea(
-                child: SizedBox(
-                  height: MediaQuery.of(context).size.height,
+                child: Expanded(
+                  // height: MediaQuery.of(context).size.height,
                   child: Column(
                     children: [...itemList],
                   ),
