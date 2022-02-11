@@ -48,9 +48,9 @@ Widget birthDateFormField({birthDateController = ""}) {
   );
 }
 
-Widget commonFormField({hintTxt, inpIcon}) {
+Widget commonFormField({commonController, hintTxt, inpIcon}) {
   return TextFormField(
-    // controller: commonController,
+    controller: commonController,
     keyboardType: TextInputType.text,
     textInputAction: TextInputAction.next,
     decoration: InputDecoration(

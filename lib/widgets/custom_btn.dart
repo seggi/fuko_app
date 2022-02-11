@@ -37,7 +37,7 @@ Widget customTextButton(context, {btnTxt, fn}) {
   return Container(
     width: MediaQuery.of(context).size.width,
     decoration: BoxDecoration(
-        color: Colors.transparent,
+        color: fkDefaultColor,
         borderRadius: BorderRadius.circular(8.0),
         border: Border.all(color: ftBtnColorBgSolid, width: 2.0)),
     child: TextButton(
@@ -45,8 +45,10 @@ Widget customTextButton(context, {btnTxt, fn}) {
           padding: const EdgeInsets.all(8.0),
           primary: fkDefaultColor,
           textStyle: const TextStyle(fontSize: 20)),
-      onPressed: () {},
-      child: Text(btnTxt),
+      onPressed: fn,
+      child: Text(btnTxt,
+          style: const TextStyle(
+              color: fkWhiteText, fontWeight: FontWeight.w600, fontSize: 20.0)),
     ),
   );
 }
