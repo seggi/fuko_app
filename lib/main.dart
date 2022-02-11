@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fuko_app/controllers/route_generator.dart';
 import 'package:fuko_app/core/user_preferences.dart';
+import 'package:fuko_app/screens/auth/complete_profile.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 

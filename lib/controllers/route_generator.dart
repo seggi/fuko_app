@@ -30,7 +30,7 @@ class RouteGenerator {
         return MaterialPageRoute(
             builder: (_) => const ExpensesSammaryDetails());
       case '/complete-profile':
-        if (args is String) {
+        if (args is Map) {
           return MaterialPageRoute(builder: (_) => CompleteProfile(data: args));
         }
         return _errorRoute();

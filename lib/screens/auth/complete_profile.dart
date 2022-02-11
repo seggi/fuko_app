@@ -11,9 +11,9 @@ import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
 class CompleteProfile extends StatefulWidget {
-  final String data;
+  final Map data;
 
-  const CompleteProfile({Key? key, required this.data}) : super(key: key);
+  CompleteProfile({Key? key, required this.data}) : super(key: key);
 
   @override
   _CompleteProfileState createState() => _CompleteProfileState();
@@ -59,13 +59,13 @@ class _CompleteProfileState extends State<CompleteProfile> {
         "last_name": lastNameController.text,
         "phone": phoneNumberController.text,
         "status": true,
-        "user_id": "24",
+        "user_id": widget.data['data']['user_id'],
         "gender": selectedItem
       };
-
       final response = await http.post(Uri.parse(Network.completeProfile),
-          headers: <String, String>{
+          headers: {
             'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': "Bearer ${widget.data['token']}",
           },
           body: jsonEncode(data));
 
@@ -99,7 +99,6 @@ class _CompleteProfileState extends State<CompleteProfile> {
               SnackBar(content: Text("${jsonResponse['message']}")));
         }
       } else {
-        print("${response.statusCode}");
         scaffoldMessenger!
             .showSnackBar(const SnackBar(content: Text("Please Try again")));
       }
@@ -108,7 +107,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
 
   @override
   Widget build(BuildContext context) {
-    final String username = widget.data;
+    final String username = widget.data['data']['username'];
     return FkContentBoxWidgets.body(context, "complete profile",
         widTxt: "complete profile",
         itemList: [

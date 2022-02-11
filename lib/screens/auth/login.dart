@@ -117,18 +117,21 @@ class _LoginPageState extends State<LoginPage> {
                             'email': email,
                             'password': password
                           }));
-
+                      // Save token in local storage and manage it
                       if (response.statusCode == 201) {
                         User user = User.fromJson(jsonDecode(response.body));
+
                         UserPreferences.setToken(user.token);
                         fkJwtDecode(tokenKey: user.token);
 
-                        user.data['status'] == true
+                        user.data['status'] == false
                             ? Navigator.pushReplacementNamed(context, "/home",
                                 arguments: user.data)
                             : Navigator.pushReplacementNamed(
-                                context, "/complete-profile",
-                                arguments: user.data["username"]);
+                                context, "/complete-profile", arguments: {
+                                "token": user.token,
+                                "data": user.data
+                              });
                       } else {
                         scaffoldMessenger.showSnackBar(const SnackBar(
                           content: Text(
