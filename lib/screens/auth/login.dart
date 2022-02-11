@@ -37,7 +37,7 @@ class _LoginPageState extends State<LoginPage> {
     late ScaffoldMessengerState scaffoldMessenger =
         ScaffoldMessenger.of(context);
     setState(() {
-      isLoading = false;
+      isLoading = true;
     });
 
     final String email = emailController.text;
@@ -71,6 +71,9 @@ class _LoginPageState extends State<LoginPage> {
             : Navigator.pushReplacementNamed(context, "/complete-profile",
                 arguments: {"token": user.token, "data": user.data});
       } else {
+        setState(() {
+          isLoading = false;
+        });
         scaffoldMessenger.showSnackBar(const SnackBar(
           content: Text(
             "Wrong password or email",

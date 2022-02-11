@@ -94,6 +94,9 @@ class _CompleteProfileState extends State<CompleteProfile> {
               SnackBar(content: Text("${jsonResponse['message']}")));
         }
       } else {
+        setState(() {
+          isLoading = false;
+        });
         scaffoldMessenger!
             .showSnackBar(const SnackBar(content: Text("Please Try again")));
       }
