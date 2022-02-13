@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:fuko_app/widgets/shared/style.dart';
 
 class EmailInputFeild extends StatefulWidget {
-  EmailInputFeild({Key? key}) : super(key: key);
+  TextEditingController emailController;
+  EmailInputFeild({Key? key, required this.emailController}) : super(key: key);
 
   @override
   _EmailInputFeildState createState() => _EmailInputFeildState();
@@ -11,20 +12,19 @@ class EmailInputFeild extends StatefulWidget {
 class _EmailInputFeildState extends State<EmailInputFeild> {
   @override
   Widget build(BuildContext context) {
+    TextEditingController emailController = widget.emailController;
     return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: Colors.blue[50],
-      ),
       child: TextFormField(
+        controller: emailController,
         keyboardType: TextInputType.emailAddress,
+        textInputAction: TextInputAction.next,
         decoration: InputDecoration(
             hintText: 'example@fuko.com',
-            suffixIcon: Icon(Icons.email, color: Colors.cyan[900]),
+            suffixIcon: Icon(Icons.email, color: fkDefaultColor),
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide.none,
-            )),
+                borderSide:
+                    BorderSide(color: fkInputFormBorderColor, width: 1.0),
+                borderRadius: BorderRadius.circular(8.0))),
       ),
     );
   }
