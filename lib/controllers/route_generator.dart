@@ -1,5 +1,22 @@
+import 'package:flutter/material.dart';
 import 'package:fuko_app/screens/screen_list.dart';
 import 'package:go_router/go_router.dart';
+
+class LoginInfo extends ChangeNotifier {
+  var _userName = '';
+  String get userName => _userName;
+  bool get loggedIn => _userName.isNotEmpty;
+
+  void login(String userName) {
+    _userName = userName;
+    notifyListeners();
+  }
+
+  void logout() {
+    _userName = '';
+    notifyListeners();
+  }
+}
 
 class RouteGenerator {
   static final routesItem = [
@@ -17,14 +34,11 @@ class RouteGenerator {
         name: "register",
         path: '/register',
         builder: (context, state) => const LoginPage()),
+    GoRoute(
+        name: "complete-profile",
+        path: '/complete-profile',
+        builder: (context, state) => CompleteProfile(
+              data: state.params,
+            )),
   ];
-
-  static redirectRoute(state, loginInfo) {
-    final loggedIn = loginInfo.loggedIn;
-    final loggingIn = state.subloc == '/login';
-    if (!loggedIn) return loggingIn ? null : '/login';
-
-    if (loggingIn) return '/';
-    return null;
-  }
 }

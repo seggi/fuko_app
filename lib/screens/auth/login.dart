@@ -2,10 +2,12 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:fuko_app/controllers/route_generator.dart';
 import 'package:fuko_app/core/user_preferences.dart';
-import 'package:fuko_app/main.dart';
+import 'package:fuko_app/provider/authentication.dart';
 import 'package:fuko_app/utils/jwt_decode.dart';
 import 'package:fuko_app/widgets/input_email.dart';
+import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
@@ -66,7 +68,17 @@ class _LoginPageState extends State<LoginPage> {
         UserPreferences.setToken(user.token);
         fkJwtDecode(tokenKey: user.token);
 
-        context.read<LoginInfo>().login('test-user');
+        if (user.data['status'] == false) {
+          Provider.of<AuthenticationModel>(context, listen: false)
+              .add(user.data);
+
+          context.read<LoginInfo>().login(user.token);
+        } else {
+          Provider.of<AuthenticationModel>(context, listen: false)
+              .add(user.data);
+
+          context.goNamed("complete-profile");
+        }
 
         // user.data['status'] == true
         //     ? Navigator.pushReplacementNamed(context, "/home",

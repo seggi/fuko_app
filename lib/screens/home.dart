@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:fuko_app/controllers/route_generator.dart';
 import 'package:fuko_app/core/user_preferences.dart';
+import 'package:fuko_app/provider/authentication.dart';
 
 import 'package:fuko_app/screens/content_box_widgets.dart';
 import 'package:fuko_app/widgets/other_widgets.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/src/provider.dart';
 
 class HomePage extends StatefulWidget {
   final Map data;
@@ -19,7 +23,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // String userData = widget.data;
+    final userData = Provider.of<AuthenticationModel>(context).getUserData;
+
     return WillPopScope(
         onWillPop: () async {
           return false;
@@ -36,19 +41,19 @@ class _HomePageState extends State<HomePage> {
                   IconButton(
                       onPressed: () {
                         UserPreferences.removeToken();
-                        Navigator.pushReplacementNamed(context, "/");
+                        context.read<LoginInfo>().logout();
+                        context.go('/');
                       },
                       icon: const Icon(Icons.logout))
                 ],
               )),
           fkContentBoxWidgets.initialItems(
             itemList: <Widget>[
-              const Align(
+              Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(
-                  "Seggi",
-                  // "${userData["first_name"]} ${userData["last_name"]}",
-                  style: TextStyle(
+                  "${userData[0]["first_name"]} ${userData[0]["last_name"]}",
+                  style: const TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.w600,
                       color: fkBlackText),

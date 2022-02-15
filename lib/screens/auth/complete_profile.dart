@@ -106,6 +106,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
   @override
   Widget build(BuildContext context) {
     final String username = widget.data['data']['username'];
+
     return FkContentBoxWidgets.body(context, "complete profile",
         widTxt: "complete profile",
         itemList: [
