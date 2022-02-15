@@ -3,12 +3,13 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:fuko_app/core/user_preferences.dart';
+import 'package:fuko_app/main.dart';
 import 'package:fuko_app/utils/jwt_decode.dart';
 import 'package:fuko_app/widgets/input_email.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 import 'package:fuko_app/core/user.dart';
-import 'package:fuko_app/screens/auth/signup.dart';
 import 'package:fuko_app/utils/api.dart';
 import 'package:fuko_app/widgets/custom_btn.dart';
 import 'package:fuko_app/widgets/input_pwd.dart';
@@ -65,11 +66,13 @@ class _LoginPageState extends State<LoginPage> {
         UserPreferences.setToken(user.token);
         fkJwtDecode(tokenKey: user.token);
 
-        user.data['status'] == true
-            ? Navigator.pushReplacementNamed(context, "/home",
-                arguments: {"data": user.data})
-            : Navigator.pushReplacementNamed(context, "/complete-profile",
-                arguments: {"token": user.token, "data": user.data});
+        context.read<LoginInfo>().login('test-user');
+
+        // user.data['status'] == true
+        //     ? Navigator.pushReplacementNamed(context, "/home",
+        //         arguments: {"data": user.data})
+        //     : Navigator.pushReplacementNamed(context, "/complete-profile",
+        //         arguments: {"token": user.token, "data": user.data});
       } else {
         setState(() {
           isLoading = false;

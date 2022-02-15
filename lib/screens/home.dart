@@ -19,7 +19,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    Map userData = widget.data['data'];
+    // String userData = widget.data;
     return WillPopScope(
         onWillPop: () async {
           return false;
@@ -43,11 +43,12 @@ class _HomePageState extends State<HomePage> {
               )),
           fkContentBoxWidgets.initialItems(
             itemList: <Widget>[
-              Align(
+              const Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(
-                  "${userData["first_name"]} ${userData["last_name"]}",
-                  style: const TextStyle(
+                  "Seggi",
+                  // "${userData["first_name"]} ${userData["last_name"]}",
+                  style: TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.w600,
                       color: fkBlackText),
