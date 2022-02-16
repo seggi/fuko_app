@@ -4,8 +4,7 @@ import 'package:fuko_app/screens/expenses/expense_sam_detials.dart';
 import 'package:fuko_app/screens/expenses/sammany.dart';
 
 class ExpenseOptionsScreen extends StatefulWidget {
-  final String data;
-  const ExpenseOptionsScreen({Key? key, required this.data}) : super(key: key);
+  const ExpenseOptionsScreen({Key? key}) : super(key: key);
 
   @override
   _ExpenseOptionsScreenState createState() => _ExpenseOptionsScreenState();
@@ -13,6 +12,7 @@ class ExpenseOptionsScreen extends StatefulWidget {
 
 class _ExpenseOptionsScreenState extends State<ExpenseOptionsScreen> {
   int _selectedIndex = 0;
+  final String title = "Expenses";
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
@@ -31,7 +31,7 @@ class _ExpenseOptionsScreenState extends State<ExpenseOptionsScreen> {
     return FkContentBoxWidgetsWithBottomBar.body(
         selectedIndexItem: _selectedIndex,
         onItemTappedIcon: _onItemTapped,
-        titleTxt: widget.data,
+        titleTxt: title,
         bottomItemList: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.summarize),

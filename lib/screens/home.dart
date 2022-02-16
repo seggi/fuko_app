@@ -21,7 +21,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final userData = FkManageProviders.get(context)["auth"][0];
-    print("${userData} >>>>>>>>>>>>>>");
     return WillPopScope(
         onWillPop: () async {
           return false;
@@ -128,19 +127,14 @@ class _HomePageState extends State<HomePage> {
                 currency: "Rwf",
                 amount: "105,000",
                 titleTxt: "Expenses",
-                fn: () {
-                  Navigator.of(context).pushNamed('/expenses');
-                }),
+                fn: () => PagesGenerator.goTo(context, pathName: "/expenses")),
             verticalSpaceTiny,
             homeCard(
                 leadingIcon: Icons.savings,
                 currency: "Rwf",
                 amount: "10,000",
                 titleTxt: "Savings",
-                fn: () {
-                  // Navigator.push(context,
-                  //     MaterialPageRoute(builder: (context) => ExpensesPage()));
-                }),
+                fn: () {}),
             verticalSpaceTiny,
             homeCard(
                 leadingIcon: Icons.account_balance,

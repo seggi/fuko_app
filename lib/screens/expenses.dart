@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/screens/content_box_widgets.dart';
 import 'package:fuko_app/widgets/other_widgets.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
@@ -24,9 +25,8 @@ class _ExpensesPageState extends State<ExpensesPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
+                  onPressed: () =>
+                      PagesGenerator.goTo(context, pathName: "/home"),
                   icon: const Icon(Icons.arrow_back_ios)),
               IconButton(
                   onPressed: () {}, icon: const Icon(Icons.notifications))
@@ -95,10 +95,8 @@ class _ExpensesPageState extends State<ExpensesPage> {
                             size: 30,
                             color: fkWhiteText,
                           ),
-                          onPressed: () {
-                            Navigator.of(context).pushNamed("/expense-options",
-                                arguments: "Expenses");
-                          },
+                          onPressed: () => PagesGenerator.goTo(context,
+                              pathName: "/expense-options"),
                         ),
                       ),
                     ),

@@ -26,6 +26,12 @@ class PagesGenerator {
       case '/complete-profile':
         pageList.add(MaterialPage(child: CompleteProfile()));
         break;
+      case '/expenses':
+        pageList.add(MaterialPage(child: ExpensesPage()));
+        break;
+      case '/expense-options':
+        pageList.add(const MaterialPage(child: ExpenseOptionsScreen()));
+        break;
     }
     return pageList;
   }
@@ -48,6 +54,9 @@ class PagesGenerator {
     bool popStatus = rt.didPop(res);
     if (popStatus == true) {
       PagesGenerator.goTo(context, pathName: "/");
+    }
+    if (popStatus == true) {
+      PagesGenerator.goTo(context, pathName: "/expenses");
     }
     return popStatus;
   }
