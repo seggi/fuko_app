@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/utils/api.dart';
 import 'package:http/http.dart' as http;
 
@@ -167,7 +168,7 @@ class _SignUpPageState extends State<SignUpPage> {
               reppeatPasswordController: reppeatPasswordController),
           verticalSpaceLarge,
           isLoading == false
-              ? authButtom(
+              ? authButton(
                   context: context,
                   title: 'Sign Up',
                   btnColor: ftBtnColorBgSolid,
@@ -181,14 +182,12 @@ class _SignUpPageState extends State<SignUpPage> {
                   child: CircularProgressIndicator(),
                 ),
           verticalSpaceRegular,
-          authButtom(
+          authButton(
               context: context,
               title: 'Login',
               btnColor: ftBtnColorBgSolid,
               textColor: fkWhiteText,
-              fn: () {
-                Navigator.of(context).pushNamed("/");
-              }),
+              fn: () => PagesGenerator.goTo(context, pathName: "/login")),
           verticalSpaceRegular,
         ])
       ],

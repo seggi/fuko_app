@@ -2,13 +2,18 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:fuko_app/controllers/manage_provider.dart';
+import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/core/user_preferences.dart';
+import 'package:fuko_app/provider/authentication.dart';
+import 'package:fuko_app/provider/navigator.dart';
 import 'package:fuko_app/utils/jwt_decode.dart';
 import 'package:fuko_app/widgets/input_email.dart';
+import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 import 'package:fuko_app/core/user.dart';
-import 'package:fuko_app/screens/auth/signup.dart';
 import 'package:fuko_app/utils/api.dart';
 import 'package:fuko_app/widgets/custom_btn.dart';
 import 'package:fuko_app/widgets/input_pwd.dart';
@@ -65,11 +70,17 @@ class _LoginPageState extends State<LoginPage> {
         UserPreferences.setToken(user.token);
         fkJwtDecode(tokenKey: user.token);
 
-        user.data['status'] == true
-            ? Navigator.pushReplacementNamed(context, "/home",
-                arguments: {"data": user.data})
-            : Navigator.pushReplacementNamed(context, "/complete-profile",
-                arguments: {"token": user.token, "data": user.data});
+        if (user.data['status'] == true) {
+          PagesGenerator.goTo(context,
+              pathName: "/home",
+              itemData: {"data": user.data},
+              provider: "auth");
+        } else {
+          PagesGenerator.goTo(context,
+              pathName: "/complete-profile",
+              itemData: {"data": user.data, "token": user.token},
+              provider: "auth");
+        }
       } else {
         setState(() {
           isLoading = false;
@@ -133,7 +144,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
           verticalSpaceLarge,
           isLoading == false
-              ? authButtom(
+              ? authButton(
                   context: context,
                   title: 'Login',
                   btnColor: ftBtnColorBgSolid,
@@ -147,14 +158,12 @@ class _LoginPageState extends State<LoginPage> {
                   child: CircularProgressIndicator(),
                 ),
           verticalSpaceRegular,
-          authButtom(
+          authButton(
               context: context,
               title: 'Sign Up',
               btnColor: ftBtnColorBgSolid,
               textColor: fkWhiteText,
-              fn: () {
-                Navigator.of(context).pushNamed("/signup");
-              }),
+              fn: () => PagesGenerator.goTo(context, pathName: "/register"))
         ])
       ],
     );

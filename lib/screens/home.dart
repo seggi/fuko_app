@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:fuko_app/controllers/manage_provider.dart';
+import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/core/user_preferences.dart';
 
 import 'package:fuko_app/screens/content_box_widgets.dart';
@@ -7,8 +9,7 @@ import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
 class HomePage extends StatefulWidget {
-  final Map data;
-  const HomePage({Key? key, required this.data}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -19,7 +20,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    Map userData = widget.data['data'];
+    final userData = FkManageProviders.get(context)["auth"][0];
+    print("${userData} >>>>>>>>>>>>>>");
     return WillPopScope(
         onWillPop: () async {
           return false;
@@ -36,7 +38,7 @@ class _HomePageState extends State<HomePage> {
                   IconButton(
                       onPressed: () {
                         UserPreferences.removeToken();
-                        Navigator.pushReplacementNamed(context, "/");
+                        PagesGenerator.goTo(context, pathName: "/login");
                       },
                       icon: const Icon(Icons.logout))
                 ],
@@ -46,7 +48,7 @@ class _HomePageState extends State<HomePage> {
               Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(
-                  "${userData["first_name"]} ${userData["last_name"]}",
+                  "${userData['data']["first_name"]} ${userData['data']["last_name"]}",
                   style: const TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.w600,
