@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:fuko_app/controllers/manage_provider.dart';
+import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:fuko_app/screens/content_box_widgets.dart';
@@ -32,7 +34,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
   late final ScaffoldMessengerState? scaffoldMessenger =
       ScaffoldMessenger.of(context);
 
-  Future confirmData() async {
+  Future confirmData(context, userData) async {
     if (firstNameController.text.isEmpty) {
       scaffoldMessenger!
           .showSnackBar(const SnackBar(content: Text("Please Enter Username")));
@@ -56,11 +58,12 @@ class _CompleteProfileState extends State<CompleteProfile> {
         "last_name": lastNameController.text,
         "phone": phoneNumberController.text,
         "status": true,
-        // "user_id": widget.data['data']['user_id'],
+        "user_id": userData['data']['user_id'],
         "gender": selectedItem
       };
+
       final response = await http.post(Uri.parse(Network.completeProfile),
-          // headers: Network.authorizedHeaders(token: widget.data['token']),
+          headers: Network.authorizedHeaders(token: userData["token"]),
           body: jsonEncode(data));
 
       if (response.statusCode == 200) {
@@ -70,26 +73,31 @@ class _CompleteProfileState extends State<CompleteProfile> {
 
         Map<String, dynamic> jsonResponse = jsonDecode(response.body);
         if (jsonResponse['code'] == 'success') {
+          setState(() {
+            isLoading = false;
+          });
+
           ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text("${jsonResponse['message']}")));
-          // Navigator.pushReplacementNamed(context, "/home",
-          // arguments: widget.data);
+          PagesGenerator.goTo(context,
+              pathName: "/home", itemData: userData["data"], provider: "auth");
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text("${jsonResponse['message']}")));
         }
       } else if (response.statusCode == 201) {
-        setState(() {
-          isLoading = false;
-        });
-
         Map<String, dynamic> jsonResponse = jsonDecode(response.body);
 
         if (jsonResponse['code'] == 'success') {
           scaffoldMessenger!.showSnackBar(
               SnackBar(content: Text("${jsonResponse['message']}")));
-          Navigator.of(context).pushNamed('/home');
+
+          PagesGenerator.goTo(context,
+              pathName: "/home", itemData: userData["data"], provider: "auth");
         } else {
+          setState(() {
+            isLoading = false;
+          });
           scaffoldMessenger!.showSnackBar(
               SnackBar(content: Text("${jsonResponse['message']}")));
         }
@@ -105,18 +113,17 @@ class _CompleteProfileState extends State<CompleteProfile> {
 
   @override
   Widget build(BuildContext context) {
-    // final String username = widget.data['data']['username'];
+    final userData = FkManageProviders.get(context)["auth"][0];
 
     return FkContentBoxWidgets.body(context, "complete profile",
         widTxt: "complete profile",
         itemList: [
           fkContentBoxWidgets.initialItems(itemList: [
-            const Align(
+            Align(
               alignment: Alignment.bottomLeft,
               child: Text(
-                "seggi",
-                // username,
-                style: TextStyle(
+                userData['data']['username'],
+                style: const TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.w600,
                     color: fkBlackText),
@@ -191,7 +198,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
                     verticalSpaceLarge,
                     isLoading == false
                         ? customTextButton(context, btnTxt: "Start", fn: () {
-                            confirmData();
+                            confirmData(context, userData);
                           })
                         : const SizedBox(
                             height: 20,

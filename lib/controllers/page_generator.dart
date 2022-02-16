@@ -3,7 +3,10 @@ import 'package:fuko_app/provider/navigator.dart';
 import 'package:fuko_app/screens/screen_list.dart';
 import 'package:provider/provider.dart';
 
+import 'manage_provider.dart';
+
 class PagesGenerator {
+  // List all pages
   List<Page> getPage(context) {
     List<Page> pageList = [];
     NavigationPath navigation = Provider.of<NavigationPath>(context);
@@ -20,16 +23,22 @@ class PagesGenerator {
       case '/register':
         pageList.add(const MaterialPage(child: SignUpPage()));
         break;
+      case '/complete-profile':
+        pageList.add(MaterialPage(child: CompleteProfile()));
+        break;
     }
     return pageList;
   }
 
   // Call this method to navigate to the next screen
-  static goTo(context, {flag = false, pathName}) {
+  static goTo(context,
+      {flag = false, pathName, itemData = "notFound", provider = "notFound"}) {
     if (pathName != "") {
+      FkManageProviders.saves[provider](context, itemData: itemData);
       return Provider.of<NavigationPath>(context, listen: flag)
           .changeScreen(pathName);
     } else {
+      FkManageProviders.saves[provider](context, itemData: itemData);
       return Provider.of<NavigationPath>(context);
     }
   }

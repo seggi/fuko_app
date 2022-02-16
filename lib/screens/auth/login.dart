@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/core/user_preferences.dart';
 import 'package:fuko_app/provider/authentication.dart';
@@ -69,16 +70,17 @@ class _LoginPageState extends State<LoginPage> {
         UserPreferences.setToken(user.token);
         fkJwtDecode(tokenKey: user.token);
 
-        // if (user.data['status'] == true) {
-        // Provider.of<AuthenticationModel>(context, listen: false).add(user.data);
-
-        // context.read<LoginInfo>().login(user.token);
-        // } else {
-        //   Provider.of<AuthenticationModel>(context, listen: false)
-        //       .add(user.data);
-
-        //   context.goNamed("complete-profile");
-        // }
+        if (user.data['status'] == true) {
+          PagesGenerator.goTo(context,
+              pathName: "/home",
+              itemData: {"data": user.data},
+              provider: "auth");
+        } else {
+          PagesGenerator.goTo(context,
+              pathName: "/complete-profile",
+              itemData: {"data": user.data, "token": user.token},
+              provider: "auth");
+        }
       } else {
         setState(() {
           isLoading = false;
