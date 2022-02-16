@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/provider/fk_providers.dart';
+import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:provider/provider.dart';
 import 'package:fuko_app/core/user_preferences.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -23,6 +24,14 @@ class FukoApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'Fuko',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSwatch().copyWith(
+          primary: fkDefaultColor,
+          secondary: const Color(0XFFF9F9F9),
+        ),
+      ),
+      debugShowCheckedModeBanner: false,
       home: Navigator(
           pages: PagesGenerator().getPage(context),
           onPopPage: (route, result) =>
