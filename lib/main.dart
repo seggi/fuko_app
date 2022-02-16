@@ -1,41 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:fuko_app/controllers/route_generator.dart';
-import 'package:fuko_app/core/user_preferences.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:fuko_app/provider/authentication.dart';
-import 'package:go_router/go_router.dart';
+import 'package:fuko_app/controllers/page_generator.dart';
+import 'package:fuko_app/provider/fk_providers.dart';
 import 'package:provider/provider.dart';
 
 Future main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load();
-  await UserPreferences.init();
-  runApp(ChangeNotifierProvider(
-    create: (_) => AuthenticationModel(),
-    child: FukoApp(),
-  ));
+  return runApp(
+    MultiProvider(
+      providers: FkProvider.multi(),
+      child: const FukoApp(),
+    ),
+  );
 }
 
 class FukoApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) => ChangeNotifierProvider<LoginInfo>.value(
-        value: loginInfo,
-        child: MaterialApp.router(
-          routeInformationParser: _router.routeInformationParser,
-          routerDelegate: _router.routerDelegate,
-        ),
-      );
-  final loginInfo = LoginInfo();
-  late final _router = GoRouter(
-    routes: [...RouteGenerator.routesItem],
-    redirect: (state) {
-      final loggedIn = loginInfo.loggedIn;
-      final loggingIn = state.subloc == '/login';
-      if (!loggedIn) return loggingIn ? null : '/login';
+  const FukoApp({Key? key}) : super(key: key);
 
-      if (loggingIn) return '/';
-      return null;
-    },
-    refreshListenable: loginInfo,
-  );
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Navigator(
+          pages: PagesGenerator().getPage(context),
+          onPopPage: (route, result) =>
+              PagesGenerator.backTo(context, rt: route, res: result)),
+    );
+  }
 }

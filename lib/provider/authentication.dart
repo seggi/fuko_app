@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class AuthenticationModel extends ChangeNotifier {
+class AuthenticationItems extends ChangeNotifier {
   final List _items = [];
 
   List get getUserData => _items;

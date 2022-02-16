@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 
-Widget authButtom({context, title, btnColor, textColor, fn}) {
+Widget authButton({context, title, btnColor, textColor, fn}) {
   return Container(
     width: MediaQuery.of(context).size.width,
     padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),

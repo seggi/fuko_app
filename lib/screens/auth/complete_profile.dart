@@ -11,9 +11,9 @@ import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
 class CompleteProfile extends StatefulWidget {
-  final Map data;
-
-  CompleteProfile({Key? key, required this.data}) : super(key: key);
+  CompleteProfile({
+    Key? key,
+  }) : super(key: key);
 
   @override
   _CompleteProfileState createState() => _CompleteProfileState();
@@ -56,11 +56,11 @@ class _CompleteProfileState extends State<CompleteProfile> {
         "last_name": lastNameController.text,
         "phone": phoneNumberController.text,
         "status": true,
-        "user_id": widget.data['data']['user_id'],
+        // "user_id": widget.data['data']['user_id'],
         "gender": selectedItem
       };
       final response = await http.post(Uri.parse(Network.completeProfile),
-          headers: Network.authorizedHeaders(token: widget.data['token']),
+          // headers: Network.authorizedHeaders(token: widget.data['token']),
           body: jsonEncode(data));
 
       if (response.statusCode == 200) {
@@ -72,8 +72,8 @@ class _CompleteProfileState extends State<CompleteProfile> {
         if (jsonResponse['code'] == 'success') {
           ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text("${jsonResponse['message']}")));
-          Navigator.pushReplacementNamed(context, "/home",
-              arguments: widget.data);
+          // Navigator.pushReplacementNamed(context, "/home",
+          // arguments: widget.data);
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text("${jsonResponse['message']}")));
@@ -105,17 +105,18 @@ class _CompleteProfileState extends State<CompleteProfile> {
 
   @override
   Widget build(BuildContext context) {
-    final String username = widget.data['data']['username'];
+    // final String username = widget.data['data']['username'];
 
     return FkContentBoxWidgets.body(context, "complete profile",
         widTxt: "complete profile",
         itemList: [
           fkContentBoxWidgets.initialItems(itemList: [
-            Align(
+            const Align(
               alignment: Alignment.bottomLeft,
               child: Text(
-                username,
-                style: const TextStyle(
+                "seggi",
+                // username,
+                style: TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.w600,
                     color: fkBlackText),

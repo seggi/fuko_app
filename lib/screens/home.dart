@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:fuko_app/controllers/route_generator.dart';
+import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/core/user_preferences.dart';
 import 'package:fuko_app/provider/authentication.dart';
+import 'package:fuko_app/provider/navigator.dart';
 
 import 'package:fuko_app/screens/content_box_widgets.dart';
 import 'package:fuko_app/widgets/other_widgets.dart';
@@ -11,8 +12,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/src/provider.dart';
 
 class HomePage extends StatefulWidget {
-  final Map data;
-  const HomePage({Key? key, required this.data}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -23,7 +23,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final userData = Provider.of<AuthenticationModel>(context).getUserData;
+    // final userData = Provider.of<AuthenticationModel>(context).getUserData;
 
     return WillPopScope(
         onWillPop: () async {
@@ -41,19 +41,19 @@ class _HomePageState extends State<HomePage> {
                   IconButton(
                       onPressed: () {
                         UserPreferences.removeToken();
-                        context.read<LoginInfo>().logout();
-                        context.go('/');
+                        PagesGenerator.goTo(context, pathName: "/login");
                       },
                       icon: const Icon(Icons.logout))
                 ],
               )),
           fkContentBoxWidgets.initialItems(
             itemList: <Widget>[
-              Align(
+              const Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(
-                  "${userData[0]["first_name"]} ${userData[0]["last_name"]}",
-                  style: const TextStyle(
+                  "Seggi",
+                  // "${userData[0]["first_name"]} ${userData[0]["last_name"]}",
+                  style: TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.w600,
                       color: fkBlackText),
