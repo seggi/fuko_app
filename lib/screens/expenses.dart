@@ -17,7 +17,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
   @override
   Widget build(BuildContext context) {
     return FkContentBoxWidgets.body(context, 'savings', fn: () {
-      Navigator.of(context).pushNamed('/add-expense');
+      PagesGenerator.goTo(context, pathName: "/add-expense");
     }, itemList: [
       Padding(
           padding: const EdgeInsets.only(right: 20.0, left: 20.0),
