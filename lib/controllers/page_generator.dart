@@ -35,6 +35,8 @@ class PagesGenerator {
       case '/add-expense':
         pageList.add(const MaterialPage(child: AddExpensesScreen()));
         break;
+      case '/save-expenses':
+        pageList.add(const MaterialPage(child: SaveExpenses()));
     }
     return pageList;
   }
