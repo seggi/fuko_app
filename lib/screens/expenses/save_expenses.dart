@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
+import 'package:fuko_app/widgets/popup_dialog.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
@@ -54,7 +55,7 @@ class SaveExpenses extends StatelessWidget {
               ),
               verticalSpaceRegular,
               Expanded(
-                  child: Stack(
+                  child: Column(
                 children: [
                   Column(
                     children: [
@@ -75,30 +76,27 @@ class SaveExpenses extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Positioned(
-                    width: 350,
-                    bottom: 40.0,
-                    child: Container(
-                      padding: const EdgeInsets.only(top: 10),
-                      decoration: const BoxDecoration(
-                          border: Border(top: BorderSide(color: fkGreyText))),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
-                          Text(
-                            "Total",
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.w600),
-                          ),
-                          Text(
-                            "10500",
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.w600),
-                          ),
-                        ],
-                      ),
+                  verticalSpaceLarge,
+                  Container(
+                    padding: const EdgeInsets.only(top: 10),
+                    decoration: const BoxDecoration(
+                        border: Border(top: BorderSide(color: fkGreyText))),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: const [
+                        Text(
+                          "Total",
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.w600),
+                        ),
+                        Text(
+                          "10500",
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.w600),
+                        ),
+                      ],
                     ),
-                  )
+                  ),
                 ],
               )),
               Container(
@@ -108,105 +106,29 @@ class SaveExpenses extends StatelessWidget {
                 width: MediaQuery.of(context).size.width,
                 child: Center(
                     child: TextButton(
-                  onPressed: () => showDialogWithFields(context),
-                  child: const Text(
-                    "Add",
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: fkWhiteText),
-                  ),
-                )),
+                        onPressed: () => showDialogWithFields(context),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            Icon(
+                              Icons.data_saver_on,
+                              color: fkWhiteText,
+                            ),
+                            horizontalSpaceSmall,
+                            Text(
+                              "New Item",
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: fkWhiteText),
+                            ),
+                          ],
+                        ))),
               )
             ],
           ),
         ),
       ),
-    );
-  }
-
-  void showDialogWithFields(context) {
-    showDialog(
-      context: context,
-      builder: (_) {
-        return AlertDialog(
-          insetPadding: const EdgeInsets.all(10),
-          title: const Text('Add Expenses'),
-          content: SizedBox(
-            height: 450,
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  TextFormField(
-                    keyboardType: TextInputType.text,
-                    textInputAction: TextInputAction.next,
-                    decoration: InputDecoration(
-                        hintText: 'Amount',
-                        border: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                                color: fkInputFormBorderColor, width: 1.0),
-                            borderRadius: BorderRadius.circular(8.0))),
-                    onSaved: (String? value) {},
-                  ),
-                  verticalSpaceRegular,
-                  TextFormField(
-                    keyboardType: TextInputType.text,
-                    textInputAction: TextInputAction.next,
-                    decoration: InputDecoration(
-                        hintText: 'Title',
-                        border: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                                color: fkInputFormBorderColor, width: 1.0),
-                            borderRadius: BorderRadius.circular(8.0))),
-                    onSaved: (String? value) {},
-                  ),
-                  verticalSpaceRegular,
-                  TextFormField(
-                    keyboardType: TextInputType.multiline,
-                    maxLines: 8,
-                    decoration: InputDecoration(
-                        hintText: 'description',
-                        border: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                                color: fkInputFormBorderColor, width: 1.0),
-                            borderRadius: BorderRadius.circular(8.0))),
-                    onSaved: (String? value) {},
-                  ),
-                  verticalSpaceMedium,
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(8.0),
-                    child: Container(
-                      color: fkBlueText,
-                      child: ConstrainedBox(
-                        constraints: BoxConstraints.tight(const Size(300, 50)),
-                        child: TextButton(
-                            onPressed: () {},
-                            child: const Text(
-                              "Add",
-                              style: TextStyle(
-                                color: fkWhiteText,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 18,
-                              ),
-                            )),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ),
-          // actions: [
-          //   TextButton(
-          //     onPressed: () {
-          //       Navigator.pop(context);
-          //     },
-          //     child: const Text('Cancel'),
-          //   ),
-          // ],
-        );
-      },
     );
   }
 }
