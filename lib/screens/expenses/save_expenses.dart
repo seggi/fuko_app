@@ -5,7 +5,11 @@ import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
 class SaveExpenses extends StatelessWidget {
-  const SaveExpenses({Key? key}) : super(key: key);
+  SaveExpenses({Key? key}) : super(key: key);
+
+  TextEditingController amountController = TextEditingController();
+  TextEditingController titleController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {

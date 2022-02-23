@@ -5,7 +5,9 @@ class FkManageProviders {
   static Map saves = {
     "notFound": (context, {itemData}) => [],
     "auth": (context, {itemData}) =>
-        Provider.of<AuthenticationData>(context, listen: false).add(itemData)
+        Provider.of<AuthenticationData>(context, listen: false).add(itemData),
+    "save-expenses": (context, {itemData}) =>
+        Provider.of<SaveExpenses>(context, listen: false).add(itemData)
   };
 
   static get(context) {

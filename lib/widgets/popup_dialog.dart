@@ -10,7 +10,6 @@ void showDialogWithFields(context) {
         insetPadding: const EdgeInsets.all(10),
         title: const Text('Add Expenses'),
         content: SizedBox(
-          // height: 350,
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
