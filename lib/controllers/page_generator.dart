@@ -34,6 +34,10 @@ class PagesGenerator {
         break;
       case '/save-expenses':
         pageList.add(MaterialPage(child: SaveExpenses()));
+        break;
+      case '/budget':
+        pageList.add(const MaterialPage(child: BudgetScreen()));
+        break;
     }
     return pageList;
   }
@@ -59,6 +63,9 @@ class PagesGenerator {
     }
     if (popStatus == true) {
       PagesGenerator.goTo(context, pathName: "/expenses");
+    }
+    if (popStatus == true) {
+      PagesGenerator.goTo(context, pathName: "/budget");
     }
     return popStatus;
   }

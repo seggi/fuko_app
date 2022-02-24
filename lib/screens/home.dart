@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/core/user_preferences.dart';
+import 'package:badges/badges.dart';
 
 import 'package:fuko_app/screens/content_box_widgets.dart';
 import 'package:fuko_app/widgets/other_widgets.dart';
@@ -32,14 +33,27 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
-                  IconButton(
-                      onPressed: () {}, icon: const Icon(Icons.notifications)),
-                  IconButton(
-                      onPressed: () {
-                        UserPreferences.removeToken();
-                        PagesGenerator.goTo(context, pathName: "/login");
-                      },
-                      icon: const Icon(Icons.logout))
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Badge(
+                        badgeContent: const Text(
+                          '9',
+                          style: TextStyle(color: fkWhiteText),
+                        ),
+                        child: IconButton(
+                            onPressed: () {},
+                            icon: const Icon(Icons.notifications)),
+                        position: BadgePosition.topEnd(end: 2, top: 2),
+                      ),
+                      IconButton(
+                          onPressed: () {
+                            UserPreferences.removeToken();
+                            PagesGenerator.goTo(context, pathName: "/login");
+                          },
+                          icon: const Icon(Icons.logout))
+                    ],
+                  )
                 ],
               )),
           fkContentBoxWidgets.initialItems(
@@ -155,7 +169,7 @@ class _HomePageState extends State<HomePage> {
                 currency: "Rwf",
                 amount: "535 000",
                 titleTxt: "Budget",
-                fn: () {}),
+                fn: () => PagesGenerator.goTo(context, pathName: "/budget")),
             verticalSpaceMedium,
           ])
         ]));
