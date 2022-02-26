@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fuko_app/controllers/manage_provider.dart';
@@ -14,6 +16,11 @@ class SaveExpenses extends StatefulWidget {
 }
 
 class _SaveExpensesState extends State<SaveExpenses> {
+  removeAllData() {
+    // showDialogWithCircularProgress(context);
+    FkManageProviders.save["remove-all-expenses"](context);
+  }
+
   @override
   Widget build(BuildContext context) {
     final List newItems = FkManageProviders.get(context)["add-expenses"];
@@ -32,13 +39,24 @@ class _SaveExpensesState extends State<SaveExpenses> {
                       icon: const Icon(Icons.cancel_outlined),
                       onPressed: () =>
                           PagesGenerator.goTo(context, pathName: "/expenses")),
-                  IconButton(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.save,
-                        color: fkBlueText,
-                        size: 28,
-                      ))
+                  Row(
+                    children: [
+                      IconButton(
+                          onPressed: removeAllData,
+                          icon: const Icon(
+                            Icons.delete,
+                            color: Colors.red,
+                            size: 28,
+                          )),
+                      IconButton(
+                          onPressed: () {},
+                          icon: const Icon(
+                            Icons.save,
+                            color: fkBlueText,
+                            size: 28,
+                          ))
+                    ],
+                  )
                 ],
               ),
               verticalSpaceRegular,
@@ -97,7 +115,7 @@ class _SaveExpensesState extends State<SaveExpenses> {
                               ),
                               child: ListTile(
                                 leading: const Icon(
-                                  Icons.note_add_outlined,
+                                  Icons.delete_sweep,
                                   color: fkBlueText,
                                 ),
                                 title: Text(newItems[index]['description']),
@@ -107,7 +125,7 @@ class _SaveExpensesState extends State<SaveExpenses> {
                         },
                       )
                     : const Center(
-                        child: Text("The Is Empty"),
+                        child: Text("Empty List"),
                       ),
               ),
               Container(

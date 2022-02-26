@@ -138,3 +138,14 @@ class _AddExpensesState extends State<AddExpenses> {
     );
   }
 }
+
+void showDialogWithCircularProgress(context) {
+  showDialog(
+    context: context,
+    builder: (_) {
+      return const AlertDialog(
+          insetPadding: EdgeInsets.all(10),
+          content: SizedBox(child: Text("Please wait")));
+    },
+  );
+}

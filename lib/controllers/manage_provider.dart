@@ -14,6 +14,8 @@ class FkManageProviders {
         Provider.of<AddExpenses>(context, listen: false).addAmount(itemData),
     "remove-expenses": (context, {itemData}) =>
         Provider.of<AddExpenses>(context, listen: false).remove(itemData),
+    "remove-all-expenses": (context) =>
+        Provider.of<AddExpenses>(context, listen: false).removeFromList(),
   };
 
   static get(context) {

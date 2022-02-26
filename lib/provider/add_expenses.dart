@@ -31,4 +31,10 @@ class AddExpenses extends ChangeNotifier {
     _totalAmountList.remove(itemData['amount']);
     notifyListeners();
   }
+
+  void removeFromList() {
+    _items.clear();
+    _totalAmountList.clear();
+    notifyListeners();
+  }
 }
