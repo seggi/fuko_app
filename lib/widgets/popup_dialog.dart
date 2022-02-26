@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
@@ -29,6 +30,7 @@ class _AddExpensesState extends State<AddExpenses> {
   TextEditingController amountController = TextEditingController();
 
   TextEditingController descriptionController = TextEditingController();
+  late ScaffoldMessengerState scaffoldMessenger = ScaffoldMessenger.of(context);
 
   saveExpenses() {
     Map newItem = {
@@ -37,11 +39,18 @@ class _AddExpensesState extends State<AddExpenses> {
     };
 
     if (amountController.text == "" && descriptionController.text == "") {
+      scaffoldMessenger.showSnackBar(const SnackBar(
+          content: Text(
+        "Please fill all field.",
+        style: TextStyle(color: Colors.white, fontSize: 18),
+      )));
       return;
     } else {
       FkManageProviders.save['save-expenses-amount'](context,
           itemData: double.parse(amountController.text));
       FkManageProviders.save["add-expenses"](context, itemData: newItem);
+
+      Navigator.pop(context);
     }
   }
 
@@ -80,22 +89,48 @@ class _AddExpensesState extends State<AddExpenses> {
                 onSaved: (String? value) {},
               ),
               verticalSpaceMedium,
-              Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8.0),
-                    border: Border.all(
-                      width: 2.0,
-                      color: fkDefaultColor,
-                    )),
-                child: ConstrainedBox(
-                  constraints: BoxConstraints.tight(const Size(300, 50)),
-                  child: TextButton(
-                      onPressed: saveExpenses,
-                      child: const Icon(
-                        Icons.add,
-                      )),
-                ),
-              ),
+              Row(
+                children: [
+                  Container(
+                    width: 80,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.0),
+                        border: Border.all(
+                          width: 2.0,
+                          color: Colors.red,
+                        )),
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints.tight(const Size(300, 50)),
+                      child: TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: const Icon(
+                            Icons.cancel,
+                            color: Colors.red,
+                          )),
+                    ),
+                  ),
+                  horizontalSpaceSmall,
+                  Container(
+                    width: 200,
+                    decoration: BoxDecoration(
+                        color: fkDefaultColor,
+                        borderRadius: BorderRadius.circular(8.0),
+                        border: Border.all(
+                          width: 2.0,
+                          color: fkDefaultColor,
+                        )),
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints.tight(const Size(300, 50)),
+                      child: TextButton(
+                          onPressed: saveExpenses,
+                          child: const Icon(
+                            Icons.add,
+                            color: fkWhiteText,
+                          )),
+                    ),
+                  ),
+                ],
+              )
             ],
           ),
         ),

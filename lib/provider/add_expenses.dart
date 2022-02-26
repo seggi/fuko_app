@@ -23,4 +23,12 @@ class AddExpenses extends ChangeNotifier {
     _items.add(item);
     notifyListeners();
   }
+
+  void remove(Map itemData) {
+    _items
+        .removeWhere((item) => item['description'] == itemData["description"]);
+
+    _totalAmountList.remove(itemData['amount']);
+    notifyListeners();
+  }
 }

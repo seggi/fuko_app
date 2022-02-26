@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/widgets/popup_dialog.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
-class SaveExpenses extends StatelessWidget {
+class SaveExpenses extends StatefulWidget {
   const SaveExpenses({Key? key}) : super(key: key);
 
+  @override
+  State<SaveExpenses> createState() => _SaveExpensesState();
+}
+
+class _SaveExpensesState extends State<SaveExpenses> {
   @override
   Widget build(BuildContext context) {
     final List newItems = FkManageProviders.get(context)["add-expenses"];
@@ -63,23 +69,45 @@ class SaveExpenses extends StatelessWidget {
                     ? ListView.builder(
                         itemCount: newItems.length,
                         itemBuilder: (context, index) {
-                          return Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(newItems[index]['description']),
-                                  Text(newItems[index]['amount']),
+                          return Slidable(
+                              key: UniqueKey(),
+                              startActionPane: ActionPane(
+                                motion: const ScrollMotion(),
+                                dismissible: DismissiblePane(
+                                    key: UniqueKey(),
+                                    onDismissed: () {
+                                      FkManageProviders.save["remove-expenses"](
+                                          context,
+                                          itemData: {
+                                            "description": newItems[index]
+                                                ['description'],
+                                            "amount": double.parse(
+                                                newItems[index]['amount'])
+                                          });
+                                    }),
+                                children: const [
+                                  SlidableAction(
+                                    onPressed: doNothing,
+                                    backgroundColor: Color(0xFFFE4A49),
+                                    foregroundColor: Colors.white,
+                                    icon: Icons.delete,
+                                    label: 'Remove',
+                                  ),
                                 ],
                               ),
-                              verticalSpaceRegular,
-                            ],
-                          );
+                              child: ListTile(
+                                leading: const Icon(
+                                  Icons.note_add_outlined,
+                                  color: fkBlueText,
+                                ),
+                                title: Text(newItems[index]['description']),
+                                trailing: Text(
+                                    "${double.parse(newItems[index]['amount'])}"),
+                              ));
                         },
                       )
                     : const Center(
-                        child: Text("No Item saved yet!"),
+                        child: Text("The Is Empty"),
                       ),
               ),
               Container(
@@ -138,3 +166,5 @@ class SaveExpenses extends StatelessWidget {
     );
   }
 }
+
+doNothing(BuildContext context) {}
