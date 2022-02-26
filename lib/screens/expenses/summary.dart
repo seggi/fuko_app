@@ -3,14 +3,14 @@ import 'package:fuko_app/widgets/drop_down_box.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
-class SammaryScreen extends StatefulWidget {
-  const SammaryScreen({Key? key}) : super(key: key);
+class SummaryScreen extends StatefulWidget {
+  const SummaryScreen({Key? key}) : super(key: key);
 
   @override
-  _SammaryScreenState createState() => _SammaryScreenState();
+  _SummaryScreenState createState() => _SummaryScreenState();
 }
 
-class _SammaryScreenState extends State<SammaryScreen> {
+class _SummaryScreenState extends State<SummaryScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -65,7 +65,7 @@ class _SammaryScreenState extends State<SammaryScreen> {
             alignment: Alignment.bottomLeft,
             child: RichText(
               text: const TextSpan(
-                text: 'Sammary on Expenses for',
+                text: 'Summary on Expenses for',
                 style: TextStyle(fontSize: 16, color: fkGreyText),
                 children: <TextSpan>[
                   TextSpan(

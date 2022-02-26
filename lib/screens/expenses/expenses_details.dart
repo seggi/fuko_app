@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fuko_app/screens/content_box_widgets.dart';
 import 'package:fuko_app/screens/expenses/expense_sam_detials.dart';
-import 'package:fuko_app/screens/expenses/sammany.dart';
+import 'package:fuko_app/screens/expenses/summary.dart';
 
 class ExpenseOptionsScreen extends StatefulWidget {
   const ExpenseOptionsScreen({Key? key}) : super(key: key);
@@ -16,8 +16,8 @@ class _ExpenseOptionsScreenState extends State<ExpenseOptionsScreen> {
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
-    SammaryScreen(),
-    ExpensesSammaryDetails(),
+    SummaryScreen(),
+    ExpensesSummaryDetails()
   ];
 
   void _onItemTapped(int index) {
@@ -35,7 +35,7 @@ class _ExpenseOptionsScreenState extends State<ExpenseOptionsScreen> {
         bottomItemList: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.summarize),
-            label: 'Sammary',
+            label: 'Summary',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.all_out),

@@ -2,16 +2,11 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/core/user_preferences.dart';
-import 'package:fuko_app/provider/authentication.dart';
-import 'package:fuko_app/provider/navigator.dart';
 import 'package:fuko_app/utils/jwt_decode.dart';
 import 'package:fuko_app/widgets/input_email.dart';
-import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
-import 'package:provider/provider.dart';
 
 import 'package:fuko_app/core/user.dart';
 import 'package:fuko_app/utils/api.dart';

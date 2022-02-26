@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/widgets/popup_dialog.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
 class SaveExpenses extends StatelessWidget {
-  SaveExpenses({Key? key}) : super(key: key);
-
-  TextEditingController amountController = TextEditingController();
-  TextEditingController titleController = TextEditingController();
-  TextEditingController descriptionController = TextEditingController();
+  const SaveExpenses({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final List newItems = FkManageProviders.get(context)["add-expenses"];
+    final totalAmount = FkManageProviders.get(context)["get-added-expenses"];
+
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -48,7 +48,7 @@ class SaveExpenses extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: const [
                   Text(
-                    "Title",
+                    "Description",
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                   ),
                   Text(
@@ -59,50 +59,50 @@ class SaveExpenses extends StatelessWidget {
               ),
               verticalSpaceRegular,
               Expanded(
-                  child: Column(
-                children: [
-                  Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
-                          Text("Agua"),
-                          Text("2000"),
-                        ],
+                child: newItems.isNotEmpty
+                    ? ListView.builder(
+                        itemCount: newItems.length,
+                        itemBuilder: (context, index) {
+                          return Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(newItems[index]['description']),
+                                  Text(newItems[index]['amount']),
+                                ],
+                              ),
+                              verticalSpaceRegular,
+                            ],
+                          );
+                        },
+                      )
+                    : const Center(
+                        child: Text("No Item saved yet!"),
                       ),
-                      verticalSpaceRegular,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
-                          Text("Frijoles"),
-                          Text("8500"),
-                        ],
-                      ),
-                    ],
-                  ),
-                  verticalSpaceLarge,
-                  Container(
-                    padding: const EdgeInsets.only(top: 10),
-                    decoration: const BoxDecoration(
-                        border: Border(top: BorderSide(color: fkGreyText))),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
-                        Text(
-                          "Total",
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.w600),
-                        ),
-                        Text(
-                          "10500",
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.w600),
-                        ),
-                      ],
+              ),
+              Container(
+                padding: const EdgeInsets.only(top: 10),
+                decoration: const BoxDecoration(
+                    border: Border(top: BorderSide(color: fkGreyText))),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      "Total",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                     ),
-                  ),
-                ],
-              )),
+                    Text(
+                      totalAmount.toString(),
+                      style: const TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.w600),
+                    ),
+                  ],
+                ),
+              ),
+              verticalSpaceLarge,
               Container(
                 decoration: BoxDecoration(
                     color: fkDefaultColor,
@@ -110,7 +110,9 @@ class SaveExpenses extends StatelessWidget {
                 width: MediaQuery.of(context).size.width,
                 child: Center(
                     child: TextButton(
-                        onPressed: () => showDialogWithFields(context),
+                        onPressed: () => showDialogWithFields(
+                              context,
+                            ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: const [

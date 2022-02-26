@@ -33,7 +33,7 @@ class PagesGenerator {
         pageList.add(const MaterialPage(child: ExpenseOptionsScreen()));
         break;
       case '/save-expenses':
-        pageList.add(MaterialPage(child: SaveExpenses()));
+        pageList.add(const MaterialPage(child: SaveExpenses()));
         break;
       case '/budget':
         pageList.add(const MaterialPage(child: BudgetScreen()));
@@ -46,11 +46,11 @@ class PagesGenerator {
   static goTo(context,
       {flag = false, pathName, itemData = "notFound", provider = "notFound"}) {
     if (pathName != "") {
-      FkManageProviders.saves[provider](context, itemData: itemData);
+      FkManageProviders.save[provider](context, itemData: itemData);
       return Provider.of<NavigationPath>(context, listen: flag)
           .changeScreen(pathName);
     } else {
-      FkManageProviders.saves[provider](context, itemData: itemData);
+      FkManageProviders.save[provider](context, itemData: itemData);
       return Provider.of<NavigationPath>(context);
     }
   }
