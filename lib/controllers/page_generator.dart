@@ -32,11 +32,12 @@ class PagesGenerator {
       case '/expense-options':
         pageList.add(const MaterialPage(child: ExpenseOptionsScreen()));
         break;
-      case '/add-expense':
-        pageList.add(const MaterialPage(child: AddExpensesScreen()));
-        break;
       case '/save-expenses':
         pageList.add(const MaterialPage(child: SaveExpenses()));
+        break;
+      case '/budget':
+        pageList.add(const MaterialPage(child: BudgetScreen()));
+        break;
     }
     return pageList;
   }
@@ -45,11 +46,11 @@ class PagesGenerator {
   static goTo(context,
       {flag = false, pathName, itemData = "notFound", provider = "notFound"}) {
     if (pathName != "") {
-      FkManageProviders.saves[provider](context, itemData: itemData);
+      FkManageProviders.save[provider](context, itemData: itemData);
       return Provider.of<NavigationPath>(context, listen: flag)
           .changeScreen(pathName);
     } else {
-      FkManageProviders.saves[provider](context, itemData: itemData);
+      FkManageProviders.save[provider](context, itemData: itemData);
       return Provider.of<NavigationPath>(context);
     }
   }
@@ -62,6 +63,9 @@ class PagesGenerator {
     }
     if (popStatus == true) {
       PagesGenerator.goTo(context, pathName: "/expenses");
+    }
+    if (popStatus == true) {
+      PagesGenerator.goTo(context, pathName: "/budget");
     }
     return popStatus;
   }

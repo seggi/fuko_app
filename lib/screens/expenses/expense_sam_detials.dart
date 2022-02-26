@@ -4,14 +4,14 @@ import 'package:fuko_app/widgets/expanded_listtile.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
-class ExpensesSammaryDetails extends StatefulWidget {
-  const ExpensesSammaryDetails({Key? key}) : super(key: key);
+class ExpensesSummaryDetails extends StatefulWidget {
+  const ExpensesSummaryDetails({Key? key}) : super(key: key);
 
   @override
-  _ExpensesSammaryDetailsState createState() => _ExpensesSammaryDetailsState();
+  _ExpensesSummaryDetailsState createState() => _ExpensesSummaryDetailsState();
 }
 
-class _ExpensesSammaryDetailsState extends State<ExpensesSammaryDetails> {
+class _ExpensesSummaryDetailsState extends State<ExpensesSummaryDetails> {
   @override
   Widget build(BuildContext context) {
     return Container(

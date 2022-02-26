@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
@@ -9,69 +11,141 @@ void showDialogWithFields(context) {
       return AlertDialog(
         insetPadding: const EdgeInsets.all(10),
         title: const Text('Add Expenses'),
-        content: SizedBox(
-          // height: 350,
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                TextFormField(
-                  keyboardType: TextInputType.text,
-                  textInputAction: TextInputAction.next,
-                  decoration: InputDecoration(
-                      hintText: 'Amount',
-                      border: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                              color: fkInputFormBorderColor, width: 1.0),
-                          borderRadius: BorderRadius.circular(8.0))),
-                  onSaved: (String? value) {},
-                ),
-                verticalSpaceRegular,
-                TextFormField(
-                  keyboardType: TextInputType.text,
-                  textInputAction: TextInputAction.next,
-                  decoration: InputDecoration(
-                      hintText: 'Title',
-                      border: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                              color: fkInputFormBorderColor, width: 1.0),
-                          borderRadius: BorderRadius.circular(8.0))),
-                  onSaved: (String? value) {},
-                ),
-                verticalSpaceRegular,
-                TextFormField(
-                  keyboardType: TextInputType.multiline,
-                  maxLines: 3,
-                  decoration: InputDecoration(
-                      hintText: 'description',
-                      border: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                              color: fkInputFormBorderColor, width: 1.0),
-                          borderRadius: BorderRadius.circular(8.0))),
-                  onSaved: (String? value) {},
-                ),
-                verticalSpaceMedium,
-                Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.0),
-                      border: Border.all(
-                        width: 2.0,
-                        color: fkDefaultColor,
-                      )),
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints.tight(const Size(300, 50)),
-                    child: TextButton(
-                        onPressed: () {},
-                        child: const Icon(
-                          Icons.add,
+        content: AddExpenses(),
+      );
+    },
+  );
+}
+
+class AddExpenses extends StatefulWidget {
+  AddExpenses({Key? key}) : super(key: key);
+
+  @override
+  State<AddExpenses> createState() => _AddExpensesState();
+}
+
+class _AddExpensesState extends State<AddExpenses> {
+  final _formKey = GlobalKey();
+
+  TextEditingController amountController = TextEditingController();
+
+  TextEditingController descriptionController = TextEditingController();
+  late ScaffoldMessengerState scaffoldMessenger = ScaffoldMessenger.of(context);
+
+  saveExpenses() {
+    Map newItem = {
+      "amount": amountController.text,
+      "description": descriptionController.text
+    };
+
+    if (amountController.text == "" && descriptionController.text == "") {
+      scaffoldMessenger.showSnackBar(const SnackBar(
+          content: Text(
+        "Please fill all field.",
+        style: TextStyle(color: Colors.white, fontSize: 18),
+      )));
+      return;
+    } else {
+      FkManageProviders.save['save-expenses-amount'](context,
+          itemData: double.parse(amountController.text));
+      FkManageProviders.save["add-expenses"](context, itemData: newItem);
+
+      Navigator.pop(context);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      child: SingleChildScrollView(
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              TextFormField(
+                controller: amountController,
+                keyboardType: TextInputType.text,
+                textInputAction: TextInputAction.next,
+                decoration: InputDecoration(
+                    hintText: 'Amount',
+                    border: OutlineInputBorder(
+                        borderSide: const BorderSide(
+                            color: fkInputFormBorderColor, width: 1.0),
+                        borderRadius: BorderRadius.circular(8.0))),
+                onSaved: (String? value) {},
+              ),
+              verticalSpaceRegular,
+              TextFormField(
+                controller: descriptionController,
+                keyboardType: TextInputType.multiline,
+                maxLines: 3,
+                decoration: InputDecoration(
+                    hintText: 'Description',
+                    border: OutlineInputBorder(
+                        borderSide: const BorderSide(
+                            color: fkInputFormBorderColor, width: 1.0),
+                        borderRadius: BorderRadius.circular(8.0))),
+                onSaved: (String? value) {},
+              ),
+              verticalSpaceMedium,
+              Row(
+                children: [
+                  Container(
+                    width: 80,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.0),
+                        border: Border.all(
+                          width: 2.0,
+                          color: Colors.red,
                         )),
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints.tight(const Size(300, 50)),
+                      child: TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: const Icon(
+                            Icons.cancel,
+                            color: Colors.red,
+                          )),
+                    ),
                   ),
-                ),
-              ],
-            ),
+                  horizontalSpaceSmall,
+                  Container(
+                    width: 200,
+                    decoration: BoxDecoration(
+                        color: fkDefaultColor,
+                        borderRadius: BorderRadius.circular(8.0),
+                        border: Border.all(
+                          width: 2.0,
+                          color: fkDefaultColor,
+                        )),
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints.tight(const Size(300, 50)),
+                      child: TextButton(
+                          onPressed: saveExpenses,
+                          child: const Icon(
+                            Icons.add,
+                            color: fkWhiteText,
+                          )),
+                    ),
+                  ),
+                ],
+              )
+            ],
           ),
         ),
-      );
+      ),
+    );
+  }
+}
+
+void showDialogWithCircularProgress(context) {
+  showDialog(
+    context: context,
+    builder: (_) {
+      return const AlertDialog(
+          insetPadding: EdgeInsets.all(10),
+          content: SizedBox(child: Text("Please wait")));
     },
   );
 }
