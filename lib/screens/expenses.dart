@@ -4,6 +4,7 @@ import 'package:fuko_app/screens/content_box_widgets.dart';
 import 'package:fuko_app/widgets/other_widgets.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
+import 'package:go_router/go_router.dart';
 
 class ExpensesPage extends StatefulWidget {
   ExpensesPage({Key? key}) : super(key: key);
@@ -17,7 +18,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
   @override
   Widget build(BuildContext context) {
     return FkContentBoxWidgets.body(context, 'savings', fn: () {
-      PagesGenerator.goTo(context, pathName: "/save-expenses");
+      PagesGenerator.goTo(context, name: "save-expenses");
     }, itemList: [
       Padding(
           padding: const EdgeInsets.only(right: 20.0, left: 20.0),
@@ -25,8 +26,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               IconButton(
-                  onPressed: () =>
-                      PagesGenerator.goTo(context, pathName: "/home"),
+                  onPressed: () => PagesGenerator.goTo(context, pathName: "/"),
                   icon: const Icon(Icons.arrow_back_ios)),
               IconButton(
                   onPressed: () {}, icon: const Icon(Icons.notifications))
@@ -96,7 +96,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
                             color: fkWhiteText,
                           ),
                           onPressed: () => PagesGenerator.goTo(context,
-                              pathName: "/expense-options"),
+                              name: "expense-options"),
                         ),
                       ),
                     ),

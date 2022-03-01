@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 import 'package:fuko_app/controllers/page_generator.dart';
+import 'package:fuko_app/provider/authentication.dart';
 import 'package:fuko_app/provider/fk_providers.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:provider/provider.dart';
@@ -16,7 +17,7 @@ Future main() async {
   return runApp(
     MultiProvider(
       providers: FkProvider.multi(),
-      child: const FukoApp(),
+      child: FukoApp(),
     ),
   );
 }
@@ -26,24 +27,25 @@ void initialization(BuildContext context) async {
 }
 
 class FukoApp extends StatelessWidget {
-  const FukoApp({Key? key}) : super(key: key);
+  FukoApp({Key? key}) : super(key: key);
+  static const title = 'Fuko';
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Fuko',
-      theme: ThemeData(
-        primaryColor: fkDefaultColor,
-        colorScheme: ColorScheme.fromSwatch().copyWith(
-          primary: fkDefaultColor,
-          secondary: const Color(0XFFF9F9F9),
+  Widget build(BuildContext context) =>
+      ChangeNotifierProvider<AuthenticationData>.value(
+        value: loginInfo,
+        child: MaterialApp.router(
+          title: 'Fuko',
+          theme: ThemeData(
+            primaryColor: fkDefaultColor,
+            colorScheme: ColorScheme.fromSwatch().copyWith(
+              primary: fkDefaultColor,
+              secondary: const Color(0XFFF9F9F9),
+            ),
+          ),
+          debugShowCheckedModeBanner: false,
+          routeInformationParser: PagesGenerator.router.routeInformationParser,
+          routerDelegate: PagesGenerator.router.routerDelegate,
         ),
-      ),
-      debugShowCheckedModeBanner: false,
-      home: Navigator(
-          pages: PagesGenerator().getPage(context),
-          onPopPage: (route, result) =>
-              PagesGenerator.backTo(context, rt: route, res: result)),
-    );
-  }
+      );
 }

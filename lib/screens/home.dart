@@ -3,11 +3,14 @@ import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/core/user_preferences.dart';
 import 'package:badges/badges.dart';
+import 'package:fuko_app/provider/authentication.dart';
 
 import 'package:fuko_app/screens/content_box_widgets.dart';
 import 'package:fuko_app/widgets/other_widgets.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/src/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -49,7 +52,10 @@ class _HomePageState extends State<HomePage> {
                       IconButton(
                           onPressed: () {
                             UserPreferences.removeToken();
-                            PagesGenerator.goTo(context, pathName: "/login");
+                            context.read<AuthenticationData>().logout();
+
+                            context.go('/');
+                            // PagesGenerator.goTo(context, pathName: "/login");
                           },
                           icon: const Icon(Icons.logout))
                     ],
@@ -141,7 +147,9 @@ class _HomePageState extends State<HomePage> {
                 currency: "Rwf",
                 amount: "105,000",
                 titleTxt: "Expenses",
-                fn: () => PagesGenerator.goTo(context, pathName: "/expenses")),
+                fn: () => context.go('/expenses')
+                // fn: () => PagesGenerator.goTo(context, pathName: "/expenses")
+                ),
             verticalSpaceTiny,
             homeCard(
                 leadingIcon: Icons.savings,

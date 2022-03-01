@@ -16,6 +16,8 @@ class FkManageProviders {
         Provider.of<AddExpenses>(context, listen: false).remove(itemData),
     "remove-all-expenses": (context) =>
         Provider.of<AddExpenses>(context, listen: false).removeFromList(),
+    "login": (context, {itemData}) =>
+        Provider.of<AuthenticationData>(context, listen: false).login(itemData),
   };
 
   static get(context) {

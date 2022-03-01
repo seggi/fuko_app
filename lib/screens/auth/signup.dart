@@ -183,11 +183,12 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
           verticalSpaceRegular,
           authButton(
-              context: context,
-              title: 'Login',
-              btnColor: ftBtnColorBgSolid,
-              textColor: fkWhiteText,
-              fn: () => PagesGenerator.goTo(context, pathName: "/login")),
+            context: context,
+            title: 'Login',
+            btnColor: ftBtnColorBgSolid,
+            textColor: fkWhiteText,
+            fn: () => PagesGenerator.goTo(context, pathName: "/login"),
+          ),
           verticalSpaceRegular,
         ])
       ],
