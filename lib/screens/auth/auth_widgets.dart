@@ -5,17 +5,23 @@ class FkAuthWidgets {
   static Widget body(context, {List<Widget> itemList = const []}) {
     return Scaffold(
       body: SafeArea(
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height,
-          child: Column(
-            children: [...itemList],
+        child: NotificationListener<OverscrollIndicatorNotification>(
+          onNotification: (OverscrollIndicatorNotification? overscroll) {
+            overscroll!.disallowIndicator();
+            return true;
+          },
+          child: SingleChildScrollView(
+            physics: const ClampingScrollPhysics(),
+            child: Column(
+              children: [...itemList],
+            ),
           ),
         ),
       ),
     );
   }
 
-  static Widget topItemsBox(contex, {List<Widget> itemList = const []}) {
+  static Widget topItemsBox(context, {List<Widget> itemList = const []}) {
     return Column(
       children: [
         ...itemList,
@@ -50,21 +56,14 @@ class FkAuthWidgets {
 
   static Widget authInputFieldBox(context,
       {formKey, List<Widget> itemList = const []}) {
-    return Expanded(
-      child: NotificationListener<OverscrollIndicatorNotification>(
-        onNotification: (OverscrollIndicatorNotification? overscroll) {
-          overscroll!.disallowIndicator();
-          return true;
-        },
-        child: SingleChildScrollView(
-          physics: const ClampingScrollPhysics(),
-          padding: const EdgeInsets.all(20.0),
-          child: Form(
-            key: formKey,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            child: Column(
-              children: [...itemList],
-            ),
+    return SizedBox(
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Form(
+          key: formKey,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          child: Column(
+            children: [...itemList],
           ),
         ),
       ),

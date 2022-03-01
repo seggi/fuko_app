@@ -143,3 +143,26 @@ class FkAddDataFormBox {
     );
   }
 }
+
+// Scroll the entire screen
+
+class FkScrollViewWidgets {
+  static Widget body(context, {List<Widget> itemList = const []}) {
+    return Scaffold(
+      body: SafeArea(
+        child: NotificationListener<OverscrollIndicatorNotification>(
+          onNotification: (OverscrollIndicatorNotification? overscroll) {
+            overscroll!.disallowIndicator();
+            return true;
+          },
+          child: SingleChildScrollView(
+            physics: const ClampingScrollPhysics(),
+            child: Column(
+              children: [...itemList],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
