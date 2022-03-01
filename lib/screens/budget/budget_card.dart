@@ -8,7 +8,7 @@ class BudgetBoxCard extends StatelessWidget {
   final String endDate;
   final String startDate;
   final String title;
-  Function fn;
+  var fn;
 
   BudgetBoxCard(
       {Key? key,
@@ -77,7 +77,7 @@ class BudgetBoxCard extends StatelessWidget {
                         ],
                       ),
                       IconButton(
-                          onPressed: fn(),
+                          onPressed: fn,
                           icon: const Icon(
                             Icons.arrow_right_alt_rounded,
                             color: Colors.deepOrange,

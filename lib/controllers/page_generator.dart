@@ -1,4 +1,5 @@
 import 'package:fuko_app/provider/authentication.dart';
+import 'package:fuko_app/screens/budget/budget_details.dart';
 import 'package:fuko_app/screens/screen_list.dart';
 import 'package:go_router/go_router.dart';
 
@@ -42,9 +43,19 @@ class PagesGenerator {
             ],
           ),
           GoRoute(
-            path: 'budget',
-            builder: (context, state) => const BudgetScreen(),
-          ),
+              path: 'budget',
+              builder: (context, state) => const BudgetScreen(),
+              routes: [
+                GoRoute(
+                    name: 'budget-detail',
+                    path: 'budget-detail/:title',
+                    builder: (context, state) {
+                      final data = state.params['title']!;
+                      return BudgetDetails(
+                        title: data,
+                      );
+                    }),
+              ]),
         ],
         redirect: (state) {
           final loggedIn = loginInfo.loggedIn;

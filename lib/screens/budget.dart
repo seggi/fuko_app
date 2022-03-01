@@ -74,7 +74,8 @@ class _BudgetScreenState extends State<BudgetScreen> {
               title: "January Expenses",
               startDate: "12/02/2022",
               endDate: "12/03/2022",
-              fn: () {},
+              fn: () => PagesGenerator.goTo(context,
+                  name: "budget-detail", params: {"title": "January Expenses"}),
             ),
             verticalSpaceTiny,
             BudgetBoxCard(
@@ -83,7 +84,8 @@ class _BudgetScreenState extends State<BudgetScreen> {
               title: "Wedding",
               startDate: "1/05/2022",
               endDate: "12/06/2022",
-              fn: () {},
+              fn: () => PagesGenerator.goTo(context,
+                  name: "budget-detail", params: {"title": "Wedding"}),
             )
           ],
         ),
