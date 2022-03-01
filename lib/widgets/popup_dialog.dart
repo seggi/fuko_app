@@ -79,7 +79,7 @@ class _AddExpensesState extends State<AddExpenses> {
               TextFormField(
                 controller: descriptionController,
                 keyboardType: TextInputType.multiline,
-                maxLines: 3,
+                maxLines: 2,
                 decoration: InputDecoration(
                     hintText: 'Description',
                     border: OutlineInputBorder(
@@ -99,14 +99,12 @@ class _AddExpensesState extends State<AddExpenses> {
                           width: 2.0,
                           color: Colors.red,
                         )),
-                    child: ConstrainedBox(
-                      constraints: BoxConstraints.tight(const Size(300, 50)),
-                      child: TextButton(
-                          onPressed: () => Navigator.pop(context),
-                          child: const Icon(
-                            Icons.cancel,
-                            color: Colors.red,
-                          )),
+                    child: TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Icon(
+                        Icons.cancel,
+                        color: Colors.red,
+                      ),
                     ),
                   ),
                   horizontalSpaceSmall,
@@ -119,14 +117,12 @@ class _AddExpensesState extends State<AddExpenses> {
                           width: 2.0,
                           color: fkDefaultColor,
                         )),
-                    child: ConstrainedBox(
-                      constraints: BoxConstraints.tight(const Size(300, 50)),
-                      child: TextButton(
-                          onPressed: saveExpenses,
-                          child: const Icon(
-                            Icons.add,
-                            color: fkWhiteText,
-                          )),
+                    child: TextButton(
+                      onPressed: saveExpenses,
+                      child: const Icon(
+                        Icons.add,
+                        color: fkWhiteText,
+                      ),
                     ),
                   ),
                 ],
