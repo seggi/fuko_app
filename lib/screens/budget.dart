@@ -23,8 +23,7 @@ class _BudgetScreenState extends State<BudgetScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             IconButton(
-                onPressed: () =>
-                    PagesGenerator.goTo(context, pathName: "/home"),
+                onPressed: () => PagesGenerator.goTo(context, pathName: "/"),
                 icon: const Icon(Icons.arrow_back_ios)),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,

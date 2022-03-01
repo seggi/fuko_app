@@ -66,10 +66,11 @@ class _LoginPageState extends State<LoginPage> {
         fkJwtDecode(tokenKey: user.token);
 
         if (user.data['status'] == true) {
-          PagesGenerator.goTo(context,
-              pathName: "/home",
+          PagesGenerator.directTo(context,
+              pathName: "/",
               itemData: {"data": user.data},
-              provider: "auth");
+              provider: "auth",
+              token: user.token);
         } else {
           PagesGenerator.goTo(context,
               pathName: "/complete-profile",
@@ -121,7 +122,7 @@ class _LoginPageState extends State<LoginPage> {
             Align(
               alignment: Alignment.bottomLeft,
               child: Text(
-                "Welcom to Fuko App, first of all start by login.\nFor you to get access on what we reserved for you.",
+                "Welcome to Fuko App, first of all start by login.\nFor you to get access on what we reserved for you.",
                 style: TextStyle(
                     color: fkGreyText,
                     fontWeight: FontWeight.w300,

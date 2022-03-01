@@ -10,7 +10,8 @@ class FkProvider {
       ChangeNotifierProvider(
         create: (_) => AuthenticationData(),
       ),
-      ChangeNotifierProvider(create: (_) => AddExpenses())
+      ChangeNotifierProvider(create: (_) => AddExpenses()),
+      ChangeNotifierProvider(create: (_) => AuthenticationData())
     ];
   }
 }

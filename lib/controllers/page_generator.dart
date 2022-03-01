@@ -1,72 +1,86 @@
-import 'package:flutter/material.dart';
-import 'package:fuko_app/provider/navigator.dart';
+import 'package:fuko_app/provider/authentication.dart';
 import 'package:fuko_app/screens/screen_list.dart';
-import 'package:provider/provider.dart';
+import 'package:go_router/go_router.dart';
 
 import 'manage_provider.dart';
 
+final loginInfo = AuthenticationData();
+
 class PagesGenerator {
-  // List all pages
-  List<Page> getPage(context) {
-    List<Page> pageList = [];
-    NavigationPath navigation = Provider.of<NavigationPath>(context);
+  static final router = GoRouter(
+    routes: [
+      GoRoute(
+        path: '/login',
+        builder: (context, state) => const LoginPage(),
+      ),
+      GoRoute(
+        path: '/register',
+        builder: (context, state) => const SignUpPage(),
+      ),
+      GoRoute(
+        path: '/complete-profile',
+        builder: (context, state) => CompleteProfile(),
+      ),
+      GoRoute(
+        path: '/',
+        builder: (context, state) => const HomePage(),
+        routes: [
+          GoRoute(
+            path: 'expenses',
+            builder: (context, state) => ExpensesPage(),
+            routes: [
+              GoRoute(
+                name: "expense-options",
+                path: 'expense-options',
+                builder: (context, state) => const ExpenseOptionsScreen(),
+              ),
+              GoRoute(
+                name: "save-expenses",
+                path: 'save-expenses',
+                builder: (context, state) => const SaveExpenses(),
+              ),
+            ],
+          ),
+          GoRoute(
+            path: 'budget',
+            builder: (context, state) => const BudgetScreen(),
+          ),
+        ],
+        redirect: (state) {
+          final loggedIn = loginInfo.loggedIn;
+          final loggingIn = state.subloc == '/login';
+          if (!loggedIn) return loggingIn ? null : '/login';
+          if (loggingIn) return '/';
 
-    pageList.add(const MaterialPage(child: LoginPage()));
-
-    switch (navigation.screenPath) {
-      case '/home':
-        pageList.add(const MaterialPage(child: HomePage()));
-        break;
-      case '/login':
-        pageList.add(const MaterialPage(child: LoginPage()));
-        break;
-      case '/register':
-        pageList.add(const MaterialPage(child: SignUpPage()));
-        break;
-      case '/complete-profile':
-        pageList.add(MaterialPage(child: CompleteProfile()));
-        break;
-      case '/expenses':
-        pageList.add(MaterialPage(child: ExpensesPage()));
-        break;
-      case '/expense-options':
-        pageList.add(const MaterialPage(child: ExpenseOptionsScreen()));
-        break;
-      case '/save-expenses':
-        pageList.add(const MaterialPage(child: SaveExpenses()));
-        break;
-      case '/budget':
-        pageList.add(const MaterialPage(child: BudgetScreen()));
-        break;
-    }
-    return pageList;
-  }
+          return null;
+        },
+      ),
+    ],
+    refreshListenable: loginInfo,
+  );
 
   // Call this method to navigate to the next screen
   static goTo(context,
-      {flag = false, pathName, itemData = "notFound", provider = "notFound"}) {
-    if (pathName != "") {
+      {String? name,
+      String? pathName,
+      Map<String, String> params = const {},
+      Map<String, String> queryParams = const {},
+      Object? extra,
+      itemData = "notFound",
+      provider = "notFound"}) {
+    if (pathName != null) {
       FkManageProviders.save[provider](context, itemData: itemData);
-      return Provider.of<NavigationPath>(context, listen: flag)
-          .changeScreen(pathName);
+      return GoRouter.of(context).go(pathName, extra: extra);
     } else {
       FkManageProviders.save[provider](context, itemData: itemData);
-      return Provider.of<NavigationPath>(context);
+      return GoRouter.of(context).goNamed(name!,
+          params: params, queryParams: queryParams, extra: extra);
     }
   }
 
-  // This allow us navigate to the previous screen
-  static backTo(context, {rt, res}) {
-    bool popStatus = rt.didPop(res);
-    if (popStatus == true) {
-      PagesGenerator.goTo(context, pathName: "/");
-    }
-    if (popStatus == true) {
-      PagesGenerator.goTo(context, pathName: "/expenses");
-    }
-    if (popStatus == true) {
-      PagesGenerator.goTo(context, pathName: "/budget");
-    }
-    return popStatus;
+  static directTo(context, {String? pathName, itemData, provider, token}) {
+    FkManageProviders.save["login"](context, itemData: token);
+    FkManageProviders.save[provider](context, itemData: itemData);
+    return GoRouter.of(context).go(pathName!);
   }
 }

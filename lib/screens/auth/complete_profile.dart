@@ -80,7 +80,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
           ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text("${jsonResponse['message']}")));
           PagesGenerator.goTo(context,
-              pathName: "/home", itemData: userData["data"], provider: "auth");
+              pathName: "/", itemData: userData["data"], provider: "auth");
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text("${jsonResponse['message']}")));
@@ -93,7 +93,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
               SnackBar(content: Text("${jsonResponse['message']}")));
 
           PagesGenerator.goTo(context,
-              pathName: "/home", itemData: userData["data"], provider: "auth");
+              pathName: "/", itemData: userData["data"], provider: "auth");
         } else {
           setState(() {
             isLoading = false;
@@ -132,7 +132,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
             const Align(
               alignment: Alignment.bottomLeft,
               child: Text(
-                "Welocome to FUKO, Please fill these fields bofre you start",
+                "Welcome to FUKO, Please fill these fields before you start",
                 style: TextStyle(
                     color: fkGreyText,
                     fontWeight: FontWeight.w300,
