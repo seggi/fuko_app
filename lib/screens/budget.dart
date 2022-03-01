@@ -5,6 +5,8 @@ import 'package:fuko_app/screens/content_box_widgets.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
+import 'budget/budget_card.dart';
+
 class BudgetScreen extends StatefulWidget {
   const BudgetScreen({Key? key}) : super(key: key);
 
@@ -61,7 +63,31 @@ class _BudgetScreenState extends State<BudgetScreen> {
           ),
         ),
         verticalSpaceTiny,
-      ])
+      ]),
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        child: Column(
+          children: [
+            BudgetBoxCard(
+              amount: "27,000",
+              currency: "Rwf",
+              title: "January Expenses",
+              startDate: "12/02/2022",
+              endDate: "12/03/2022",
+              fn: () {},
+            ),
+            verticalSpaceTiny,
+            BudgetBoxCard(
+              amount: "35,000",
+              currency: "Rwf",
+              title: "Wedding",
+              startDate: "1/05/2022",
+              endDate: "12/06/2022",
+              fn: () {},
+            )
+          ],
+        ),
+      )
     ]);
   }
 }
