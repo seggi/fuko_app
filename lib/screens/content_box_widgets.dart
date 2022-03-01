@@ -47,7 +47,7 @@ class FkContentBoxWidgets {
     }
   }
 
-  static Widget topItemsBox(contex, {List<Widget> itemList = const []}) {
+  static Widget topItemsBox(context, {List<Widget> itemList = const []}) {
     return Column(
       children: [
         ...itemList,
@@ -67,7 +67,7 @@ class FkContentBoxWidgets {
     );
   }
 
-  static buttonsItemsBox(contex, {List<Widget> itemList = const []}) {
+  static buttonsItemsBox(context, {List<Widget> itemList = const []}) {
     return Expanded(
       child: NotificationListener<OverscrollIndicatorNotification>(
         onNotification: (OverscrollIndicatorNotification? overscroll) {
@@ -136,6 +136,29 @@ class FkAddDataFormBox {
               child: Column(
                 children: [...itemList],
               ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// Scroll the entire screen
+
+class FkScrollViewWidgets {
+  static Widget body(context, {List<Widget> itemList = const []}) {
+    return Scaffold(
+      body: SafeArea(
+        child: NotificationListener<OverscrollIndicatorNotification>(
+          onNotification: (OverscrollIndicatorNotification? overscroll) {
+            overscroll!.disallowIndicator();
+            return true;
+          },
+          child: SingleChildScrollView(
+            physics: const ClampingScrollPhysics(),
+            child: Column(
+              children: [...itemList],
             ),
           ),
         ),

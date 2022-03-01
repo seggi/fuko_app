@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
@@ -8,9 +7,10 @@ void showDialogWithFields(context) {
   showDialog(
     context: context,
     builder: (_) {
-      return AlertDialog(
-        insetPadding: const EdgeInsets.all(10),
-        title: const Text('Add Expenses'),
+      return const AlertDialog(
+        insetPadding: EdgeInsets.all(10.0),
+        title: Text('Add Expenses'),
+        contentPadding: EdgeInsets.all(10.0),
         content: AddExpenses(),
       );
     },
@@ -18,7 +18,7 @@ void showDialogWithFields(context) {
 }
 
 class AddExpenses extends StatefulWidget {
-  AddExpenses({Key? key}) : super(key: key);
+  const AddExpenses({Key? key}) : super(key: key);
 
   @override
   State<AddExpenses> createState() => _AddExpensesState();
@@ -79,7 +79,7 @@ class _AddExpensesState extends State<AddExpenses> {
               TextFormField(
                 controller: descriptionController,
                 keyboardType: TextInputType.multiline,
-                maxLines: 3,
+                maxLines: 2,
                 decoration: InputDecoration(
                     hintText: 'Description',
                     border: OutlineInputBorder(
@@ -99,14 +99,12 @@ class _AddExpensesState extends State<AddExpenses> {
                           width: 2.0,
                           color: Colors.red,
                         )),
-                    child: ConstrainedBox(
-                      constraints: BoxConstraints.tight(const Size(300, 50)),
-                      child: TextButton(
-                          onPressed: () => Navigator.pop(context),
-                          child: const Icon(
-                            Icons.cancel,
-                            color: Colors.red,
-                          )),
+                    child: TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Icon(
+                        Icons.cancel,
+                        color: Colors.red,
+                      ),
                     ),
                   ),
                   horizontalSpaceSmall,
@@ -119,14 +117,12 @@ class _AddExpensesState extends State<AddExpenses> {
                           width: 2.0,
                           color: fkDefaultColor,
                         )),
-                    child: ConstrainedBox(
-                      constraints: BoxConstraints.tight(const Size(300, 50)),
-                      child: TextButton(
-                          onPressed: saveExpenses,
-                          child: const Icon(
-                            Icons.add,
-                            color: fkWhiteText,
-                          )),
+                    child: TextButton(
+                      onPressed: saveExpenses,
+                      child: const Icon(
+                        Icons.add,
+                        color: fkWhiteText,
+                      ),
                     ),
                   ),
                 ],
@@ -144,7 +140,7 @@ void showDialogWithCircularProgress(context) {
     context: context,
     builder: (_) {
       return const AlertDialog(
-          insetPadding: EdgeInsets.all(10),
+          insetPadding: EdgeInsets.all(10.0),
           content: SizedBox(child: Text("Please wait")));
     },
   );
