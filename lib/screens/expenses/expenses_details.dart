@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fuko_app/screens/content_box_widgets.dart';
-import 'package:fuko_app/screens/expenses/expense_sam_detials.dart';
+import 'package:fuko_app/screens/expenses/expense_sam_details.dart';
 import 'package:fuko_app/screens/expenses/summary.dart';
 
 class ExpenseOptionsScreen extends StatefulWidget {
