@@ -1,10 +1,15 @@
 import 'dart:async';
+import 'dart:convert';
+import 'package:fuko_app/core/notification.dart';
+import 'package:fuko_app/core/user_preferences.dart';
+import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/screens/content_box_widgets.dart';
+import 'package:fuko_app/utils/api.dart';
 import 'package:fuko_app/widgets/popup_dialog.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
@@ -20,6 +25,40 @@ class _SaveExpensesState extends State<SaveExpenses> {
   removeAllData() {
     // showDialogWithCircularProgress(context);
     FkManageProviders.save["remove-all-expenses"](context);
+  }
+
+  late ScaffoldMessengerState scaffoldMessenger = ScaffoldMessenger.of(context);
+
+  Future saveExpenses(List expenseData) async {
+    var token = await UserPreferences.getToken();
+    var userId = await UserPreferences.getUserId();
+    final response = await http.post(
+        Uri.parse(Network.addExpenses + "/$userId"),
+        headers: Network.authorizedHeaders(token: token),
+        body: jsonEncode({"data": expenseData}));
+
+    if (response.statusCode == 201) {
+      BackendFeedBack backendFeedBack =
+          BackendFeedBack.fromJson(jsonDecode(response.body));
+
+      if (backendFeedBack.code == "success") {
+        PagesGenerator.directTo(context, pathName: "/expenses");
+      } else {
+        scaffoldMessenger.showSnackBar(const SnackBar(
+          content: Text(
+            "Failed to save data",
+            style: TextStyle(color: Colors.red),
+          ),
+        ));
+      }
+    } else {
+      scaffoldMessenger.showSnackBar(const SnackBar(
+        content: Text(
+          "Error from save",
+          style: TextStyle(color: Colors.red),
+        ),
+      ));
+    }
   }
 
   @override
@@ -51,7 +90,7 @@ class _SaveExpensesState extends State<SaveExpenses> {
                             size: 28,
                           )),
                       IconButton(
-                          onPressed: () {},
+                          onPressed: () => saveExpenses(newItems),
                           icon: const Icon(
                             Icons.save,
                             color: fkBlueText,

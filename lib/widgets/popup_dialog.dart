@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fuko_app/controllers/manage_provider.dart';
+import 'package:fuko_app/core/user_preferences.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
@@ -32,10 +33,13 @@ class _AddExpensesState extends State<AddExpenses> {
   TextEditingController descriptionController = TextEditingController();
   late ScaffoldMessengerState scaffoldMessenger = ScaffoldMessenger.of(context);
 
-  saveExpenses() {
+  Future saveExpenses() async {
+    var userId = await UserPreferences.getUserId();
     Map newItem = {
       "amount": amountController.text,
-      "description": descriptionController.text
+      "description": descriptionController.text,
+      "user_id": userId,
+      "title": ""
     };
 
     if (amountController.text == "" && descriptionController.text == "") {

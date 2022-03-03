@@ -10,4 +10,5 @@ class Network {
         'Authorization': "Bearer $token",
       };
   static String globalAmount = liveUrl! + "/account/global-amount";
+  static String addExpenses = liveUrl! + "/account/add-expenses";
 }
