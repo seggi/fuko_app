@@ -25,6 +25,7 @@ class FkManageProviders {
       "auth": Provider.of<AuthenticationData>(context).getUserData,
       "add-expenses": Provider.of<AddExpenses>(context).getNewItem,
       "get-added-expenses": Provider.of<AddExpenses>(context).getTotalAmount,
+      "get-token": Provider.of<AuthenticationData>(context).userToken,
     };
   }
 }

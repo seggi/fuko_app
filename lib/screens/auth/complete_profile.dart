@@ -13,7 +13,7 @@ import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
 class CompleteProfile extends StatefulWidget {
-  CompleteProfile({
+  const CompleteProfile({
     Key? key,
   }) : super(key: key);
 
