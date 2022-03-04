@@ -213,7 +213,10 @@ class _HomePageState extends State<HomePage> {
                 Container(
                     padding: const EdgeInsets.all(20.0),
                     height: MediaQuery.of(context).size.height / 2,
-                    child: const Center(child: CircularProgressIndicator()))
+                    child: const Center(
+                        child: CircularProgressIndicator(
+                      strokeWidth: 2.0,
+                    )))
               ]);
             }));
   }

@@ -34,6 +34,7 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController emailController = TextEditingController();
 
   Future login() async {
+    FocusManager.instance.primaryFocus?.unfocus();
     late ScaffoldMessengerState scaffoldMessenger =
         ScaffoldMessenger.of(context);
     setState(() {
@@ -153,7 +154,9 @@ class _LoginPageState extends State<LoginPage> {
               : const SizedBox(
                   height: 20,
                   width: 20,
-                  child: CircularProgressIndicator(),
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2.0,
+                  ),
                 ),
           verticalSpaceRegular,
           authButton(

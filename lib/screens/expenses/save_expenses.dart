@@ -22,42 +22,59 @@ class SaveExpenses extends StatefulWidget {
 }
 
 class _SaveExpensesState extends State<SaveExpenses> {
-  removeAllData() {
-    // showDialogWithCircularProgress(context);
-    FkManageProviders.save["remove-all-expenses"](context);
-  }
-
   late ScaffoldMessengerState scaffoldMessenger = ScaffoldMessenger.of(context);
+  var clearWidgetList = FkManageProviders.save["remove-all-expenses"];
+
+  void _removeAllData(BuildContext context) async {
+    waitingOption(context, title: "Cleaning...");
+    await Future.delayed(const Duration(seconds: 3));
+    clearWidgetList(context);
+    Navigator.of(context).pop();
+  }
 
   Future saveExpenses(List expenseData) async {
     var token = await UserPreferences.getToken();
     var userId = await UserPreferences.getUserId();
-    final response = await http.post(
-        Uri.parse(Network.addExpenses + "/$userId"),
-        headers: Network.authorizedHeaders(token: token),
-        body: jsonEncode({"data": expenseData}));
 
-    if (response.statusCode == 201) {
-      BackendFeedBack backendFeedBack =
-          BackendFeedBack.fromJson(jsonDecode(response.body));
-
-      if (backendFeedBack.code == "success") {
-        PagesGenerator.directTo(context, pathName: "/expenses");
-      } else {
-        scaffoldMessenger.showSnackBar(const SnackBar(
-          content: Text(
-            "Failed to save data",
-            style: TextStyle(color: Colors.red),
-          ),
-        ));
-      }
-    } else {
+    if (expenseData.isEmpty) {
       scaffoldMessenger.showSnackBar(const SnackBar(
         content: Text(
-          "Error from save",
+          "No Expenses to save!",
           style: TextStyle(color: Colors.red),
         ),
       ));
+    } else {
+      waitingOption(context, title: "Please Wait...");
+      final response = await http.post(
+          Uri.parse(Network.addExpenses + "/$userId"),
+          headers: Network.authorizedHeaders(token: token),
+          body: jsonEncode({"data": expenseData}));
+
+      if (response.statusCode == 200) {
+        BackendFeedBack backendFeedBack =
+            BackendFeedBack.fromJson(jsonDecode(response.body));
+
+        if (backendFeedBack.code == "success") {
+          PagesGenerator.goTo(context, pathName: "/expenses");
+          clearWidgetList(context);
+        } else {
+          scaffoldMessenger.showSnackBar(const SnackBar(
+            content: Text(
+              "Failed to save data",
+              style: TextStyle(color: Colors.red),
+            ),
+          ));
+          Navigator.of(context).pop();
+        }
+      } else {
+        scaffoldMessenger.showSnackBar(const SnackBar(
+          content: Text(
+            "Error from save",
+            style: TextStyle(color: Colors.red),
+          ),
+        ));
+        Navigator.of(context).pop();
+      }
     }
   }
 
@@ -83,7 +100,7 @@ class _SaveExpensesState extends State<SaveExpenses> {
                   Row(
                     children: [
                       IconButton(
-                          onPressed: removeAllData,
+                          onPressed: () => _removeAllData(context),
                           icon: const Icon(
                             Icons.delete,
                             color: Colors.red,

@@ -20,7 +20,7 @@ class PagesGenerator {
       ),
       GoRoute(
         path: '/complete-profile',
-        builder: (context, state) => CompleteProfile(),
+        builder: (context, state) => const CompleteProfile(),
       ),
       GoRoute(
         path: '/',

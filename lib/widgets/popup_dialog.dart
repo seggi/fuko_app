@@ -6,6 +6,7 @@ import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
 void showDialogWithFields(context) {
   showDialog(
+    barrierDismissible: false,
     context: context,
     builder: (_) {
       return const AlertDialog(
@@ -34,6 +35,7 @@ class _AddExpensesState extends State<AddExpenses> {
   late ScaffoldMessengerState scaffoldMessenger = ScaffoldMessenger.of(context);
 
   Future saveExpenses() async {
+    FocusManager.instance.primaryFocus?.unfocus();
     var userId = await UserPreferences.getUserId();
     Map newItem = {
       "amount": amountController.text,
@@ -42,11 +44,11 @@ class _AddExpensesState extends State<AddExpenses> {
       "title": ""
     };
 
-    if (amountController.text == "" && descriptionController.text == "") {
+    if (amountController.text == "" || descriptionController.text == "") {
       scaffoldMessenger.showSnackBar(const SnackBar(
           content: Text(
-        "Please fill all field.",
-        style: TextStyle(color: Colors.white, fontSize: 18),
+        "Please fill all fields.",
+        style: TextStyle(color: Colors.white, fontSize: 16),
       )));
       return;
     } else {
@@ -69,7 +71,8 @@ class _AddExpensesState extends State<AddExpenses> {
             children: [
               TextFormField(
                 controller: amountController,
-                keyboardType: TextInputType.text,
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
                 textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
                     hintText: 'Amount',
@@ -148,4 +151,29 @@ void showDialogWithCircularProgress(context) {
           content: SizedBox(child: Text("Please wait")));
     },
   );
+}
+
+Future<void> waitingOption(context, {String? title}) async {
+  showDialog<String>(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+              content: SizedBox(
+            height: 20,
+            child: Center(
+                child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2.0,
+                  ),
+                ),
+                horizontalSpaceRegular,
+                Text(title!),
+              ],
+            )),
+          )));
 }
