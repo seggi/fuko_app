@@ -69,7 +69,7 @@ class _SaveExpensesState extends State<SaveExpenses> {
       } else {
         scaffoldMessenger.showSnackBar(const SnackBar(
           content: Text(
-            "Error from save",
+            "Error from server",
             style: TextStyle(color: Colors.red),
           ),
         ));

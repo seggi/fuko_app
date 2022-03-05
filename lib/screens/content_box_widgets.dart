@@ -37,7 +37,6 @@ class FkContentBoxWidgets {
           : Scaffold(
               body: SafeArea(
                 child: Expanded(
-                  // height: MediaQuery.of(context).size.height,
                   child: Column(
                     children: [...itemList],
                   ),
@@ -57,7 +56,7 @@ class FkContentBoxWidgets {
 
   Widget initialItems({List<Widget> itemList = const []}) {
     return Container(
-      padding: const EdgeInsets.all(20.0),
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Align(
           alignment: Alignment.bottomLeft,
           child: Column(

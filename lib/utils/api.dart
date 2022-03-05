@@ -11,4 +11,6 @@ class Network {
       };
   static String globalAmount = liveUrl! + "/account/global-amount";
   static String addExpenses = liveUrl! + "/account/add-expenses";
+  static String getExpenses = liveUrl! + "/account/expenses";
+  static String getExpensesByDate = liveUrl! + "/account/expenses-by-date";
 }
