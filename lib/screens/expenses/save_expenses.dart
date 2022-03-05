@@ -1,10 +1,15 @@
 import 'dart:async';
+import 'dart:convert';
+import 'package:fuko_app/core/notification.dart';
+import 'package:fuko_app/core/user_preferences.dart';
+import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/screens/content_box_widgets.dart';
+import 'package:fuko_app/utils/api.dart';
 import 'package:fuko_app/widgets/popup_dialog.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
@@ -17,9 +22,60 @@ class SaveExpenses extends StatefulWidget {
 }
 
 class _SaveExpensesState extends State<SaveExpenses> {
-  removeAllData() {
-    // showDialogWithCircularProgress(context);
-    FkManageProviders.save["remove-all-expenses"](context);
+  late ScaffoldMessengerState scaffoldMessenger = ScaffoldMessenger.of(context);
+  var clearWidgetList = FkManageProviders.save["remove-all-expenses"];
+
+  void _removeAllData(BuildContext context) async {
+    waitingOption(context, title: "Cleaning...");
+    await Future.delayed(const Duration(seconds: 3));
+    clearWidgetList(context);
+    Navigator.of(context).pop();
+  }
+
+  Future saveExpenses(List expenseData) async {
+    var token = await UserPreferences.getToken();
+    var userId = await UserPreferences.getUserId();
+
+    if (expenseData.isEmpty) {
+      scaffoldMessenger.showSnackBar(const SnackBar(
+        content: Text(
+          "No Expenses to save!",
+          style: TextStyle(color: Colors.red),
+        ),
+      ));
+    } else {
+      waitingOption(context, title: "Please Wait...");
+      final response = await http.post(
+          Uri.parse(Network.addExpenses + "/$userId"),
+          headers: Network.authorizedHeaders(token: token),
+          body: jsonEncode({"data": expenseData}));
+
+      if (response.statusCode == 200) {
+        BackendFeedBack backendFeedBack =
+            BackendFeedBack.fromJson(jsonDecode(response.body));
+
+        if (backendFeedBack.code == "success") {
+          PagesGenerator.goTo(context, pathName: "/expenses");
+          clearWidgetList(context);
+        } else {
+          scaffoldMessenger.showSnackBar(const SnackBar(
+            content: Text(
+              "Failed to save data",
+              style: TextStyle(color: Colors.red),
+            ),
+          ));
+          Navigator.of(context).pop();
+        }
+      } else {
+        scaffoldMessenger.showSnackBar(const SnackBar(
+          content: Text(
+            "Error from server",
+            style: TextStyle(color: Colors.red),
+          ),
+        ));
+        Navigator.of(context).pop();
+      }
+    }
   }
 
   @override
@@ -44,14 +100,14 @@ class _SaveExpensesState extends State<SaveExpenses> {
                   Row(
                     children: [
                       IconButton(
-                          onPressed: removeAllData,
+                          onPressed: () => _removeAllData(context),
                           icon: const Icon(
                             Icons.delete,
                             color: Colors.red,
                             size: 28,
                           )),
                       IconButton(
-                          onPressed: () {},
+                          onPressed: () => saveExpenses(newItems),
                           icon: const Icon(
                             Icons.save,
                             color: fkBlueText,

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:fuko_app/controllers/manage_provider.dart';
+import 'package:fuko_app/core/user_preferences.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
 void showDialogWithFields(context) {
   showDialog(
+    barrierDismissible: false,
     context: context,
     builder: (_) {
       return const AlertDialog(
@@ -32,17 +34,21 @@ class _AddExpensesState extends State<AddExpenses> {
   TextEditingController descriptionController = TextEditingController();
   late ScaffoldMessengerState scaffoldMessenger = ScaffoldMessenger.of(context);
 
-  saveExpenses() {
+  Future saveExpenses() async {
+    FocusManager.instance.primaryFocus?.unfocus();
+    var userId = await UserPreferences.getUserId();
     Map newItem = {
       "amount": amountController.text,
-      "description": descriptionController.text
+      "description": descriptionController.text,
+      "user_id": userId,
+      "title": ""
     };
 
-    if (amountController.text == "" && descriptionController.text == "") {
+    if (amountController.text == "" || descriptionController.text == "") {
       scaffoldMessenger.showSnackBar(const SnackBar(
           content: Text(
-        "Please fill all field.",
-        style: TextStyle(color: Colors.white, fontSize: 18),
+        "Please fill all fields.",
+        style: TextStyle(color: Colors.white, fontSize: 16),
       )));
       return;
     } else {
@@ -65,7 +71,8 @@ class _AddExpensesState extends State<AddExpenses> {
             children: [
               TextFormField(
                 controller: amountController,
-                keyboardType: TextInputType.text,
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
                 textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
                     hintText: 'Amount',
@@ -144,4 +151,29 @@ void showDialogWithCircularProgress(context) {
           content: SizedBox(child: Text("Please wait")));
     },
   );
+}
+
+Future<void> waitingOption(context, {String? title}) async {
+  showDialog<String>(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+              content: SizedBox(
+            height: 20,
+            child: Center(
+                child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2.0,
+                  ),
+                ),
+                horizontalSpaceRegular,
+                Text(title!),
+              ],
+            )),
+          )));
 }
