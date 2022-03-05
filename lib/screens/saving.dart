@@ -1,40 +1,38 @@
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
+
 import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/core/default_data.dart';
-import 'package:fuko_app/core/expenses.dart';
-import 'package:fuko_app/core/user_preferences.dart';
+import 'package:fuko_app/core/saving.dart';
 import 'package:fuko_app/screens/content_box_widgets.dart';
 import 'package:fuko_app/widgets/other_widgets.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
-import 'package:intl/intl.dart';
 
-class ExpensesPage extends StatefulWidget {
-  const ExpensesPage({Key? key}) : super(key: key);
+class SavingPage extends StatefulWidget {
+  const SavingPage({Key? key}) : super(key: key);
 
   @override
-  _ExpensesPageState createState() => _ExpensesPageState();
+  _SavingPageState createState() => _SavingPageState();
 }
 
-class _ExpensesPageState extends State<ExpensesPage> {
+class _SavingPageState extends State<SavingPage> {
   FkContentBoxWidgets fkContentBoxWidgets = FkContentBoxWidgets();
 
-// RetrieveExpensesTotal
-
-  late Future<RetrieveExpensesTotal> retrieveExpensesTotal;
-  late Future<List<RetrieveExpenses>> retrieveExpenses;
+  late Future<RetrieveSavingTotal> retrieveSavingTotal;
+  late Future<List<RetrieveSaving>> retrieveSaving;
 
   @override
   void initState() {
     super.initState();
-    retrieveExpensesTotal = fetchRetrieveExpensesTotal();
-    retrieveExpenses = fetchRetrieveExpenses();
+    retrieveSavingTotal = fetchRetrieveSavingTotal();
+    retrieveSaving = fetchRetrieveSaving();
   }
 
   @override
   Widget build(BuildContext context) {
     return FkContentBoxWidgets.body(context, 'savings', fn: () {
-      PagesGenerator.goTo(context, name: "save-expenses");
+      PagesGenerator.goTo(context, name: "register-saving");
     }, itemList: [
       Padding(
           padding: const EdgeInsets.only(right: 20.0, left: 20.0),
@@ -43,7 +41,6 @@ class _ExpensesPageState extends State<ExpensesPage> {
             children: [
               IconButton(
                   onPressed: () async {
-                    var token = await UserPreferences.getToken();
                     PagesGenerator.goTo(context, pathName: "/");
                   },
                   icon: const Icon(Icons.arrow_back_ios)),
@@ -55,7 +52,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
         const Align(
           alignment: Alignment.bottomLeft,
           child: Text(
-            "Expenses",
+            "Saving",
             style: TextStyle(
                 fontSize: 28, fontWeight: FontWeight.w600, color: fkBlackText),
           ),
@@ -63,7 +60,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
         const Align(
           alignment: Alignment.bottomLeft,
           child: Text(
-            "Total Expenses Amount in the current month",
+            "Total Saving Amount in the current month",
             style: TextStyle(
                 color: fkGreyText, fontWeight: FontWeight.w400, fontSize: 16),
           ),
@@ -79,8 +76,8 @@ class _ExpensesPageState extends State<ExpensesPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                FutureBuilder<RetrieveExpensesTotal>(
-                  future: retrieveExpensesTotal,
+                FutureBuilder<RetrieveSavingTotal>(
+                  future: retrieveSavingTotal,
                   builder: (
                     BuildContext context,
                     AsyncSnapshot snapshot,
@@ -146,8 +143,9 @@ class _ExpensesPageState extends State<ExpensesPage> {
                           size: 30,
                           color: fkWhiteText,
                         ),
-                        onPressed: () => PagesGenerator.goTo(context,
-                            name: "expense-options"),
+                        onPressed: () {},
+                        // onPressed: () => PagesGenerator.goTo(context,
+                        //     name: "saving-options"),
                       ),
                     ),
                   ),
@@ -160,7 +158,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
         const Align(
           alignment: Alignment.bottomLeft,
           child: Text(
-            "Total amounts for this Febuary",
+            "Total amounts for this February",
             style: TextStyle(
                 color: fkBlackText, fontWeight: FontWeight.w400, fontSize: 14),
           ),
@@ -168,8 +166,8 @@ class _ExpensesPageState extends State<ExpensesPage> {
       ]),
       Expanded(
         child: FutureBuilder(
-          future: retrieveExpenses,
-          builder: (context, AsyncSnapshot<List<RetrieveExpenses>> snapshot) {
+          future: retrieveSaving,
+          builder: (context, AsyncSnapshot<List<RetrieveSaving>> snapshot) {
             if (snapshot.hasData) {
               return SizedBox(
                 child: NotificationListener<OverscrollIndicatorNotification>(
@@ -193,9 +191,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
                             leadingText: "${dateTime.day}",
                             currency: "Rwf",
                             amount: snapshot.data?[index].amount,
-                            titleTxt: snapshot.data?[index].title != ""
-                                ? "${snapshot.data?[index].title}"
-                                : "${snapshot.data?[index].description}",
+                            titleTxt: "${snapshot.data?[index].description}",
                             bdTxt: snapshot.data?[index].description,
                             fn: () {}),
                       );

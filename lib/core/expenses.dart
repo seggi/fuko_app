@@ -54,16 +54,14 @@ class RetrieveExpenses {
 
 class RetrieveExpensesTotal {
   final String totalAmount;
-  // final Map expenseList;
-  RetrieveExpensesTotal({
-    required this.totalAmount,
-    // required this.expenseList
-  });
+  final String todayDate;
+
+  RetrieveExpensesTotal({required this.totalAmount, required this.todayDate});
 
   factory RetrieveExpensesTotal.fromJson(Map<String, dynamic> json) {
     return RetrieveExpensesTotal(
       totalAmount: json["total_amount"].toString(),
-      // expenseList: json['expenses_list']
+      todayDate: json["today_date"].toString(),
     );
   }
 }
@@ -73,7 +71,8 @@ Future<RetrieveExpensesTotal> fetchRetrieveExpensesTotal() async {
   var token = await UserPreferences.getToken();
   var userId = await UserPreferences.getUserId();
 
-  final response = await http.get(Uri.parse(Network.getExpenses + "/$userId"),
+  final response = await http.get(
+      Uri.parse(Network.getExpensesByDate + "/$userId"),
       headers: Network.authorizedHeaders(token: token));
 
   if (response.statusCode == 200) {

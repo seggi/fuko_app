@@ -1,30 +1,30 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:fuko_app/core/notification.dart';
-import 'package:fuko_app/core/user_preferences.dart';
-import 'package:fuko_app/widgets/popup/alert_dialog.dart';
-import 'package:http/http.dart' as http;
-
-import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:fuko_app/widgets/popup/alert_dialog.dart';
+import 'package:fuko_app/widgets/popup/popup_dialog_4_saving.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter/material.dart';
+
 import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
+import 'package:fuko_app/core/notification.dart';
+import 'package:fuko_app/core/user_preferences.dart';
 import 'package:fuko_app/screens/content_box_widgets.dart';
 import 'package:fuko_app/utils/api.dart';
-import 'package:fuko_app/widgets/popup/popup_dialog_4_expenses.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
-class SaveExpenses extends StatefulWidget {
-  const SaveExpenses({Key? key}) : super(key: key);
+class RegisterSavingScreen extends StatefulWidget {
+  const RegisterSavingScreen({Key? key}) : super(key: key);
 
   @override
-  State<SaveExpenses> createState() => _SaveExpensesState();
+  _RegisterSavingScreenState createState() => _RegisterSavingScreenState();
 }
 
-class _SaveExpensesState extends State<SaveExpenses> {
+class _RegisterSavingScreenState extends State<RegisterSavingScreen> {
   late ScaffoldMessengerState scaffoldMessenger = ScaffoldMessenger.of(context);
-  var clearWidgetList = FkManageProviders.save["remove-all-expenses"];
+  var clearWidgetList = FkManageProviders.save["remove-all-saving"];
 
   void _removeAllData(BuildContext context) async {
     waitingOption(context, title: "Cleaning...");
@@ -33,21 +33,21 @@ class _SaveExpensesState extends State<SaveExpenses> {
     Navigator.of(context).pop();
   }
 
-  Future saveExpenses(List expenseData) async {
+  Future saveSaving(List expenseData) async {
     var token = await UserPreferences.getToken();
     var userId = await UserPreferences.getUserId();
 
     if (expenseData.isEmpty) {
       scaffoldMessenger.showSnackBar(const SnackBar(
         content: Text(
-          "No Expenses to save!",
+          "No saving to save!",
           style: TextStyle(color: Colors.red),
         ),
       ));
     } else {
       waitingOption(context, title: "Please Wait...");
       final response = await http.post(
-          Uri.parse(Network.addExpenses + "/$userId"),
+          Uri.parse(Network.registerSaving + "/$userId"),
           headers: Network.authorizedHeaders(token: token),
           body: jsonEncode({"data": expenseData}));
 
@@ -81,8 +81,8 @@ class _SaveExpensesState extends State<SaveExpenses> {
 
   @override
   Widget build(BuildContext context) {
-    final List newItems = FkManageProviders.get(context)["add-expenses"];
-    final totalAmount = FkManageProviders.get(context)["get-added-expenses"];
+    final List newItems = FkManageProviders.get(context)["get-savings-item"];
+    final totalAmount = FkManageProviders.get(context)["get-added-saving"];
 
     return FkScrollViewWidgets.body(context, itemList: [
       Container(
@@ -97,7 +97,7 @@ class _SaveExpensesState extends State<SaveExpenses> {
                   IconButton(
                       icon: const Icon(Icons.cancel_outlined),
                       onPressed: () =>
-                          PagesGenerator.goTo(context, pathName: "/expenses")),
+                          PagesGenerator.goTo(context, pathName: "/saving")),
                   Row(
                     children: [
                       IconButton(
@@ -108,7 +108,7 @@ class _SaveExpensesState extends State<SaveExpenses> {
                             size: 28,
                           )),
                       IconButton(
-                          onPressed: () => saveExpenses(newItems),
+                          onPressed: () => saveSaving(newItems),
                           icon: const Icon(
                             Icons.save,
                             color: fkBlueText,
@@ -123,7 +123,7 @@ class _SaveExpensesState extends State<SaveExpenses> {
             Container(
               alignment: Alignment.bottomLeft,
               child: const Text(
-                "Added Expenses",
+                "Record Saving",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
               ),
             ),
@@ -154,7 +154,7 @@ class _SaveExpensesState extends State<SaveExpenses> {
                               dismissible: DismissiblePane(
                                   key: UniqueKey(),
                                   onDismissed: () {
-                                    FkManageProviders.save["remove-expenses"](
+                                    FkManageProviders.save["remove-saving"](
                                         context,
                                         itemData: {
                                           "description": newItems[index]
@@ -165,7 +165,7 @@ class _SaveExpensesState extends State<SaveExpenses> {
                                   }),
                               children: const [
                                 SlidableAction(
-                                  onPressed: doNothings,
+                                  onPressed: doNothing,
                                   backgroundColor: Color(0xFFFE4A49),
                                   foregroundColor: Colors.white,
                                   icon: Icons.delete,
@@ -243,4 +243,4 @@ class _SaveExpensesState extends State<SaveExpenses> {
   }
 }
 
-doNothings(BuildContext context) {}
+doNothing(BuildContext context) {}

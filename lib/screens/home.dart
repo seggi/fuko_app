@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/core/global_amount.dart';
@@ -11,6 +12,7 @@ import 'package:fuko_app/widgets/other_widgets.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 import 'package:go_router/go_router.dart';
+import 'package:money_formatter/money_formatter.dart';
 import 'package:provider/src/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -73,6 +75,21 @@ class _HomePageState extends State<HomePage> {
       ) {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasData) {
+            MoneyFormatter globalAmount = MoneyFormatter(
+                amount: double.parse(snapshot.data!.globalAmount));
+            MoneyFormatter totalExpense = MoneyFormatter(
+                amount: double.parse(
+                    snapshot.data!.globalAmountDetails['expenses'].toString()));
+            MoneyFormatter totalSavings = MoneyFormatter(
+                amount: double.parse(
+                    snapshot.data!.globalAmountDetails['savings'].toString()));
+            MoneyFormatter totalLoan = MoneyFormatter(
+                amount: double.parse(
+                    snapshot.data!.globalAmountDetails['loans'].toString()));
+            MoneyFormatter totalDept = MoneyFormatter(
+                amount: double.parse(
+                    snapshot.data!.globalAmountDetails['dept'].toString()));
+
             return FkContentBoxWidgets.body(context, 'home', itemList: [
               Padding(
                   padding: const EdgeInsets.only(right: 8.0, left: 8.0),
@@ -149,11 +166,10 @@ class _HomePageState extends State<HomePage> {
                                     color: fkGreyText),
                               ),
                               Text(
-                                double.parse(snapshot.data!.globalAmount)
-                                    .toString(),
+                                globalAmount.output.nonSymbol,
                                 overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
-                                    fontSize: 35,
+                                    fontSize: 30,
                                     fontWeight: FontWeight.w600,
                                     color: fkGreyText),
                               ),
@@ -189,32 +205,28 @@ class _HomePageState extends State<HomePage> {
                 homeCard(
                     leadingIcon: Icons.calculate,
                     currency: "Rwf",
-                    amount:
-                        "${double.parse(snapshot.data!.globalAmountDetails['expenses'].toString())}",
+                    amount: totalExpense.output.nonSymbol,
                     titleTxt: "Expenses",
                     fn: () => context.go('/expenses')),
                 verticalSpaceTiny,
                 homeCard(
                     leadingIcon: Icons.savings,
                     currency: "Rwf",
-                    amount:
-                        "${double.parse(snapshot.data!.globalAmountDetails['savings'].toString())}",
+                    amount: totalSavings.output.nonSymbol,
                     titleTxt: "Savings",
-                    fn: () {}),
+                    fn: () => context.go('/saving')),
                 verticalSpaceTiny,
                 homeCard(
                     leadingIcon: Icons.account_balance,
                     currency: "Rwf",
-                    amount:
-                        "${double.parse(snapshot.data!.globalAmountDetails['loans'].toString())}",
+                    amount: totalLoan.output.nonSymbol,
                     titleTxt: "Loan",
                     fn: () {}),
                 verticalSpaceTiny,
                 homeCard(
                     leadingIcon: Icons.money_off,
                     currency: "Rwf",
-                    amount:
-                        "${double.parse(snapshot.data!.globalAmountDetails['dept'].toString())}",
+                    amount: totalDept.output.nonSymbol,
                     titleTxt: "Dept",
                     fn: () {}),
                 verticalSpaceTiny,
@@ -233,7 +245,7 @@ class _HomePageState extends State<HomePage> {
               Container(
                   padding: const EdgeInsets.all(20.0),
                   height: MediaQuery.of(context).size.height / 2,
-                  child: Center(child: Text('${snapshot.error}')))
+                  child: const Center(child: Text('Failed to load data')))
             ]);
           }
         }
