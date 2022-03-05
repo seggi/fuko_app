@@ -7,11 +7,9 @@ class FkProvider {
   static List<SingleChildWidget> multi() {
     return [
       ListenableProvider<NavigationPath>(create: (_) => NavigationPath()),
-      ChangeNotifierProvider(
-        create: (_) => AuthenticationData(),
-      ),
       ChangeNotifierProvider(create: (_) => AddExpenses()),
-      ChangeNotifierProvider(create: (_) => AuthenticationData())
+      ChangeNotifierProvider(create: (_) => AuthenticationData()),
+      ChangeNotifierProvider(create: (_) => RegisterSaving())
     ];
   }
 }

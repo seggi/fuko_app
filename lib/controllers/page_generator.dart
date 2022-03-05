@@ -56,6 +56,22 @@ class PagesGenerator {
                       );
                     }),
               ]),
+          GoRoute(
+            path: 'saving',
+            builder: (context, state) => const SavingPage(),
+            routes: [
+              GoRoute(
+                name: "saving-options",
+                path: 'saving-options',
+                builder: (context, state) => const ExpenseOptionsScreen(),
+              ),
+              GoRoute(
+                name: "register-saving",
+                path: 'register-saving',
+                builder: (context, state) => const RegisterSavingScreen(),
+              ),
+            ],
+          ),
         ],
         redirect: (state) {
           final loggedIn = loginInfo.loggedIn;

@@ -200,7 +200,7 @@ class _HomePageState extends State<HomePage> {
                     amount:
                         "${double.parse(snapshot.data!.globalAmountDetails['savings'].toString())}",
                     titleTxt: "Savings",
-                    fn: () {}),
+                    fn: () => context.go('/saving')),
                 verticalSpaceTiny,
                 homeCard(
                     leadingIcon: Icons.account_balance,
@@ -233,7 +233,7 @@ class _HomePageState extends State<HomePage> {
               Container(
                   padding: const EdgeInsets.all(20.0),
                   height: MediaQuery.of(context).size.height / 2,
-                  child: Center(child: Text('${snapshot.error}')))
+                  child: const Center(child: Text('Failed to load data')))
             ]);
           }
         }

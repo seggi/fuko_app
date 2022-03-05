@@ -11,22 +11,22 @@ void showDialogWithFields(context) {
     builder: (_) {
       return const AlertDialog(
         insetPadding: EdgeInsets.all(10.0),
-        title: Text('Add Expenses'),
+        title: Text('Register Saving'),
         contentPadding: EdgeInsets.all(10.0),
-        content: AddExpenses(),
+        content: RegisterSaving(),
       );
     },
   );
 }
 
-class AddExpenses extends StatefulWidget {
-  const AddExpenses({Key? key}) : super(key: key);
+class RegisterSaving extends StatefulWidget {
+  const RegisterSaving({Key? key}) : super(key: key);
 
   @override
-  State<AddExpenses> createState() => _AddExpensesState();
+  State<RegisterSaving> createState() => _RegisterSavingState();
 }
 
-class _AddExpensesState extends State<AddExpenses> {
+class _RegisterSavingState extends State<RegisterSaving> {
   final _formKey = GlobalKey();
 
   TextEditingController amountController = TextEditingController();
@@ -34,14 +34,13 @@ class _AddExpensesState extends State<AddExpenses> {
   TextEditingController descriptionController = TextEditingController();
   late ScaffoldMessengerState scaffoldMessenger = ScaffoldMessenger.of(context);
 
-  Future saveExpenses() async {
+  Future registerSaving() async {
     FocusManager.instance.primaryFocus?.unfocus();
     var userId = await UserPreferences.getUserId();
     Map newItem = {
       "amount": amountController.text,
       "description": descriptionController.text,
       "user_id": userId,
-      "title": ""
     };
 
     if (amountController.text == "" || descriptionController.text == "") {
@@ -52,9 +51,9 @@ class _AddExpensesState extends State<AddExpenses> {
       )));
       return;
     } else {
-      FkManageProviders.save['save-expenses-amount'](context,
+      FkManageProviders.save['save-saving-amount'](context,
           itemData: double.parse(amountController.text));
-      FkManageProviders.save["add-expenses"](context, itemData: newItem);
+      FkManageProviders.save["register-saving"](context, itemData: newItem);
 
       Navigator.pop(context);
     }
@@ -125,7 +124,7 @@ class _AddExpensesState extends State<AddExpenses> {
                           color: fkDefaultColor,
                         )),
                     child: TextButton(
-                      onPressed: saveExpenses,
+                      onPressed: registerSaving,
                       child: const Icon(
                         Icons.add,
                         color: fkWhiteText,
@@ -140,40 +139,4 @@ class _AddExpensesState extends State<AddExpenses> {
       ),
     );
   }
-}
-
-void showDialogWithCircularProgress(context) {
-  showDialog(
-    context: context,
-    builder: (_) {
-      return const AlertDialog(
-          insetPadding: EdgeInsets.all(10.0),
-          content: SizedBox(child: Text("Please wait")));
-    },
-  );
-}
-
-Future<void> waitingOption(context, {String? title}) async {
-  showDialog<String>(
-      barrierDismissible: false,
-      context: context,
-      builder: (BuildContext context) => AlertDialog(
-              content: SizedBox(
-            height: 20,
-            child: Center(
-                child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SizedBox(
-                  width: 20,
-                  height: 20,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2.0,
-                  ),
-                ),
-                horizontalSpaceRegular,
-                Text(title!),
-              ],
-            )),
-          )));
 }
