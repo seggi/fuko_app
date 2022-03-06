@@ -10,7 +10,9 @@ import 'package:fuko_app/widgets/shared/ui_helper.dart';
 import 'package:intl/intl.dart';
 
 class ExpensesPage extends StatefulWidget {
-  const ExpensesPage({Key? key}) : super(key: key);
+  final String? status;
+
+  const ExpensesPage({Key? key, required this.status}) : super(key: key);
 
   @override
   _ExpensesPageState createState() => _ExpensesPageState();
@@ -33,6 +35,12 @@ class _ExpensesPageState extends State<ExpensesPage> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.status == "true") {
+      setState(() {
+        retrieveExpensesTotal = fetchRetrieveExpensesTotal();
+        retrieveExpenses = fetchRetrieveExpenses();
+      });
+    }
     return FkContentBoxWidgets.body(context, 'savings', fn: () {
       PagesGenerator.goTo(context, name: "save-expenses");
     }, itemList: [
@@ -44,7 +52,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
               IconButton(
                   onPressed: () async {
                     var token = await UserPreferences.getToken();
-                    PagesGenerator.goTo(context, pathName: "/");
+                    PagesGenerator.goTo(context, pathName: "/?status=true");
                   },
                   icon: const Icon(Icons.arrow_back_ios)),
               IconButton(

@@ -24,11 +24,17 @@ class PagesGenerator {
       ),
       GoRoute(
         path: '/',
-        builder: (context, state) => const HomePage(),
+        builder: (context, state) {
+          final data = state.queryParams['status'];
+          return HomePage(status: data);
+        },
         routes: [
           GoRoute(
             path: 'expenses',
-            builder: (context, state) => ExpensesPage(),
+            builder: (context, state) {
+              final data = state.queryParams['status'];
+              return ExpensesPage(status: data);
+            },
             routes: [
               GoRoute(
                 name: "expense-options",
@@ -58,7 +64,10 @@ class PagesGenerator {
               ]),
           GoRoute(
             path: 'saving',
-            builder: (context, state) => const SavingPage(),
+            builder: (context, state) {
+              final data = state.queryParams['status'];
+              return SavingPage(status: data);
+            },
             routes: [
               GoRoute(
                 name: "saving-options",
