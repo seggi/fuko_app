@@ -10,7 +10,8 @@ import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
 class SavingPage extends StatefulWidget {
-  const SavingPage({Key? key}) : super(key: key);
+  final String? status;
+  const SavingPage({Key? key, required this.status}) : super(key: key);
 
   @override
   _SavingPageState createState() => _SavingPageState();
@@ -31,6 +32,12 @@ class _SavingPageState extends State<SavingPage> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.status == "true") {
+      setState(() {
+        retrieveSavingTotal = fetchRetrieveSavingTotal();
+        retrieveSaving = fetchRetrieveSaving();
+      });
+    }
     return FkContentBoxWidgets.body(context, 'savings', fn: () {
       PagesGenerator.goTo(context, name: "register-saving");
     }, itemList: [
@@ -41,7 +48,7 @@ class _SavingPageState extends State<SavingPage> {
             children: [
               IconButton(
                   onPressed: () async {
-                    PagesGenerator.goTo(context, pathName: "/");
+                    PagesGenerator.goTo(context, pathName: "/?status=true");
                   },
                   icon: const Icon(Icons.arrow_back_ios)),
               IconButton(

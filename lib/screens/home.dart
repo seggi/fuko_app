@@ -16,7 +16,9 @@ import 'package:money_formatter/money_formatter.dart';
 import 'package:provider/src/provider.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  final String? status;
+
+  const HomePage({Key? key, required this.status}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -37,6 +39,11 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final userData = FkManageProviders.get(context)["auth"][0];
+    if (widget.status == "true") {
+      setState(() {
+        globalAmount = fetchGlobalAmount();
+      });
+    }
 
     return WillPopScope(
         onWillPop: () async {
@@ -75,7 +82,7 @@ class _HomePageState extends State<HomePage> {
       ) {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasData) {
-            MoneyFormatter globalAmount = MoneyFormatter(
+            MoneyFormatter totalAmount = MoneyFormatter(
                 amount: double.parse(snapshot.data!.globalAmount));
             MoneyFormatter totalExpense = MoneyFormatter(
                 amount: double.parse(
@@ -117,7 +124,7 @@ class _HomePageState extends State<HomePage> {
                                 context.read<AuthenticationData>().logout();
                                 context.go('/');
                               },
-                              icon: const Icon(Icons.logout))
+                              icon: const Icon(Icons.logout)),
                         ],
                       )
                     ],
@@ -166,7 +173,7 @@ class _HomePageState extends State<HomePage> {
                                     color: fkGreyText),
                               ),
                               Text(
-                                globalAmount.output.nonSymbol,
+                                totalAmount.output.nonSymbol,
                                 overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
                                     fontSize: 30,
@@ -241,23 +248,46 @@ class _HomePageState extends State<HomePage> {
               ])
             ]);
           } else {
-            return FkContentBoxWidgets.body(context, 'home', itemList: [
-              Container(
-                  padding: const EdgeInsets.all(20.0),
-                  height: MediaQuery.of(context).size.height / 2,
-                  child: const Center(child: Text('Failed to load data')))
-            ]);
+            UserPreferences.removeToken();
+            context.read<AuthenticationData>().logout();
+            context.go('/');
+            // return FkContentBoxWidgets.body(context, 'home', itemList: [
+            //   Container(
+            //       padding: const EdgeInsets.all(20.0),
+            //       height: MediaQuery.of(context).size.height / 2,
+            //       child: const Center(child: Text('Failed to load data')))
+            // ]);
           }
         }
 
         return FkContentBoxWidgets.body(context, 'home', itemList: [
-          Container(
-              padding: const EdgeInsets.all(20.0),
-              height: MediaQuery.of(context).size.height / 2,
-              child: const Center(
-                  child: CircularProgressIndicator(
-                strokeWidth: 2.0,
-              )))
+          Expanded(
+              child: Container(
+            color: Colors.grey[300],
+            padding: const EdgeInsets.all(20.0),
+            child: Center(
+              child: Container(
+                decoration: BoxDecoration(
+                    color: fkWhiteText,
+                    borderRadius: BorderRadius.circular(8.0)),
+                padding: const EdgeInsets.symmetric(vertical: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2.0,
+                      ),
+                    ),
+                    horizontalSpaceRegular,
+                    Text("Loading info...")
+                  ],
+                ),
+              ),
+            ),
+          ))
         ]);
       },
     );

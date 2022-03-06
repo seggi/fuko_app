@@ -57,6 +57,7 @@ class _RegisterSavingScreenState extends State<RegisterSavingScreen> {
 
         if (backendFeedBack.code == "success") {
           clearWidgetList(context);
+          PagesGenerator.goTo(context, pathName: "/saving?status=true");
           Navigator.of(context).pop();
         } else {
           scaffoldMessenger.showSnackBar(const SnackBar(

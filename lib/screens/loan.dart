@@ -53,17 +53,17 @@ class _LoanPageState extends State<LoanPage> {
                           )),
                       Container(
                         color: Colors.white,
-                        padding: EdgeInsets.only(top: 10),
+                        padding: const EdgeInsets.only(top: 10),
                         width: MediaQuery.of(context).size.width,
                         child: Column(
                           children: [
-                            Text("Loan/current year"),
+                            const Text("Loan/current year"),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Container(
-                                  margin: EdgeInsets.only(top: 10),
-                                  child: Text(
+                                  margin: const EdgeInsets.only(top: 10),
+                                  child: const Text(
                                     "Rwf",
                                     style: TextStyle(
                                         color: Colors.black87,
@@ -71,17 +71,15 @@ class _LoanPageState extends State<LoanPage> {
                                         fontWeight: FontWeight.w600),
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 5,
                                 ),
-                                Container(
-                                  child: Text(
-                                    "5,000, 000.00",
-                                    style: TextStyle(
-                                        color: Colors.black87,
-                                        fontSize: 40,
-                                        fontWeight: FontWeight.w400),
-                                  ),
+                                const Text(
+                                  "5,000, 000.00",
+                                  style: TextStyle(
+                                      color: Colors.black87,
+                                      fontSize: 40,
+                                      fontWeight: FontWeight.w400),
                                 )
                               ],
                             ),

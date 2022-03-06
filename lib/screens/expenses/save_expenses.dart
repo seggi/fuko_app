@@ -57,6 +57,7 @@ class _SaveExpensesState extends State<SaveExpenses> {
 
         if (backendFeedBack.code == "success") {
           clearWidgetList(context);
+          PagesGenerator.goTo(context, pathName: "/expenses?status=true");
           Navigator.of(context).pop();
         } else {
           scaffoldMessenger.showSnackBar(const SnackBar(
