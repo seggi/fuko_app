@@ -55,8 +55,19 @@ class _ExpensesPageState extends State<ExpensesPage> {
                     PagesGenerator.goTo(context, pathName: "/?status=true");
                   },
                   icon: const Icon(Icons.arrow_back_ios)),
-              IconButton(
-                  onPressed: () {}, icon: const Icon(Icons.notifications))
+              Row(
+                children: [
+                  IconButton(
+                      onPressed: () {}, icon: const Icon(Icons.notifications)),
+                  IconButton(
+                      onPressed: () =>
+                          PagesGenerator.goTo(context, name: "create-expense"),
+                      icon: const Icon(
+                        Icons.add_circle,
+                        color: fkBlueText,
+                      ))
+                ],
+              )
             ],
           )),
       fkContentBoxWidgets.initialItems(itemList: [
@@ -71,7 +82,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
         const Align(
           alignment: Alignment.bottomLeft,
           child: Text(
-            "Total Expenses Amount in the current month",
+            "Total Expenses Amount",
             style: TextStyle(
                 color: fkGreyText, fontWeight: FontWeight.w400, fontSize: 16),
           ),
@@ -168,7 +179,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
         const Align(
           alignment: Alignment.bottomLeft,
           child: Text(
-            "Total amounts for this Febuary",
+            "Expenses saved list",
             style: TextStyle(
                 color: fkBlackText, fontWeight: FontWeight.w400, fontSize: 14),
           ),
@@ -194,19 +205,36 @@ class _ExpensesPageState extends State<ExpensesPage> {
                           DateTime.parse("${snapshot.data?[index].createdAt}");
 
                       return Container(
-                        margin: const EdgeInsets.only(top: 0.0),
-                        child: reportCard(
-                            monthText: toBeginningOfSentenceCase(
-                                months[dateTime.month - 1]),
-                            leadingText: "${dateTime.day}",
-                            currency: "Rwf",
-                            amount: snapshot.data?[index].amount,
-                            titleTxt: snapshot.data?[index].title != ""
-                                ? "${snapshot.data?[index].title}"
-                                : "${snapshot.data?[index].description}",
-                            bdTxt: snapshot.data?[index].description,
-                            fn: () {}),
-                      );
+                          margin: const EdgeInsets.only(top: 0.0),
+                          child: InkWell(
+                            child: Card(
+                              child: ListTile(
+                                leading: const Icon(Icons.list_alt_outlined),
+                                title: SizedBox(
+                                  width: 200,
+                                  child: Text(
+                                    snapshot.data?[index].expenseName ??
+                                        "No title provided }",
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ),
+                                trailing: Text(
+                                  "${dateTime.year}-${dateTime.month}-${dateTime.day} ${dateTime.hour}:${dateTime.minute}",
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                    color: fkBlueText,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            onTap: () => PagesGenerator.goTo(context,
+                                name: "expense-list"),
+                          ));
                     },
                   ),
                 ),

@@ -46,6 +46,16 @@ class PagesGenerator {
                 path: 'save-expenses',
                 builder: (context, state) => const SaveExpenses(),
               ),
+              GoRoute(
+                name: "create-expense",
+                path: 'create-expense',
+                builder: (context, state) => const CreateExpense(),
+              ),
+              GoRoute(
+                name: "expense-list",
+                path: 'expense-list',
+                builder: (context, state) => const ExpenseList(),
+              ),
             ],
           ),
           GoRoute(
