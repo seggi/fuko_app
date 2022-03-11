@@ -26,15 +26,14 @@ class SaveExpenses {
 }
 
 class RetrieveDetailsExpenses {
-  final String userId;
+  final String expenseId;
   final String amount;
   final String description;
-
   final String createdAt;
   final String updatedAat;
 
   RetrieveDetailsExpenses(
-      {required this.userId,
+      {required this.expenseId,
       required this.amount,
       required this.description,
       required this.createdAt,
@@ -42,29 +41,11 @@ class RetrieveDetailsExpenses {
 
   factory RetrieveDetailsExpenses.fromJson(Map<String, dynamic> json) {
     return RetrieveDetailsExpenses(
-        userId: json["users"].toString(),
+        expenseId: json["users"].toString(),
         amount: json["amount"].toString(),
         description: json["description"].toString(),
         createdAt: json["created_at"].toString(),
         updatedAat: json["updated_at"].toString());
-  }
-}
-
-Future<List<RetrieveDetailsExpenses>> fetchRetrieveDetailsExpenses() async {
-  var token = await UserPreferences.getToken();
-  var userId = await UserPreferences.getUserId();
-
-  final response = await http.get(
-      Uri.parse(Network.expensesDetails + "/$userId"),
-      headers: Network.authorizedHeaders(token: token));
-
-  if (response.statusCode == 200) {
-    var expensesData = jsonDecode(response.body)["data"]["expense"] as List;
-    return expensesData
-        .map((expense) => RetrieveDetailsExpenses.fromJson(expense))
-        .toList();
-  } else {
-    throw Exception('Failed to load data');
   }
 }
 
@@ -136,3 +117,55 @@ Future<RetrieveExpensesTotal> fetchRetrieveExpensesTotal() async {
 }
 
 // Retrieve list of expenses
+class RetrieveDetailsExpensesListByDate {
+  final List? expenseList;
+  final String? totalAmount;
+  final String? date;
+
+  RetrieveDetailsExpensesListByDate(
+      {this.expenseList, this.totalAmount, this.date});
+
+  factory RetrieveDetailsExpensesListByDate.fromJson(
+      Map<String, dynamic> json) {
+    return RetrieveDetailsExpensesListByDate(
+        expenseList: json["expenses_list"],
+        totalAmount: json["total_amount"].toString(),
+        date: json["today_date"].toString());
+  }
+}
+
+Future<List<RetrieveDetailsExpenses>> fetchDetailsExpensesListByDate(
+    {String? expenseId}) async {
+  var token = await UserPreferences.getToken();
+
+  final response = await http.get(
+      Uri.parse(Network.expensesDetails + "/$expenseId"),
+      headers: Network.authorizedHeaders(token: token));
+
+  if (response.statusCode == 200) {
+    var expensesData =
+        jsonDecode(response.body)["data"]["expenses_list"] as List;
+
+    return expensesData
+        .map((expense) => RetrieveDetailsExpenses.fromJson(expense))
+        .toList();
+  } else {
+    throw Exception('Failed to load data');
+  }
+}
+
+Future<RetrieveDetailsExpensesListByDate> fetchDetailsExpensesTotalAmountByDate(
+    {String? expenseId}) async {
+  var token = await UserPreferences.getToken();
+
+  final response = await http.get(
+      Uri.parse(Network.expensesDetails + "/$expenseId"),
+      headers: Network.authorizedHeaders(token: token));
+
+  if (response.statusCode == 200) {
+    return RetrieveDetailsExpensesListByDate.fromJson(
+        jsonDecode(response.body)["data"]);
+  } else {
+    throw Exception('Failed to load data');
+  }
+}

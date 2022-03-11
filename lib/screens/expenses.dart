@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
-import 'package:fuko_app/core/default_data.dart';
 import 'package:fuko_app/core/expenses.dart';
 import 'package:fuko_app/core/user_preferences.dart';
 import 'package:fuko_app/screens/content_box_widgets.dart';
-import 'package:fuko_app/widgets/other_widgets.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 import 'package:intl/intl.dart';
@@ -35,15 +34,14 @@ class _ExpensesPageState extends State<ExpensesPage> {
 
   @override
   Widget build(BuildContext context) {
+    final screenTitle = FkManageProviders.save["save-screen-title"];
     if (widget.status == "true") {
       setState(() {
         retrieveExpensesTotal = fetchRetrieveExpensesTotal();
         retrieveExpenses = fetchRetrieveExpenses();
       });
     }
-    return FkContentBoxWidgets.body(context, 'savings', fn: () {
-      PagesGenerator.goTo(context, name: "save-expenses");
-    }, itemList: [
+    return FkContentBoxWidgets.body(context, 'savings', itemList: [
       Padding(
           padding: const EdgeInsets.only(right: 20.0, left: 20.0),
           child: Row(
@@ -214,7 +212,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
                                   width: 200,
                                   child: Text(
                                     snapshot.data?[index].expenseName ??
-                                        "No title provided }",
+                                        "No title provided",
                                     style: const TextStyle(
                                       fontWeight: FontWeight.w600,
                                       fontSize: 16,
@@ -232,8 +230,16 @@ class _ExpensesPageState extends State<ExpensesPage> {
                                 ),
                               ),
                             ),
-                            onTap: () => PagesGenerator.goTo(context,
-                                name: "expense-list"),
+                            onTap: () {
+                              screenTitle(context,
+                                  screenTitle:
+                                      "${snapshot.data?[index].expenseName}");
+                              PagesGenerator.goTo(context,
+                                  name: "expense-list",
+                                  params: {
+                                    "id": "${snapshot.data?[index].expenseId}"
+                                  });
+                            },
                           ));
                     },
                   ),

@@ -40,8 +40,6 @@ class _AddExpensesState extends State<AddExpenses> {
     Map newItem = {
       "amount": amountController.text,
       "description": descriptionController.text,
-      "user_id": userId,
-      "title": ""
     };
 
     if (amountController.text == "" || descriptionController.text == "") {

@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
+import 'package:fuko_app/core/default_data.dart';
 import 'package:fuko_app/core/expenses.dart';
 import 'package:fuko_app/core/user_preferences.dart';
 import 'package:fuko_app/screens/content_box_widgets.dart';
+import 'package:fuko_app/widgets/other_widgets.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
+import 'package:intl/intl.dart';
 
 class ExpenseList extends StatefulWidget {
-  const ExpenseList({Key? key}) : super(key: key);
+  final String id;
+  const ExpenseList({Key? key, required this.id}) : super(key: key);
 
   @override
   State<ExpenseList> createState() => _ExpenseListState();
@@ -16,18 +21,23 @@ class ExpenseList extends StatefulWidget {
 class _ExpenseListState extends State<ExpenseList> {
   FkContentBoxWidgets fkContentBoxWidgets = FkContentBoxWidgets();
 
-  late Future<List<RetrieveDetailsExpenses>> retrieveExpensesTotal;
+  late Future<List<RetrieveDetailsExpenses>> retrieveExpensesList;
+  late Future<RetrieveDetailsExpensesListByDate> retrieveExpensesTotal;
 
   @override
   void initState() {
     super.initState();
-    retrieveExpensesTotal = fetchRetrieveDetailsExpenses();
+    retrieveExpensesList = fetchDetailsExpensesListByDate(expenseId: widget.id);
+    retrieveExpensesTotal =
+        fetchDetailsExpensesTotalAmountByDate(expenseId: widget.id);
   }
 
   @override
   Widget build(BuildContext context) {
-    return FkContentBoxWidgets.body(context, 'savings', fn: () {
-      PagesGenerator.goTo(context, name: "save-expenses");
+    final screenTitle = FkManageProviders.get(context)['get-screen-title'];
+    return FkContentBoxWidgets.body(context, 'savings list', fn: () {
+      PagesGenerator.goTo(context,
+          name: "save-expenses", params: {"id": widget.id});
     }, itemList: [
       Padding(
           padding: const EdgeInsets.only(right: 20.0, left: 20.0),
@@ -42,21 +52,89 @@ class _ExpenseListState extends State<ExpenseList> {
             ],
           )),
       fkContentBoxWidgets.initialItems(itemList: [
+        Align(
+          alignment: Alignment.bottomLeft,
+          child: Text(
+            screenTitle,
+            style: const TextStyle(
+                fontSize: 28, fontWeight: FontWeight.w600, color: fkBlackText),
+          ),
+        ),
         verticalSpaceTiny,
         const Align(
           alignment: Alignment.bottomLeft,
           child: Text(
-            "Expenses saved list",
+            "Total Amount",
             style: TextStyle(
                 color: fkBlackText, fontWeight: FontWeight.w400, fontSize: 14),
           ),
         ),
+        FutureBuilder<RetrieveDetailsExpensesListByDate>(
+          future: retrieveExpensesTotal,
+          builder: (
+            BuildContext context,
+            AsyncSnapshot snapshot,
+          ) {
+            if (snapshot.hasData) {
+              return Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    "Rwf",
+                    style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: fkGreyText),
+                  ),
+                  Text(
+                    "${double.parse(snapshot.data!.totalAmount)}",
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                        fontSize: 35,
+                        fontWeight: FontWeight.w600,
+                        color: fkGreyText),
+                  ),
+                ],
+              );
+            } else if (snapshot.hasError) {
+              return Container(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Center(
+                      child: Text(
+                    snapshot.error != null
+                        ? "Failed to load data"
+                        : "Amount not available...",
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: fkGreyText),
+                  )));
+            }
+            return Container(
+                padding: const EdgeInsets.all(20.0),
+                child: const Center(
+                    child: Text(
+                  "Loading Amount...",
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: fkGreyText),
+                )));
+          },
+        ),
       ]),
       Expanded(
         child: FutureBuilder(
-          future: retrieveExpensesTotal,
+          future: fetchDetailsExpensesListByDate(expenseId: widget.id),
           builder: (context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
+              if (snapshot.data.isEmpty) {
+                return Container(
+                    margin: const EdgeInsets.only(top: 0.0),
+                    child: const Center(child: Text("No expense saved yet!")));
+              }
               return SizedBox(
                 child: NotificationListener<OverscrollIndicatorNotification>(
                   onNotification:
@@ -72,36 +150,18 @@ class _ExpenseListState extends State<ExpenseList> {
                           DateTime.parse("${snapshot.data?[index].createdAt}");
 
                       return Container(
-                          margin: const EdgeInsets.only(top: 0.0),
-                          child: InkWell(
-                            child: Card(
-                              child: ListTile(
-                                leading: const Icon(Icons.list_alt_outlined),
-                                title: SizedBox(
-                                  width: 200,
-                                  child: Text(
-                                    snapshot.data?[index].expenseName ??
-                                        "No title provided }",
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                ),
-                                trailing: Text(
-                                  "${dateTime.year}-${dateTime.month}-${dateTime.day} ${dateTime.hour}:${dateTime.minute}",
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                    color: fkBlueText,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 14,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            onTap: () => PagesGenerator.goTo(context,
-                                name: "expense-list"),
-                          ));
+                        margin: const EdgeInsets.only(top: 0.0),
+                        child: reportCard(
+                            monthText: toBeginningOfSentenceCase(
+                                months[dateTime.month - 1]),
+                            leadingText: "${dateTime.day}",
+                            currency: "Rwf",
+                            amount: snapshot.data?[index].amount,
+                            titleTxt: snapshot.data?[index].description ??
+                                "No description",
+                            bdTxt: snapshot.data?[index].description,
+                            fn: () {}),
+                      );
                     },
                   ),
                 ),

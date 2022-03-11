@@ -43,8 +43,13 @@ class PagesGenerator {
               ),
               GoRoute(
                 name: "save-expenses",
-                path: 'save-expenses',
-                builder: (context, state) => const SaveExpenses(),
+                path: 'save-expenses/:id',
+                builder: (context, state) {
+                  var expenseId = state.params['id']!;
+                  return SaveExpenses(
+                    id: expenseId,
+                  );
+                },
               ),
               GoRoute(
                 name: "create-expense",
@@ -53,8 +58,11 @@ class PagesGenerator {
               ),
               GoRoute(
                 name: "expense-list",
-                path: 'expense-list',
-                builder: (context, state) => const ExpenseList(),
+                path: 'expense-list/:id',
+                builder: (context, state) {
+                  var data = state.params['id']!;
+                  return ExpenseList(id: data);
+                },
               ),
             ],
           ),
