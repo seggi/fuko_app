@@ -235,7 +235,7 @@ class _HomePageState extends State<HomePage> {
                     currency: "Rwf",
                     amount: totalDept.output.nonSymbol,
                     titleTxt: "Dept",
-                    fn: () {}),
+                    fn: () => context.go('/dept')),
                 verticalSpaceTiny,
                 homeCard(
                     leadingIcon: Icons.schedule_outlined,
@@ -248,15 +248,24 @@ class _HomePageState extends State<HomePage> {
               ])
             ]);
           } else {
-            UserPreferences.removeToken();
-            context.read<AuthenticationData>().logout();
-            context.go('/');
-            // return FkContentBoxWidgets.body(context, 'home', itemList: [
-            //   Container(
-            //       padding: const EdgeInsets.all(20.0),
-            //       height: MediaQuery.of(context).size.height / 2,
-            //       child: const Center(child: Text('Failed to load data')))
-            // ]);
+            return FkContentBoxWidgets.body(context, 'home', itemList: [
+              Container(
+                  padding: const EdgeInsets.all(20.0),
+                  height: MediaQuery.of(context).size.height / 2,
+                  child: Center(
+                      child: Column(
+                    children: [
+                      IconButton(
+                          onPressed: () {
+                            UserPreferences.removeToken();
+                            context.read<AuthenticationData>().logout();
+                            context.go('/');
+                          },
+                          icon: const Icon(Icons.logout_outlined)),
+                      const Text("Please click to logout")
+                    ],
+                  )))
+            ]);
           }
         }
 

@@ -1,35 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
-import 'package:fuko_app/core/expenses.dart';
+import 'package:fuko_app/core/dept.dart';
 import 'package:fuko_app/core/user_preferences.dart';
 import 'package:fuko_app/screens/content_box_widgets.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
-import 'package:intl/intl.dart';
+import 'package:fuko_app/widgets/show_modal_bottom_sheet.dart';
 
-class ExpensesPage extends StatefulWidget {
+class DeptPage extends StatefulWidget {
   final String? status;
 
-  const ExpensesPage({Key? key, required this.status}) : super(key: key);
+  const DeptPage({Key? key, required this.status}) : super(key: key);
 
   @override
-  _ExpensesPageState createState() => _ExpensesPageState();
+  _DeptPageState createState() => _DeptPageState();
 }
 
-class _ExpensesPageState extends State<ExpensesPage> {
+class _DeptPageState extends State<DeptPage> {
   FkContentBoxWidgets fkContentBoxWidgets = FkContentBoxWidgets();
 
-// RetrieveExpensesTotal
+// RetrieveBorrowersList
 
-  late Future<RetrieveExpensesTotal> retrieveExpensesTotal;
-  late Future<List<RetrieveExpenses>> retrieveExpenses;
+  late Future<RetrieveBorrowersList> retrieveDeptAmount;
+  late Future<List<RetrieveBorrowersList>> retrieveBorrowerList;
 
   @override
   void initState() {
     super.initState();
-    retrieveExpensesTotal = fetchRetrieveExpensesTotal();
-    retrieveExpenses = fetchRetrieveExpenses();
+    retrieveDeptAmount = fetchDeptAmount();
+    retrieveBorrowerList = fetchBorrowerList();
   }
 
   @override
@@ -37,8 +37,8 @@ class _ExpensesPageState extends State<ExpensesPage> {
     final screenTitle = FkManageProviders.save["save-screen-title"];
     if (widget.status == "true") {
       setState(() {
-        retrieveExpensesTotal = fetchRetrieveExpensesTotal();
-        retrieveExpenses = fetchRetrieveExpenses();
+        retrieveDeptAmount = fetchDeptAmount();
+        retrieveBorrowerList = fetchBorrowerList();
       });
     }
     return FkContentBoxWidgets.body(context, 'savings', itemList: [
@@ -47,21 +47,28 @@ class _ExpensesPageState extends State<ExpensesPage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              IconButton(
-                  onPressed: () async {
+              InkWell(
+                  onTap: () async {
                     var token = await UserPreferences.getToken();
                     PagesGenerator.goTo(context, pathName: "/?status=true");
                   },
-                  icon: const Icon(Icons.arrow_back_ios)),
+                  child: const Icon(Icons.arrow_back_ios)),
               Row(
                 children: [
                   IconButton(
-                      onPressed: () {}, icon: const Icon(Icons.notifications)),
+                      onPressed: () {},
+                      icon: const Icon(Icons.notifications_none_sharp)),
                   IconButton(
-                      onPressed: () =>
-                          PagesGenerator.goTo(context, name: "create-expense"),
+                      onPressed: () => customBottomModalSheet(context),
+                      // PagesGenerator.goTo(context, name: "create-expense"),
                       icon: const Icon(
-                        Icons.add_circle,
+                        Icons.person_add_alt,
+                        color: fkBlueText,
+                      )),
+                  IconButton(
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.search_sharp,
                         color: fkBlueText,
                       ))
                 ],
@@ -72,7 +79,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
         const Align(
           alignment: Alignment.bottomLeft,
           child: Text(
-            "Expenses",
+            "Dept",
             style: TextStyle(
                 fontSize: 28, fontWeight: FontWeight.w600, color: fkBlackText),
           ),
@@ -80,7 +87,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
         const Align(
           alignment: Alignment.bottomLeft,
           child: Text(
-            "Total Expenses Amount",
+            "Total Dept Amount",
             style: TextStyle(
                 color: fkGreyText, fontWeight: FontWeight.w400, fontSize: 16),
           ),
@@ -96,8 +103,8 @@ class _ExpensesPageState extends State<ExpensesPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                FutureBuilder<RetrieveExpensesTotal>(
-                  future: retrieveExpensesTotal,
+                FutureBuilder<RetrieveBorrowersList>(
+                  future: retrieveDeptAmount,
                   builder: (
                     BuildContext context,
                     AsyncSnapshot snapshot,
@@ -114,7 +121,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
                                 color: fkGreyText),
                           ),
                           Text(
-                            "${snapshot.data!.totalAmount}",
+                            "${snapshot.data!.totalDept}",
                             overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
                                 fontSize: 35,
@@ -155,17 +162,10 @@ class _ExpensesPageState extends State<ExpensesPage> {
                   alignment: Alignment.center,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(8.0),
-                    child: Container(
-                      color: fkBlueText,
-                      child: IconButton(
-                        icon: const Icon(
-                          Icons.arrow_right_alt,
-                          size: 30,
-                          color: fkWhiteText,
-                        ),
-                        onPressed: () => PagesGenerator.goTo(context,
-                            name: "expense-options"),
-                      ),
+                    child: const Icon(
+                      Icons.account_tree_outlined,
+                      size: 30,
+                      color: fkGreyText,
                     ),
                   ),
                 )
@@ -177,7 +177,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
         const Align(
           alignment: Alignment.bottomLeft,
           child: Text(
-            "Expenses saved list",
+            "Borrowers Recorded",
             style: TextStyle(
                 color: fkBlackText, fontWeight: FontWeight.w400, fontSize: 14),
           ),
@@ -185,8 +185,9 @@ class _ExpensesPageState extends State<ExpensesPage> {
       ]),
       Expanded(
         child: FutureBuilder(
-          future: retrieveExpenses,
-          builder: (context, AsyncSnapshot<List<RetrieveExpenses>> snapshot) {
+          future: retrieveBorrowerList,
+          builder:
+              (context, AsyncSnapshot<List<RetrieveBorrowersList>> snapshot) {
             if (snapshot.hasData) {
               return SizedBox(
                 child: NotificationListener<OverscrollIndicatorNotification>(
@@ -207,11 +208,11 @@ class _ExpensesPageState extends State<ExpensesPage> {
                           child: InkWell(
                             child: Card(
                               child: ListTile(
-                                leading: const Icon(Icons.list_alt_outlined),
+                                leading: const Icon(Icons.file_present),
                                 title: SizedBox(
                                   width: 200,
                                   child: Text(
-                                    snapshot.data?[index].expenseName ??
+                                    snapshot.data?[index].borrowerName ??
                                         "No title provided",
                                     style: const TextStyle(
                                       fontWeight: FontWeight.w600,
@@ -233,12 +234,12 @@ class _ExpensesPageState extends State<ExpensesPage> {
                             onTap: () {
                               screenTitle(context,
                                   screenTitle:
-                                      "${snapshot.data?[index].expenseName}");
-                              PagesGenerator.goTo(context,
-                                  name: "expense-list",
-                                  params: {
-                                    "id": "${snapshot.data?[index].expenseId}"
-                                  });
+                                      "${snapshot.data?[index].borrowerName}");
+                              // PagesGenerator.goTo(context,
+                              //     name: "expense-list",
+                              //     params: {
+                              //       "id": "${snapshot.data?[index].borrowerId}"
+                              //     });
                             },
                           ));
                     },

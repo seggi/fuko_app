@@ -20,6 +20,9 @@ class FkManageProviders {
         Provider.of<AddExpenses>(context, listen: false).remove(itemData),
     "remove-all-expenses": (context) =>
         Provider.of<AddExpenses>(context, listen: false).removeFromList(),
+    "save-screen-title": (context, {screenTitle}) =>
+        Provider.of<AddExpenses>(context, listen: false)
+            .addScreenTitle(screenTitle),
 
     // Saving section
     "register-saving": (context, {itemData}) =>
@@ -30,6 +33,9 @@ class FkManageProviders {
         Provider.of<RegisterSaving>(context, listen: false).remove(itemData),
     "remove-all-saving": (context) =>
         Provider.of<RegisterSaving>(context, listen: false).removeFromList(),
+
+    "save_new_borrower": (context, {itemData}) =>
+        Provider.of<SaveNewBorrower>(context, listen: false).add(itemData),
   };
 
   static get(context) {
@@ -38,10 +44,13 @@ class FkManageProviders {
       "get-token": Provider.of<AuthenticationData>(context).userToken,
       "add-expenses": Provider.of<AddExpenses>(context).getNewItem,
       "get-added-expenses": Provider.of<AddExpenses>(context).getTotalAmount,
+      "get-screen-title": Provider.of<AddExpenses>(context).screenTitle,
 
       // Saving section
       "get-savings-item": Provider.of<RegisterSaving>(context).getNewItem,
       "get-added-saving": Provider.of<RegisterSaving>(context).getTotalAmount,
+
+      "get-borrowers": Provider.of<SaveNewBorrower>(context).getUserData,
     };
   }
 }

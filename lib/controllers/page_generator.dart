@@ -43,8 +43,26 @@ class PagesGenerator {
               ),
               GoRoute(
                 name: "save-expenses",
-                path: 'save-expenses',
-                builder: (context, state) => const SaveExpenses(),
+                path: 'save-expenses/:id',
+                builder: (context, state) {
+                  var expenseId = state.params['id']!;
+                  return SaveExpenses(
+                    id: expenseId,
+                  );
+                },
+              ),
+              GoRoute(
+                name: "create-expense",
+                path: 'create-expense',
+                builder: (context, state) => const CreateExpense(),
+              ),
+              GoRoute(
+                name: "expense-list",
+                path: 'expense-list/:id',
+                builder: (context, state) {
+                  var data = state.params['id']!;
+                  return ExpenseList(id: data);
+                },
               ),
             ],
           ),
@@ -81,6 +99,25 @@ class PagesGenerator {
               ),
             ],
           ),
+          GoRoute(
+              path: 'dept',
+              name: 'dept',
+              builder: (context, state) {
+                final data = state.queryParams['status'];
+                return DeptPage(status: data);
+              },
+              routes: [
+                GoRoute(
+                  name: "add-borrow-manually",
+                  path: 'add-borrow-manually',
+                  builder: (context, state) => const AddBorrowerManually(),
+                ),
+                GoRoute(
+                  name: "add-borrow-from-fuko",
+                  path: 'add-borrow-from-fuko',
+                  builder: (context, state) => const AddBorrowerFromFuko(),
+                ),
+              ]),
         ],
         redirect: (state) {
           final loggedIn = loginInfo.loggedIn;

@@ -63,12 +63,12 @@ class _LoginPageState extends State<LoginPage> {
       if (response.statusCode == 201) {
         User user = User.fromJson(jsonDecode(response.body));
 
-        UserPreferences.setToken(user.token);
-        UserPreferences.setUserId(user.data["user_id"].toString());
+        UserPreferences.setToken(user.token!);
+        UserPreferences.setUserId(user.data!["user_id"].toString());
 
         fkJwtDecode(tokenKey: user.token);
 
-        if (user.data['status'] == true) {
+        if (user.data!['status'] == true) {
           PagesGenerator.directTo(context,
               pathName: "/",
               itemData: {"data": user.data},

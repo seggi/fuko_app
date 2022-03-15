@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 class AddExpenses extends ChangeNotifier {
+  var _screenTitle = '';
   final List _items = [];
   final List _totalAmountList = [];
 
   List get getNewItem => _items;
+  String get screenTitle => _screenTitle;
   double get getTotalAmount {
     // Compute total amount in the list
     var sum = _totalAmountList.isNotEmpty
@@ -35,6 +37,11 @@ class AddExpenses extends ChangeNotifier {
   void removeFromList() {
     _items.clear();
     _totalAmountList.clear();
+    notifyListeners();
+  }
+
+  void addScreenTitle(String screenTitle) {
+    _screenTitle = screenTitle;
     notifyListeners();
   }
 }

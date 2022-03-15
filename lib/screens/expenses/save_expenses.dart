@@ -16,7 +16,8 @@ import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
 class SaveExpenses extends StatefulWidget {
-  const SaveExpenses({Key? key}) : super(key: key);
+  final String id;
+  const SaveExpenses({Key? key, required this.id}) : super(key: key);
 
   @override
   State<SaveExpenses> createState() => _SaveExpensesState();
@@ -35,7 +36,7 @@ class _SaveExpensesState extends State<SaveExpenses> {
 
   Future saveExpenses(List expenseData) async {
     var token = await UserPreferences.getToken();
-    var userId = await UserPreferences.getUserId();
+    var expenseId = widget.id;
 
     if (expenseData.isEmpty) {
       scaffoldMessenger.showSnackBar(const SnackBar(
@@ -47,7 +48,7 @@ class _SaveExpensesState extends State<SaveExpenses> {
     } else {
       waitingOption(context, title: "Please Wait...");
       final response = await http.post(
-          Uri.parse(Network.addExpenses + "/$userId"),
+          Uri.parse(Network.addExpenses + "/$expenseId"),
           headers: Network.authorizedHeaders(token: token),
           body: jsonEncode({"data": expenseData}));
 

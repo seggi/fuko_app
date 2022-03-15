@@ -14,6 +14,17 @@ class FkContentBoxWidgets {
           ),
         ),
       );
+    } else if (screenName == "savings") {
+      return Scaffold(
+        body: SafeArea(
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height,
+            child: Column(
+              children: [...itemList],
+            ),
+          ),
+        ),
+      );
     } else {
       return widTxt == ""
           ? Scaffold(
