@@ -99,6 +99,25 @@ class PagesGenerator {
               ),
             ],
           ),
+          GoRoute(
+              path: 'dept',
+              name: 'dept',
+              builder: (context, state) {
+                final data = state.queryParams['status'];
+                return DeptPage(status: data);
+              },
+              routes: [
+                GoRoute(
+                  name: "add-borrow-manually",
+                  path: 'add-borrow-manually',
+                  builder: (context, state) => const AddBorrowerManually(),
+                ),
+                GoRoute(
+                  name: "add-borrow-from-fuko",
+                  path: 'add-borrow-from-fuko',
+                  builder: (context, state) => const AddBorrowerFromFuko(),
+                ),
+              ]),
         ],
         redirect: (state) {
           final loggedIn = loginInfo.loggedIn;

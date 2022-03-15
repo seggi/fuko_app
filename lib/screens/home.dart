@@ -235,7 +235,7 @@ class _HomePageState extends State<HomePage> {
                     currency: "Rwf",
                     amount: totalDept.output.nonSymbol,
                     titleTxt: "Dept",
-                    fn: () {}),
+                    fn: () => context.go('/dept')),
                 verticalSpaceTiny,
                 homeCard(
                     leadingIcon: Icons.schedule_outlined,

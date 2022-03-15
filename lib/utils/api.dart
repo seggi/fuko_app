@@ -18,4 +18,9 @@ class Network {
   static String registerSaving = liveUrl! + "/account/savings/add-saving";
   static String createExpense = liveUrl! + "/account/create-expenses";
   static String expensesDetails = liveUrl! + "/account/expense-details";
+  static String getBorrowerList = liveUrl! + "/account/dept/retrieve";
+  static String addNewBorrower =
+      liveUrl! + "/account/dept/add-borrower-to-notebook";
+  static String searchBorrowerFromUsers =
+      liveUrl! + "/account/dept/search-user";
 }

@@ -9,7 +9,8 @@ class FkProvider {
       ListenableProvider<NavigationPath>(create: (_) => NavigationPath()),
       ChangeNotifierProvider(create: (_) => AddExpenses()),
       ChangeNotifierProvider(create: (_) => AuthenticationData()),
-      ChangeNotifierProvider(create: (_) => RegisterSaving())
+      ChangeNotifierProvider(create: (_) => RegisterSaving()),
+      ChangeNotifierProvider(create: (_) => SaveNewBorrower())
     ];
   }
 }
