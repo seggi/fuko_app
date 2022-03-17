@@ -7,6 +7,8 @@ import 'package:http/http.dart' as http;
 class RetrieveBorrowersList {
   final String? borrowerId;
   final String? amount;
+  final String? firstName;
+  final String? lastName;
   final String? borrowerName;
   final String? createdAt;
   final String? updatedAat;
@@ -16,6 +18,8 @@ class RetrieveBorrowersList {
       {this.borrowerId,
       this.amount,
       this.borrowerName,
+      this.firstName,
+      this.lastName,
       this.createdAt,
       this.updatedAat,
       this.totalDept});
@@ -25,6 +29,8 @@ class RetrieveBorrowersList {
         borrowerId: json["users"].toString(),
         amount: json["amount"].toString(),
         borrowerName: json["borrower_name"].toString(),
+        firstName: json["first_name"].toString(),
+        lastName: json["last_name"].toString(),
         createdAt: json["created_at"].toString(),
         updatedAat: json["updated_at"].toString(),
         totalDept: json["total_dept"].toString());
@@ -40,7 +46,6 @@ Future<List<RetrieveBorrowersList>> fetchBorrowerList() async {
 
   if (response.statusCode == 200) {
     var expensesData = jsonDecode(response.body)["data"]["dept_list"] as List;
-
     return expensesData
         .map((expense) => RetrieveBorrowersList.fromJson(expense))
         .toList();

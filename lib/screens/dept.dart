@@ -212,21 +212,13 @@ class _DeptPageState extends State<DeptPage> {
                                 title: SizedBox(
                                   width: 200,
                                   child: Text(
-                                    snapshot.data?[index].borrowerName ??
-                                        "No title provided",
+                                    snapshot.data?[index].borrowerName != "null"
+                                        ? "${snapshot.data?[index].borrowerName}"
+                                        : "${snapshot.data?[index].firstName}",
                                     style: const TextStyle(
                                       fontWeight: FontWeight.w600,
                                       fontSize: 16,
                                     ),
-                                  ),
-                                ),
-                                trailing: Text(
-                                  "${dateTime.year}-${dateTime.month}-${dateTime.day} ${dateTime.hour}:${dateTime.minute}",
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                    color: fkBlueText,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 14,
                                   ),
                                 ),
                               ),
