@@ -27,7 +27,6 @@ class _AddBorrowerManuallyState extends State<AddBorrowerManually> {
   Future saveBorrowerName() async {
     FocusManager.instance.primaryFocus?.unfocus();
     var token = await UserPreferences.getToken();
-    var userId = await UserPreferences.getUserId();
     Map newItem = {
       "borrower_name": addBorrowerNameController.text,
     };

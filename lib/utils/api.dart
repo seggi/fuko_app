@@ -23,4 +23,5 @@ class Network {
       liveUrl! + "/account/dept/add-borrower-to-notebook";
   static String searchBorrowerFromUsers =
       liveUrl! + "/account/dept/search-user";
+  static String getBorrowerDept = liveUrl! + "/account/dept/retrieve-date";
 }

@@ -26,7 +26,7 @@ class RetrieveBorrowersList {
 
   factory RetrieveBorrowersList.fromJson(Map<String, dynamic> json) {
     return RetrieveBorrowersList(
-        borrowerId: json["users"].toString(),
+        borrowerId: json["id"].toString(),
         amount: json["amount"].toString(),
         borrowerName: json["borrower_name"].toString(),
         firstName: json["first_name"].toString(),
@@ -45,8 +45,10 @@ Future<List<RetrieveBorrowersList>> fetchBorrowerList() async {
       headers: Network.authorizedHeaders(token: token));
 
   if (response.statusCode == 200) {
-    var expensesData = jsonDecode(response.body)["data"]["dept_list"] as List;
-    return expensesData
+    var borrowerDataList =
+        jsonDecode(response.body)["data"]["dept_list"] as List;
+
+    return borrowerDataList
         .map((expense) => RetrieveBorrowersList.fromJson(expense))
         .toList();
   } else {
@@ -63,6 +65,70 @@ Future<RetrieveBorrowersList> fetchDeptAmount() async {
 
   if (response.statusCode == 200) {
     return RetrieveBorrowersList.fromJson(jsonDecode(response.body)["data"]);
+  } else {
+    throw Exception('Failed to load data');
+  }
+}
+
+// Dept details
+class RetrieveDept {
+  final String? amount;
+  final String? description;
+  final String? lentAt;
+  final String? paymentStatus;
+  final String? createdAt;
+  final String? totalDeptAmount;
+  final String? todayDate;
+
+  RetrieveDept(
+      {this.amount,
+      this.description,
+      this.lentAt,
+      this.paymentStatus,
+      this.createdAt,
+      this.totalDeptAmount,
+      this.todayDate});
+
+  factory RetrieveDept.fromJson(Map<String, dynamic> json) {
+    return RetrieveDept(
+        amount: json['amount'].toString(),
+        description: json['description'].toString(),
+        lentAt: json['lent_at'].toString(),
+        paymentStatus: json['payment_status'].toString(),
+        createdAt: json['created_at'].toString(),
+        totalDeptAmount: json['total_amount'].toString(),
+        todayDate: json['today_date'].toString());
+  }
+}
+
+Future<List<RetrieveDept>> fetchBorrowerDept({String? borrowerId}) async {
+  var token = await UserPreferences.getToken();
+
+  final response = await http.get(
+      Uri.parse(Network.getBorrowerDept + "/$borrowerId"),
+      headers: Network.authorizedHeaders(token: token));
+
+  if (response.statusCode == 200) {
+    var borrowerDataList =
+        jsonDecode(response.body)["data"]["dept_list"] as List;
+
+    return borrowerDataList
+        .map((expense) => RetrieveDept.fromJson(expense))
+        .toList();
+  } else {
+    throw Exception('Failed to load data');
+  }
+}
+
+Future<RetrieveDept> fetchTotalDeptAmount({String? borrowerId}) async {
+  var token = await UserPreferences.getToken();
+
+  final response = await http.get(
+      Uri.parse(Network.getBorrowerDept + "/$borrowerId"),
+      headers: Network.authorizedHeaders(token: token));
+
+  if (response.statusCode == 200) {
+    return RetrieveDept.fromJson(jsonDecode(response.body)["data"]);
   } else {
     throw Exception('Failed to load data');
   }

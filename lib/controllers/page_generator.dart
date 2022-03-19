@@ -117,6 +117,27 @@ class PagesGenerator {
                   path: 'add-borrow-from-fuko',
                   builder: (context, state) => const AddBorrowerFromFuko(),
                 ),
+                GoRoute(
+                    name: "borrower_dept_details",
+                    path: 'borrower_dept_details/:id',
+                    builder: (context, state) {
+                      var data = state.params['id']!;
+                      return BorrowerDeptList(
+                        id: data,
+                      );
+                    },
+                    routes: [
+                      GoRoute(
+                        name: "save-dept",
+                        path: 'save-dept/:id',
+                        builder: (context, state) {
+                          var data = state.params['id']!;
+                          return RecordBorrowerDept(
+                            id: data,
+                          );
+                        },
+                      ),
+                    ]),
               ]),
         ],
         redirect: (state) {

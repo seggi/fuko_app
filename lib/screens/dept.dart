@@ -208,7 +208,8 @@ class _DeptPageState extends State<DeptPage> {
                           child: InkWell(
                             child: Card(
                               child: ListTile(
-                                leading: const Icon(Icons.file_present),
+                                leading:
+                                    const Icon(Icons.account_circle_outlined),
                                 title: SizedBox(
                                   width: 200,
                                   child: Text(
@@ -227,11 +228,11 @@ class _DeptPageState extends State<DeptPage> {
                               screenTitle(context,
                                   screenTitle:
                                       "${snapshot.data?[index].borrowerName}");
-                              // PagesGenerator.goTo(context,
-                              //     name: "expense-list",
-                              //     params: {
-                              //       "id": "${snapshot.data?[index].borrowerId}"
-                              //     });
+                              PagesGenerator.goTo(context,
+                                  name: "borrower_dept_details",
+                                  params: {
+                                    "id": "${snapshot.data?[index].borrowerId}"
+                                  });
                             },
                           ));
                     },

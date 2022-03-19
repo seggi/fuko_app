@@ -29,30 +29,30 @@ class _CustomExpandedListTileState extends State<CustomExpandedListTile> {
                   children: [
                     Text(
                       datas["month"],
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
                           color: fkBlueText),
                     ),
-                    Divider(
+                    const Divider(
                       thickness: 1,
                     ),
                     Row(
                       children: [
                         Text(
                           datas["currency"],
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
                               color: fkGreyText),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 2,
                         ),
                         Text(
                           datas["totalAmount"],
                           overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w600,
                               color: fkBlackText),
@@ -71,8 +71,8 @@ class _CustomExpandedListTileState extends State<CustomExpandedListTile> {
 
   Widget expandedListTile({data}) {
     return ExpansionTile(
-      leading: Icon(Icons.calendar_today),
-      title: Text(
+      leading: const Icon(Icons.calendar_today),
+      title: const Text(
         "Details",
         style: TextStyle(
             fontSize: 14, fontWeight: FontWeight.w600, color: fkBlackText),

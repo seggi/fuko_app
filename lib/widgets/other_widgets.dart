@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fuko_app/widgets/expanded_listtile.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
@@ -40,7 +41,7 @@ Widget homeCard({leadingIcon, currency, amount, titleTxt, fn}) {
 // Repport card
 
 Widget reportCard(
-    {monthText, leadingText, currency, amount, titleTxt, bdTxt, fn}) {
+    {monthText, leadingText, currency, amount, titleTxt, String? bdTxt, fn}) {
   return Card(
     child: ExpansionTile(
       leading: ClipRRect(
@@ -87,9 +88,50 @@ Widget reportCard(
               color: fkBlackText, fontWeight: FontWeight.w400, fontSize: 18)),
       controlAffinity: ListTileControlAffinity.leading,
       trailing: const Icon(Icons.arrow_drop_down),
-      children: <Widget>[
-        ListTile(title: Text('$bdTxt')),
-      ],
+      children: bdTxt == null
+          ? <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      "month",
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: fkBlueText),
+                    ),
+                    const Divider(
+                      thickness: 1,
+                    ),
+                    Row(
+                      children: const [
+                        Text(
+                          "currency",
+                          style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                              color: fkGreyText),
+                        ),
+                        SizedBox(
+                          width: 2,
+                        ),
+                        Text(
+                          "totalAmount",
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                              color: fkBlackText),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              )
+            ]
+          : [ListTile(title: Text(bdTxt))],
     ),
   );
 }
