@@ -10,36 +10,41 @@ import 'package:fuko_app/screens/content_box_widgets.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
-class AddBorrowerManually extends StatefulWidget {
-  const AddBorrowerManually({Key? key}) : super(key: key);
+class PayDept extends StatefulWidget {
+  final String id;
+  const PayDept({Key? key, required this.id}) : super(key: key);
 
   @override
-  State<AddBorrowerManually> createState() => _AddBorrowerManuallyState();
+  State<PayDept> createState() => _PayDeptState();
 }
 
-class _AddBorrowerManuallyState extends State<AddBorrowerManually> {
+class _PayDeptState extends State<PayDept> {
   final _formKey = GlobalKey();
 
-  TextEditingController addBorrowerNameController = TextEditingController();
+  TextEditingController amountController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
 
   late ScaffoldMessengerState scaffoldMessenger = ScaffoldMessenger.of(context);
 
-  Future saveBorrowerName() async {
+  Future saveExpenses() async {
     FocusManager.instance.primaryFocus?.unfocus();
     var token = await UserPreferences.getToken();
+    var userId = await UserPreferences.getUserId();
     Map newItem = {
-      "borrower_name": addBorrowerNameController.text,
+      "amount": amountController.text,
+      "description": descriptionController.text
     };
 
-    if (addBorrowerNameController.text == "") {
+    if (amountController.text == "") {
       scaffoldMessenger.showSnackBar(const SnackBar(
           content: Text(
-        "This field can't remain empty.",
+        "Please fill all fields.",
         style: TextStyle(color: Colors.white, fontSize: 16),
       )));
       return;
     } else {
-      final response = await http.post(Uri.parse(Network.addNewBorrower),
+      final response = await http.post(
+          Uri.parse(Network.createExpense + "/$userId"),
           headers: Network.authorizedHeaders(token: token),
           body: jsonEncode(newItem));
 
@@ -78,7 +83,7 @@ class _AddBorrowerManuallyState extends State<AddBorrowerManually> {
             Container(
               alignment: Alignment.bottomLeft,
               child: const Text(
-                "Add borrower",
+                "Pay",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
               ),
             ),
@@ -91,11 +96,25 @@ class _AddBorrowerManuallyState extends State<AddBorrowerManually> {
                   children: [
                     TextFormField(
                       autofocus: true,
-                      controller: addBorrowerNameController,
+                      controller: amountController,
+                      keyboardType: TextInputType.number,
+                      textInputAction: TextInputAction.done,
+                      decoration: InputDecoration(
+                          hintText: 'Amount',
+                          border: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: fkInputFormBorderColor, width: 1.0),
+                              borderRadius: BorderRadius.circular(8.0))),
+                      onSaved: (String? value) {},
+                    ),
+                    verticalSpaceMedium,
+                    TextFormField(
+                      autofocus: true,
+                      controller: amountController,
                       keyboardType: TextInputType.text,
                       textInputAction: TextInputAction.done,
                       decoration: InputDecoration(
-                          hintText: 'Enter Borrower Name',
+                          hintText: 'Description',
                           border: OutlineInputBorder(
                               borderSide: const BorderSide(
                                   color: fkInputFormBorderColor, width: 1.0),
@@ -113,9 +132,9 @@ class _AddBorrowerManuallyState extends State<AddBorrowerManually> {
                             color: fkDefaultColor,
                           )),
                       child: TextButton(
-                        onPressed: () => saveBorrowerName(),
+                        onPressed: () => saveExpenses(),
                         child: const Icon(
-                          Icons.person_add_alt,
+                          Icons.add,
                           color: fkWhiteText,
                         ),
                       ),

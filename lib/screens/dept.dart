@@ -208,25 +208,18 @@ class _DeptPageState extends State<DeptPage> {
                           child: InkWell(
                             child: Card(
                               child: ListTile(
-                                leading: const Icon(Icons.file_present),
+                                leading:
+                                    const Icon(Icons.account_circle_outlined),
                                 title: SizedBox(
                                   width: 200,
                                   child: Text(
-                                    snapshot.data?[index].borrowerName ??
-                                        "No title provided",
+                                    snapshot.data?[index].borrowerName != "null"
+                                        ? "${snapshot.data?[index].borrowerName}"
+                                        : "${snapshot.data?[index].firstName}",
                                     style: const TextStyle(
                                       fontWeight: FontWeight.w600,
                                       fontSize: 16,
                                     ),
-                                  ),
-                                ),
-                                trailing: Text(
-                                  "${dateTime.year}-${dateTime.month}-${dateTime.day} ${dateTime.hour}:${dateTime.minute}",
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                    color: fkBlueText,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 14,
                                   ),
                                 ),
                               ),
@@ -235,11 +228,11 @@ class _DeptPageState extends State<DeptPage> {
                               screenTitle(context,
                                   screenTitle:
                                       "${snapshot.data?[index].borrowerName}");
-                              // PagesGenerator.goTo(context,
-                              //     name: "expense-list",
-                              //     params: {
-                              //       "id": "${snapshot.data?[index].borrowerId}"
-                              //     });
+                              PagesGenerator.goTo(context,
+                                  name: "borrower_dept_details",
+                                  params: {
+                                    "id": "${snapshot.data?[index].borrowerId}"
+                                  });
                             },
                           ));
                     },

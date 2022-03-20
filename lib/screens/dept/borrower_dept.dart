@@ -2,42 +2,40 @@ import 'package:flutter/material.dart';
 import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/core/default_data.dart';
-import 'package:fuko_app/core/expenses.dart';
-import 'package:fuko_app/core/user_preferences.dart';
+import 'package:fuko_app/core/dept.dart';
 import 'package:fuko_app/screens/content_box_widgets.dart';
 import 'package:fuko_app/widgets/other_widgets.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 import 'package:intl/intl.dart';
 
-class ExpenseList extends StatefulWidget {
+class BorrowerDeptList extends StatefulWidget {
   final String id;
-  const ExpenseList({Key? key, required this.id}) : super(key: key);
+  const BorrowerDeptList({Key? key, required this.id}) : super(key: key);
 
   @override
-  State<ExpenseList> createState() => _ExpenseListState();
+  State<BorrowerDeptList> createState() => _BorrowerDeptListState();
 }
 
-class _ExpenseListState extends State<ExpenseList> {
+class _BorrowerDeptListState extends State<BorrowerDeptList> {
   FkContentBoxWidgets fkContentBoxWidgets = FkContentBoxWidgets();
 
-  late Future<List<RetrieveDetailsExpenses>> retrieveExpensesList;
-  late Future<RetrieveDetailsExpensesListByDate> retrieveExpensesTotal;
+  late Future<List<RetrieveDept>> retrieveBorrowerDeptList;
+  late Future<RetrieveDept> retrieveBorrowerTotalAmount;
 
   @override
   void initState() {
     super.initState();
-    retrieveExpensesList = fetchDetailsExpensesListByDate(expenseId: widget.id);
-    retrieveExpensesTotal =
-        fetchDetailsExpensesTotalAmountByDate(expenseId: widget.id);
+    retrieveBorrowerDeptList = fetchBorrowerDept(borrowerId: widget.id);
+    retrieveBorrowerTotalAmount = fetchTotalDeptAmount(borrowerId: widget.id);
   }
 
   @override
   Widget build(BuildContext context) {
     final screenTitle = FkManageProviders.get(context)['get-screen-title'];
-    return FkContentBoxWidgets.body(context, 'savings list', fn: () {
+    return FkContentBoxWidgets.body(context, 'dept list', fn: () {
       PagesGenerator.goTo(context,
-          name: "save-expenses", params: {"id": widget.id});
+          name: "save-dept", params: {"id": widget.id});
     }, itemList: [
       Padding(
           padding: const EdgeInsets.only(right: 20.0, left: 20.0),
@@ -46,7 +44,7 @@ class _ExpenseListState extends State<ExpenseList> {
             children: [
               IconButton(
                   onPressed: () async {
-                    PagesGenerator.goTo(context, pathName: "/expenses");
+                    PagesGenerator.goTo(context, pathName: "/dept");
                   },
                   icon: const Icon(Icons.arrow_back_ios)),
             ],
@@ -69,8 +67,8 @@ class _ExpenseListState extends State<ExpenseList> {
                 color: fkBlackText, fontWeight: FontWeight.w400, fontSize: 14),
           ),
         ),
-        FutureBuilder<RetrieveDetailsExpensesListByDate>(
-          future: retrieveExpensesTotal,
+        FutureBuilder<RetrieveDept>(
+          future: retrieveBorrowerTotalAmount,
           builder: (
             BuildContext context,
             AsyncSnapshot snapshot,
@@ -87,7 +85,7 @@ class _ExpenseListState extends State<ExpenseList> {
                         color: fkGreyText),
                   ),
                   Text(
-                    "${double.parse(snapshot.data!.totalAmount)}",
+                    "${double.parse(snapshot.data!.totalDeptAmount)}",
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                         fontSize: 35,
@@ -127,7 +125,7 @@ class _ExpenseListState extends State<ExpenseList> {
       ]),
       Expanded(
         child: FutureBuilder(
-          future: fetchDetailsExpensesListByDate(expenseId: widget.id),
+          future: fetchBorrowerDept(borrowerId: widget.id),
           builder: (context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
               if (snapshot.data.isEmpty) {
@@ -157,9 +155,10 @@ class _ExpenseListState extends State<ExpenseList> {
                             leadingText: "${dateTime.day}",
                             currency: "Rwf",
                             amount: snapshot.data?[index].amount,
-                            titleTxt: snapshot.data?[index].description ??
-                                "No description",
-                            bdTxt: snapshot.data?[index].description,
+                            titleTxt:
+                                snapshot.data?[index].description != "null"
+                                    ? "${snapshot.data?[index].description}"
+                                    : "No description",
                             fn: () {}),
                       );
                     },

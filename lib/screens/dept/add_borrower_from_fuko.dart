@@ -24,12 +24,12 @@ class _AddBorrowerFromFukoState extends State<AddBorrowerFromFuko> {
   late ScaffoldMessengerState scaffoldMessenger = ScaffoldMessenger.of(context);
   bool showFoundUser = false;
 
-  Future saveBorrowerName({userId}) async {
+  Future saveBorrowerName({userId, borrowerName}) async {
     FocusManager.instance.primaryFocus?.unfocus();
     var token = await UserPreferences.getToken();
-    print("$userId >>>>>");
     Map newItem = {
       "borrower_id": userId.toString(),
+      "borrower_name": borrowerName,
     };
 
     if (addBorrowerNameController.text == "") {
@@ -97,7 +97,7 @@ class _AddBorrowerFromFukoState extends State<AddBorrowerFromFuko> {
   @override
   Widget build(BuildContext context) {
     final borrowerList = FkManageProviders.get(context)["get-borrowers"];
-
+    final borrowers = borrowerList.isEmpty ? [] : borrowerList[0]["data"];
     return FkScrollViewWidgets.body(context, itemList: [
       Container(
           padding: const EdgeInsets.all(20.0),
@@ -160,19 +160,19 @@ class _AddBorrowerFromFukoState extends State<AddBorrowerFromFuko> {
                   verticalSpaceMedium,
                   SizedBox(
                     height: MediaQuery.of(context).size.height / 2,
-                    child: showFoundUser != true
+                    child: showFoundUser != true && borrowers.isEmpty
                         ? const SizedBox()
                         : ListView.builder(
-                            itemCount: borrowerList[0]["data"].length,
+                            itemCount: borrowers.length,
                             itemBuilder: (context, index) {
                               return Card(
                                 child: ListTile(
                                   leading:
                                       const Icon(Icons.account_circle_outlined),
-                                  title: Text(
-                                      "${borrowerList[index]["username"]}"),
+                                  title:
+                                      Text("${borrowers[index]["username"]}"),
                                   subtitle: Text(
-                                      "${borrowerList[index]["last_name"]} ${borrowerList[index]["first_name"]}"),
+                                      "${borrowers[index]["last_name"]} ${borrowers[index]["first_name"]}"),
                                   trailing: InkWell(
                                     onTap: () {},
                                     child: Container(
@@ -187,7 +187,9 @@ class _AddBorrowerFromFukoState extends State<AddBorrowerFromFuko> {
                                           )),
                                       child: InkWell(
                                         onTap: () => saveBorrowerName(
-                                            userId: borrowerList[index]["id"]),
+                                            userId: borrowers[index]["id"],
+                                            borrowerName:
+                                                "${borrowers[index]["last_name"]} ${borrowers[index]["first_name"]}"),
                                         child: const Icon(
                                           Icons.add,
                                           color: fkGreyText,

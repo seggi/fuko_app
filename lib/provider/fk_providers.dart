@@ -10,7 +10,8 @@ class FkProvider {
       ChangeNotifierProvider(create: (_) => AddExpenses()),
       ChangeNotifierProvider(create: (_) => AuthenticationData()),
       ChangeNotifierProvider(create: (_) => RegisterSaving()),
-      ChangeNotifierProvider(create: (_) => SaveNewBorrower())
+      ChangeNotifierProvider(create: (_) => SaveNewBorrower()),
+      ChangeNotifierProvider(create: (_) => RecordDept())
     ];
   }
 }
