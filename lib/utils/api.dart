@@ -24,4 +24,5 @@ class Network {
   static String searchBorrowerFromUsers =
       liveUrl! + "/account/dept/search-user";
   static String getBorrowerDept = liveUrl! + "/account/dept/retrieve-date";
+  static String recordDept = liveUrl! + "/account/dept/add-dept";
 }

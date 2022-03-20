@@ -11,7 +11,7 @@ import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/screens/content_box_widgets.dart';
 import 'package:fuko_app/utils/api.dart';
-import 'package:fuko_app/widgets/popup/popup_dialog_4_expenses.dart';
+import 'package:fuko_app/widgets/popup/popup_dialog_4_dept.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
@@ -25,7 +25,7 @@ class RecordBorrowerDept extends StatefulWidget {
 
 class _RecordBorrowerDeptState extends State<RecordBorrowerDept> {
   late ScaffoldMessengerState scaffoldMessenger = ScaffoldMessenger.of(context);
-  var clearWidgetList = FkManageProviders.save["remove-all-expenses"];
+  var clearWidgetList = FkManageProviders.save["remove-all-dept"];
 
   void _removeAllData(BuildContext context) async {
     waitingOption(context, title: "Cleaning...");
@@ -34,23 +34,23 @@ class _RecordBorrowerDeptState extends State<RecordBorrowerDept> {
     Navigator.of(context).pop();
   }
 
-  Future saveExpenses(List expenseData) async {
+  Future saveDept(List deptData) async {
     var token = await UserPreferences.getToken();
-    var expenseId = widget.id;
+    var noteId = widget.id;
 
-    if (expenseData.isEmpty) {
+    if (deptData.isEmpty) {
       scaffoldMessenger.showSnackBar(const SnackBar(
         content: Text(
-          "No Expenses to save!",
+          "No Dept to save!",
           style: TextStyle(color: Colors.red),
         ),
       ));
     } else {
       waitingOption(context, title: "Please Wait...");
       final response = await http.post(
-          Uri.parse(Network.addExpenses + "/$expenseId"),
+          Uri.parse(Network.recordDept + "/$noteId"),
           headers: Network.authorizedHeaders(token: token),
-          body: jsonEncode({"data": expenseData}));
+          body: jsonEncode({"data": deptData}));
 
       if (response.statusCode == 200) {
         BackendFeedBack backendFeedBack =
@@ -83,8 +83,8 @@ class _RecordBorrowerDeptState extends State<RecordBorrowerDept> {
 
   @override
   Widget build(BuildContext context) {
-    final List newItems = FkManageProviders.get(context)["add-expenses"];
-    final totalAmount = FkManageProviders.get(context)["get-added-expenses"];
+    final List newItems = FkManageProviders.get(context)["get-added-dept"];
+    final totalAmount = FkManageProviders.get(context)["get-total-dept-amount"];
 
     return FkScrollViewWidgets.body(context, itemList: [
       Container(
@@ -110,7 +110,7 @@ class _RecordBorrowerDeptState extends State<RecordBorrowerDept> {
                             size: 28,
                           )),
                       IconButton(
-                          onPressed: () => saveExpenses(newItems),
+                          onPressed: () => saveDept(newItems),
                           icon: const Icon(
                             Icons.save,
                             color: fkBlueText,
@@ -156,7 +156,7 @@ class _RecordBorrowerDeptState extends State<RecordBorrowerDept> {
                               dismissible: DismissiblePane(
                                   key: UniqueKey(),
                                   onDismissed: () {
-                                    FkManageProviders.save["remove-expenses"](
+                                    FkManageProviders.save["remove-dept"](
                                         context,
                                         itemData: {
                                           "description": newItems[index]

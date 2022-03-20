@@ -34,8 +34,17 @@ class FkManageProviders {
     "remove-all-saving": (context) =>
         Provider.of<RegisterSaving>(context, listen: false).removeFromList(),
 
+    // Dept Section
     "save_new_borrower": (context, {itemData}) =>
         Provider.of<SaveNewBorrower>(context, listen: false).add(itemData),
+    "record-dept": (context, {itemData}) =>
+        Provider.of<RecordDept>(context, listen: false).add(itemData),
+    "remove-dept": (context, {itemData}) =>
+        Provider.of<RecordDept>(context, listen: false).remove(itemData),
+    "remove-all-dept": (context, {itemData}) =>
+        Provider.of<RecordDept>(context, listen: false).removeFromList(),
+    "save-dept-amount": (context, {itemData}) =>
+        Provider.of<RecordDept>(context, listen: false).addAmount(itemData),
   };
 
   static get(context) {
@@ -50,7 +59,10 @@ class FkManageProviders {
       "get-savings-item": Provider.of<RegisterSaving>(context).getNewItem,
       "get-added-saving": Provider.of<RegisterSaving>(context).getTotalAmount,
 
+      // dept
       "get-borrowers": Provider.of<SaveNewBorrower>(context).getUserData,
+      "get-added-dept": Provider.of<RecordDept>(context).getNewItem,
+      "get-total-dept-amount": Provider.of<RecordDept>(context).getTotalAmount,
     };
   }
 }
