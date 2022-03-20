@@ -18,3 +18,4 @@ export 'dept/add_borrower_manually.dart';
 export 'dept/add_borrower_from_fuko.dart';
 export 'dept/borrower_dept.dart';
 export 'dept/save_borrower_dept.dart';
+export 'dept/pay_dept.dart';

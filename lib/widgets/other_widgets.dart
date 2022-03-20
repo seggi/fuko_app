@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/widgets/expanded_listtile.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
@@ -40,7 +41,7 @@ Widget homeCard({leadingIcon, currency, amount, titleTxt, fn}) {
 
 // Repport card
 
-Widget reportCard(
+Widget reportCard(context,
     {monthText, leadingText, currency, amount, titleTxt, String? bdTxt, fn}) {
   return Card(
     child: ExpansionTile(
@@ -90,6 +91,29 @@ Widget reportCard(
       trailing: const Icon(Icons.arrow_drop_down),
       children: bdTxt == null
           ? <Widget>[
+              Container(
+                padding: const EdgeInsets.all(8.0),
+                margin: const EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    InkWell(
+                      onTap: () =>
+                          PagesGenerator.goTo(context, name: "dept-payment"),
+                      child: Row(
+                        children: const [
+                          Icon(
+                            Icons.payments_sharp,
+                            color: Colors.deepOrange,
+                          ),
+                          horizontalSpaceSmall,
+                          Text("Pay")
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(

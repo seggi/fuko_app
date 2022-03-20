@@ -47,14 +47,6 @@ class _BorrowerDeptListState extends State<BorrowerDeptList> {
                     PagesGenerator.goTo(context, pathName: "/dept");
                   },
                   icon: const Icon(Icons.arrow_back_ios)),
-              Row(
-                children: [
-                  InkWell(
-                    onTap: () {},
-                    child: const Icon(Icons.payments_sharp),
-                  )
-                ],
-              )
             ],
           )),
       fkContentBoxWidgets.initialItems(itemList: [
@@ -157,7 +149,7 @@ class _BorrowerDeptListState extends State<BorrowerDeptList> {
 
                       return Container(
                         margin: const EdgeInsets.only(top: 0.0),
-                        child: reportCard(
+                        child: reportCard(context,
                             monthText: toBeginningOfSentenceCase(
                                 months[dateTime.month - 1]),
                             leadingText: "${dateTime.day}",

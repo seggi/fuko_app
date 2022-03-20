@@ -137,6 +137,14 @@ class PagesGenerator {
                           );
                         },
                       ),
+                      GoRoute(
+                        name: "dept-payment",
+                        path: 'dept-payment/:id',
+                        builder: (context, state) {
+                          var data = state.params['id']!;
+                          return PayDept(id: data);
+                        },
+                      ),
                     ]),
               ]),
         ],

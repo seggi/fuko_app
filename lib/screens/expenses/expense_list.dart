@@ -151,7 +151,7 @@ class _ExpenseListState extends State<ExpenseList> {
 
                       return Container(
                         margin: const EdgeInsets.only(top: 0.0),
-                        child: reportCard(
+                        child: reportCard(context,
                             monthText: toBeginningOfSentenceCase(
                                 months[dateTime.month - 1]),
                             leadingText: "${dateTime.day}",

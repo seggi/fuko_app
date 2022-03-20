@@ -72,6 +72,7 @@ Future<RetrieveBorrowersList> fetchDeptAmount() async {
 
 // Dept details
 class RetrieveDept {
+  final String? deptId;
   final String? amount;
   final String? description;
   final String? lentAt;
@@ -81,7 +82,8 @@ class RetrieveDept {
   final String? todayDate;
 
   RetrieveDept(
-      {this.amount,
+      {this.deptId,
+      this.amount,
       this.description,
       this.lentAt,
       this.paymentStatus,
@@ -91,6 +93,7 @@ class RetrieveDept {
 
   factory RetrieveDept.fromJson(Map<String, dynamic> json) {
     return RetrieveDept(
+        deptId: json['id'].toString(),
         amount: json['amount'].toString(),
         description: json['description'].toString(),
         lentAt: json['lent_at'].toString(),
