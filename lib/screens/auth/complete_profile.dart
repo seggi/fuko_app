@@ -120,6 +120,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
         widTxt: "complete profile",
         itemList: [
           fkContentBoxWidgets.initialItems(itemList: [
+            verticalSpaceRegular,
             Align(
               alignment: Alignment.bottomLeft,
               child: Text(
@@ -130,6 +131,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
                     color: fkBlackText),
               ),
             ),
+            verticalSpaceSmall,
             const Align(
               alignment: Alignment.bottomLeft,
               child: Text(
@@ -139,7 +141,8 @@ class _CompleteProfileState extends State<CompleteProfile> {
                     fontWeight: FontWeight.w300,
                     fontSize: 14),
               ),
-            )
+            ),
+            verticalSpaceRegular
           ]),
           FkContentBoxWidgets.buttonsItemsBox(context, itemList: [
             Form(
