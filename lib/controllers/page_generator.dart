@@ -147,6 +147,10 @@ class PagesGenerator {
                       ),
                     ]),
               ]),
+          GoRoute(
+              path: "loan",
+              name: 'loan',
+              builder: (context, state) => LoanPage())
         ],
         redirect: (state) {
           final loggedIn = loginInfo.loggedIn;
