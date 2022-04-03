@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart' show toBeginningOfSentenceCase;
 
 import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
@@ -134,7 +135,7 @@ class _HomePageState extends State<HomePage> {
                   Align(
                     alignment: Alignment.bottomLeft,
                     child: Text(
-                      "${userData['data']["first_name"]} ${userData['data']["last_name"]}",
+                      "${toBeginningOfSentenceCase("${userData['data']["username"]}")}",
                       style: const TextStyle(
                           fontSize: 28,
                           fontWeight: FontWeight.w600,
