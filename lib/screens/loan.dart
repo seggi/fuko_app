@@ -108,7 +108,7 @@ class _LoanPageState extends State<LoanPage> {
                       ),
                       child: TextButton(
                           onPressed: () {},
-                          child: Icon(
+                          child: const Icon(
                             Icons.add,
                             color: Colors.white,
                             size: 28,
@@ -125,7 +125,7 @@ class _LoanPageState extends State<LoanPage> {
   Widget amountContent() {
     return SingleChildScrollView(
       child: Container(
-        padding: EdgeInsets.only(top: 160),
+        padding: const EdgeInsets.only(top: 160),
         child: Column(
           children: [displayDetails()],
         ),
@@ -160,9 +160,9 @@ class _LoanPageState extends State<LoanPage> {
         height: 90,
         child: Card(
           child: ListTile(
-            contentPadding: EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(8),
             leading: Column(
-              children: [
+              children: const [
                 Icon(
                   Icons.calendar_today,
                 ),
@@ -180,17 +180,19 @@ class _LoanPageState extends State<LoanPage> {
             ),
             title: Row(
               children: [
-                Container(margin: EdgeInsets.only(top: 5), child: Text("Rwf ")),
-                Text("200.00",
+                Container(
+                    margin: const EdgeInsets.only(top: 5),
+                    child: const Text("Rwf ")),
+                const Text("200.00",
                     style:
                         TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
               ],
             ),
-            subtitle: Text("john",
+            subtitle: const Text("john",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400)),
             trailing: IconButton(
               onPressed: () {},
-              icon: Icon(Icons.more_vert),
+              icon: const Icon(Icons.more_vert),
             ),
           ),
         ));

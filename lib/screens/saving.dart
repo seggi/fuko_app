@@ -51,8 +51,19 @@ class _SavingPageState extends State<SavingPage> {
                     PagesGenerator.goTo(context, pathName: "/?status=true");
                   },
                   icon: const Icon(Icons.arrow_back_ios)),
-              IconButton(
-                  onPressed: () {}, icon: const Icon(Icons.notifications))
+              Row(
+                children: [
+                  IconButton(
+                      onPressed: () {}, icon: const Icon(Icons.notifications)),
+                  IconButton(
+                      onPressed: () =>
+                          PagesGenerator.goTo(context, name: "register-saving"),
+                      icon: const Icon(
+                        Icons.add_circle,
+                        color: fkBlueText,
+                      ))
+                ],
+              )
             ],
           )),
       fkContentBoxWidgets.initialItems(itemList: [

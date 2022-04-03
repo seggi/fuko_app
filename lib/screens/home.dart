@@ -229,7 +229,7 @@ class _HomePageState extends State<HomePage> {
                     currency: "Rwf",
                     amount: totalLoan.output.nonSymbol,
                     titleTxt: "Loan",
-                    fn: () {}),
+                    fn: () => context.go('/loan')),
                 verticalSpaceTiny,
                 homeCard(
                     leadingIcon: Icons.money_off,
