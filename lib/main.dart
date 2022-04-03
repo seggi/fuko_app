@@ -17,7 +17,7 @@ Future main() async {
   return runApp(
     MultiProvider(
       providers: FkProvider.multi(),
-      child: FukoApp(),
+      child: const FukoApp(),
     ),
   );
 }
@@ -27,7 +27,7 @@ void initialization(BuildContext context) async {
 }
 
 class FukoApp extends StatelessWidget {
-  FukoApp({Key? key}) : super(key: key);
+  const FukoApp({Key? key}) : super(key: key);
   static const title = 'Fuko';
 
   @override
