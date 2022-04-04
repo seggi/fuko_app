@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+List mainScreesName = ["savings", "loan"];
+
 class FkContentBoxWidgets {
   static Widget body(context, screenName,
       {widTxt = "", List<Widget> itemList = const [], fn}) {
@@ -14,7 +16,7 @@ class FkContentBoxWidgets {
           ),
         ),
       );
-    } else if (screenName == "savings") {
+    } else if (mainScreesName.contains(screenName)) {
       return Scaffold(
         body: SafeArea(
           child: SizedBox(
