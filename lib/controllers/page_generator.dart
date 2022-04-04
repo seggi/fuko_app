@@ -150,7 +150,10 @@ class PagesGenerator {
           GoRoute(
               path: "loan",
               name: 'loan',
-              builder: (context, state) => LoanPage())
+              builder: (context, state) {
+                final data = state.queryParams['status'];
+                return LoanPage(status: data);
+              })
         ],
         redirect: (state) {
           final loggedIn = loginInfo.loggedIn;
