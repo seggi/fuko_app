@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:badges/badges.dart';
+import 'package:fuko_app/core/user_preferences.dart';
+import 'package:fuko_app/provider/authentication.dart';
+import 'package:fuko_app/widgets/shared/style.dart';
+import 'package:provider/src/provider.dart';
 
 List mainScreesName = ["savings", "loan"];
 
@@ -7,6 +12,47 @@ class FkContentBoxWidgets {
       {widTxt = "", List<Widget> itemList = const [], fn}) {
     if (screenName == "home") {
       return Scaffold(
+        appBar: AppBar(title: const Text(""), actions: [
+          Badge(
+            badgeContent: const Text(
+              '9',
+              style: TextStyle(color: fkWhiteText),
+            ),
+            child: IconButton(
+                onPressed: () {},
+                icon: const Icon(Icons.notifications)),
+            position: BadgePosition.topEnd(end: 2, top: 2),
+          )
+        ],),
+        drawer: Drawer(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              const DrawerHeader(
+                decoration: BoxDecoration(
+                  color: fkDefaultColor,
+                ),
+                child: Text('Drawer Header'),
+              ),
+              ListTile(
+                leading: const Icon(Icons.settings),
+                title: const Text('Settings'),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+               ListTile(
+                leading: const Icon(Icons.logout),
+                title: const Text('Logout'),
+                onLongPress: () {
+                  UserPreferences.removeToken();
+                  context.read<AuthenticationData>().logout();
+                  context.go('/');
+                },
+              )
+            ],
+          ),
+        ),
         body: SafeArea(
           child: SizedBox(
             height: MediaQuery.of(context).size.height,

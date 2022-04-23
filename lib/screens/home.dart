@@ -5,7 +5,6 @@ import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/core/global_amount.dart';
 import 'package:fuko_app/core/user_preferences.dart';
-import 'package:badges/badges.dart';
 import 'package:fuko_app/provider/authentication.dart';
 
 import 'package:fuko_app/screens/content_box_widgets.dart';
@@ -99,37 +98,7 @@ class _HomePageState extends State<HomePage> {
                     snapshot.data!.globalAmountDetails['dept'].toString()));
 
             return FkContentBoxWidgets.body(context, 'home', itemList: [
-              Padding(
-                  padding: const EdgeInsets.only(right: 8.0, left: 8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      IconButton(
-                          onPressed: () {}, icon: const Icon(Icons.menu)),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Badge(
-                            badgeContent: const Text(
-                              '9',
-                              style: TextStyle(color: fkWhiteText),
-                            ),
-                            child: IconButton(
-                                onPressed: () {},
-                                icon: const Icon(Icons.notifications)),
-                            position: BadgePosition.topEnd(end: 2, top: 2),
-                          ),
-                          IconButton(
-                              onPressed: () {
-                                UserPreferences.removeToken();
-                                context.read<AuthenticationData>().logout();
-                                context.go('/');
-                              },
-                              icon: const Icon(Icons.logout)),
-                        ],
-                      )
-                    ],
-                  )),
+              verticalSpaceRegular,
               fkContentBoxWidgets.initialItems(
                 itemList: <Widget>[
                   Align(
