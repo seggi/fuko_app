@@ -7,7 +7,7 @@ import 'package:fuko_app/core/global_amount.dart';
 import 'package:fuko_app/core/user_preferences.dart';
 import 'package:fuko_app/provider/authentication.dart';
 
-import 'package:fuko_app/screens/content_box_widgets.dart';
+import 'package:fuko_app/screens/accountability/content_box_widgets.dart';
 import 'package:fuko_app/widgets/other_widgets.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
@@ -98,6 +98,9 @@ class _HomePageState extends State<HomePage> {
                     snapshot.data!.globalAmountDetails['dept'].toString()));
 
             return FkContentBoxWidgets.body(context, 'home', 
+            userData: {
+              "userName": "${toBeginningOfSentenceCase("${userData['data']["username"]}")}"
+            },
             fn: () {
               UserPreferences.removeToken();
                   context.read<AuthenticationData>().logout();

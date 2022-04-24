@@ -5,7 +5,7 @@ import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:fuko_app/screens/content_box_widgets.dart';
+import 'package:fuko_app/screens/accountability/content_box_widgets.dart';
 import 'package:fuko_app/utils/api.dart';
 import 'package:fuko_app/widgets/custom_btn.dart';
 import 'package:fuko_app/widgets/other_input.dart';

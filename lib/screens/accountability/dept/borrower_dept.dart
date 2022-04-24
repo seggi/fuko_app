@@ -3,7 +3,7 @@ import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/core/default_data.dart';
 import 'package:fuko_app/core/dept.dart';
-import 'package:fuko_app/screens/content_box_widgets.dart';
+import 'package:fuko_app/screens/accountability/content_box_widgets.dart';
 import 'package:fuko_app/widgets/other_widgets.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fuko_app/screens/content_box_widgets.dart';
+import 'package:fuko_app/screens/accountability/content_box_widgets.dart';
 
 class ShimmerLoading extends StatefulWidget {
   const ShimmerLoading({Key? key}) : super(key: key);

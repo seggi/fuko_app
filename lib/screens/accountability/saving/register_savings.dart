@@ -1,31 +1,30 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:fuko_app/core/notification.dart';
-import 'package:fuko_app/core/user_preferences.dart';
-import 'package:fuko_app/widgets/popup/alert_dialog.dart';
-import 'package:http/http.dart' as http;
-
-import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:fuko_app/widgets/popup/alert_dialog.dart';
+import 'package:fuko_app/widgets/popup/popup_dialog_4_saving.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter/material.dart';
+
 import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
-import 'package:fuko_app/screens/content_box_widgets.dart';
+import 'package:fuko_app/core/notification.dart';
+import 'package:fuko_app/core/user_preferences.dart';
+import 'package:fuko_app/screens/accountability/content_box_widgets.dart';
 import 'package:fuko_app/utils/api.dart';
-import 'package:fuko_app/widgets/popup/popup_dialog_4_dept.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
-class RecordBorrowerDept extends StatefulWidget {
-  final String id;
-  const RecordBorrowerDept({Key? key, required this.id}) : super(key: key);
+class RegisterSavingScreen extends StatefulWidget {
+  const RegisterSavingScreen({Key? key}) : super(key: key);
 
   @override
-  State<RecordBorrowerDept> createState() => _RecordBorrowerDeptState();
+  _RegisterSavingScreenState createState() => _RegisterSavingScreenState();
 }
 
-class _RecordBorrowerDeptState extends State<RecordBorrowerDept> {
+class _RegisterSavingScreenState extends State<RegisterSavingScreen> {
   late ScaffoldMessengerState scaffoldMessenger = ScaffoldMessenger.of(context);
-  var clearWidgetList = FkManageProviders.save["remove-all-dept"];
+  var clearWidgetList = FkManageProviders.save["remove-all-saving"];
 
   void _removeAllData(BuildContext context) async {
     waitingOption(context, title: "Cleaning...");
@@ -34,23 +33,23 @@ class _RecordBorrowerDeptState extends State<RecordBorrowerDept> {
     Navigator.of(context).pop();
   }
 
-  Future saveDept(List deptData) async {
+  Future saveSaving(List expenseData) async {
     var token = await UserPreferences.getToken();
-    var noteId = widget.id;
+    var userId = await UserPreferences.getUserId();
 
-    if (deptData.isEmpty) {
+    if (expenseData.isEmpty) {
       scaffoldMessenger.showSnackBar(const SnackBar(
         content: Text(
-          "No Dept to save!",
+          "No saving to save!",
           style: TextStyle(color: Colors.red),
         ),
       ));
     } else {
       waitingOption(context, title: "Please Wait...");
       final response = await http.post(
-          Uri.parse(Network.recordDept + "/$noteId"),
+          Uri.parse(Network.registerSaving + "/$userId"),
           headers: Network.authorizedHeaders(token: token),
-          body: jsonEncode({"data": deptData}));
+          body: jsonEncode({"data": expenseData}));
 
       if (response.statusCode == 200) {
         BackendFeedBack backendFeedBack =
@@ -58,7 +57,7 @@ class _RecordBorrowerDeptState extends State<RecordBorrowerDept> {
 
         if (backendFeedBack.code == "success") {
           clearWidgetList(context);
-          PagesGenerator.goTo(context, pathName: "/dept?status=true");
+          PagesGenerator.goTo(context, pathName: "/saving?status=true");
           Navigator.of(context).pop();
         } else {
           scaffoldMessenger.showSnackBar(const SnackBar(
@@ -83,8 +82,8 @@ class _RecordBorrowerDeptState extends State<RecordBorrowerDept> {
 
   @override
   Widget build(BuildContext context) {
-    final List newItems = FkManageProviders.get(context)["get-added-dept"];
-    final totalAmount = FkManageProviders.get(context)["get-total-dept-amount"];
+    final List newItems = FkManageProviders.get(context)["get-savings-item"];
+    final totalAmount = FkManageProviders.get(context)["get-added-saving"];
 
     return FkScrollViewWidgets.body(context, itemList: [
       Container(
@@ -99,7 +98,7 @@ class _RecordBorrowerDeptState extends State<RecordBorrowerDept> {
                   IconButton(
                       icon: const Icon(Icons.cancel_outlined),
                       onPressed: () =>
-                          PagesGenerator.goTo(context, pathName: "/dept")),
+                          PagesGenerator.goTo(context, pathName: "/saving")),
                   Row(
                     children: [
                       IconButton(
@@ -110,7 +109,7 @@ class _RecordBorrowerDeptState extends State<RecordBorrowerDept> {
                             size: 28,
                           )),
                       IconButton(
-                          onPressed: () => saveDept(newItems),
+                          onPressed: () => saveSaving(newItems),
                           icon: const Icon(
                             Icons.save,
                             color: fkBlueText,
@@ -125,7 +124,7 @@ class _RecordBorrowerDeptState extends State<RecordBorrowerDept> {
             Container(
               alignment: Alignment.bottomLeft,
               child: const Text(
-                "Record Dept",
+                "Record Saving",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
               ),
             ),
@@ -156,7 +155,7 @@ class _RecordBorrowerDeptState extends State<RecordBorrowerDept> {
                               dismissible: DismissiblePane(
                                   key: UniqueKey(),
                                   onDismissed: () {
-                                    FkManageProviders.save["remove-dept"](
+                                    FkManageProviders.save["remove-saving"](
                                         context,
                                         itemData: {
                                           "description": newItems[index]
@@ -167,7 +166,7 @@ class _RecordBorrowerDeptState extends State<RecordBorrowerDept> {
                                   }),
                               children: const [
                                 SlidableAction(
-                                  onPressed: doNothingsOne,
+                                  onPressed: doNothing,
                                   backgroundColor: Color(0xFFFE4A49),
                                   foregroundColor: Colors.white,
                                   icon: Icons.delete,
@@ -245,4 +244,4 @@ class _RecordBorrowerDeptState extends State<RecordBorrowerDept> {
   }
 }
 
-doNothingsOne(BuildContext context) {}
+doNothing(BuildContext context) {}

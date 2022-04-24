@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart';
-import 'package:fuko_app/core/user_preferences.dart';
-import 'package:fuko_app/provider/authentication.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
-import 'package:provider/src/provider.dart';
+import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
 List mainScreesName = ["savings", "loan"];
 
 class FkContentBoxWidgets {
   static Widget body(context, screenName,
-      {widTxt = "", List<Widget> itemList = const [], fn}) {
+      {widTxt = "", List<Widget> itemList = const [], fn, userData = const {} }) {
     if (screenName == "home") {
       return Scaffold(
         appBar: AppBar(title: const Text(""), actions: [
@@ -28,11 +26,29 @@ class FkContentBoxWidgets {
           child: ListView(
             padding: EdgeInsets.zero,
             children: [
-              const DrawerHeader(
-                decoration: BoxDecoration(
+              DrawerHeader(
+                decoration: const BoxDecoration(
                   color: fkDefaultColor,
                 ),
-                child: Text('Drawer Header'),
+                child: Column(
+                  children: [
+                     CircleAvatar(
+                        radius: 40.0,
+                        child: ClipRRect(
+                            child: const Icon(Icons.person),
+                            borderRadius: BorderRadius.circular(50.0),
+                        ),
+                    ),
+                    verticalSpaceRegular,
+                     Text('${userData['userName']}', 
+                      style: const TextStyle(
+                        color: fkWhiteText, 
+                        fontSize: 20, 
+                        fontWeight: FontWeight.w600
+                      ),
+                    )
+                  ],
+                ),
               ),
               ListTile(
                 leading: const Icon(Icons.settings),

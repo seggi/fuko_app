@@ -1,74 +1,65 @@
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
-import 'package:fuko_app/controllers/manage_provider.dart';
+
 import 'package:fuko_app/controllers/page_generator.dart';
-import 'package:fuko_app/core/dept.dart';
-import 'package:fuko_app/core/user_preferences.dart';
-import 'package:fuko_app/screens/content_box_widgets.dart';
+import 'package:fuko_app/core/default_data.dart';
+import 'package:fuko_app/core/saving.dart';
+import 'package:fuko_app/screens/accountability/content_box_widgets.dart';
+import 'package:fuko_app/widgets/other_widgets.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
-import 'package:fuko_app/widgets/show_modal_bottom_sheet.dart';
 
-class DeptPage extends StatefulWidget {
+class SavingPage extends StatefulWidget {
   final String? status;
-
-  const DeptPage({Key? key, required this.status}) : super(key: key);
+  const SavingPage({Key? key, required this.status}) : super(key: key);
 
   @override
-  _DeptPageState createState() => _DeptPageState();
+  _SavingPageState createState() => _SavingPageState();
 }
 
-class _DeptPageState extends State<DeptPage> {
+class _SavingPageState extends State<SavingPage> {
   FkContentBoxWidgets fkContentBoxWidgets = FkContentBoxWidgets();
 
-// RetrieveBorrowersList
-
-  late Future<RetrieveBorrowersList> retrieveDeptAmount;
-  late Future<List<RetrieveBorrowersList>> retrieveBorrowerList;
+  late Future<RetrieveSavingTotal> retrieveSavingTotal;
+  late Future<List<RetrieveSaving>> retrieveSaving;
 
   @override
   void initState() {
     super.initState();
-    retrieveDeptAmount = fetchDeptAmount();
-    retrieveBorrowerList = fetchBorrowerList();
+    retrieveSavingTotal = fetchRetrieveSavingTotal();
+    retrieveSaving = fetchRetrieveSaving();
   }
 
   @override
   Widget build(BuildContext context) {
-    final screenTitle = FkManageProviders.save["save-screen-title"];
     if (widget.status == "true") {
       setState(() {
-        retrieveDeptAmount = fetchDeptAmount();
-        retrieveBorrowerList = fetchBorrowerList();
+        retrieveSavingTotal = fetchRetrieveSavingTotal();
+        retrieveSaving = fetchRetrieveSaving();
       });
     }
-    return FkContentBoxWidgets.body(context, 'savings', itemList: [
+    return FkContentBoxWidgets.body(context, 'savings', fn: () {
+      PagesGenerator.goTo(context, name: "register-saving");
+    }, itemList: [
       Padding(
           padding: const EdgeInsets.only(right: 20.0, left: 20.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              InkWell(
-                  onTap: () async {
-                    var token = await UserPreferences.getToken();
+              IconButton(
+                  onPressed: () async {
                     PagesGenerator.goTo(context, pathName: "/?status=true");
                   },
-                  child: const Icon(Icons.arrow_back_ios)),
+                  icon: const Icon(Icons.arrow_back_ios)),
               Row(
                 children: [
                   IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.notifications_none_sharp)),
+                      onPressed: () {}, icon: const Icon(Icons.notifications)),
                   IconButton(
-                      onPressed: () => customBottomModalSheet(context),
-                      // PagesGenerator.goTo(context, name: "create-expense"),
+                      onPressed: () =>
+                          PagesGenerator.goTo(context, name: "register-saving"),
                       icon: const Icon(
-                        Icons.person_add_alt,
-                        color: fkBlueText,
-                      )),
-                  IconButton(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.search_sharp,
+                        Icons.add_circle,
                         color: fkBlueText,
                       ))
                 ],
@@ -79,7 +70,7 @@ class _DeptPageState extends State<DeptPage> {
         const Align(
           alignment: Alignment.bottomLeft,
           child: Text(
-            "Dept",
+            "Saving",
             style: TextStyle(
                 fontSize: 28, fontWeight: FontWeight.w600, color: fkBlackText),
           ),
@@ -87,7 +78,7 @@ class _DeptPageState extends State<DeptPage> {
         const Align(
           alignment: Alignment.bottomLeft,
           child: Text(
-            "Total Dept Amount",
+            "Total Saving Amount in the current month",
             style: TextStyle(
                 color: fkGreyText, fontWeight: FontWeight.w400, fontSize: 16),
           ),
@@ -103,8 +94,8 @@ class _DeptPageState extends State<DeptPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                FutureBuilder<RetrieveBorrowersList>(
-                  future: retrieveDeptAmount,
+                FutureBuilder<RetrieveSavingTotal>(
+                  future: retrieveSavingTotal,
                   builder: (
                     BuildContext context,
                     AsyncSnapshot snapshot,
@@ -121,7 +112,7 @@ class _DeptPageState extends State<DeptPage> {
                                 color: fkGreyText),
                           ),
                           Text(
-                            "${snapshot.data!.totalDept}",
+                            "${snapshot.data!.totalAmount}",
                             overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
                                 fontSize: 35,
@@ -162,10 +153,18 @@ class _DeptPageState extends State<DeptPage> {
                   alignment: Alignment.center,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(8.0),
-                    child: const Icon(
-                      Icons.account_tree_outlined,
-                      size: 30,
-                      color: fkGreyText,
+                    child: Container(
+                      color: fkBlueText,
+                      child: IconButton(
+                        icon: const Icon(
+                          Icons.arrow_right_alt,
+                          size: 30,
+                          color: fkWhiteText,
+                        ),
+                        onPressed: () {},
+                        // onPressed: () => PagesGenerator.goTo(context,
+                        //     name: "saving-options"),
+                      ),
                     ),
                   ),
                 )
@@ -177,7 +176,7 @@ class _DeptPageState extends State<DeptPage> {
         const Align(
           alignment: Alignment.bottomLeft,
           child: Text(
-            "Borrowers Recorded",
+            "Total amounts for this February",
             style: TextStyle(
                 color: fkBlackText, fontWeight: FontWeight.w400, fontSize: 14),
           ),
@@ -185,9 +184,8 @@ class _DeptPageState extends State<DeptPage> {
       ]),
       Expanded(
         child: FutureBuilder(
-          future: retrieveBorrowerList,
-          builder:
-              (context, AsyncSnapshot<List<RetrieveBorrowersList>> snapshot) {
+          future: retrieveSaving,
+          builder: (context, AsyncSnapshot<List<RetrieveSaving>> snapshot) {
             if (snapshot.hasData) {
               return SizedBox(
                 child: NotificationListener<OverscrollIndicatorNotification>(
@@ -204,37 +202,17 @@ class _DeptPageState extends State<DeptPage> {
                           DateTime.parse("${snapshot.data?[index].createdAt}");
 
                       return Container(
-                          margin: const EdgeInsets.only(top: 0.0),
-                          child: InkWell(
-                            child: Card(
-                              child: ListTile(
-                                leading:
-                                    const Icon(Icons.account_circle_outlined),
-                                title: SizedBox(
-                                  width: 200,
-                                  child: Text(
-                                    snapshot.data?[index].borrowerName != "null"
-                                        ? "${snapshot.data?[index].borrowerName}"
-                                        : "${snapshot.data?[index].firstName}",
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            onTap: () {
-                              screenTitle(context,
-                                  screenTitle:
-                                      "${snapshot.data?[index].borrowerName}");
-                              PagesGenerator.goTo(context,
-                                  name: "borrower_dept_details",
-                                  params: {
-                                    "id": "${snapshot.data?[index].borrowerId}"
-                                  });
-                            },
-                          ));
+                        margin: const EdgeInsets.only(top: 0.0),
+                        child: reportCard(context,
+                            monthText: toBeginningOfSentenceCase(
+                                months[dateTime.month - 1]),
+                            leadingText: "${dateTime.day}",
+                            currency: "Rwf",
+                            amount: snapshot.data?[index].amount,
+                            titleTxt: "${snapshot.data?[index].description}",
+                            bdTxt: snapshot.data?[index].description,
+                            fn: () {}),
+                      );
                     },
                   ),
                 ),

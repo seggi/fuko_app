@@ -1,30 +1,31 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:fuko_app/widgets/popup/alert_dialog.dart';
-import 'package:fuko_app/widgets/popup/popup_dialog_4_saving.dart';
-import 'package:http/http.dart' as http;
-import 'package:flutter/material.dart';
-
-import 'package:fuko_app/controllers/manage_provider.dart';
-import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/core/notification.dart';
 import 'package:fuko_app/core/user_preferences.dart';
-import 'package:fuko_app/screens/content_box_widgets.dart';
+import 'package:fuko_app/widgets/popup/alert_dialog.dart';
+import 'package:http/http.dart' as http;
+
+import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:fuko_app/controllers/manage_provider.dart';
+import 'package:fuko_app/controllers/page_generator.dart';
+import 'package:fuko_app/screens/accountability/content_box_widgets.dart';
 import 'package:fuko_app/utils/api.dart';
+import 'package:fuko_app/widgets/popup/popup_dialog_4_expenses.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
-class RegisterSavingScreen extends StatefulWidget {
-  const RegisterSavingScreen({Key? key}) : super(key: key);
+class SaveExpenses extends StatefulWidget {
+  final String id;
+  const SaveExpenses({Key? key, required this.id}) : super(key: key);
 
   @override
-  _RegisterSavingScreenState createState() => _RegisterSavingScreenState();
+  State<SaveExpenses> createState() => _SaveExpensesState();
 }
 
-class _RegisterSavingScreenState extends State<RegisterSavingScreen> {
+class _SaveExpensesState extends State<SaveExpenses> {
   late ScaffoldMessengerState scaffoldMessenger = ScaffoldMessenger.of(context);
-  var clearWidgetList = FkManageProviders.save["remove-all-saving"];
+  var clearWidgetList = FkManageProviders.save["remove-all-expenses"];
 
   void _removeAllData(BuildContext context) async {
     waitingOption(context, title: "Cleaning...");
@@ -33,21 +34,21 @@ class _RegisterSavingScreenState extends State<RegisterSavingScreen> {
     Navigator.of(context).pop();
   }
 
-  Future saveSaving(List expenseData) async {
+  Future saveExpenses(List expenseData) async {
     var token = await UserPreferences.getToken();
-    var userId = await UserPreferences.getUserId();
+    var expenseId = widget.id;
 
     if (expenseData.isEmpty) {
       scaffoldMessenger.showSnackBar(const SnackBar(
         content: Text(
-          "No saving to save!",
+          "No Expenses to save!",
           style: TextStyle(color: Colors.red),
         ),
       ));
     } else {
       waitingOption(context, title: "Please Wait...");
       final response = await http.post(
-          Uri.parse(Network.registerSaving + "/$userId"),
+          Uri.parse(Network.addExpenses + "/$expenseId"),
           headers: Network.authorizedHeaders(token: token),
           body: jsonEncode({"data": expenseData}));
 
@@ -57,7 +58,7 @@ class _RegisterSavingScreenState extends State<RegisterSavingScreen> {
 
         if (backendFeedBack.code == "success") {
           clearWidgetList(context);
-          PagesGenerator.goTo(context, pathName: "/saving?status=true");
+          PagesGenerator.goTo(context, pathName: "/expenses?status=true");
           Navigator.of(context).pop();
         } else {
           scaffoldMessenger.showSnackBar(const SnackBar(
@@ -82,8 +83,8 @@ class _RegisterSavingScreenState extends State<RegisterSavingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final List newItems = FkManageProviders.get(context)["get-savings-item"];
-    final totalAmount = FkManageProviders.get(context)["get-added-saving"];
+    final List newItems = FkManageProviders.get(context)["add-expenses"];
+    final totalAmount = FkManageProviders.get(context)["get-added-expenses"];
 
     return FkScrollViewWidgets.body(context, itemList: [
       Container(
@@ -98,7 +99,7 @@ class _RegisterSavingScreenState extends State<RegisterSavingScreen> {
                   IconButton(
                       icon: const Icon(Icons.cancel_outlined),
                       onPressed: () =>
-                          PagesGenerator.goTo(context, pathName: "/saving")),
+                          PagesGenerator.goTo(context, pathName: "/expenses")),
                   Row(
                     children: [
                       IconButton(
@@ -109,7 +110,7 @@ class _RegisterSavingScreenState extends State<RegisterSavingScreen> {
                             size: 28,
                           )),
                       IconButton(
-                          onPressed: () => saveSaving(newItems),
+                          onPressed: () => saveExpenses(newItems),
                           icon: const Icon(
                             Icons.save,
                             color: fkBlueText,
@@ -124,7 +125,7 @@ class _RegisterSavingScreenState extends State<RegisterSavingScreen> {
             Container(
               alignment: Alignment.bottomLeft,
               child: const Text(
-                "Record Saving",
+                "Added Expenses",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
               ),
             ),
@@ -155,7 +156,7 @@ class _RegisterSavingScreenState extends State<RegisterSavingScreen> {
                               dismissible: DismissiblePane(
                                   key: UniqueKey(),
                                   onDismissed: () {
-                                    FkManageProviders.save["remove-saving"](
+                                    FkManageProviders.save["remove-expenses"](
                                         context,
                                         itemData: {
                                           "description": newItems[index]
@@ -166,7 +167,7 @@ class _RegisterSavingScreenState extends State<RegisterSavingScreen> {
                                   }),
                               children: const [
                                 SlidableAction(
-                                  onPressed: doNothing,
+                                  onPressed: doNothings,
                                   backgroundColor: Color(0xFFFE4A49),
                                   foregroundColor: Colors.white,
                                   icon: Icons.delete,
@@ -244,4 +245,4 @@ class _RegisterSavingScreenState extends State<RegisterSavingScreen> {
   }
 }
 
-doNothing(BuildContext context) {}
+doNothings(BuildContext context) {}

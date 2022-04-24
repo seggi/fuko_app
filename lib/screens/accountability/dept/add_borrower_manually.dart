@@ -6,45 +6,40 @@ import 'package:flutter/material.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/core/notification.dart';
 import 'package:fuko_app/core/user_preferences.dart';
-import 'package:fuko_app/screens/content_box_widgets.dart';
+import 'package:fuko_app/screens/accountability/content_box_widgets.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
-class PayDept extends StatefulWidget {
-  final String id;
-  const PayDept({Key? key, required this.id}) : super(key: key);
+class AddBorrowerManually extends StatefulWidget {
+  const AddBorrowerManually({Key? key}) : super(key: key);
 
   @override
-  State<PayDept> createState() => _PayDeptState();
+  State<AddBorrowerManually> createState() => _AddBorrowerManuallyState();
 }
 
-class _PayDeptState extends State<PayDept> {
+class _AddBorrowerManuallyState extends State<AddBorrowerManually> {
   final _formKey = GlobalKey();
 
-  TextEditingController amountController = TextEditingController();
-  TextEditingController descriptionController = TextEditingController();
+  TextEditingController addBorrowerNameController = TextEditingController();
 
   late ScaffoldMessengerState scaffoldMessenger = ScaffoldMessenger.of(context);
 
-  Future saveExpenses() async {
+  Future saveBorrowerName() async {
     FocusManager.instance.primaryFocus?.unfocus();
     var token = await UserPreferences.getToken();
-    var userId = await UserPreferences.getUserId();
     Map newItem = {
-      "amount": amountController.text,
-      "description": descriptionController.text
+      "borrower_name": addBorrowerNameController.text,
     };
 
-    if (amountController.text == "") {
+    if (addBorrowerNameController.text == "") {
       scaffoldMessenger.showSnackBar(const SnackBar(
           content: Text(
-        "Please fill all fields.",
+        "This field can't remain empty.",
         style: TextStyle(color: Colors.white, fontSize: 16),
       )));
       return;
     } else {
-      final response = await http.post(
-          Uri.parse(Network.createExpense + "/$userId"),
+      final response = await http.post(Uri.parse(Network.addNewBorrower),
           headers: Network.authorizedHeaders(token: token),
           body: jsonEncode(newItem));
 
@@ -83,7 +78,7 @@ class _PayDeptState extends State<PayDept> {
             Container(
               alignment: Alignment.bottomLeft,
               child: const Text(
-                "Pay",
+                "Add borrower",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
               ),
             ),
@@ -96,25 +91,11 @@ class _PayDeptState extends State<PayDept> {
                   children: [
                     TextFormField(
                       autofocus: true,
-                      controller: amountController,
-                      keyboardType: TextInputType.number,
-                      textInputAction: TextInputAction.done,
-                      decoration: InputDecoration(
-                          hintText: 'Amount',
-                          border: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color: fkInputFormBorderColor, width: 1.0),
-                              borderRadius: BorderRadius.circular(8.0))),
-                      onSaved: (String? value) {},
-                    ),
-                    verticalSpaceMedium,
-                    TextFormField(
-                      autofocus: true,
-                      controller: amountController,
+                      controller: addBorrowerNameController,
                       keyboardType: TextInputType.text,
                       textInputAction: TextInputAction.done,
                       decoration: InputDecoration(
-                          hintText: 'Description',
+                          hintText: 'Enter Borrower Name',
                           border: OutlineInputBorder(
                               borderSide: const BorderSide(
                                   color: fkInputFormBorderColor, width: 1.0),
@@ -132,9 +113,9 @@ class _PayDeptState extends State<PayDept> {
                             color: fkDefaultColor,
                           )),
                       child: TextButton(
-                        onPressed: () => saveExpenses(),
+                        onPressed: () => saveBorrowerName(),
                         child: const Icon(
-                          Icons.add,
+                          Icons.person_add_alt,
                           color: fkWhiteText,
                         ),
                       ),

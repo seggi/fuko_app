@@ -1,46 +1,47 @@
-import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
-
+import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
-import 'package:fuko_app/core/default_data.dart';
-import 'package:fuko_app/core/saving.dart';
-import 'package:fuko_app/screens/content_box_widgets.dart';
-import 'package:fuko_app/widgets/other_widgets.dart';
+import 'package:fuko_app/core/expenses.dart';
+import 'package:fuko_app/core/user_preferences.dart';
+import 'package:fuko_app/screens/accountability/content_box_widgets.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
+import 'package:intl/intl.dart';
 
-class SavingPage extends StatefulWidget {
+class ExpensesPage extends StatefulWidget {
   final String? status;
-  const SavingPage({Key? key, required this.status}) : super(key: key);
+
+  const ExpensesPage({Key? key, required this.status}) : super(key: key);
 
   @override
-  _SavingPageState createState() => _SavingPageState();
+  _ExpensesPageState createState() => _ExpensesPageState();
 }
 
-class _SavingPageState extends State<SavingPage> {
+class _ExpensesPageState extends State<ExpensesPage> {
   FkContentBoxWidgets fkContentBoxWidgets = FkContentBoxWidgets();
 
-  late Future<RetrieveSavingTotal> retrieveSavingTotal;
-  late Future<List<RetrieveSaving>> retrieveSaving;
+// RetrieveExpensesTotal
+
+  late Future<RetrieveExpensesTotal> retrieveExpensesTotal;
+  late Future<List<RetrieveExpenses>> retrieveExpenses;
 
   @override
   void initState() {
     super.initState();
-    retrieveSavingTotal = fetchRetrieveSavingTotal();
-    retrieveSaving = fetchRetrieveSaving();
+    retrieveExpensesTotal = fetchRetrieveExpensesTotal();
+    retrieveExpenses = fetchRetrieveExpenses();
   }
 
   @override
   Widget build(BuildContext context) {
+    final screenTitle = FkManageProviders.save["save-screen-title"];
     if (widget.status == "true") {
       setState(() {
-        retrieveSavingTotal = fetchRetrieveSavingTotal();
-        retrieveSaving = fetchRetrieveSaving();
+        retrieveExpensesTotal = fetchRetrieveExpensesTotal();
+        retrieveExpenses = fetchRetrieveExpenses();
       });
     }
-    return FkContentBoxWidgets.body(context, 'savings', fn: () {
-      PagesGenerator.goTo(context, name: "register-saving");
-    }, itemList: [
+    return FkContentBoxWidgets.body(context, 'savings', itemList: [
       Padding(
           padding: const EdgeInsets.only(right: 20.0, left: 20.0),
           child: Row(
@@ -48,6 +49,7 @@ class _SavingPageState extends State<SavingPage> {
             children: [
               IconButton(
                   onPressed: () async {
+                    var token = await UserPreferences.getToken();
                     PagesGenerator.goTo(context, pathName: "/?status=true");
                   },
                   icon: const Icon(Icons.arrow_back_ios)),
@@ -57,7 +59,7 @@ class _SavingPageState extends State<SavingPage> {
                       onPressed: () {}, icon: const Icon(Icons.notifications)),
                   IconButton(
                       onPressed: () =>
-                          PagesGenerator.goTo(context, name: "register-saving"),
+                          PagesGenerator.goTo(context, name: "create-expense"),
                       icon: const Icon(
                         Icons.add_circle,
                         color: fkBlueText,
@@ -70,7 +72,7 @@ class _SavingPageState extends State<SavingPage> {
         const Align(
           alignment: Alignment.bottomLeft,
           child: Text(
-            "Saving",
+            "Expenses",
             style: TextStyle(
                 fontSize: 28, fontWeight: FontWeight.w600, color: fkBlackText),
           ),
@@ -78,7 +80,7 @@ class _SavingPageState extends State<SavingPage> {
         const Align(
           alignment: Alignment.bottomLeft,
           child: Text(
-            "Total Saving Amount in the current month",
+            "Total Expenses Amount",
             style: TextStyle(
                 color: fkGreyText, fontWeight: FontWeight.w400, fontSize: 16),
           ),
@@ -94,8 +96,8 @@ class _SavingPageState extends State<SavingPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                FutureBuilder<RetrieveSavingTotal>(
-                  future: retrieveSavingTotal,
+                FutureBuilder<RetrieveExpensesTotal>(
+                  future: retrieveExpensesTotal,
                   builder: (
                     BuildContext context,
                     AsyncSnapshot snapshot,
@@ -161,9 +163,8 @@ class _SavingPageState extends State<SavingPage> {
                           size: 30,
                           color: fkWhiteText,
                         ),
-                        onPressed: () {},
-                        // onPressed: () => PagesGenerator.goTo(context,
-                        //     name: "saving-options"),
+                        onPressed: () => PagesGenerator.goTo(context,
+                            name: "expense-options"),
                       ),
                     ),
                   ),
@@ -176,7 +177,7 @@ class _SavingPageState extends State<SavingPage> {
         const Align(
           alignment: Alignment.bottomLeft,
           child: Text(
-            "Total amounts for this February",
+            "Expenses saved list",
             style: TextStyle(
                 color: fkBlackText, fontWeight: FontWeight.w400, fontSize: 14),
           ),
@@ -184,8 +185,8 @@ class _SavingPageState extends State<SavingPage> {
       ]),
       Expanded(
         child: FutureBuilder(
-          future: retrieveSaving,
-          builder: (context, AsyncSnapshot<List<RetrieveSaving>> snapshot) {
+          future: retrieveExpenses,
+          builder: (context, AsyncSnapshot<List<RetrieveExpenses>> snapshot) {
             if (snapshot.hasData) {
               return SizedBox(
                 child: NotificationListener<OverscrollIndicatorNotification>(
@@ -202,17 +203,44 @@ class _SavingPageState extends State<SavingPage> {
                           DateTime.parse("${snapshot.data?[index].createdAt}");
 
                       return Container(
-                        margin: const EdgeInsets.only(top: 0.0),
-                        child: reportCard(context,
-                            monthText: toBeginningOfSentenceCase(
-                                months[dateTime.month - 1]),
-                            leadingText: "${dateTime.day}",
-                            currency: "Rwf",
-                            amount: snapshot.data?[index].amount,
-                            titleTxt: "${snapshot.data?[index].description}",
-                            bdTxt: snapshot.data?[index].description,
-                            fn: () {}),
-                      );
+                          margin: const EdgeInsets.only(top: 0.0),
+                          child: InkWell(
+                            child: Card(
+                              child: ListTile(
+                                leading: const Icon(Icons.list_alt_outlined),
+                                title: SizedBox(
+                                  width: 200,
+                                  child: Text(
+                                    snapshot.data?[index].expenseName ??
+                                        "No title provided",
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ),
+                                trailing: Text(
+                                  "${dateTime.year}-${dateTime.month}-${dateTime.day} ${dateTime.hour}:${dateTime.minute}",
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                    color: fkBlueText,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            onTap: () {
+                              screenTitle(context,
+                                  screenTitle:
+                                      "${snapshot.data?[index].expenseName}");
+                              PagesGenerator.goTo(context,
+                                  name: "expense-list",
+                                  params: {
+                                    "id": "${snapshot.data?[index].expenseId}"
+                                  });
+                            },
+                          ));
                     },
                   ),
                 ),
