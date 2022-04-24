@@ -97,7 +97,13 @@ class _HomePageState extends State<HomePage> {
                 amount: double.parse(
                     snapshot.data!.globalAmountDetails['dept'].toString()));
 
-            return FkContentBoxWidgets.body(context, 'home', itemList: [
+            return FkContentBoxWidgets.body(context, 'home', 
+            fn: () {
+              UserPreferences.removeToken();
+                  context.read<AuthenticationData>().logout();
+                  context.go('/');
+            },
+            itemList: [
               verticalSpaceRegular,
               fkContentBoxWidgets.initialItems(
                 itemList: <Widget>[

@@ -44,11 +44,7 @@ class FkContentBoxWidgets {
                ListTile(
                 leading: const Icon(Icons.logout),
                 title: const Text('Logout'),
-                onLongPress: () {
-                  UserPreferences.removeToken();
-                  context.read<AuthenticationData>().logout();
-                  context.go('/');
-                },
+                onLongPress: fn,
               )
             ],
           ),
