@@ -47,12 +47,23 @@ class _ExpensesPageState extends State<ExpensesPage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              IconButton(
-                  onPressed: () async {
-                    var token = await UserPreferences.getToken();
-                    PagesGenerator.goTo(context, pathName: "/?status=true");
-                  },
-                  icon: const Icon(Icons.arrow_back_ios)),
+              Row(
+                children: [
+                  InkWell(
+                      onTap: () async {
+                        var token = await UserPreferences.getToken();
+                        PagesGenerator.goTo(context, pathName: "/?status=true");
+                      },
+                      child: const Icon(
+                        Icons.arrow_back_ios,
+                        size: 20,
+                      )),
+                  const Text(
+                    "Express",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  )
+                ],
+              ),
               Row(
                 children: [
                   IconButton(
@@ -69,14 +80,6 @@ class _ExpensesPageState extends State<ExpensesPage> {
             ],
           )),
       fkContentBoxWidgets.initialItems(itemList: [
-        const Align(
-          alignment: Alignment.bottomLeft,
-          child: Text(
-            "Expenses",
-            style: TextStyle(
-                fontSize: 28, fontWeight: FontWeight.w600, color: fkBlackText),
-          ),
-        ),
         const Align(
           alignment: Alignment.bottomLeft,
           child: Text(

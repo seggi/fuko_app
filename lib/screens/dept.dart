@@ -47,12 +47,20 @@ class _DeptPageState extends State<DeptPage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              InkWell(
-                  onTap: () async {
-                    var token = await UserPreferences.getToken();
-                    PagesGenerator.goTo(context, pathName: "/?status=true");
-                  },
-                  child: const Icon(Icons.arrow_back_ios)),
+              Row(
+                children: [
+                  InkWell(
+                      onTap: () async {
+                        var token = await UserPreferences.getToken();
+                        PagesGenerator.goTo(context, pathName: "/?status=true");
+                      },
+                      child: const Icon(Icons.arrow_back_ios)),
+                  const Text(
+                    "Dept",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  )
+                ],
+              ),
               Row(
                 children: [
                   IconButton(
@@ -76,14 +84,6 @@ class _DeptPageState extends State<DeptPage> {
             ],
           )),
       fkContentBoxWidgets.initialItems(itemList: [
-        const Align(
-          alignment: Alignment.bottomLeft,
-          child: Text(
-            "Dept",
-            style: TextStyle(
-                fontSize: 28, fontWeight: FontWeight.w600, color: fkBlackText),
-          ),
-        ),
         const Align(
           alignment: Alignment.bottomLeft,
           child: Text(
