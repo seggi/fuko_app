@@ -198,7 +198,6 @@ class _ExpensesPageState extends State<ExpensesPage> {
                     itemBuilder: (BuildContext context, int index) {
                       var dateTime =
                           DateTime.parse("${snapshot.data?[index].createdAt}");
-
                       return Container(
                           margin: const EdgeInsets.only(top: 0.0),
                           child: InkWell(
