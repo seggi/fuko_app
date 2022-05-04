@@ -5,6 +5,7 @@ import 'package:fuko_app/screens/content_box_widgets.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
+import '../core/user_preferences.dart';
 import 'budget/budget_card.dart';
 
 class BudgetScreen extends StatefulWidget {
@@ -24,9 +25,23 @@ class _BudgetScreenState extends State<BudgetScreen> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            IconButton(
-                onPressed: () => PagesGenerator.goTo(context, pathName: "/"),
-                icon: const Icon(Icons.arrow_back_ios)),
+            Row(
+              children: [
+                InkWell(
+                    onTap: () async {
+                      var token = await UserPreferences.getToken();
+                      PagesGenerator.goTo(context, pathName: "/?status=true");
+                    },
+                    child: const Icon(
+                      Icons.arrow_back_ios,
+                      size: 20,
+                    )),
+                const Text(
+                  "Loan",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                )
+              ],
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -46,14 +61,6 @@ class _BudgetScreenState extends State<BudgetScreen> {
         ),
       ),
       fkContentBoxWidgets.initialItems(itemList: [
-        const Align(
-          alignment: Alignment.bottomLeft,
-          child: Text(
-            "Budget",
-            style: TextStyle(
-                fontSize: 28, fontWeight: FontWeight.w600, color: fkBlackText),
-          ),
-        ),
         const Align(
           alignment: Alignment.bottomLeft,
           child: Text(
