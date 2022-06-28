@@ -46,11 +46,22 @@ class _SavingPageState extends State<SavingPage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              IconButton(
-                  onPressed: () async {
-                    PagesGenerator.goTo(context, pathName: "/?status=true");
-                  },
-                  icon: const Icon(Icons.arrow_back_ios)),
+              Row(
+                children: [
+                  InkWell(
+                      onTap: () async {
+                        PagesGenerator.goTo(context, pathName: "/?status=true");
+                      },
+                      child: const Icon(
+                        Icons.arrow_back_ios,
+                        size: 20,
+                      )),
+                  const Text(
+                    "Saving",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  )
+                ],
+              ),
               Row(
                 children: [
                   IconButton(
@@ -70,106 +81,92 @@ class _SavingPageState extends State<SavingPage> {
         const Align(
           alignment: Alignment.bottomLeft,
           child: Text(
-            "Saving",
-            style: TextStyle(
-                fontSize: 28, fontWeight: FontWeight.w600, color: fkBlackText),
-          ),
-        ),
-        const Align(
-          alignment: Alignment.bottomLeft,
-          child: Text(
             "Total Saving Amount in the current month",
             style: TextStyle(
                 color: fkGreyText, fontWeight: FontWeight.w400, fontSize: 16),
           ),
         ),
         verticalSpaceTiny,
-        Card(
-          elevation: 8.0,
-          color: fkDefaultColor,
-          child: Container(
-            height: 100,
-            padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                FutureBuilder<RetrieveSavingTotal>(
-                  future: retrieveSavingTotal,
-                  builder: (
-                    BuildContext context,
-                    AsyncSnapshot snapshot,
-                  ) {
-                    if (snapshot.hasData) {
-                      return Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            "Rwf",
-                            style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500,
-                                color: fkGreyText),
-                          ),
-                          Text(
-                            "${snapshot.data!.totalAmount}",
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                                fontSize: 35,
-                                fontWeight: FontWeight.w600,
-                                color: fkGreyText),
-                          ),
-                        ],
-                      );
-                    } else if (snapshot.hasError) {
-                      return Container(
-                          padding: const EdgeInsets.all(20.0),
-                          child: Center(
-                              child: Text(
-                            snapshot.error != null
-                                ? "Failed to load data"
-                                : "Amount not available...",
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                color: fkGreyText),
-                          )));
-                    }
+        SizedBox(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              FutureBuilder<RetrieveSavingTotal>(
+                future: retrieveSavingTotal,
+                builder: (
+                  BuildContext context,
+                  AsyncSnapshot snapshot,
+                ) {
+                  if (snapshot.hasData) {
+                    return Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "Rwf",
+                          style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                              color: fkGreyText),
+                        ),
+                        Text(
+                          "${snapshot.data!.totalAmount}",
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                              fontSize: 35,
+                              fontWeight: FontWeight.w600,
+                              color: fkGreyText),
+                        ),
+                      ],
+                    );
+                  } else if (snapshot.hasError) {
                     return Container(
                         padding: const EdgeInsets.all(20.0),
-                        child: const Center(
+                        child: Center(
                             child: Text(
-                          "Loading Amount...",
+                          snapshot.error != null
+                              ? "Failed to load data"
+                              : "Amount not available...",
                           overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
                               color: fkGreyText),
                         )));
-                  },
-                ),
-                Container(
-                  alignment: Alignment.center,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8.0),
-                    child: Container(
-                      color: fkBlueText,
-                      child: IconButton(
-                        icon: const Icon(
-                          Icons.arrow_right_alt,
-                          size: 30,
-                          color: fkWhiteText,
-                        ),
-                        onPressed: () {},
-                        // onPressed: () => PagesGenerator.goTo(context,
-                        //     name: "saving-options"),
+                  }
+                  return Container(
+                      padding: const EdgeInsets.all(20.0),
+                      child: const Center(
+                          child: Text(
+                        "Loading Amount...",
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: fkGreyText),
+                      )));
+                },
+              ),
+              Container(
+                alignment: Alignment.center,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
+                  child: Container(
+                    color: fkBlueText,
+                    child: IconButton(
+                      icon: const Icon(
+                        Icons.arrow_right_alt,
+                        size: 30,
+                        color: fkWhiteText,
                       ),
+                      onPressed: () {},
+                      // onPressed: () => PagesGenerator.goTo(context,
+                      //     name: "saving-options"),
                     ),
                   ),
-                )
-              ],
-            ),
+                ),
+              )
+            ],
           ),
         ),
         verticalSpaceTiny,
