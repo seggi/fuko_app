@@ -5,8 +5,10 @@ import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
 Widget homeCard({leadingIcon, currency, amount, titleTxt, fn}) {
-  return Container(
+  return InkWell(
+    onTap: fn,
     child: Card(
+      elevation: 0.0,
       child: ListTile(
         leading: Icon(
           leadingIcon,
@@ -30,10 +32,6 @@ Widget homeCard({leadingIcon, currency, amount, titleTxt, fn}) {
         title: Text(titleTxt,
             style: const TextStyle(
                 color: fkBlackText, fontWeight: FontWeight.w400, fontSize: 18)),
-        trailing: IconButton(
-          icon: const Icon(Icons.more_horiz_rounded),
-          onPressed: fn,
-        ),
       ),
     ),
   );
