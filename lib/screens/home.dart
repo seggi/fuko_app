@@ -211,6 +211,12 @@ class _HomePageState extends State<HomePage> {
                 verticalSpaceTiny,
                 // Saving Screen
                 homeCard(
+                    leadingIcon: Icons.dashboard,
+                    currency: "",
+                    amount: "",
+                    titleTxt: "DashBoard",
+                    fn: () => context.go('/expenses')),
+                homeCard(
                     leadingIcon: Icons.calculate,
                     currency: "Rwf",
                     amount: totalExpense.output.nonSymbol,
