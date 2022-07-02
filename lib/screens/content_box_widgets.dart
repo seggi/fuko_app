@@ -16,6 +16,17 @@ class FkContentBoxWidgets {
           ),
         ),
       );
+    } else if (screenName == "dashboard") {
+      return Scaffold(
+        body: SafeArea(
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height,
+            child: Column(
+              children: [...itemList],
+            ),
+          ),
+        ),
+      );
     } else if (mainScreesName.contains(screenName)) {
       return Scaffold(
         body: SafeArea(

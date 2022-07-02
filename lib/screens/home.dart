@@ -130,7 +130,84 @@ class _HomePageState extends State<HomePage> {
                       )
                     ],
                   )),
+              // fkContentBoxWidgets.initialItems(
+              //   itemList: <Widget>[
+              //     Align(
+              //       alignment: Alignment.bottomLeft,
+              //       child: Text(
+              //         "${toBeginningOfSentenceCase("${userData['data']["username"]}")}",
+              //         style: const TextStyle(
+              //             fontSize: 28,
+              //             fontWeight: FontWeight.w600,
+              //             color: fkBlackText),
+              //       ),
+              //     ),
+              //     const Align(
+              //       alignment: Alignment.bottomLeft,
+              //       child: Text(
+              //         "Your current wallet amount is",
+              //         style: TextStyle(
+              //             color: fkGreyText,
+              //             fontWeight: FontWeight.w400,
+              //             fontSize: 16),
+              //       ),
+              //     ),
+              //     verticalSpaceTiny,
+              //     Card(
+              //       elevation: 8.0,
+              //       color: fkDefaultColor,
+              //       child: Container(
+              //         height: 100,
+              //         padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+              //         child: Row(
+              //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //           crossAxisAlignment: CrossAxisAlignment.center,
+              //           children: [
+              //             Row(
+              //               crossAxisAlignment: CrossAxisAlignment.start,
+              //               children: <Widget>[
+              //                 const Text(
+              //                   "Rwf",
+              //                   style: TextStyle(
+              //                       fontSize: 12,
+              //                       fontWeight: FontWeight.w500,
+              //                       color: fkGreyText),
+              //                 ),
+              //                 Text(
+              //                   totalAmount.output.nonSymbol,
+              //                   overflow: TextOverflow.ellipsis,
+              //                   style: const TextStyle(
+              //                       fontSize: 30,
+              //                       fontWeight: FontWeight.w600,
+              //                       color: fkGreyText),
+              //                 ),
+              //               ],
+              //             ),
+              //             Container(
+              //               alignment: Alignment.center,
+              //               child: const Icon(
+              //                 Icons.account_balance_wallet,
+              //                 size: 24,
+              //                 color: fkGreyText,
+              //               ),
+              //             )
+              //           ],
+              //         ),
+              //       ),
+              //     ),
+              //   ],
+              // ),
               FkContentBoxWidgets.buttonsItemsBox(context, itemList: [
+                // const Align(
+                //   alignment: Alignment.bottomLeft,
+                //   child: Text(
+                //     "Total amounts on each operation",
+                //     style: TextStyle(
+                //         color: fkGreyText,
+                //         fontWeight: FontWeight.w400,
+                //         fontSize: 14),
+                //   ),
+                // ),
                 verticalSpaceLarge,
                 // Saving Screen
                 homeCard(
@@ -138,7 +215,7 @@ class _HomePageState extends State<HomePage> {
                     currency: "",
                     amount: "",
                     titleTxt: "DashBoard",
-                    fn: () => context.go('/expenses')),
+                    fn: () => context.go('/dashboard')),
 
                 homeCard(
                     leadingIcon: Icons.calculate,

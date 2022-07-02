@@ -30,6 +30,13 @@ class PagesGenerator {
         },
         routes: [
           GoRoute(
+            path: 'dashboard',
+            builder: (context, state) {
+              final data = state.queryParams['status'];
+              return DashBoardPage(status: data);
+            },
+          ),
+          GoRoute(
             path: 'expenses',
             builder: (context, state) {
               final data = state.queryParams['status'];
