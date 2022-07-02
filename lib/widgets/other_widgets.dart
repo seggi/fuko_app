@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
-import 'package:fuko_app/widgets/expanded_listtile.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
@@ -9,29 +8,40 @@ Widget homeCard({leadingIcon, currency, amount, titleTxt, fn}) {
     onTap: fn,
     child: Card(
       elevation: 0.0,
-      child: ListTile(
-        leading: Icon(
-          leadingIcon,
-          color: fkDefaultColor,
-        ),
-        subtitle: Row(
+      child: Container(
+        decoration: const BoxDecoration(
+            border: Border(bottom: BorderSide(color: fkGreyText, width: 0.5))),
+        child: Column(
           children: [
-            Text(currency,
-                style: const TextStyle(
-                    color: fkGreyText,
-                    fontWeight: FontWeight.w300,
-                    fontSize: 11)),
-            horizontalSpaceTiny,
-            Text(amount,
-                style: const TextStyle(
-                    color: fkGreyText,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 18)),
+            verticalSpaceTiny,
+            ListTile(
+              leading: Icon(
+                leadingIcon,
+                color: fkDefaultColor,
+              ),
+              subtitle: Row(
+                children: [
+                  Text(currency,
+                      style: const TextStyle(
+                          color: fkGreyText,
+                          fontWeight: FontWeight.w300,
+                          fontSize: 11)),
+                  horizontalSpaceTiny,
+                  Text(amount,
+                      style: const TextStyle(
+                          color: fkGreyText,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 18)),
+                ],
+              ),
+              title: Text(titleTxt,
+                  style: const TextStyle(
+                      color: fkBlackText,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 18)),
+            ),
           ],
         ),
-        title: Text(titleTxt,
-            style: const TextStyle(
-                color: fkBlackText, fontWeight: FontWeight.w400, fontSize: 18)),
       ),
     ),
   );
