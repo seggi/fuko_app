@@ -1,15 +1,35 @@
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
+import 'package:fuko_app/widgets/drawer.dart';
+
+import '../core/user_preferences.dart';
+import '../provider/authentication.dart';
+import '../widgets/shared/style.dart';
 
 List mainScreesName = ["savings", "loan"];
 
 class FkContentBoxWidgets {
   static Widget body(context, screenName,
-      {widTxt = "", List<Widget> itemList = const [], fn}) {
+      {username = "", widTxt = "", List<Widget> itemList = const [], fn}) {
     if (screenName == "home") {
       return Scaffold(
+        drawer: NavDrawer(
+          username: username,
+        ),
+        appBar: AppBar(elevation: 0.0, actions: [
+          Badge(
+            badgeContent: const Text(
+              '9',
+              style: TextStyle(color: fkWhiteText),
+            ),
+            child: IconButton(
+                onPressed: () {}, icon: const Icon(Icons.notifications)),
+            position: BadgePosition.topEnd(end: 2, top: 2),
+          ),
+        ]),
         body: SafeArea(
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height,
+          child: Container(
+            color: fkDefaultColor,
             child: Column(
               children: [...itemList],
             ),

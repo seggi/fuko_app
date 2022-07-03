@@ -201,7 +201,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
           }
         }
 
-        return FkContentBoxWidgets.body(context, 'home', itemList: [
+        return FkContentBoxWidgets.body(context, 'loading', itemList: [
           Expanded(
               child: Container(
             color: Colors.grey[300],

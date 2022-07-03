@@ -98,162 +98,130 @@ class _HomePageState extends State<HomePage> {
                 amount: double.parse(
                     snapshot.data!.globalAmountDetails['dept'].toString()));
 
-            return FkContentBoxWidgets.body(context, 'home', itemList: [
-              Padding(
-                  padding: const EdgeInsets.only(right: 8.0, left: 8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      InkWell(onTap: () {}, child: const Icon(Icons.menu)),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Badge(
-                            badgeContent: const Text(
-                              '9',
-                              style: TextStyle(color: fkWhiteText),
+            return FkContentBoxWidgets.body(context, 'home',
+                username:
+                    "${toBeginningOfSentenceCase("${userData['data']["username"]}")}",
+                itemList: [
+                  Padding(
+                      padding: const EdgeInsets.only(right: 8.0, left: 8.0),
+                      child: Row()),
+                  FkContentBoxWidgets.buttonsItemsBox(context, itemList: [
+                    verticalSpaceMedium,
+                    // Saving Screen
+                    SizedBox(
+                        child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Column(
+                          children: [
+                            InkWell(
+                              child: Container(
+                                height: 50,
+                                width: 50,
+                                decoration: const BoxDecoration(
+                                  color: fkWhiteText,
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(30.0),
+                                  ),
+                                ),
+                                child: const Icon(Icons.dashboard),
+                              ),
+                              onTap: () => context.go('/dashboard'),
                             ),
-                            child: IconButton(
-                                onPressed: () {},
-                                icon: const Icon(Icons.notifications)),
-                            position: BadgePosition.topEnd(end: 2, top: 2),
-                          ),
-                          IconButton(
-                              onPressed: () {
-                                UserPreferences.removeToken();
-                                context.read<AuthenticationData>().logout();
-                                context.go('/');
-                              },
-                              icon: const Icon(Icons.logout)),
-                        ],
-                      )
-                    ],
-                  )),
-              // fkContentBoxWidgets.initialItems(
-              //   itemList: <Widget>[
-              //     Align(
-              //       alignment: Alignment.bottomLeft,
-              //       child: Text(
-              //         "${toBeginningOfSentenceCase("${userData['data']["username"]}")}",
-              //         style: const TextStyle(
-              //             fontSize: 28,
-              //             fontWeight: FontWeight.w600,
-              //             color: fkBlackText),
-              //       ),
-              //     ),
-              //     const Align(
-              //       alignment: Alignment.bottomLeft,
-              //       child: Text(
-              //         "Your current wallet amount is",
-              //         style: TextStyle(
-              //             color: fkGreyText,
-              //             fontWeight: FontWeight.w400,
-              //             fontSize: 16),
-              //       ),
-              //     ),
-              //     verticalSpaceTiny,
-              //     Card(
-              //       elevation: 8.0,
-              //       color: fkDefaultColor,
-              //       child: Container(
-              //         height: 100,
-              //         padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-              //         child: Row(
-              //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //           crossAxisAlignment: CrossAxisAlignment.center,
-              //           children: [
-              //             Row(
-              //               crossAxisAlignment: CrossAxisAlignment.start,
-              //               children: <Widget>[
-              //                 const Text(
-              //                   "Rwf",
-              //                   style: TextStyle(
-              //                       fontSize: 12,
-              //                       fontWeight: FontWeight.w500,
-              //                       color: fkGreyText),
-              //                 ),
-              //                 Text(
-              //                   totalAmount.output.nonSymbol,
-              //                   overflow: TextOverflow.ellipsis,
-              //                   style: const TextStyle(
-              //                       fontSize: 30,
-              //                       fontWeight: FontWeight.w600,
-              //                       color: fkGreyText),
-              //                 ),
-              //               ],
-              //             ),
-              //             Container(
-              //               alignment: Alignment.center,
-              //               child: const Icon(
-              //                 Icons.account_balance_wallet,
-              //                 size: 24,
-              //                 color: fkGreyText,
-              //               ),
-              //             )
-              //           ],
-              //         ),
-              //       ),
-              //     ),
-              //   ],
-              // ),
-              FkContentBoxWidgets.buttonsItemsBox(context, itemList: [
-                // const Align(
-                //   alignment: Alignment.bottomLeft,
-                //   child: Text(
-                //     "Total amounts on each operation",
-                //     style: TextStyle(
-                //         color: fkGreyText,
-                //         fontWeight: FontWeight.w400,
-                //         fontSize: 14),
-                //   ),
-                // ),
-                verticalSpaceLarge,
-                // Saving Screen
-                homeCard(
-                    leadingIcon: Icons.dashboard,
-                    currency: "",
-                    amount: "",
-                    titleTxt: "DashBoard",
-                    fn: () => context.go('/dashboard')),
-
-                homeCard(
-                    leadingIcon: Icons.calculate,
-                    currency: "Rwf",
-                    amount: totalExpense.output.nonSymbol,
-                    titleTxt: "Expenses",
-                    fn: () => context.go('/expenses')),
-                verticalSpaceTiny,
-                homeCard(
-                    leadingIcon: Icons.savings,
-                    currency: "Rwf",
-                    amount: totalSavings.output.nonSymbol,
-                    titleTxt: "Savings",
-                    fn: () => context.go('/saving')),
-                verticalSpaceTiny,
-                homeCard(
-                    leadingIcon: Icons.account_balance,
-                    currency: "Rwf",
-                    amount: totalLoan.output.nonSymbol,
-                    titleTxt: "Loan",
-                    fn: () => context.go('/loan')),
-                verticalSpaceTiny,
-                homeCard(
-                    leadingIcon: Icons.money_off,
-                    currency: "Rwf",
-                    amount: totalDept.output.nonSymbol,
-                    titleTxt: "Dept",
-                    fn: () => context.go('/dept')),
-                verticalSpaceTiny,
-                homeCard(
-                    leadingIcon: Icons.schedule_outlined,
-                    currency: "",
-                    amount: "",
-                    titleTxt: "Budget",
-                    fn: () =>
-                        PagesGenerator.goTo(context, pathName: "/budget")),
-                verticalSpaceMedium,
-              ])
-            ]);
+                            verticalSpaceTiny,
+                            const Text(
+                              "Dashboard",
+                              style: TextStyle(color: fkWhiteText),
+                            )
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            InkWell(
+                              child: Container(
+                                height: 50,
+                                width: 50,
+                                decoration: const BoxDecoration(
+                                  color: fkWhiteText,
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(30.0),
+                                  ),
+                                ),
+                                child: const Icon(Icons.house),
+                              ),
+                              onTap: () => context.go('/dashboard'),
+                            ),
+                            verticalSpaceTiny,
+                            const Text(
+                              "Rent",
+                              style: TextStyle(color: fkWhiteText),
+                            )
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            InkWell(
+                              child: Container(
+                                height: 50,
+                                width: 50,
+                                decoration: const BoxDecoration(
+                                  color: fkWhiteText,
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(30.0),
+                                  ),
+                                ),
+                                child: const Icon(Icons.group),
+                              ),
+                              onTap: () => context.go('/dashboard'),
+                            ),
+                            verticalSpaceTiny,
+                            const Text(
+                              "Groupe",
+                              style: TextStyle(color: fkWhiteText),
+                            )
+                          ],
+                        ),
+                      ],
+                    )),
+                    verticalSpaceMedium,
+                    homeCard(
+                        leadingIcon: Icons.calculate,
+                        currency: "Rwf",
+                        amount: totalExpense.output.nonSymbol,
+                        titleTxt: "Expenses",
+                        fn: () => context.go('/expenses')),
+                    verticalSpaceTiny,
+                    homeCard(
+                        leadingIcon: Icons.savings,
+                        currency: "Rwf",
+                        amount: totalSavings.output.nonSymbol,
+                        titleTxt: "Savings",
+                        fn: () => context.go('/saving')),
+                    verticalSpaceTiny,
+                    homeCard(
+                        leadingIcon: Icons.account_balance,
+                        currency: "Rwf",
+                        amount: totalLoan.output.nonSymbol,
+                        titleTxt: "Loan",
+                        fn: () => context.go('/loan')),
+                    verticalSpaceTiny,
+                    homeCard(
+                        leadingIcon: Icons.money_off,
+                        currency: "Rwf",
+                        amount: totalDept.output.nonSymbol,
+                        titleTxt: "Dept",
+                        fn: () => context.go('/dept')),
+                    verticalSpaceTiny,
+                    homeCard(
+                        leadingIcon: Icons.schedule_outlined,
+                        currency: "",
+                        amount: "",
+                        titleTxt: "Budget",
+                        fn: () =>
+                            PagesGenerator.goTo(context, pathName: "/budget")),
+                    verticalSpaceMedium,
+                  ])
+                ]);
           } else {
             return FkContentBoxWidgets.body(context, 'home', itemList: [
               Container(
@@ -268,8 +236,14 @@ class _HomePageState extends State<HomePage> {
                             context.read<AuthenticationData>().logout();
                             context.go('/');
                           },
-                          icon: const Icon(Icons.logout_outlined)),
-                      const Text("Please click to logout")
+                          icon: const Icon(
+                            Icons.logout_outlined,
+                            color: fkWhiteText,
+                          )),
+                      const Text(
+                        "Please click to logout",
+                        style: TextStyle(color: fkWhiteText),
+                      )
                     ],
                   )))
             ]);
