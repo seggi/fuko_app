@@ -104,8 +104,7 @@ class _HomePageState extends State<HomePage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      IconButton(
-                          onPressed: () {}, icon: const Icon(Icons.menu)),
+                      InkWell(onTap: () {}, child: const Icon(Icons.menu)),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
