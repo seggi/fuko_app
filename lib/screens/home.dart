@@ -149,11 +149,11 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 child: const Icon(Icons.house),
                               ),
-                              onTap: () => context.go('/dashboard'),
+                              // onTap: () => context.go('/dashboard'),
                             ),
                             verticalSpaceTiny,
                             const Text(
-                              "Rent",
+                              "Accommodation",
                               style: TextStyle(color: fkWhiteText),
                             )
                           ],
@@ -172,7 +172,7 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 child: const Icon(Icons.group),
                               ),
-                              onTap: () => context.go('/dashboard'),
+                              onTap: () => context.go('/groupe'),
                             ),
                             verticalSpaceTiny,
                             const Text(

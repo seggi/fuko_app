@@ -1,5 +1,6 @@
 import 'package:fuko_app/provider/authentication.dart';
 import 'package:fuko_app/screens/budget/budget_details.dart';
+import 'package:fuko_app/screens/groupe.dart';
 import 'package:fuko_app/screens/screen_list.dart';
 import 'package:go_router/go_router.dart';
 
@@ -36,6 +37,12 @@ class PagesGenerator {
               return DashBoardPage(status: data);
             },
           ),
+          GoRoute(
+              path: 'groupe',
+              builder: (context, state) {
+                return const GroupePage();
+              },
+              routes: []),
           GoRoute(
             path: 'expenses',
             builder: (context, state) {
