@@ -13,19 +13,17 @@ class _EmailInputFeildState extends State<EmailInputFeild> {
   @override
   Widget build(BuildContext context) {
     TextEditingController emailController = widget.emailController;
-    return Container(
-      child: TextFormField(
-        controller: emailController,
-        keyboardType: TextInputType.emailAddress,
-        textInputAction: TextInputAction.next,
-        decoration: InputDecoration(
-            hintText: 'example@fuko.com',
-            suffixIcon: Icon(Icons.email, color: fkDefaultColor),
-            border: OutlineInputBorder(
-                borderSide:
-                    BorderSide(color: fkInputFormBorderColor, width: 1.0),
-                borderRadius: BorderRadius.circular(8.0))),
-      ),
+    return TextFormField(
+      controller: emailController,
+      keyboardType: TextInputType.emailAddress,
+      textInputAction: TextInputAction.next,
+      decoration: InputDecoration(
+          hintText: 'example@fuko.com',
+          suffixIcon: const Icon(Icons.email, color: fkDefaultColor),
+          border: OutlineInputBorder(
+              borderSide:
+                  const BorderSide(color: fkInputFormBorderColor, width: 1.0),
+              borderRadius: BorderRadius.circular(8.0))),
     );
   }
 }

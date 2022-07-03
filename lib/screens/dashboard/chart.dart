@@ -11,7 +11,7 @@ class SubscriberChart extends StatelessWidget {
   Widget build(BuildContext context) {
     List<charts.Series<StockGlobalReport, String>> series = [
       charts.Series(
-          id: "Subscribers",
+          id: 'report',
           data: data,
           domainFn: (StockGlobalReport series, _) => series.category,
           measureFn: (StockGlobalReport series, _) => series.amount,
@@ -19,21 +19,17 @@ class SubscriberChart extends StatelessWidget {
     ];
 
     return SizedBox(
-      height: 500,
+      height: 450,
       child: Card(
         elevation: 0.0,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: <Widget>[
-              Text(
-                "Chart report",
-                style: Theme.of(context).textTheme.bodyText2,
-              ),
               Expanded(
                   child: SizedBox(
                 child: charts.BarChart(series,
-                    animate: true, behaviors: [charts.SeriesLegend()]),
+                    animate: true, behaviors: [charts.DatumLegend()]),
               )),
             ],
           ),

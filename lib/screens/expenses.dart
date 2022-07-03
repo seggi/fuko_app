@@ -20,7 +20,7 @@ class ExpensesPage extends StatefulWidget {
 class _ExpensesPageState extends State<ExpensesPage> {
   FkContentBoxWidgets fkContentBoxWidgets = FkContentBoxWidgets();
 
-  // RetrieveExpensesTotal
+// RetrieveExpensesTotal
 
   late Future<RetrieveExpensesTotal> retrieveExpensesTotal;
   late Future<List<RetrieveExpenses>> retrieveExpenses;
