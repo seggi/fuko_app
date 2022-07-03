@@ -11,6 +11,7 @@ class FkContentBoxWidgets {
       {username = "", widTxt = "", List<Widget> itemList = const [], fn}) {
     if (screenName == "home") {
       return Scaffold(
+        backgroundColor: fkDefaultColor,
         drawer: NavDrawer(
           username: username,
         ),
