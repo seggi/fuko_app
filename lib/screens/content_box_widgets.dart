@@ -2,8 +2,6 @@ import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:fuko_app/widgets/drawer.dart';
 
-import '../core/user_preferences.dart';
-import '../provider/authentication.dart';
 import '../widgets/shared/style.dart';
 
 List mainScreesName = ["savings", "loan"];
@@ -17,14 +15,17 @@ class FkContentBoxWidgets {
           username: username,
         ),
         appBar: AppBar(elevation: 0.0, actions: [
-          Badge(
-            badgeContent: const Text(
-              '9',
-              style: TextStyle(color: fkWhiteText),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Badge(
+              badgeContent: const Text(
+                '9',
+                style: TextStyle(color: fkWhiteText),
+              ),
+              child: IconButton(
+                  onPressed: () {}, icon: const Icon(Icons.notifications)),
+              position: BadgePosition.topEnd(end: 2, top: 2),
             ),
-            child: IconButton(
-                onPressed: () {}, icon: const Icon(Icons.notifications)),
-            position: BadgePosition.topEnd(end: 2, top: 2),
           ),
         ]),
         body: SafeArea(

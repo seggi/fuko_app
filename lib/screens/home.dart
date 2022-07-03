@@ -5,7 +5,6 @@ import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/core/global_amount.dart';
 import 'package:fuko_app/core/user_preferences.dart';
-import 'package:badges/badges.dart';
 import 'package:fuko_app/provider/authentication.dart';
 
 import 'package:fuko_app/screens/content_box_widgets.dart';
@@ -14,6 +13,7 @@ import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 import 'package:go_router/go_router.dart';
 import 'package:money_formatter/money_formatter.dart';
+// ignore: implementation_imports
 import 'package:provider/src/provider.dart';
 
 class HomePage extends StatefulWidget {
