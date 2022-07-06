@@ -42,7 +42,15 @@ class PagesGenerator {
               builder: (context, state) {
                 return const GroupePage();
               },
-              routes: []),
+              routes: [
+                GoRoute(
+                  name: 'groupe-detail',
+                  path: 'groupe-detail',
+                  builder: (context, state) {
+                    return const GroupDetail();
+                  },
+                ),
+              ]),
           GoRoute(
             path: 'expenses',
             builder: (context, state) {
