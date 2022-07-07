@@ -4,7 +4,7 @@ import 'package:fuko_app/widgets/drawer.dart';
 
 import '../widgets/shared/style.dart';
 
-List mainScreesName = ["savings", "loan"];
+List mainScreesName = ["savings", "loan", "groupe"];
 
 class FkContentBoxWidgets {
   static Widget body(context, screenName,
@@ -33,6 +33,17 @@ class FkContentBoxWidgets {
           child: Container(
             color: fkDefaultColor,
             child: Column(
+              children: [...itemList],
+            ),
+          ),
+        ),
+      );
+    } else if (screenName == "groupe detail") {
+      return Scaffold(
+        body: SafeArea(
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height,
+            child: Stack(
               children: [...itemList],
             ),
           ),
