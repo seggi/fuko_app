@@ -14,9 +14,10 @@ class _CustomDraggableSheetState extends State<CustomDraggableSheet> {
   Widget build(BuildContext context) {
     return SizedBox.expand(
         child: DraggableScrollableSheet(
-            initialChildSize: 0.1,
-            minChildSize: 0.1,
             expand: true,
+            initialChildSize: .1,
+            minChildSize: .1,
+            maxChildSize: .8,
             builder: (BuildContext context, ScrollController scrollController) {
               return Container(
                 margin: const EdgeInsets.only(
@@ -35,6 +36,7 @@ class _CustomDraggableSheetState extends State<CustomDraggableSheet> {
                     ]),
                 child: SingleChildScrollView(
                   controller: scrollController,
+                  physics: const ClampingScrollPhysics(),
                   child: Container(
                     decoration: const BoxDecoration(
                       color: fkDefaultColor,
@@ -84,6 +86,7 @@ class _CustomDraggableSheetState extends State<CustomDraggableSheet> {
                           ),
                         ),
                         verticalSpaceSmall,
+                        Container()
                       ],
                     ),
                   ),
