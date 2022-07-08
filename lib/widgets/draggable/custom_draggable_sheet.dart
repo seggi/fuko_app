@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
+import '../../controllers/page_generator.dart';
+
 class CustomDraggableSheet extends StatefulWidget {
   const CustomDraggableSheet({Key? key}) : super(key: key);
 
@@ -14,9 +16,10 @@ class _CustomDraggableSheetState extends State<CustomDraggableSheet> {
   Widget build(BuildContext context) {
     return SizedBox.expand(
         child: DraggableScrollableSheet(
-            initialChildSize: 0.1,
-            minChildSize: 0.1,
             expand: true,
+            initialChildSize: .1,
+            minChildSize: .1,
+            maxChildSize: .9,
             builder: (BuildContext context, ScrollController scrollController) {
               return Container(
                 margin: const EdgeInsets.only(
@@ -35,6 +38,7 @@ class _CustomDraggableSheetState extends State<CustomDraggableSheet> {
                     ]),
                 child: SingleChildScrollView(
                   controller: scrollController,
+                  physics: const ClampingScrollPhysics(),
                   child: Container(
                     decoration: const BoxDecoration(
                       color: fkDefaultColor,
@@ -84,6 +88,52 @@ class _CustomDraggableSheetState extends State<CustomDraggableSheet> {
                           ),
                         ),
                         verticalSpaceSmall,
+                        Container(
+                          color: fkWhiteText,
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              InkWell(
+                                onTap: () => PagesGenerator.goTo(context,
+                                    name: "groupe-detail"),
+                                child: Container(
+                                  height: 60,
+                                  decoration: const BoxDecoration(
+                                      border: Border(
+                                          bottom: BorderSide(
+                                              color: fkGreyText, width: 0.5))),
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        width: 40,
+                                        height: 40,
+                                        decoration: BoxDecoration(
+                                            color: fkGreyText,
+                                            borderRadius:
+                                                BorderRadius.circular(8.0)),
+                                      ),
+                                      horizontalSpaceSmall,
+                                      SizedBox(
+                                        width: 100,
+                                        height: 40,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: const [
+                                            Text("Seggi"),
+                                            Text("rwf 500")
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
                       ],
                     ),
                   ),
