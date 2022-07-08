@@ -57,13 +57,6 @@ class _GroupDetailState extends State<GroupDetail> {
                             Icons.add_circle,
                             color: fkBlueText,
                           )),
-                      IconButton(
-                          onPressed: () => PagesGenerator.goTo(context,
-                              name: "create-groupe"),
-                          icon: const Icon(
-                            Icons.repeat_on_rounded,
-                            color: fkBlueText,
-                          ))
                     ],
                   )
                 ],
@@ -126,10 +119,11 @@ class _GroupDetailState extends State<GroupDetail> {
                           borderRadius: BorderRadius.circular(8.0)),
                     ),
                     horizontalSpaceSmall,
-                    Container(
+                    SizedBox(
                       width: 100,
                       height: 40,
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: const [Text("Test"), Text("rwf 500")],
                       ),
