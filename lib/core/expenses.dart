@@ -72,9 +72,8 @@ class RetrieveExpenses {
 
 Future<List<RetrieveExpenses>> fetchRetrieveExpenses() async {
   var token = await UserPreferences.getToken();
-  var userId = await UserPreferences.getUserId();
 
-  final response = await http.get(Uri.parse(Network.getExpenses + "/$userId"),
+  final response = await http.get(Uri.parse(Network.getExpenses),
       headers: Network.authorizedHeaders(token: token));
 
   if (response.statusCode == 200) {
@@ -106,7 +105,7 @@ Future<RetrieveExpensesTotal> fetchRetrieveExpensesTotal() async {
   var token = await UserPreferences.getToken();
   var userId = await UserPreferences.getUserId();
 
-  final response = await http.get(Uri.parse(Network.getExpenses + "/$userId"),
+  final response = await http.get(Uri.parse(Network.getExpenses),
       headers: Network.authorizedHeaders(token: token));
 
   if (response.statusCode == 200) {

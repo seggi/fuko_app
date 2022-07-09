@@ -22,7 +22,7 @@ class User {
       data: responseData['data'],
       email: responseData['message'],
       birthDate: responseData['code'],
-      token: responseData['access_token'],
+      token: responseData['access_fresh_token'],
     );
   }
 }
