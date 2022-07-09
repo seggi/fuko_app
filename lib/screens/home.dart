@@ -241,7 +241,7 @@ class _HomePageState extends State<HomePage> {
                             color: fkWhiteText,
                           )),
                       const Text(
-                        "Please click to logout",
+                        "Please click here to logout",
                         style: TextStyle(color: fkWhiteText),
                       )
                     ],

@@ -115,9 +115,9 @@ class _ExpensesPageState extends State<ExpensesPage> {
                           "${snapshot.data!.totalAmount}",
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
-                              fontSize: 35,
+                              fontSize: 28,
                               fontWeight: FontWeight.w600,
-                              color: fkGreyText),
+                              color: fkBlackText),
                         ),
                       ],
                     );
@@ -170,7 +170,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
             ],
           ),
         ),
-        verticalSpaceTiny,
+        verticalSpaceRegular,
         const Align(
           alignment: Alignment.bottomLeft,
           child: Text(
