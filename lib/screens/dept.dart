@@ -119,9 +119,9 @@ class _DeptPageState extends State<DeptPage> {
                           "${snapshot.data!.totalDept}",
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
-                              fontSize: 35,
+                              fontSize: 28,
                               fontWeight: FontWeight.w600,
-                              color: fkGreyText),
+                              color: fkBlackText),
                         ),
                       ],
                     );
@@ -167,7 +167,7 @@ class _DeptPageState extends State<DeptPage> {
             ],
           ),
         ),
-        verticalSpaceTiny,
+        verticalSpaceRegular,
         const Align(
           alignment: Alignment.bottomLeft,
           child: Text(
@@ -207,9 +207,9 @@ class _DeptPageState extends State<DeptPage> {
                                 title: SizedBox(
                                   width: 200,
                                   child: Text(
-                                    snapshot.data?[index].borrowerName != "null"
-                                        ? "${snapshot.data?[index].borrowerName}"
-                                        : "${snapshot.data?[index].firstName}",
+                                    snapshot.data?[index].borrowerName != null
+                                        ? "${snapshot.data?[index].borrowerName != "null" ? snapshot.data![index].borrowerName : 'No name provided'}"
+                                        : "${snapshot.data?[index].firstName != null}",
                                     style: const TextStyle(
                                       fontWeight: FontWeight.w600,
                                       fontSize: 16,

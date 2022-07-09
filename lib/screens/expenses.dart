@@ -35,6 +35,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
   @override
   Widget build(BuildContext context) {
     final screenTitle = FkManageProviders.save["save-screen-title"];
+
     if (widget.status == "true") {
       setState(() {
         retrieveExpensesTotal = fetchRetrieveExpensesTotal();
@@ -198,45 +199,57 @@ class _ExpensesPageState extends State<ExpensesPage> {
                     itemBuilder: (BuildContext context, int index) {
                       var dateTime =
                           DateTime.parse("${snapshot.data?[index].createdAt}");
-                      return Container(
-                          margin: const EdgeInsets.only(top: 0.0),
-                          child: InkWell(
-                            child: Card(
-                              child: ListTile(
-                                leading: const Icon(Icons.list_alt_outlined),
-                                title: SizedBox(
-                                  width: 200,
-                                  child: Text(
-                                    snapshot.data?[index].expenseName ??
-                                        "No title provided",
+                      return GestureDetector(
+                        onLongPress: () {
+                          screenTitle(context,
+                              screenTitle:
+                                  "${snapshot.data?[index].expenseName}");
+                          PagesGenerator.goTo(context,
+                              name: "update-expense-name",
+                              params: {
+                                "id": "${snapshot.data?[index].expenseId}"
+                              });
+                        },
+                        child: Container(
+                            margin: const EdgeInsets.only(top: 0.0),
+                            child: InkWell(
+                              child: Card(
+                                child: ListTile(
+                                  leading: const Icon(Icons.list_alt_outlined),
+                                  title: SizedBox(
+                                    width: 200,
+                                    child: Text(
+                                      snapshot.data?[index].expenseName ??
+                                          "No title provided",
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ),
+                                  trailing: Text(
+                                    "${dateTime.year}-${dateTime.month}-${dateTime.day} ${dateTime.hour}:${dateTime.minute}",
+                                    overflow: TextOverflow.ellipsis,
                                     style: const TextStyle(
+                                      color: fkBlueText,
                                       fontWeight: FontWeight.w600,
-                                      fontSize: 16,
+                                      fontSize: 14,
                                     ),
                                   ),
                                 ),
-                                trailing: Text(
-                                  "${dateTime.year}-${dateTime.month}-${dateTime.day} ${dateTime.hour}:${dateTime.minute}",
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                    color: fkBlueText,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 14,
-                                  ),
-                                ),
                               ),
-                            ),
-                            onTap: () {
-                              screenTitle(context,
-                                  screenTitle:
-                                      "${snapshot.data?[index].expenseName}");
-                              PagesGenerator.goTo(context,
-                                  name: "expense-list",
-                                  params: {
-                                    "id": "${snapshot.data?[index].expenseId}"
-                                  });
-                            },
-                          ));
+                              onTap: () {
+                                screenTitle(context,
+                                    screenTitle:
+                                        "${snapshot.data?[index].expenseName}");
+                                PagesGenerator.goTo(context,
+                                    name: "expense-list",
+                                    params: {
+                                      "id": "${snapshot.data?[index].expenseId}"
+                                    });
+                              },
+                            )),
+                      );
                     },
                   ),
                 ),

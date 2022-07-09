@@ -21,7 +21,7 @@ class PagesGenerator {
       ),
       GoRoute(
         path: '/complete-profile',
-        builder: (context, state) => CompleteProfile(),
+        builder: (context, state) => const CompleteProfile(),
       ),
       GoRoute(
         path: '/',
@@ -84,6 +84,14 @@ class PagesGenerator {
                 builder: (context, state) {
                   var data = state.params['id']!;
                   return ExpenseList(id: data);
+                },
+              ),
+              GoRoute(
+                name: "update-expense-name",
+                path: 'update-expense-name/:id',
+                builder: (context, state) {
+                  var data = state.params['id']!;
+                  return UpdateExpenseName(expenseId: data);
                 },
               ),
             ],
