@@ -26,14 +26,14 @@ class SaveExpenses {
 }
 
 class RetrieveDetailsExpenses {
-  final String expenseId;
+  final String currencyCode;
   final String amount;
   final String description;
   final String createdAt;
   final String updatedAat;
 
   RetrieveDetailsExpenses(
-      {required this.expenseId,
+      {required this.currencyCode,
       required this.amount,
       required this.description,
       required this.createdAt,
@@ -41,7 +41,7 @@ class RetrieveDetailsExpenses {
 
   factory RetrieveDetailsExpenses.fromJson(Map<String, dynamic> json) {
     return RetrieveDetailsExpenses(
-        expenseId: json["users"].toString(),
+        currencyCode: json["code"].toString(),
         amount: json["amount"].toString(),
         description: json["description"].toString(),
         createdAt: json["created_at"].toString(),
@@ -50,19 +50,22 @@ class RetrieveDetailsExpenses {
 }
 
 class RetrieveExpenses {
+  final String currencyCode;
   final String expenseId;
   final String expenseName;
   final String createdAt;
   final String updatedAat;
 
   RetrieveExpenses(
-      {required this.expenseId,
+      {required this.currencyCode,
+      required this.expenseId,
       required this.expenseName,
       required this.createdAt,
       required this.updatedAat});
 
   factory RetrieveExpenses.fromJson(Map<String, dynamic> json) {
     return RetrieveExpenses(
+        currencyCode: json["code"].toString(),
         expenseId: json["id"].toString(),
         expenseName: json["expense_name"].toString(),
         createdAt: json["created_at"].toString(),
@@ -87,14 +90,17 @@ Future<List<RetrieveExpenses>> fetchRetrieveExpenses() async {
 }
 
 class RetrieveExpensesTotal {
+  final String currencyCode;
   final String totalAmount;
 
   RetrieveExpensesTotal({
+    required this.currencyCode,
     required this.totalAmount,
   });
 
   factory RetrieveExpensesTotal.fromJson(Map<String, dynamic> json) {
     return RetrieveExpensesTotal(
+      currencyCode: json["currency_code"].toString(),
       totalAmount: json["total"].toString(),
     );
   }
@@ -103,7 +109,6 @@ class RetrieveExpensesTotal {
 // Retrieve total amount on expenses
 Future<RetrieveExpensesTotal> fetchRetrieveExpensesTotal() async {
   var token = await UserPreferences.getToken();
-  var userId = await UserPreferences.getUserId();
 
   final response = await http.get(Uri.parse(Network.getExpenses),
       headers: Network.authorizedHeaders(token: token));
@@ -117,23 +122,25 @@ Future<RetrieveExpensesTotal> fetchRetrieveExpensesTotal() async {
 
 // Retrieve list of expenses
 class RetrieveDetailsExpensesListByDate {
+  final String? currencyCode;
   final List? expenseList;
   final String? totalAmount;
   final String? date;
 
   RetrieveDetailsExpensesListByDate(
-      {this.expenseList, this.totalAmount, this.date});
+      {this.currencyCode, this.expenseList, this.totalAmount, this.date});
 
   factory RetrieveDetailsExpensesListByDate.fromJson(
       Map<String, dynamic> json) {
     return RetrieveDetailsExpensesListByDate(
+        currencyCode: json["currency_code"],
         expenseList: json["expenses_list"],
         totalAmount: json["total_amount"].toString(),
         date: json["today_date"].toString());
   }
 }
 
-Future<List<RetrieveDetailsExpenses>> fetchDetailsExpensesListByDate(
+Future<List<RetrieveDetailsExpenses>> fetchExpensesDetailList(
     {String? expenseId}) async {
   var token = await UserPreferences.getToken();
 

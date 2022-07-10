@@ -19,6 +19,7 @@ class CreateExpense extends StatefulWidget {
 
 class _CreateExpenseState extends State<CreateExpense> {
   final _formKey = GlobalKey();
+  bool loading = false;
 
   TextEditingController expenseNameController = TextEditingController();
 
@@ -40,13 +41,29 @@ class _CreateExpenseState extends State<CreateExpense> {
       )));
       return;
     } else {
-      final response = await http.post(
-          Uri.parse(Network.createExpense + "/$userId"),
+      setState(() {
+        loading = true;
+      });
+      final response = await http.post(Uri.parse(Network.createExpense),
           headers: Network.authorizedHeaders(token: token),
           body: jsonEncode(newItem));
 
       if (response.statusCode == 200) {
-        PagesGenerator.goTo(context, pathName: "/expenses?status=true");
+        var data = jsonDecode(response.body);
+
+        if (data["code"] == "Alert") {
+          setState(() {
+            loading = false;
+          });
+          scaffoldMessenger.showSnackBar(SnackBar(
+            content: Text(
+              "${data["message"]}",
+              style: const TextStyle(color: Colors.red),
+            ),
+          ));
+        } else {
+          PagesGenerator.goTo(context, pathName: "/expenses?status=true");
+        }
       } else {
         scaffoldMessenger.showSnackBar(const SnackBar(
           content: Text(
@@ -115,11 +132,21 @@ class _CreateExpenseState extends State<CreateExpense> {
                             color: fkDefaultColor,
                           )),
                       child: TextButton(
-                        onPressed: () => saveExpenses(),
-                        child: const Icon(
-                          Icons.add,
-                          color: fkWhiteText,
-                        ),
+                        onPressed:
+                            loading == true ? () {} : () => saveExpenses(),
+                        child: loading == false
+                            ? const Icon(
+                                Icons.add,
+                                color: fkWhiteText,
+                              )
+                            : const SizedBox(
+                                height: 20,
+                                width: 20,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2.0,
+                                  backgroundColor: fkWhiteText,
+                                ),
+                              ),
                       ),
                     )
                   ],
