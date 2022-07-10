@@ -51,7 +51,6 @@ class _SaveExpensesState extends State<SaveExpenses> {
           Uri.parse(Network.addExpenses + "/$expenseId"),
           headers: Network.authorizedHeaders(token: token),
           body: jsonEncode({"data": expenseData}));
-
       if (response.statusCode == 200) {
         BackendFeedBack backendFeedBack =
             BackendFeedBack.fromJson(jsonDecode(response.body));

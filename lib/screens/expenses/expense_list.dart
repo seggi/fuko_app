@@ -27,7 +27,8 @@ class _ExpenseListState extends State<ExpenseList> {
   @override
   void initState() {
     super.initState();
-    retrieveExpensesList = fetchDetailsExpensesListByDate(expenseId: widget.id);
+    retrieveExpensesList = fetchExpensesDetailList(expenseId: widget.id);
+
     retrieveExpensesTotal =
         fetchDetailsExpensesTotalAmountByDate(expenseId: widget.id);
   }
@@ -74,6 +75,7 @@ class _ExpenseListState extends State<ExpenseList> {
                 color: fkBlackText, fontWeight: FontWeight.w400, fontSize: 14),
           ),
         ),
+        verticalSpaceTiny,
         FutureBuilder<RetrieveDetailsExpensesListByDate>(
           future: retrieveExpensesTotal,
           builder: (
@@ -84,9 +86,9 @@ class _ExpenseListState extends State<ExpenseList> {
               return Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    "Rwf",
-                    style: TextStyle(
+                  Text(
+                    "${snapshot.data!.currencyCode}",
+                    style: const TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
                         color: fkGreyText),
@@ -95,9 +97,9 @@ class _ExpenseListState extends State<ExpenseList> {
                     "${double.parse(snapshot.data!.totalAmount)}",
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
-                        fontSize: 35,
+                        fontSize: 28,
                         fontWeight: FontWeight.w600,
-                        color: fkGreyText),
+                        color: fkBlackText),
                   ),
                 ],
               );
@@ -132,8 +134,11 @@ class _ExpenseListState extends State<ExpenseList> {
       ]),
       Expanded(
         child: FutureBuilder(
-          future: fetchDetailsExpensesListByDate(expenseId: widget.id),
-          builder: (context, AsyncSnapshot snapshot) {
+          future: retrieveExpensesList,
+          builder: (
+            BuildContext context,
+            AsyncSnapshot snapshot,
+          ) {
             if (snapshot.hasData) {
               if (snapshot.data.isEmpty) {
                 return Container(
@@ -160,7 +165,7 @@ class _ExpenseListState extends State<ExpenseList> {
                             monthText: toBeginningOfSentenceCase(
                                 months[dateTime.month - 1]),
                             leadingText: "${dateTime.day}",
-                            currency: "Rwf",
+                            currency: "${snapshot.data?[index].currencyCode}",
                             amount: snapshot.data?[index].amount,
                             titleTxt: snapshot.data?[index].description ??
                                 "No description",
@@ -172,7 +177,7 @@ class _ExpenseListState extends State<ExpenseList> {
                 ),
               );
             } else if (snapshot.hasError) {
-              return const Center(child: Text('Something went wrong :('));
+              return const Center(child: Text('Something went wrong:('));
             }
             return const Center(
               child: CircularProgressIndicator(

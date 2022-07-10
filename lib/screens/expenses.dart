@@ -68,8 +68,6 @@ class _ExpensesPageState extends State<ExpensesPage> {
               Row(
                 children: [
                   IconButton(
-                      onPressed: () {}, icon: const Icon(Icons.notifications)),
-                  IconButton(
                       onPressed: () =>
                           PagesGenerator.goTo(context, name: "create-expense"),
                       icon: const Icon(
@@ -105,9 +103,9 @@ class _ExpensesPageState extends State<ExpensesPage> {
                     return Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          "Rwf",
-                          style: TextStyle(
+                        Text(
+                          "${snapshot.data!.currencyCode}",
+                          style: const TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
                               color: fkGreyText),
@@ -155,11 +153,11 @@ class _ExpensesPageState extends State<ExpensesPage> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
                   child: Container(
-                    color: fkBlueText,
+                    color: fkDefaultColor,
                     child: IconButton(
                       icon: const Icon(
                         Icons.arrow_right_alt,
-                        size: 30,
+                        size: 28,
                         color: fkWhiteText,
                       ),
                       onPressed: () =>
