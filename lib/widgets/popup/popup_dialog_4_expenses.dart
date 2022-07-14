@@ -4,6 +4,8 @@ import 'package:fuko_app/core/user_preferences.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
+import '../drop_down_box/currency_drop_down_box.dart';
+
 void showDialogWithFields(context) {
   showDialog(
     barrierDismissible: false,
@@ -30,16 +32,18 @@ class _AddExpensesState extends State<AddExpenses> {
   final _formKey = GlobalKey();
 
   TextEditingController amountController = TextEditingController();
-
   TextEditingController descriptionController = TextEditingController();
+  TextEditingController currencyIdController = TextEditingController();
+
   late ScaffoldMessengerState scaffoldMessenger = ScaffoldMessenger.of(context);
 
   Future saveExpenses() async {
     FocusManager.instance.primaryFocus?.unfocus();
-    var userId = await UserPreferences.getUserId();
+
     Map newItem = {
       "amount": amountController.text,
       "description": descriptionController.text,
+      "currency_id": currencyIdController.text,
     };
 
     if (amountController.text == "" || descriptionController.text == "") {
