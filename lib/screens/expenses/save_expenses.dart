@@ -14,6 +14,10 @@ import 'package:fuko_app/utils/api.dart';
 import 'package:fuko_app/widgets/popup/popup_dialog_4_expenses.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
+import 'package:intl/intl.dart';
+
+import '../../core/currency_data.dart';
+import '../../widgets/other_widgets.dart';
 
 class SaveExpenses extends StatefulWidget {
   final String id;
@@ -24,6 +28,7 @@ class SaveExpenses extends StatefulWidget {
 }
 
 class _SaveExpensesState extends State<SaveExpenses> {
+  late Future<List<GetCurrencies>> retrieveCurrencies;
   late ScaffoldMessengerState scaffoldMessenger = ScaffoldMessenger.of(context);
   var clearWidgetList = FkManageProviders.save["remove-all-expenses"];
 
@@ -81,6 +86,12 @@ class _SaveExpensesState extends State<SaveExpenses> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    retrieveCurrencies = fetchCurrencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final List newItems = FkManageProviders.get(context)["add-expenses"];
     final totalAmount = FkManageProviders.get(context)["get-added-expenses"];
@@ -132,7 +143,95 @@ class _SaveExpensesState extends State<SaveExpenses> {
                   ),
                 ),
                 IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return Column(
+                              children: [
+                                const Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "Currencies",
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: FutureBuilder(
+                                    future: retrieveCurrencies,
+                                    builder: (
+                                      BuildContext context,
+                                      AsyncSnapshot snapshot,
+                                    ) {
+                                      if (snapshot.hasData) {
+                                        if (snapshot.data.isEmpty) {
+                                          return Container(
+                                              margin: const EdgeInsets.only(
+                                                  top: 0.0),
+                                              child: const Center(
+                                                  child: Text(
+                                                      "No expense saved yet!")));
+                                        }
+                                        return SizedBox(
+                                          child: NotificationListener<
+                                              OverscrollIndicatorNotification>(
+                                            onNotification:
+                                                (OverscrollIndicatorNotification?
+                                                    overscroll) {
+                                              overscroll!.disallowIndicator();
+                                              return true;
+                                            },
+                                            child: ListView.builder(
+                                              padding: const EdgeInsets.all(8),
+                                              itemCount: snapshot.data!.length,
+                                              itemBuilder:
+                                                  (BuildContext context,
+                                                      int index) {
+                                                var dateTime = DateTime.parse(
+                                                    "${snapshot.data?[index].createdAt}");
+
+                                                return Container(
+                                                  margin: const EdgeInsets.only(
+                                                      top: 0.0),
+                                                  child: reportCard(context,
+                                                      monthText: "",
+                                                      leadingText:
+                                                          "${dateTime.day}",
+                                                      currency:
+                                                          "${snapshot.data?[index].currencyCode}",
+                                                      amount: "",
+                                                      titleTxt: snapshot
+                                                              .data?[index]
+                                                              .description ??
+                                                          "No description",
+                                                      bdTxt: snapshot
+                                                          .data?[index]
+                                                          .description,
+                                                      fn: () {}),
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                        );
+                                      } else if (snapshot.hasError) {
+                                        return const Center(
+                                            child:
+                                                Text('Something went wrong:('));
+                                      }
+                                      return const Center(
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2.0,
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ],
+                            );
+                          });
+                    },
                     icon: const Icon(
                       Icons.currency_exchange,
                       color: fkBlueText,
