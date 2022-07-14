@@ -140,6 +140,10 @@ class _SaveExpensesState extends State<SaveExpenses> {
                     ))
               ],
             ),
+            const Divider(
+              height: 2,
+              color: fkDefaultColor,
+            ),
             verticalSpaceRegular,
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

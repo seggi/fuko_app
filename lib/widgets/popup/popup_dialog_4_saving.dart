@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/core/user_preferences.dart';
+import 'package:fuko_app/utils/constate.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
@@ -36,11 +37,12 @@ class _RegisterSavingState extends State<RegisterSaving> {
 
   Future registerSaving() async {
     FocusManager.instance.primaryFocus?.unfocus();
-    var userId = await UserPreferences.getUserId();
+
+    var selectedCurrency = "";
     Map newItem = {
       "amount": amountController.text,
       "description": descriptionController.text,
-      "user_id": userId,
+      "currency_id": selectedCurrency != "" ? selectedCurrency : ""
     };
 
     if (amountController.text == "" || descriptionController.text == "") {

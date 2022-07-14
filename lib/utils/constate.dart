@@ -1,0 +1,1 @@
+var defaultCurrency = 150;
