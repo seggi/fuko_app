@@ -1,6 +1,5 @@
 import 'package:fuko_app/provider/authentication.dart';
 import 'package:fuko_app/screens/budget/budget_details.dart';
-import 'package:fuko_app/screens/groupe.dart';
 import 'package:fuko_app/screens/screen_list.dart';
 import 'package:go_router/go_router.dart';
 
