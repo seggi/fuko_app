@@ -121,12 +121,24 @@ class _SaveExpensesState extends State<SaveExpenses> {
               ),
             ),
             verticalSpaceRegular,
-            Container(
-              alignment: Alignment.bottomLeft,
-              child: const Text(
-                "Added Expenses",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  alignment: Alignment.bottomLeft,
+                  child: const Text(
+                    "Added Expenses",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                  ),
+                ),
+                IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.currency_exchange,
+                      color: fkBlueText,
+                      size: 20,
+                    ))
+              ],
             ),
             verticalSpaceRegular,
             Row(
@@ -208,7 +220,7 @@ class _SaveExpensesState extends State<SaveExpenses> {
                 ],
               ),
             ),
-            verticalSpaceLarge,
+            verticalSpaceRegular,
             Container(
               decoration: BoxDecoration(
                   color: fkDefaultColor,
