@@ -149,6 +149,7 @@ class _SaveExpensesState extends State<SaveExpenses> {
                           builder: (context) {
                             return Column(
                               children: [
+                                verticalSpaceSmall,
                                 const Padding(
                                   padding: EdgeInsets.all(8.0),
                                   child: Text(
@@ -158,6 +159,7 @@ class _SaveExpensesState extends State<SaveExpenses> {
                                         fontWeight: FontWeight.bold),
                                   ),
                                 ),
+                                verticalSpaceSmall,
                                 Expanded(
                                   child: FutureBuilder(
                                     future: retrieveCurrencies,
@@ -189,28 +191,26 @@ class _SaveExpensesState extends State<SaveExpenses> {
                                               itemBuilder:
                                                   (BuildContext context,
                                                       int index) {
-                                                var dateTime = DateTime.parse(
-                                                    "${snapshot.data?[index].createdAt}");
-
                                                 return Container(
-                                                  margin: const EdgeInsets.only(
-                                                      top: 0.0),
-                                                  child: reportCard(context,
-                                                      monthText: "",
-                                                      leadingText:
-                                                          "${dateTime.day}",
-                                                      currency:
-                                                          "${snapshot.data?[index].currencyCode}",
-                                                      amount: "",
-                                                      titleTxt: snapshot
-                                                              .data?[index]
-                                                              .description ??
-                                                          "No description",
-                                                      bdTxt: snapshot
-                                                          .data?[index]
-                                                          .description,
-                                                      fn: () {}),
-                                                );
+                                                    margin:
+                                                        const EdgeInsets.only(
+                                                            top: 0.0),
+                                                    child: Card(
+                                                      child: ListTile(
+                                                        leading: const Icon(Icons
+                                                            .currency_exchange),
+                                                        title: Text(
+                                                            "${snapshot.data?[index].currencyCode}"),
+                                                        subtitle: Text(snapshot
+                                                                .data?[index]
+                                                                .description ??
+                                                            "No description"),
+                                                        onTap: () {
+                                                          print(
+                                                              '${snapshot.data?[index].currencyId}');
+                                                        },
+                                                      ),
+                                                    ));
                                               },
                                             ),
                                           ),
