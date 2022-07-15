@@ -38,7 +38,8 @@ class _RegisterSavingState extends State<RegisterSaving> {
   Future registerSaving() async {
     FocusManager.instance.primaryFocus?.unfocus();
 
-    var selectedCurrency = "";
+    var selectedCurrency = FkManageProviders.get(context)["get-currency"];
+
     Map newItem = {
       "amount": amountController.text,
       "description": descriptionController.text,

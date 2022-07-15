@@ -30,17 +30,16 @@ class _AddExpensesState extends State<AddExpenses> {
 
   TextEditingController amountController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
-  TextEditingController currencyIdController = TextEditingController();
 
   late ScaffoldMessengerState scaffoldMessenger = ScaffoldMessenger.of(context);
 
-  Future saveExpenses() async {
+  Future saveExpenses({selectedCurrency = ""}) async {
     FocusManager.instance.primaryFocus?.unfocus();
 
     Map newItem = {
       "amount": amountController.text,
       "description": descriptionController.text,
-      "currency_id": currencyIdController.text,
+      "currency_id": selectedCurrency != "" ? selectedCurrency : "",
     };
 
     if (amountController.text == "" || descriptionController.text == "") {
@@ -61,6 +60,7 @@ class _AddExpensesState extends State<AddExpenses> {
 
   @override
   Widget build(BuildContext context) {
+    var selectedCurrency = FkManageProviders.get(context)["get-currency"];
     return SizedBox(
       child: SingleChildScrollView(
         child: Form(
@@ -124,7 +124,8 @@ class _AddExpensesState extends State<AddExpenses> {
                           color: fkDefaultColor,
                         )),
                     child: TextButton(
-                      onPressed: saveExpenses,
+                      onPressed: () =>
+                          saveExpenses(selectedCurrency: selectedCurrency),
                       child: const Icon(
                         Icons.add,
                         color: fkWhiteText,
