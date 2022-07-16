@@ -26,6 +26,9 @@ class FkManageProviders {
     "add-currency": (context, {currencyId}) =>
         Provider.of<AddExpenses>(context, listen: false)
             .addCurrencyId(currencyId),
+    "add-default-currency": (context, {currencyId}) =>
+        Provider.of<AddExpenses>(context, listen: false)
+            .addDefaultCurryId(currencyId),
 
     // Saving section
     "register-saving": (context, {itemData}) =>
@@ -58,6 +61,8 @@ class FkManageProviders {
       "get-added-expenses": Provider.of<AddExpenses>(context).getTotalAmount,
       "get-screen-title": Provider.of<AddExpenses>(context).screenTitle,
       "get-currency": Provider.of<AddExpenses>(context).currencyId,
+      "get-default-currency":
+          Provider.of<AddExpenses>(context).defaultCurrencyId,
 
       // Saving section
       "get-savings-item": Provider.of<RegisterSaving>(context).getNewItem,

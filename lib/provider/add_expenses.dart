@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 class AddExpenses extends ChangeNotifier {
   var _screenTitle = '';
   String _currencyId = '';
+  String _defaultCurrencyId = '';
   final List _items = [];
   final List _totalAmountList = [];
 
   List get getNewItem => _items;
   String get currencyId => _currencyId;
+  String get defaultCurrencyId => _defaultCurrencyId;
   String get screenTitle => _screenTitle;
   double get getTotalAmount {
     // Compute total amount in the list
@@ -49,6 +51,11 @@ class AddExpenses extends ChangeNotifier {
 
   void addCurrencyId(String currencyId) {
     _currencyId = currencyId;
+    notifyListeners();
+  }
+
+  void addDefaultCurryId(String defaultCurryId) {
+    _defaultCurrencyId = defaultCurryId;
     notifyListeners();
   }
 }

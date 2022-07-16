@@ -29,7 +29,8 @@ class _ExpenseListState extends State<ExpenseList> {
 
   @override
   Widget build(BuildContext context) {
-    var selectedCurrency = FkManageProviders.get(context)["get-currency"];
+    var selectedCurrency =
+        FkManageProviders.get(context)["get-default-currency"];
     var setCurrency =
         selectedCurrency != '' ? selectedCurrency : defaultCurrency.toString();
 

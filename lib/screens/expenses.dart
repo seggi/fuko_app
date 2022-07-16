@@ -9,7 +9,9 @@ import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 import 'package:intl/intl.dart';
 
+import '../core/currency_data.dart';
 import '../utils/constant.dart';
+import '../widgets/bottom_sheet.dart';
 
 class ExpensesPage extends StatefulWidget {
   final String? status;
@@ -31,11 +33,14 @@ class _ExpensesPageState extends State<ExpensesPage> {
   @override
   void initState() {
     super.initState();
+    retrieveCurrencies = fetchCurrencies();
   }
 
   @override
   Widget build(BuildContext context) {
-    var selectedCurrency = FkManageProviders.get(context)["get-currency"];
+    final setCurrencyId = FkManageProviders.save["add-default-currency"];
+    var selectedCurrency =
+        FkManageProviders.get(context)["get-default-currency"];
     var setCurrency =
         selectedCurrency != '' ? selectedCurrency : defaultCurrency.toString();
 
@@ -73,6 +78,16 @@ class _ExpensesPageState extends State<ExpensesPage> {
               ),
               Row(
                 children: [
+                  IconButton(
+                      onPressed: () {
+                        customBottomSheet(
+                            context, retrieveCurrencies, setCurrencyId);
+                      },
+                      icon: const Icon(
+                        Icons.currency_exchange,
+                        color: fkBlueText,
+                        size: 20,
+                      )),
                   IconButton(
                       onPressed: () =>
                           PagesGenerator.goTo(context, name: "create-expense"),
