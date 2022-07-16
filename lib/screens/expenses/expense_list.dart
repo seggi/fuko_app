@@ -9,7 +9,7 @@ import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 import 'package:intl/intl.dart';
 
-import '../../utils/constate.dart';
+import '../../utils/constant.dart';
 
 class ExpenseList extends StatefulWidget {
   final String id;
