@@ -53,9 +53,12 @@ customBottomSheet(context, retrieveCurrencies, setCurrencyId) {
                                     subtitle: Text(
                                         snapshot.data?[index].description ??
                                             "No description"),
-                                    onTap: () => setCurrencyId(context,
-                                        currencyId:
-                                            snapshot.data?[index].currencyId),
+                                    onTap: () {
+                                      setCurrencyId(context,
+                                          currencyId:
+                                              snapshot.data?[index].currencyId);
+                                      Navigator.pop(context);
+                                    },
                                   ),
                                 ));
                           },

@@ -79,22 +79,20 @@ class _ExpensesPageState extends State<ExpensesPage> {
               Row(
                 children: [
                   IconButton(
-                      onPressed: () {
-                        customBottomSheet(
-                            context, retrieveCurrencies, setCurrencyId);
-                      },
-                      icon: const Icon(
-                        Icons.currency_exchange,
-                        color: fkBlueText,
-                        size: 20,
-                      )),
-                  IconButton(
                       onPressed: () =>
                           PagesGenerator.goTo(context, name: "create-expense"),
                       icon: const Icon(
                         Icons.add_circle,
                         color: fkBlueText,
-                      ))
+                      )),
+                  IconButton(
+                      onPressed: () =>
+                          PagesGenerator.goTo(context, name: "expense-options"),
+                      icon: const Icon(
+                        Icons.manage_history,
+                        color: fkBlueText,
+                        size: 20,
+                      )),
                 ],
               )
             ],
@@ -121,30 +119,73 @@ class _ExpensesPageState extends State<ExpensesPage> {
                   AsyncSnapshot snapshot,
                 ) {
                   if (snapshot.hasData) {
-                    return Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "${snapshot.data!.currencyCode}",
-                          style: const TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                              color: fkGreyText),
-                        ),
-                        Text(
-                          "${snapshot.data!.totalAmount}",
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                              fontSize: 28,
-                              fontWeight: FontWeight.w600,
-                              color: fkBlackText),
-                        ),
-                      ],
+                    return Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "${snapshot.data!.currencyCode}",
+                                style: const TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500,
+                                    color: fkGreyText),
+                              ),
+                              Text(
+                                "${snapshot.data!.totalAmount}",
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                    fontSize: 28,
+                                    fontWeight: FontWeight.w600,
+                                    color: fkBlackText),
+                              ),
+                            ],
+                          ),
+                          Container(
+                            alignment: Alignment.center,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(4.0),
+                              child: Container(
+                                color: fkDefaultColor,
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        "${snapshot.data!.currencyCode}",
+                                        style: const TextStyle(
+                                            fontSize: 24,
+                                            fontWeight: FontWeight.w600,
+                                            color: fkWhiteText),
+                                      ),
+                                    ),
+                                    IconButton(
+                                        icon: const Icon(
+                                          Icons.currency_exchange,
+                                          size: 20,
+                                          color: fkWhiteText,
+                                        ),
+                                        onPressed: () => customBottomSheet(
+                                            context,
+                                            retrieveCurrencies,
+                                            setCurrencyId))
+                                  ],
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                     );
                   } else if (snapshot.hasError) {
-                    return Container(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Center(
+                    return Expanded(
+                        // padding: const EdgeInsets.all(20.0),
+                        child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Center(
                             child: Text(
                           snapshot.error != null
                               ? "Failed to load data"
@@ -154,7 +195,32 @@ class _ExpensesPageState extends State<ExpensesPage> {
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
                               color: fkGreyText),
-                        )));
+                        )),
+                        Container(
+                          alignment: Alignment.center,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(4.0),
+                            child: Container(
+                              color: fkDefaultColor,
+                              child: Row(
+                                children: [
+                                  IconButton(
+                                      icon: const Icon(
+                                        Icons.currency_exchange,
+                                        size: 20,
+                                        color: fkWhiteText,
+                                      ),
+                                      onPressed: () => customBottomSheet(
+                                          context,
+                                          retrieveCurrencies,
+                                          setCurrencyId))
+                                ],
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ));
                   }
                   return Container(
                       padding: const EdgeInsets.all(20.0),
@@ -169,24 +235,6 @@ class _ExpensesPageState extends State<ExpensesPage> {
                       )));
                 },
               ),
-              Container(
-                alignment: Alignment.center,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
-                  child: Container(
-                    color: fkDefaultColor,
-                    child: IconButton(
-                      icon: const Icon(
-                        Icons.arrow_right_alt,
-                        size: 28,
-                        color: fkWhiteText,
-                      ),
-                      onPressed: () =>
-                          PagesGenerator.goTo(context, name: "expense-options"),
-                    ),
-                  ),
-                ),
-              )
             ],
           ),
         ),
