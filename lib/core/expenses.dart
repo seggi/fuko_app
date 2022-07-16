@@ -77,8 +77,7 @@ Future<List<RetrieveExpenses>> fetchRetrieveExpenses(
     {String? currencyId}) async {
   var token = await UserPreferences.getToken();
 
-  final response = await http.get(
-      Uri.parse("${Network.getExpenses}/$currencyId"),
+  final response = await http.get(Uri.parse("${Network.getExpenses}/150"),
       headers: Network.authorizedHeaders(token: token));
 
   if (response.statusCode == 200) {

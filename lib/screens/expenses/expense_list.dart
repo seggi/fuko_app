@@ -31,7 +31,7 @@ class _ExpenseListState extends State<ExpenseList> {
   Widget build(BuildContext context) {
     var selectedCurrency = FkManageProviders.get(context)["get-currency"];
     var setCurrency =
-        selectedCurrency != ' ' ? selectedCurrency : defaultCurrency.toString();
+        selectedCurrency != '' ? selectedCurrency : defaultCurrency.toString();
 
     final screenTitle = FkManageProviders.get(context)['get-screen-title'];
     return FkContentBoxWidgets.body(context, 'savings list', fn: () {

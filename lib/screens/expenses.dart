@@ -37,7 +37,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
   Widget build(BuildContext context) {
     var selectedCurrency = FkManageProviders.get(context)["get-currency"];
     var setCurrency =
-        selectedCurrency != ' ' ? selectedCurrency : defaultCurrency.toString();
+        selectedCurrency != '' ? selectedCurrency : defaultCurrency.toString();
 
     final screenTitle = FkManageProviders.save["save-screen-title"];
 
