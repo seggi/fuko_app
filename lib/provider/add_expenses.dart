@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class AddExpenses extends ChangeNotifier {
   var _screenTitle = '';
-  var _currencyId = ' ';
+  String _currencyId = '';
   final List _items = [];
   final List _totalAmountList = [];
 

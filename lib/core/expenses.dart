@@ -73,10 +73,12 @@ class RetrieveExpenses {
   }
 }
 
-Future<List<RetrieveExpenses>> fetchRetrieveExpenses() async {
+Future<List<RetrieveExpenses>> fetchRetrieveExpenses(
+    {String? currencyId}) async {
   var token = await UserPreferences.getToken();
 
-  final response = await http.get(Uri.parse(Network.getExpenses),
+  final response = await http.get(
+      Uri.parse("${Network.getExpenses}/$currencyId"),
       headers: Network.authorizedHeaders(token: token));
 
   if (response.statusCode == 200) {
@@ -107,10 +109,12 @@ class RetrieveExpensesTotal {
 }
 
 // Retrieve total amount on expenses
-Future<RetrieveExpensesTotal> fetchRetrieveExpensesTotal() async {
+Future<RetrieveExpensesTotal> fetchRetrieveExpensesTotal(
+    {String? currencyId}) async {
   var token = await UserPreferences.getToken();
 
-  final response = await http.get(Uri.parse(Network.getExpenses),
+  final response = await http.get(
+      Uri.parse("${Network.getExpenses}/$currencyId"),
       headers: Network.authorizedHeaders(token: token));
 
   if (response.statusCode == 200) {
@@ -141,11 +145,11 @@ class RetrieveDetailsExpensesListByDate {
 }
 
 Future<List<RetrieveDetailsExpenses>> fetchExpensesDetailList(
-    {String? expenseId}) async {
+    {String? expenseId, String? currencyId}) async {
   var token = await UserPreferences.getToken();
 
   final response = await http.get(
-      Uri.parse(Network.expensesDetails + "/$expenseId"),
+      Uri.parse(Network.expensesDetails + "/$expenseId/$currencyId"),
       headers: Network.authorizedHeaders(token: token));
 
   if (response.statusCode == 200) {
@@ -161,11 +165,11 @@ Future<List<RetrieveDetailsExpenses>> fetchExpensesDetailList(
 }
 
 Future<RetrieveDetailsExpensesListByDate> fetchDetailsExpensesTotalAmountByDate(
-    {String? expenseId}) async {
+    {String? expenseId, String? currencyId}) async {
   var token = await UserPreferences.getToken();
 
   final response = await http.get(
-      Uri.parse(Network.expensesDetails + "/$expenseId"),
+      Uri.parse(Network.expensesDetails + "/$expenseId/$currencyId"),
       headers: Network.authorizedHeaders(token: token));
 
   if (response.statusCode == 200) {
