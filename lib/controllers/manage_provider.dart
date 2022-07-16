@@ -23,6 +23,9 @@ class FkManageProviders {
     "save-screen-title": (context, {screenTitle}) =>
         Provider.of<AddExpenses>(context, listen: false)
             .addScreenTitle(screenTitle),
+    "add-currency": (context, {currencyId}) =>
+        Provider.of<AddExpenses>(context, listen: false)
+            .addCurrencyId(currencyId),
 
     // Saving section
     "register-saving": (context, {itemData}) =>
@@ -54,6 +57,7 @@ class FkManageProviders {
       "add-expenses": Provider.of<AddExpenses>(context).getNewItem,
       "get-added-expenses": Provider.of<AddExpenses>(context).getTotalAmount,
       "get-screen-title": Provider.of<AddExpenses>(context).screenTitle,
+      "get-currency": Provider.of<AddExpenses>(context).currencyId,
 
       // Saving section
       "get-savings-item": Provider.of<RegisterSaving>(context).getNewItem,

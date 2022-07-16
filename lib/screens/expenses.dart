@@ -4,9 +4,12 @@ import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/core/expenses.dart';
 import 'package:fuko_app/core/user_preferences.dart';
 import 'package:fuko_app/screens/content_box_widgets.dart';
+import 'package:fuko_app/utils/constant.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 import 'package:intl/intl.dart';
+
+import '../utils/constant.dart';
 
 class ExpensesPage extends StatefulWidget {
   final String? status;
@@ -28,18 +31,21 @@ class _ExpensesPageState extends State<ExpensesPage> {
   @override
   void initState() {
     super.initState();
-    retrieveExpensesTotal = fetchRetrieveExpensesTotal();
-    retrieveExpenses = fetchRetrieveExpenses();
   }
 
   @override
   Widget build(BuildContext context) {
+    var selectedCurrency = FkManageProviders.get(context)["get-currency"];
+    var setCurrency =
+        selectedCurrency != ' ' ? selectedCurrency : defaultCurrency.toString();
+
     final screenTitle = FkManageProviders.save["save-screen-title"];
 
     if (widget.status == "true") {
       setState(() {
-        retrieveExpensesTotal = fetchRetrieveExpensesTotal();
-        retrieveExpenses = fetchRetrieveExpenses();
+        retrieveExpensesTotal =
+            fetchRetrieveExpensesTotal(currencyId: setCurrency);
+        retrieveExpenses = fetchRetrieveExpenses(currencyId: setCurrency);
       });
     }
     return FkContentBoxWidgets.body(context, 'savings', itemList: [
@@ -94,7 +100,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               FutureBuilder<RetrieveExpensesTotal>(
-                future: retrieveExpensesTotal,
+                future: fetchRetrieveExpensesTotal(currencyId: setCurrency),
                 builder: (
                   BuildContext context,
                   AsyncSnapshot snapshot,
@@ -181,7 +187,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
       ]),
       Expanded(
         child: FutureBuilder(
-          future: retrieveExpenses,
+          future: fetchRetrieveExpenses(currencyId: setCurrency),
           builder: (context, AsyncSnapshot<List<RetrieveExpenses>> snapshot) {
             if (snapshot.hasData) {
               return SizedBox(

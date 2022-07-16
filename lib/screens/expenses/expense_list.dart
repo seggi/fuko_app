@@ -3,12 +3,13 @@ import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/core/default_data.dart';
 import 'package:fuko_app/core/expenses.dart';
-import 'package:fuko_app/core/user_preferences.dart';
 import 'package:fuko_app/screens/content_box_widgets.dart';
 import 'package:fuko_app/widgets/other_widgets.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 import 'package:intl/intl.dart';
+
+import '../../utils/constant.dart';
 
 class ExpenseList extends StatefulWidget {
   final String id;
@@ -21,20 +22,17 @@ class ExpenseList extends StatefulWidget {
 class _ExpenseListState extends State<ExpenseList> {
   FkContentBoxWidgets fkContentBoxWidgets = FkContentBoxWidgets();
 
-  late Future<List<RetrieveDetailsExpenses>> retrieveExpensesList;
-  late Future<RetrieveDetailsExpensesListByDate> retrieveExpensesTotal;
-
   @override
   void initState() {
     super.initState();
-    retrieveExpensesList = fetchExpensesDetailList(expenseId: widget.id);
-
-    retrieveExpensesTotal =
-        fetchDetailsExpensesTotalAmountByDate(expenseId: widget.id);
   }
 
   @override
   Widget build(BuildContext context) {
+    var selectedCurrency = FkManageProviders.get(context)["get-currency"];
+    var setCurrency =
+        selectedCurrency != ' ' ? selectedCurrency : defaultCurrency.toString();
+
     final screenTitle = FkManageProviders.get(context)['get-screen-title'];
     return FkContentBoxWidgets.body(context, 'savings list', fn: () {
       PagesGenerator.goTo(context,
@@ -77,7 +75,8 @@ class _ExpenseListState extends State<ExpenseList> {
         ),
         verticalSpaceTiny,
         FutureBuilder<RetrieveDetailsExpensesListByDate>(
-          future: retrieveExpensesTotal,
+          future: fetchDetailsExpensesTotalAmountByDate(
+              expenseId: widget.id, currencyId: setCurrency),
           builder: (
             BuildContext context,
             AsyncSnapshot snapshot,
@@ -134,7 +133,8 @@ class _ExpenseListState extends State<ExpenseList> {
       ]),
       Expanded(
         child: FutureBuilder(
-          future: retrieveExpensesList,
+          future: fetchExpensesDetailList(
+              expenseId: widget.id, currencyId: setCurrency),
           builder: (
             BuildContext context,
             AsyncSnapshot snapshot,

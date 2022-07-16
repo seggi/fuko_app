@@ -93,6 +93,7 @@ class _SaveExpensesState extends State<SaveExpenses> {
 
   @override
   Widget build(BuildContext context) {
+    final setCurrencyId = FkManageProviders.save["add-currency"];
     final List newItems = FkManageProviders.get(context)["add-expenses"];
     final totalAmount = FkManageProviders.get(context)["get-added-expenses"];
 
@@ -205,10 +206,11 @@ class _SaveExpensesState extends State<SaveExpenses> {
                                                                 .data?[index]
                                                                 .description ??
                                                             "No description"),
-                                                        onTap: () {
-                                                          print(
-                                                              '${snapshot.data?[index].currencyId}');
-                                                        },
+                                                        onTap: () => setCurrencyId(
+                                                            context,
+                                                            currencyId: snapshot
+                                                                .data?[index]
+                                                                .currencyId),
                                                       ),
                                                     ));
                                               },
