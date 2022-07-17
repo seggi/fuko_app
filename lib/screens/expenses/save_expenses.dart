@@ -144,18 +144,21 @@ class _SaveExpensesState extends State<SaveExpenses> {
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                   ),
                 ),
-                IconButton(
-                    onPressed: () {
-                      customBottomSheet(
-                          context, retrieveCurrencies, setCurrencyId);
-                    },
-                    icon: const Icon(
-                      Icons.currency_exchange,
-                      color: fkBlueText,
-                      size: 20,
-                    ))
+                Container(
+                  alignment: Alignment.center,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(4.0),
+                    child: Container(
+                      color: fkDefaultColor,
+                      child: Row(
+                        children: const [CustomButtonSheet()],
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
+            verticalSpaceSmall,
             const Divider(
               height: 2,
               color: fkDefaultColor,

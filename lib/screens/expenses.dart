@@ -38,7 +38,6 @@ class _ExpensesPageState extends State<ExpensesPage> {
 
   @override
   Widget build(BuildContext context) {
-    final setCurrencyId = FkManageProviders.save["add-default-currency"];
     var selectedCurrency =
         FkManageProviders.get(context)["get-default-currency"];
     var setCurrency =
@@ -161,16 +160,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
                                             color: fkWhiteText),
                                       ),
                                     ),
-                                    IconButton(
-                                        icon: const Icon(
-                                          Icons.currency_exchange,
-                                          size: 20,
-                                          color: fkWhiteText,
-                                        ),
-                                        onPressed: () => customBottomSheet(
-                                            context,
-                                            retrieveCurrencies,
-                                            setCurrencyId))
+                                    const CustomButtonSheet()
                                   ],
                                 ),
                               ),
@@ -203,18 +193,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
                             child: Container(
                               color: fkDefaultColor,
                               child: Row(
-                                children: [
-                                  IconButton(
-                                      icon: const Icon(
-                                        Icons.currency_exchange,
-                                        size: 20,
-                                        color: fkWhiteText,
-                                      ),
-                                      onPressed: () => customBottomSheet(
-                                          context,
-                                          retrieveCurrencies,
-                                          setCurrencyId))
-                                ],
+                                children: const [CustomButtonSheet()],
                               ),
                             ),
                           ),
