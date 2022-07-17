@@ -4,11 +4,13 @@ class AddExpenses extends ChangeNotifier {
   var _screenTitle = '';
   String _currencyId = '';
   String _defaultCurrencyId = '';
+  String _monthNumber = '';
   final List _items = [];
   final List _totalAmountList = [];
 
   List get getNewItem => _items;
   String get currencyId => _currencyId;
+  String get monthNumber => _monthNumber;
   String get defaultCurrencyId => _defaultCurrencyId;
   String get screenTitle => _screenTitle;
   double get getTotalAmount {
@@ -56,6 +58,11 @@ class AddExpenses extends ChangeNotifier {
 
   void addDefaultCurryId(String defaultCurryId) {
     _defaultCurrencyId = defaultCurryId;
+    notifyListeners();
+  }
+
+  void addSelectedMonth(String monthNumber) {
+    _monthNumber = monthNumber;
     notifyListeners();
   }
 }
