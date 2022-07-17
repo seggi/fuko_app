@@ -1,5 +1,6 @@
 import 'package:fuko_app/core/currency_data.dart';
 import 'package:fuko_app/core/months_data.dart';
+import 'package:intl/intl.dart';
 
 var defaultCurrency = 150;
 late Future<List<GetCurrencies>> retrieveCurrencies;

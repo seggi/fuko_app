@@ -10,6 +10,7 @@ import 'package:fuko_app/widgets/shared/ui_helper.dart';
 import 'package:intl/intl.dart';
 
 import '../../utils/constant.dart';
+import '../../widgets/bottom_sheet/months.dart';
 
 class ExpenseList extends StatefulWidget {
   final String id;
@@ -40,7 +41,7 @@ class _ExpenseListState extends State<ExpenseList> {
           name: "save-expenses", params: {"id": widget.id});
     }, itemList: [
       Padding(
-          padding: const EdgeInsets.only(right: 20.0, left: 20.0),
+          padding: const EdgeInsets.only(right: 20.0, left: 20.0, top: 20.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -59,17 +60,6 @@ class _ExpenseListState extends State<ExpenseList> {
                     style: const TextStyle(
                         fontSize: 20, fontWeight: FontWeight.bold),
                   )
-                ],
-              ),
-              Row(
-                children: [
-                  IconButton(
-                      onPressed: () =>
-                          PagesGenerator.goTo(context, name: "create-expense"),
-                      icon: const Icon(
-                        Icons.calendar_month,
-                        color: fkBlueText,
-                      )),
                 ],
               ),
             ],
@@ -94,23 +84,52 @@ class _ExpenseListState extends State<ExpenseList> {
           ) {
             if (snapshot.hasData) {
               return Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    "${snapshot.data!.currencyCode}",
-                    style: const TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                        color: fkGreyText),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "${snapshot.data!.currencyCode}",
+                        style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            color: fkGreyText),
+                      ),
+                      Text(
+                        "${double.parse(snapshot.data!.totalAmount)}",
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                            fontSize: 28,
+                            fontWeight: FontWeight.w600,
+                            color: fkBlackText),
+                      ),
+                    ],
                   ),
-                  Text(
-                    "${double.parse(snapshot.data!.totalAmount)}",
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.w600,
-                        color: fkBlackText),
-                  ),
+                  Container(
+                    alignment: Alignment.center,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(4.0),
+                      child: Container(
+                        color: fkDefaultColor,
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                "${snapshot.data!.currencyCode}",
+                                style: const TextStyle(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.w600,
+                                    color: fkWhiteText),
+                              ),
+                            ),
+                            const MonthsButtonSheet()
+                          ],
+                        ),
+                      ),
+                    ),
+                  )
                 ],
               );
             } else if (snapshot.hasError) {
