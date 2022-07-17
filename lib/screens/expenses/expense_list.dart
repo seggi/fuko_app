@@ -40,8 +40,7 @@ class _ExpenseListState extends State<ExpenseList> {
           name: "save-expenses", params: {"id": widget.id});
     }, itemList: [
       Padding(
-          padding: const EdgeInsets.only(
-              right: 20.0, left: 20.0, top: 20.0, bottom: 10.0),
+          padding: const EdgeInsets.only(right: 20.0, left: 20.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -60,6 +59,17 @@ class _ExpenseListState extends State<ExpenseList> {
                     style: const TextStyle(
                         fontSize: 20, fontWeight: FontWeight.bold),
                   )
+                ],
+              ),
+              Row(
+                children: [
+                  IconButton(
+                      onPressed: () =>
+                          PagesGenerator.goTo(context, name: "create-expense"),
+                      icon: const Icon(
+                        Icons.calendar_month,
+                        color: fkBlueText,
+                      )),
                 ],
               ),
             ],

@@ -11,7 +11,8 @@ import 'package:intl/intl.dart';
 
 import '../core/currency_data.dart';
 import '../utils/constant.dart';
-import '../widgets/bottom_sheet.dart';
+import '../widgets/bottom_sheet/currenncies.dart';
+import '../widgets/bottom_sheet/months.dart';
 
 class ExpensesPage extends StatefulWidget {
   final String? status;
@@ -40,6 +41,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
   Widget build(BuildContext context) {
     var selectedCurrency =
         FkManageProviders.get(context)["get-default-currency"];
+    var seletedMonth = FkManageProviders.get(context)["get-selected-month"];
     var setCurrency =
         selectedCurrency != '' ? selectedCurrency : defaultCurrency.toString();
 
@@ -62,7 +64,6 @@ class _ExpensesPageState extends State<ExpensesPage> {
                 children: [
                   InkWell(
                       onTap: () async {
-                        var token = await UserPreferences.getToken();
                         PagesGenerator.goTo(context, pathName: "/?status=true");
                       },
                       child: const Icon(
@@ -70,7 +71,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
                         size: 20,
                       )),
                   const Text(
-                    "Express",
+                    "Expense",
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   )
                 ],
@@ -160,7 +161,8 @@ class _ExpensesPageState extends State<ExpensesPage> {
                                             color: fkWhiteText),
                                       ),
                                     ),
-                                    const CustomButtonSheet()
+                                    const CurrencyButtonSheet(),
+                                    const MonthsButtonSheet()
                                   ],
                                 ),
                               ),
@@ -193,7 +195,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
                             child: Container(
                               color: fkDefaultColor,
                               child: Row(
-                                children: const [CustomButtonSheet()],
+                                children: const [CurrencyButtonSheet()],
                               ),
                             ),
                           ),
@@ -261,7 +263,10 @@ class _ExpensesPageState extends State<ExpensesPage> {
                             child: InkWell(
                               child: Card(
                                 child: ListTile(
-                                  leading: const Icon(Icons.list_alt_outlined),
+                                  leading: const Icon(
+                                    Icons.notes,
+                                    color: fkBlueText,
+                                  ),
                                   title: SizedBox(
                                     width: 200,
                                     child: Text(
@@ -273,13 +278,31 @@ class _ExpensesPageState extends State<ExpensesPage> {
                                       ),
                                     ),
                                   ),
-                                  trailing: Text(
-                                    "${dateTime.year}-${dateTime.month}-${dateTime.day} ${dateTime.hour}:${dateTime.minute}",
-                                    overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(
-                                      color: fkBlueText,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 14,
+                                  trailing: Container(
+                                    margin: const EdgeInsets.only(top: 10),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: [
+                                        const Text("Created on",
+                                            style: TextStyle(
+                                              color: fkGreyText,
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 12,
+                                            )),
+                                        verticalSpaceTiny,
+                                        Text(
+                                          "${dateTime.year}-${dateTime.month}-${dateTime.day}",
+                                          overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(
+                                            color: fkBlueText,
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),

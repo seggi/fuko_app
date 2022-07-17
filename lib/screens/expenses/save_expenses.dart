@@ -17,7 +17,7 @@ import 'package:fuko_app/widgets/shared/ui_helper.dart';
 import 'package:intl/intl.dart';
 
 import '../../core/currency_data.dart';
-import '../../widgets/bottom_sheet.dart';
+import '../../widgets/bottom_sheet/currenncies.dart';
 import '../../widgets/other_widgets.dart';
 
 class SaveExpenses extends StatefulWidget {
@@ -151,7 +151,7 @@ class _SaveExpensesState extends State<SaveExpenses> {
                     child: Container(
                       color: fkDefaultColor,
                       child: Row(
-                        children: const [CustomButtonSheet()],
+                        children: const [CurrencyButtonSheet()],
                       ),
                     ),
                   ),

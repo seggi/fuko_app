@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
-import '../controllers/manage_provider.dart';
-import '../core/currency_data.dart';
-import '../utils/constant.dart';
+import '../../controllers/manage_provider.dart';
+import '../../core/currency_data.dart';
+import '../../utils/constant.dart';
 
-class CustomButtonSheet extends StatefulWidget {
-  const CustomButtonSheet({Key? key}) : super(key: key);
+class CurrencyButtonSheet extends StatefulWidget {
+  const CurrencyButtonSheet({Key? key}) : super(key: key);
 
   @override
-  State<CustomButtonSheet> createState() => _CustomButtonSheetState();
+  State<CurrencyButtonSheet> createState() => _CurrencyButtonSheetState();
 }
 
-class _CustomButtonSheetState extends State<CustomButtonSheet> {
+class _CurrencyButtonSheetState extends State<CurrencyButtonSheet> {
   String searchString = " ";
 
   @override
@@ -57,7 +57,7 @@ class _CustomButtonSheetState extends State<CustomButtonSheet> {
                       //             borderSide: const BorderSide(
                       //                 width: 1.0, color: fkGreyText),
                       //             borderRadius: BorderRadius.circular(4.0)),
-                      //       ),
+                      //       ),ƒ
                       //       autofocus: true,
                       //       onChanged: (value) {
                       //         setState(() {
