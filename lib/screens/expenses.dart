@@ -41,7 +41,6 @@ class _ExpensesPageState extends State<ExpensesPage> {
   Widget build(BuildContext context) {
     var selectedCurrency =
         FkManageProviders.get(context)["get-default-currency"];
-    var seletedMonth = FkManageProviders.get(context)["get-selected-month"];
     var setCurrency =
         selectedCurrency != '' ? selectedCurrency : defaultCurrency.toString();
 
@@ -162,7 +161,6 @@ class _ExpensesPageState extends State<ExpensesPage> {
                                       ),
                                     ),
                                     const CurrencyButtonSheet(),
-                                    const MonthsButtonSheet()
                                   ],
                                 ),
                               ),

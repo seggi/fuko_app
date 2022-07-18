@@ -36,6 +36,7 @@ class _ExpenseListState extends State<ExpenseList> {
         selectedCurrency != '' ? selectedCurrency : defaultCurrency.toString();
 
     final screenTitle = FkManageProviders.get(context)['get-screen-title'];
+
     return FkContentBoxWidgets.body(context, 'savings list', fn: () {
       PagesGenerator.goTo(context,
           name: "save-expenses", params: {"id": widget.id});
@@ -124,7 +125,6 @@ class _ExpenseListState extends State<ExpenseList> {
                                     color: fkWhiteText),
                               ),
                             ),
-                            const MonthsButtonSheet()
                           ],
                         ),
                       ),
