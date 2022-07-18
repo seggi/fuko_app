@@ -2,9 +2,12 @@ import 'package:fuko_app/core/currency_data.dart';
 import 'package:fuko_app/core/months_data.dart';
 import 'package:intl/intl.dart';
 
+import '../core/expenses.dart';
+
 var defaultCurrency = 150;
 late Future<List<GetCurrencies>> retrieveCurrencies;
 late Future<List<GetMonths>> retrieveMonths;
+late List? retrieveExpensesDetailListByMonth;
 
 List<Map<String, Object>> monthsList = [
   {"name": "January", "number": 1},
