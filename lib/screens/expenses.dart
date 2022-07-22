@@ -86,7 +86,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
                       )),
                   IconButton(
                       onPressed: () =>
-                          PagesGenerator.goTo(context, name: "expense-options"),
+                          PagesGenerator.goTo(context, name: "expense-report"),
                       icon: const Icon(
                         Icons.manage_history,
                         color: fkBlueText,

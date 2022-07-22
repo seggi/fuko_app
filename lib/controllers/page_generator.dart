@@ -93,6 +93,13 @@ class PagesGenerator {
                   return UpdateExpenseName(expenseId: data);
                 },
               ),
+              GoRoute(
+                name: "expense-report",
+                path: 'expense-report',
+                builder: (context, state) {
+                  return const ExpenseReport();
+                },
+              ),
             ],
           ),
           GoRoute(
