@@ -42,29 +42,30 @@ class _ExpenseListState extends State<ExpenseList> {
           name: "save-expenses", params: {"id": widget.id});
     }, itemList: [
       Padding(
-          padding: const EdgeInsets.only(right: 20.0, left: 20.0, top: 20.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  InkWell(
-                      onTap: () async {
-                        PagesGenerator.goTo(context, pathName: "/expenses");
-                      },
-                      child: const Icon(
-                        Icons.arrow_back_ios,
-                        size: 20,
-                      )),
-                  Text(
-                    screenTitle,
-                    style: const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.bold),
-                  )
-                ],
-              ),
-            ],
-          )),
+        padding: const EdgeInsets.only(right: 20.0, left: 20.0, top: 20.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                InkWell(
+                    onTap: () async {
+                      PagesGenerator.goTo(context, pathName: "/expenses");
+                    },
+                    child: const Icon(
+                      Icons.arrow_back_ios,
+                      size: 20,
+                    )),
+                Text(
+                  screenTitle,
+                  style: const TextStyle(
+                      fontSize: 20, fontWeight: FontWeight.bold),
+                )
+              ],
+            ),
+          ],
+        ),
+      ),
       fkContentBoxWidgets.initialItems(itemList: [
         verticalSpaceTiny,
         const Align(

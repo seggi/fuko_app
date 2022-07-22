@@ -23,3 +23,4 @@ export 'dept/pay_dept.dart';
 export 'dashboard.dart';
 export 'groupe.dart';
 export 'groupe/groupe_detail.dart';
+export './expenses/expenses_report.dart';
