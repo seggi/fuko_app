@@ -2,8 +2,6 @@ import 'package:fuko_app/core/currency_data.dart';
 import 'package:fuko_app/core/months_data.dart';
 import 'package:intl/intl.dart';
 
-import '../core/expenses.dart';
-
 var defaultCurrency = 150;
 late Future<List<GetCurrencies>> retrieveCurrencies;
 late Future<List<GetMonths>> retrieveMonths;
@@ -23,3 +21,9 @@ List<Map<String, Object>> monthsList = [
   {"name": "November", "number": 11},
   {"name": "December", "number": 12}
 ];
+
+// Display current year
+
+var now = DateTime.now();
+var formatter = DateFormat('yyyy');
+String currentYear = formatter.format(now);
