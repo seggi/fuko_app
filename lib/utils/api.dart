@@ -30,4 +30,5 @@ class Network {
   static String getBorrowerDept = liveUrl! + "/account/dept/retrieve-date";
   static String recordDept = liveUrl! + "/account/dept/add-dept";
   static String currencies = liveUrl! + "/manage_request/retrieve-curries";
+  static String yearsList = liveUrl! + "/manage_request/retrieve-years";
 }
