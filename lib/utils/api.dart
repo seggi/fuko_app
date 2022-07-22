@@ -31,4 +31,5 @@ class Network {
   static String recordDept = liveUrl! + "/account/dept/add-dept";
   static String currencies = liveUrl! + "/manage_request/retrieve-curries";
   static String yearsList = liveUrl! + "/manage_request/retrieve-years";
+  static String expenseReport = liveUrl! + "/account//expense-report";
 }
