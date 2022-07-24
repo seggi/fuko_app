@@ -56,142 +56,80 @@ class _ExpenseReportState extends State<ExpenseReport> {
       });
     }
 
-    return FkContentBoxWidgets.body(context, 'savings list',
-        fn: () {},
-        itemList: [
-          Padding(
-            padding: const EdgeInsets.only(right: 20.0, left: 20.0, top: 20.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return FkContentBoxWidgets.body(context, 'savings', fn: () {}, itemList: [
+      Padding(
+        padding: const EdgeInsets.only(right: 20.0, left: 20.0, top: 20.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
               children: [
-                Row(
-                  children: [
-                    InkWell(
-                        onTap: () async {
-                          PagesGenerator.goTo(context, pathName: "/expenses");
-                        },
-                        child: const Icon(
-                          Icons.arrow_back_ios,
-                          size: 20,
-                        )),
-                    const Text(
-                      "Report",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    )
-                  ],
-                ),
+                InkWell(
+                    onTap: () async {
+                      PagesGenerator.goTo(context, pathName: "/expenses");
+                    },
+                    child: const Icon(
+                      Icons.arrow_back_ios,
+                      size: 20,
+                    )),
+                const Text(
+                  "Report",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                )
               ],
             ),
-          ),
-          fkContentBoxWidgets.initialItems(
-            itemList: [
-              verticalSpaceSmall,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Year $year",
-                    style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: fkBlueText),
-                  ),
-                  const YearButtonSheet(),
-                ],
+          ],
+        ),
+      ),
+      fkContentBoxWidgets.initialItems(
+        itemList: [
+          verticalSpaceSmall,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Year $year",
+                style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: fkBlueText),
               ),
-              verticalSpaceSmall,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  FutureBuilder<MonthlyTotalAmount>(
-                      future: retrieveMonthlyTotalAmount,
-                      builder: (BuildContext context, AsyncSnapshot snapshot) {
-                        if (snapshot.hasData) {
-                          return Row(
-                            children: [
-                              Text(
-                                "${snapshot.data!.currencyCode}",
-                                style: const TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500,
-                                    color: fkGreyText),
-                              ),
-                              const SizedBox(
-                                width: 2,
-                              ),
-                              Text(
-                                "${snapshot.data!.totalAmount}",
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.w600,
-                                    color: fkBlackText),
-                              ),
-                            ],
-                          );
-                        } else {
-                          return Expanded(
-                            child: Row(
-                              children: [
-                                const Icon(
-                                  Icons.warning,
-                                  color: Colors.orange,
-                                ),
-                                horizontalSpaceSmall,
-                                Container(
-                                  margin: const EdgeInsets.only(top: 10),
-                                  child: const Text(
-                                      "No data to show in this year ",
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.red)),
-                                ),
-                              ],
-                            ),
-                          );
-                        }
-                      })
-                ],
-              ),
-              verticalSpaceSmall,
+              const YearButtonSheet(),
             ],
           ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: FutureBuilder<List<MonthlyReportDetail>>(
-                  future: fetchMonthlyReportDetail(
-                      currencyCode: defaultCurrency.toString()),
+          verticalSpaceSmall,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              FutureBuilder<MonthlyTotalAmount>(
+                  future: retrieveMonthlyTotalAmount,
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
                     if (snapshot.hasData) {
-                      return ListView.builder(
-                          padding: const EdgeInsets.all(8),
-                          itemCount: snapshot.data!.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Column(
-                              children: [
-                                CustomExpandedListTile(
-                                  data: {
-                                    "month": "${snapshot.data[index].month}",
-                                    "currency": "",
-                                    "totalAmount":
-                                        "${snapshot.data[index].totalAmount}",
-                                    "date": "02",
-                                    "amount": "2000",
-                                    "description":
-                                        "Achat 4 sacs du Riz & 2 d'huiles",
-                                  },
-                                ),
-                                verticalSpaceTiny,
-                              ],
-                            );
-                          });
+                      return Row(
+                        children: [
+                          Text(
+                            "${snapshot.data!.currencyCode}",
+                            style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500,
+                                color: fkGreyText),
+                          ),
+                          const SizedBox(
+                            width: 2,
+                          ),
+                          Text(
+                            "${snapshot.data!.totalAmount}",
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.w600,
+                                color: fkBlackText),
+                          ),
+                        ],
+                      );
                     } else {
                       return Expanded(
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             const Icon(
                               Icons.warning,
@@ -210,9 +148,67 @@ class _ExpenseReportState extends State<ExpenseReport> {
                         ),
                       );
                     }
-                  }),
-            ),
-          )
-        ]);
+                  })
+            ],
+          ),
+          verticalSpaceSmall,
+        ],
+      ),
+      Expanded(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: FutureBuilder<List<MonthlyReportDetail>>(
+              future: retrieveMonthlyReportDetail,
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (snapshot.hasData) {
+                  return ListView.builder(
+                      padding: const EdgeInsets.all(8),
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Column(
+                          children: [
+                            CustomExpandedListTile(
+                              data: {
+                                "month": "${snapshot.data[index].month}",
+                                "currency": "",
+                                "totalAmount":
+                                    "${snapshot.data[index].totalAmount}",
+                                "date": "02",
+                                "amount": "2000",
+                                "description":
+                                    "Achat 4 sacs du Riz & 4 d'huiles",
+                                "detailsData": snapshot.data[index]!.data
+                              },
+                            ),
+                            verticalSpaceTiny,
+                          ],
+                        );
+                      });
+                } else {
+                  return Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          Icons.warning,
+                          color: Colors.orange,
+                        ),
+                        horizontalSpaceSmall,
+                        Container(
+                          margin: const EdgeInsets.only(top: 10),
+                          child: const Text("No data to show in this year ",
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                              )),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+              }),
+        ),
+      )
+    ]);
   }
 }
