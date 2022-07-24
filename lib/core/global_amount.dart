@@ -17,11 +17,11 @@ class GlobalAmount {
   }
 }
 
-Future<GlobalAmount> fetchGlobalAmount() async {
+Future<GlobalAmount> fetchGlobalAmount({String? currencyId}) async {
   var token = await UserPreferences.getToken();
-  var userId = await UserPreferences.getUserId();
 
-  final response = await http.get(Uri.parse(Network.globalAmount + "/$userId"),
+  final response = await http.get(
+      Uri.parse(Network.globalAmount + "/$currencyId"),
       headers: Network.authorizedHeaders(token: token));
 
   if (response.statusCode == 200) {
