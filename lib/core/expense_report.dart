@@ -32,7 +32,7 @@ Future<MonthlyTotalAmount> fetchMonthlyTotalAmount(
       throw Exception('Failed to load data');
     }
   } catch (e) {
-    throw e;
+    rethrow;
   }
 }
 
@@ -45,20 +45,27 @@ class MonthlyReportDetail {
 
   factory MonthlyReportDetail.fromJson(Map<String, dynamic> json) {
     return MonthlyReportDetail(
-        data: json["data"],
-        month: json["month"],
-        totalAmount: json["total_amount"]);
+      data: json["data"],
+      month: json["month"].toString(),
+      totalAmount: json["total_amount"].toString(),
+    );
   }
 }
 
-Future<List<MonthlyReportDetail>> fetchMonthlyReportDetail() async {
+Future<List<MonthlyReportDetail>> fetchMonthlyReportDetail(
+    {String? currencyCode, String? selectedYear}) async {
   var token = await UserPreferences.getToken();
 
-  final response = await http.get(Uri.parse(Network.expenseReport),
+  var year = selectedYear ?? currentYear;
+  var currency = currencyCode ?? defaultCurrency;
+
+  final response = await http.get(
+      Uri.parse(Network.expenseReport + "/$currency/$year"),
       headers: Network.authorizedHeaders(token: token));
 
   if (response.statusCode == 200) {
-    var expensesData = jsonDecode(response.body)["monthly_report"] as List;
+    var expensesData =
+        jsonDecode(response.body)["data"]["monthly_report"] as List;
 
     return expensesData
         .map((report) => MonthlyReportDetail.fromJson(report))

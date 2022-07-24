@@ -22,6 +22,7 @@ class _ExpenseReportState extends State<ExpenseReport> {
   FkContentBoxWidgets fkContentBoxWidgets = FkContentBoxWidgets();
 
   late Future<MonthlyTotalAmount> retrieveMonthlyTotalAmount;
+  late Future<List<MonthlyReportDetail>> retrieveMonthlyReportDetail;
 
   @override
   void initState() {
@@ -29,6 +30,8 @@ class _ExpenseReportState extends State<ExpenseReport> {
     super.initState();
     retrieveMonthlyTotalAmount =
         fetchMonthlyTotalAmount(currencyCode: defaultCurrency.toString());
+    retrieveMonthlyReportDetail =
+        fetchMonthlyReportDetail(currencyCode: defaultCurrency.toString());
   }
 
   @override
@@ -46,6 +49,9 @@ class _ExpenseReportState extends State<ExpenseReport> {
     if (getStatus == "true") {
       setState(() {
         retrieveMonthlyTotalAmount = fetchMonthlyTotalAmount(
+            currencyCode: getCurrency, selectedYear: year);
+
+        retrieveMonthlyReportDetail = fetchMonthlyReportDetail(
             currencyCode: getCurrency, selectedYear: year);
       });
     }
@@ -149,55 +155,64 @@ class _ExpenseReportState extends State<ExpenseReport> {
                       })
                 ],
               ),
-              verticalSpaceRegular,
-              Align(
-                alignment: Alignment.bottomLeft,
-                child: RichText(
-                  text: const TextSpan(
-                    text: 'Details on all Expenses',
-                    style: TextStyle(fontSize: 16, color: fkBlackText),
-                  ),
-                ),
-              ),
               verticalSpaceSmall,
             ],
           ),
-          expenseDetails()
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: FutureBuilder<List<MonthlyReportDetail>>(
+                  future: fetchMonthlyReportDetail(
+                      currencyCode: defaultCurrency.toString()),
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    if (snapshot.hasData) {
+                      return ListView.builder(
+                          padding: const EdgeInsets.all(8),
+                          itemCount: snapshot.data!.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Column(
+                              children: [
+                                CustomExpandedListTile(
+                                  data: {
+                                    "month": "${snapshot.data[index].month}",
+                                    "currency": "",
+                                    "totalAmount":
+                                        "${snapshot.data[index].totalAmount}",
+                                    "date": "02",
+                                    "amount": "2000",
+                                    "description":
+                                        "Achat 4 sacs du Riz & 2 d'huiles",
+                                  },
+                                ),
+                                verticalSpaceTiny,
+                              ],
+                            );
+                          });
+                    } else {
+                      return Expanded(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Icons.warning,
+                              color: Colors.orange,
+                            ),
+                            horizontalSpaceSmall,
+                            Container(
+                              margin: const EdgeInsets.only(top: 10),
+                              child: const Text("No data to show in this year ",
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.red)),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+                  }),
+            ),
+          )
         ]);
-  }
-
-  Widget expenseDetails() {
-    return Expanded(
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              CustomExpandedListTile(
-                data: const {
-                  "month": "January",
-                  "currency": "Rwf",
-                  "totalAmount": "2500",
-                  "date": "02",
-                  "amount": "2000",
-                  "description": "Achat 4 sacs du Riz & 2 d'huiles"
-                },
-              ),
-              verticalSpaceTiny,
-              CustomExpandedListTile(
-                data: const {
-                  "month": "June",
-                  "currency": "Rwf",
-                  "totalAmount": "5000",
-                  "date": "12",
-                  "amount": "4400",
-                  "description": "By electricity & pay House rent"
-                },
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
   }
 }
