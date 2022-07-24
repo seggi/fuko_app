@@ -196,7 +196,7 @@ class _ExpenseListState extends State<ExpenseList> {
                             monthText: toBeginningOfSentenceCase(
                                 months[dateTime.month - 1]),
                             leadingText: "${dateTime.day}",
-                            currency: "${snapshot.data?[index].currencyCode}",
+                            currency: "",
                             amount: snapshot.data?[index].amount,
                             titleTxt: snapshot.data?[index].description ??
                                 "No description",

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fuko_app/utils/constant.dart';
 import 'package:intl/intl.dart' show toBeginningOfSentenceCase;
 
 import 'package:fuko_app/controllers/manage_provider.dart';
@@ -34,15 +35,20 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    globalAmount = fetchGlobalAmount();
+    globalAmount = fetchGlobalAmount(currencyId: defaultCurrency.toString());
   }
 
   @override
   Widget build(BuildContext context) {
     final userData = FkManageProviders.get(context)["auth"][0];
+    var selectedCurrency =
+        FkManageProviders.get(context)["get-default-currency"];
+    var getCurrency =
+        selectedCurrency != '' ? selectedCurrency : defaultCurrency.toString();
+    ;
     if (widget.status == "true") {
       setState(() {
-        globalAmount = fetchGlobalAmount();
+        globalAmount = fetchGlobalAmount(currencyId: getCurrency);
       });
     }
 
@@ -60,7 +66,7 @@ class _HomePageState extends State<HomePage> {
           onRefresh: () {
             return Future.delayed(const Duration(seconds: 1), () {
               setState(() {
-                globalAmount = fetchGlobalAmount();
+                globalAmount = fetchGlobalAmount(currencyId: getCurrency);
               });
 
               // ignore: deprecated_member_use
