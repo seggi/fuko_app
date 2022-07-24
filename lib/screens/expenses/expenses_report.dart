@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
+import 'package:fuko_app/core/expense_report.dart';
 import 'package:fuko_app/screens/content_box_widgets.dart';
+import 'package:fuko_app/utils/constant.dart';
+import 'package:fuko_app/widgets/bottom_sheet/years.dart';
 import 'package:fuko_app/widgets/drop_down_box.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 
@@ -17,98 +21,149 @@ class ExpenseReport extends StatefulWidget {
 class _ExpenseReportState extends State<ExpenseReport> {
   FkContentBoxWidgets fkContentBoxWidgets = FkContentBoxWidgets();
 
+  late Future<MonthlyTotalAmount> retrieveMonthlyTotalAmount;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    retrieveMonthlyTotalAmount =
+        fetchMonthlyTotalAmount(currencyCode: defaultCurrency.toString());
+  }
+
   @override
   Widget build(BuildContext context) {
-    return FkContentBoxWidgets
-        .body(context, 'savings list', fn: () {}, itemList: [
-      Padding(
-        padding: const EdgeInsets.only(right: 20.0, left: 20.0, top: 20.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
+    var selectedCurrency =
+        FkManageProviders.get(context)["get-default-currency"];
+    var getStatus = FkManageProviders.get(context)["get-status"];
+    // final updateStatus = FkManageProviders.save["update-status"];
+    var getCurrency =
+        selectedCurrency != '' ? selectedCurrency : defaultCurrency.toString();
+
+    var getSelectedYear = FkManageProviders.get(context)["get-selected-year"];
+    var year = getSelectedYear != '' ? getSelectedYear : currentYear;
+
+    if (getStatus == "true") {
+      setState(() {
+        retrieveMonthlyTotalAmount = fetchMonthlyTotalAmount(
+            currencyCode: getCurrency, selectedYear: year);
+      });
+    }
+
+    return FkContentBoxWidgets.body(context, 'savings list',
+        fn: () {},
+        itemList: [
+          Padding(
+            padding: const EdgeInsets.only(right: 20.0, left: 20.0, top: 20.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                InkWell(
-                    onTap: () async {
-                      PagesGenerator.goTo(context, pathName: "/expenses");
-                    },
-                    child: const Icon(
-                      Icons.arrow_back_ios,
-                      size: 20,
-                    )),
-                const Text(
-                  "Report",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                )
+                Row(
+                  children: [
+                    InkWell(
+                        onTap: () async {
+                          PagesGenerator.goTo(context, pathName: "/expenses");
+                        },
+                        child: const Icon(
+                          Icons.arrow_back_ios,
+                          size: 20,
+                        )),
+                    const Text(
+                      "Report",
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    )
+                  ],
+                ),
               ],
             ),
-          ],
-        ),
-      ),
-      fkContentBoxWidgets.initialItems(
-        itemList: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const CustomDropDownBox(),
-              IconButton(onPressed: () {}, icon: const Icon(Icons.date_range))
-            ],
           ),
-          verticalSpaceSmall,
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
+          fkContentBoxWidgets.initialItems(
+            itemList: [
+              verticalSpaceSmall,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Year $year",
+                    style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: fkBlueText),
+                  ),
+                  const YearButtonSheet(),
+                ],
+              ),
+              verticalSpaceSmall,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  FutureBuilder<MonthlyTotalAmount>(
+                      future: retrieveMonthlyTotalAmount,
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        if (snapshot.hasData) {
+                          return Row(
+                            children: [
+                              Text(
+                                "${snapshot.data!.currencyCode}",
+                                style: const TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500,
+                                    color: fkGreyText),
+                              ),
+                              const SizedBox(
+                                width: 2,
+                              ),
+                              Text(
+                                "${snapshot.data!.totalAmount}",
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.w600,
+                                    color: fkBlackText),
+                              ),
+                            ],
+                          );
+                        } else {
+                          return Expanded(
+                            child: Row(
+                              children: [
+                                const Icon(
+                                  Icons.warning,
+                                  color: Colors.orange,
+                                ),
+                                horizontalSpaceSmall,
+                                Container(
+                                  margin: const EdgeInsets.only(top: 10),
+                                  child: const Text(
+                                      "No data to show in this year ",
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.red)),
+                                ),
+                              ],
+                            ),
+                          );
+                        }
+                      })
+                ],
+              ),
+              verticalSpaceRegular,
               Align(
                 alignment: Alignment.bottomLeft,
                 child: RichText(
                   text: const TextSpan(
-                    text: 'Total Amount',
-                    style: TextStyle(
-                        fontSize: 18,
-                        color: fkBlackText,
-                        fontWeight: FontWeight.w800),
+                    text: 'Details on all Expenses',
+                    style: TextStyle(fontSize: 16, color: fkBlackText),
                   ),
                 ),
               ),
-              Row(
-                children: const [
-                  Text(
-                    "Rwf",
-                    style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                        color: fkGreyText),
-                  ),
-                  SizedBox(
-                    width: 2,
-                  ),
-                  Text(
-                    "10,500",
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w600,
-                        color: fkBlackText),
-                  ),
-                ],
-              ),
+              verticalSpaceSmall,
             ],
           ),
-          verticalSpaceSmall,
-          Align(
-            alignment: Alignment.bottomLeft,
-            child: RichText(
-              text: const TextSpan(
-                text: 'Details on all Expenses',
-                style: TextStyle(fontSize: 16, color: fkBlackText),
-              ),
-            ),
-          ),
-          verticalSpaceSmall,
-        ],
-      ),
-      expenseDetails()
-    ]);
+          expenseDetails()
+        ]);
   }
 
   Widget expenseDetails() {

@@ -32,6 +32,10 @@ class FkManageProviders {
     "add-selected-month": (context, {monthNumber}) =>
         Provider.of<AddExpenses>(context, listen: false)
             .addSelectedMonth(monthNumber),
+    "add-selected-year": (context, {year}) =>
+        Provider.of<AddExpenses>(context, listen: false).addSelectedYear(year),
+    "update-status": (context, {status}) =>
+        Provider.of<AddExpenses>(context, listen: false).checkStatus(status),
 
     // Saving section
     "register-saving": (context, {itemData}) =>
@@ -67,6 +71,8 @@ class FkManageProviders {
       "get-default-currency":
           Provider.of<AddExpenses>(context).defaultCurrencyId,
       "get-selected-month": Provider.of<AddExpenses>(context).monthNumber,
+      "get-selected-year": Provider.of<AddExpenses>(context).getYear,
+      "get-status": Provider.of<AddExpenses>(context).getStatus,
 
       // Saving section
       "get-savings-item": Provider.of<RegisterSaving>(context).getNewItem,

@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
 
 class AddExpenses extends ChangeNotifier {
+  String _status = 'false';
   var _screenTitle = '';
   String _currencyId = '';
   String _defaultCurrencyId = '';
   String _monthNumber = '';
+  String _year = '';
   final List _items = [];
   final List _totalAmountList = [];
 
   List get getNewItem => _items;
+  String get getYear => _year;
   String get currencyId => _currencyId;
   String get monthNumber => _monthNumber;
   String get defaultCurrencyId => _defaultCurrencyId;
   String get screenTitle => _screenTitle;
+  String get getStatus => _status;
   double get getTotalAmount {
     // Compute total amount in the list
     var sum = _totalAmountList.isNotEmpty
@@ -63,6 +67,16 @@ class AddExpenses extends ChangeNotifier {
 
   void addSelectedMonth(String monthNumber) {
     _monthNumber = monthNumber;
+    notifyListeners();
+  }
+
+  void addSelectedYear(String year) {
+    _year = year;
+    notifyListeners();
+  }
+
+  void checkStatus(String status) {
+    _status = status;
     notifyListeners();
   }
 }

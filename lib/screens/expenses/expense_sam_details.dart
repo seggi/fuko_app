@@ -21,7 +21,7 @@ class _ExpensesSummaryDetailsState extends State<ExpensesSummaryDetails> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const CustomDropDownBox(),
+              CustomDropDownBox(),
               IconButton(onPressed: () {}, icon: const Icon(Icons.search))
             ],
           ),
