@@ -19,7 +19,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
-            children: const [CustomDropDownBox()],
+            children: [CustomDropDownBox()],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

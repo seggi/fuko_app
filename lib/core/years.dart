@@ -5,23 +5,24 @@ import 'package:fuko_app/core/user_preferences.dart';
 import 'package:fuko_app/utils/api.dart';
 
 class GetYears {
-  final List? years;
+  final String? year;
 
-  GetYears({this.years});
+  GetYears({this.year});
 
   factory GetYears.fromJson(Map<String, dynamic> json) {
-    return GetYears(years: json['years']);
+    return GetYears(year: json['year'].toString());
   }
 }
 
-Future<GetYears> fetchYears() async {
+Future<List<GetYears>> fetchYears() async {
   var token = await UserPreferences.getToken();
 
   final response = await http.get(Uri.parse(Network.yearsList),
       headers: Network.authorizedHeaders(token: token));
 
   if (response.statusCode == 200) {
-    return GetYears.fromJson(jsonDecode(response.body));
+    var currencies = jsonDecode(response.body)["data"] as List;
+    return currencies.map((currency) => GetYears.fromJson(currency)).toList();
   } else {
     throw Exception('Failed to load data');
   }
