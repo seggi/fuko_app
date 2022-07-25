@@ -45,7 +45,7 @@ class _HomePageState extends State<HomePage> {
         FkManageProviders.get(context)["get-default-currency"];
     var getCurrency =
         selectedCurrency != '' ? selectedCurrency : defaultCurrency.toString();
-    ;
+
     if (widget.status == "true") {
       setState(() {
         globalAmount = fetchGlobalAmount(currencyId: getCurrency);

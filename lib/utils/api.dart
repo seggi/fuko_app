@@ -16,7 +16,7 @@ class Network {
   static String getExpensesByDate = liveUrl! + "/account/expenses-by-date";
   static String updateExpenseName = liveUrl! + "/account/update-expense";
   static String getSavingListByDate =
-      liveUrl! + "/account/savings/retrieve-by-date";
+      liveUrl! + "/account/savings/retrieve-by-current-date";
   static String registerSaving = liveUrl! + "/account/savings/add-saving";
   static String createExpense = liveUrl! + "/account/create-expenses";
   static String expensesDetails = liveUrl! + "/account/expense-details";
