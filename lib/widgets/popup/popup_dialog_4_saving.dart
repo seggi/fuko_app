@@ -35,15 +35,13 @@ class _RegisterSavingState extends State<RegisterSaving> {
   TextEditingController descriptionController = TextEditingController();
   late ScaffoldMessengerState scaffoldMessenger = ScaffoldMessenger.of(context);
 
-  Future registerSaving() async {
+  Future registerSaving({selectedCurrency = ""}) async {
     FocusManager.instance.primaryFocus?.unfocus();
-
-    var selectedCurrency = FkManageProviders.get(context)["get-currency"];
 
     Map newItem = {
       "amount": amountController.text,
       "description": descriptionController.text,
-      "currency_id": selectedCurrency != "" ? selectedCurrency : ""
+      "currency_id": selectedCurrency != "" ? selectedCurrency : defaultCurrency
     };
 
     if (amountController.text == "" || descriptionController.text == "") {
@@ -64,6 +62,7 @@ class _RegisterSavingState extends State<RegisterSaving> {
 
   @override
   Widget build(BuildContext context) {
+    var selectedCurrency = FkManageProviders.get(context)["get-currency"];
     return SizedBox(
       child: SingleChildScrollView(
         child: Form(
@@ -127,7 +126,8 @@ class _RegisterSavingState extends State<RegisterSaving> {
                           color: fkDefaultColor,
                         )),
                     child: TextButton(
-                      onPressed: registerSaving,
+                      onPressed: () =>
+                          registerSaving(selectedCurrency: selectedCurrency),
                       child: const Icon(
                         Icons.add,
                         color: fkWhiteText,

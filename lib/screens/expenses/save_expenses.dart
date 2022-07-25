@@ -54,7 +54,7 @@ class _SaveExpensesState extends State<SaveExpenses> {
     } else {
       waitingOption(context, title: "Please Wait...");
       final response = await http.post(
-          Uri.parse(Network.addExpenses + "/$expenseId"),
+          Uri.parse(Network.registerSaving + "/$expenseId"),
           headers: Network.authorizedHeaders(token: token),
           body: jsonEncode({"data": expenseData}));
       if (response.statusCode == 200) {
@@ -140,8 +140,8 @@ class _SaveExpensesState extends State<SaveExpenses> {
                 Container(
                   alignment: Alignment.bottomLeft,
                   child: const Text(
-                    "Added Expenses",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                    "Add Expenses",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
                   ),
                 ),
                 Container(

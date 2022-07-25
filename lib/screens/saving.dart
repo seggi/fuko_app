@@ -1,3 +1,6 @@
+import 'package:fuko_app/controllers/manage_provider.dart';
+import 'package:fuko_app/utils/constant.dart';
+import 'package:fuko_app/widgets/bottom_sheet/currenncies.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 
@@ -21,23 +24,28 @@ class _SavingPageState extends State<SavingPage> {
   FkContentBoxWidgets fkContentBoxWidgets = FkContentBoxWidgets();
 
   late Future<RetrieveSavingTotal> retrieveSavingTotal;
-  late Future<List<RetrieveSaving>> retrieveSaving;
+  late Future<List<RetrieveSaving>> retrieveSavings;
 
   @override
   void initState() {
     super.initState();
-    retrieveSavingTotal = fetchRetrieveSavingTotal();
-    retrieveSaving = fetchRetrieveSaving();
+    retrieveSavingTotal =
+        fetchRetrieveSavingTotal(setCurrency: defaultCurrency);
+    retrieveSavings = fetchRetrieveSaving(setCurrency: defaultCurrency);
   }
 
   @override
   Widget build(BuildContext context) {
-    if (widget.status == "true") {
-      setState(() {
-        retrieveSavingTotal = fetchRetrieveSavingTotal();
-        retrieveSaving = fetchRetrieveSaving();
-      });
-    }
+    var selectedCurrency =
+        FkManageProviders.get(context)["get-default-currency"];
+    var setCurrency =
+        selectedCurrency != '' ? selectedCurrency : defaultCurrency.toString();
+
+    setState(() {
+      retrieveSavingTotal = fetchRetrieveSavingTotal(setCurrency: setCurrency);
+      retrieveSavings = fetchRetrieveSaving(setCurrency: setCurrency);
+    });
+
     return FkContentBoxWidgets.body(context, 'savings', fn: () {
       PagesGenerator.goTo(context, name: "register-saving");
     }, itemList: [
@@ -57,7 +65,7 @@ class _SavingPageState extends State<SavingPage> {
                         size: 20,
                       )),
                   const Text(
-                    "Saving",
+                    "Savings",
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   )
                 ],
@@ -65,28 +73,26 @@ class _SavingPageState extends State<SavingPage> {
               Row(
                 children: [
                   IconButton(
-                      onPressed: () {}, icon: const Icon(Icons.notifications)),
-                  IconButton(
                       onPressed: () =>
                           PagesGenerator.goTo(context, name: "register-saving"),
                       icon: const Icon(
                         Icons.add_circle,
                         color: fkBlueText,
-                      ))
+                      )),
+                  IconButton(
+                      onPressed: () =>
+                          PagesGenerator.goTo(context, name: "expense-report"),
+                      icon: const Icon(
+                        Icons.manage_history,
+                        color: fkBlueText,
+                        size: 20,
+                      )),
                 ],
               )
             ],
           )),
+      verticalSpaceRegular,
       fkContentBoxWidgets.initialItems(itemList: [
-        const Align(
-          alignment: Alignment.bottomLeft,
-          child: Text(
-            "Total Saving Amount in the current month",
-            style: TextStyle(
-                color: fkGreyText, fontWeight: FontWeight.w400, fontSize: 16),
-          ),
-        ),
-        verticalSpaceTiny,
         SizedBox(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -99,30 +105,65 @@ class _SavingPageState extends State<SavingPage> {
                   AsyncSnapshot snapshot,
                 ) {
                   if (snapshot.hasData) {
-                    return Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          "Rwf",
-                          style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                              color: fkGreyText),
-                        ),
-                        Text(
-                          "${snapshot.data!.totalAmount}",
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                              fontSize: 35,
-                              fontWeight: FontWeight.w600,
-                              color: fkGreyText),
-                        ),
-                      ],
+                    return Expanded(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "${snapshot.data!.currencyCode}",
+                                style: const TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500,
+                                    color: fkGreyText),
+                              ),
+                              Text(
+                                "${snapshot.data!.totalAmount}",
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                    fontSize: 28,
+                                    fontWeight: FontWeight.w600,
+                                    color: fkBlackText),
+                              ),
+                            ],
+                          ),
+                          Container(
+                            alignment: Alignment.center,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(4.0),
+                              child: Container(
+                                color: fkDefaultColor,
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        "${snapshot.data!.currencyCode}",
+                                        style: const TextStyle(
+                                            fontSize: 24,
+                                            fontWeight: FontWeight.w600,
+                                            color: fkWhiteText),
+                                      ),
+                                    ),
+                                    const CurrencyButtonSheet(),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                     );
                   } else if (snapshot.hasError) {
-                    return Container(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Center(
+                    return Expanded(
+                        // padding: const EdgeInsets.all(20.0),
+                        child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Center(
                             child: Text(
                           snapshot.error != null
                               ? "Failed to load data"
@@ -132,7 +173,21 @@ class _SavingPageState extends State<SavingPage> {
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
                               color: fkGreyText),
-                        )));
+                        )),
+                        Container(
+                          alignment: Alignment.center,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(4.0),
+                            child: Container(
+                              color: fkDefaultColor,
+                              child: Row(
+                                children: const [CurrencyButtonSheet()],
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ));
                   }
                   return Container(
                       padding: const EdgeInsets.all(20.0),
@@ -147,25 +202,6 @@ class _SavingPageState extends State<SavingPage> {
                       )));
                 },
               ),
-              Container(
-                alignment: Alignment.center,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
-                  child: Container(
-                    color: fkBlueText,
-                    child: IconButton(
-                      icon: const Icon(
-                        Icons.arrow_right_alt,
-                        size: 30,
-                        color: fkWhiteText,
-                      ),
-                      onPressed: () {},
-                      // onPressed: () => PagesGenerator.goTo(context,
-                      //     name: "saving-options"),
-                    ),
-                  ),
-                ),
-              )
             ],
           ),
         ),
@@ -173,17 +209,39 @@ class _SavingPageState extends State<SavingPage> {
         const Align(
           alignment: Alignment.bottomLeft,
           child: Text(
-            "Total amounts for this February",
+            "Current month savings",
             style: TextStyle(
                 color: fkBlackText, fontWeight: FontWeight.w400, fontSize: 14),
           ),
         ),
       ]),
       Expanded(
-        child: FutureBuilder(
-          future: retrieveSaving,
-          builder: (context, AsyncSnapshot<List<RetrieveSaving>> snapshot) {
+        child: FutureBuilder<List<RetrieveSaving>>(
+          future: retrieveSavings,
+          builder: (context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
+              if (snapshot.data.isEmpty) {
+                return Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.warning,
+                        color: Colors.orange,
+                      ),
+                      horizontalSpaceSmall,
+                      Container(
+                        margin: const EdgeInsets.only(top: 10),
+                        child: const Text("There is no saving saved yet...",
+                            style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.red)),
+                      ),
+                    ],
+                  ),
+                );
+              }
               return SizedBox(
                 child: NotificationListener<OverscrollIndicatorNotification>(
                   onNotification:
@@ -204,7 +262,7 @@ class _SavingPageState extends State<SavingPage> {
                             monthText: toBeginningOfSentenceCase(
                                 months[dateTime.month - 1]),
                             leadingText: "${dateTime.day}",
-                            currency: "Rwf",
+                            currency: snapshot.data?[index].currencyCode,
                             amount: snapshot.data?[index].amount,
                             titleTxt: "${snapshot.data?[index].description}",
                             bdTxt: snapshot.data?[index].description,

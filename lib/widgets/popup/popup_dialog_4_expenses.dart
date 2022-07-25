@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fuko_app/controllers/manage_provider.dart';
+import 'package:fuko_app/utils/constant.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
@@ -39,7 +40,8 @@ class _AddExpensesState extends State<AddExpenses> {
     Map newItem = {
       "amount": amountController.text,
       "description": descriptionController.text,
-      "currency_id": selectedCurrency != "" ? selectedCurrency : "",
+      "currency_id":
+          selectedCurrency != "" ? selectedCurrency : defaultCurrency,
     };
 
     if (amountController.text == "" || descriptionController.text == "") {

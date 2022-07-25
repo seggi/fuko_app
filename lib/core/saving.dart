@@ -4,35 +4,36 @@ import 'package:fuko_app/utils/api.dart';
 import 'package:http/http.dart' as http;
 
 class RetrieveSaving {
-  final String amount;
-  final String description;
-  final String createdAt;
-  final String updatedAat;
+  final String? amount;
+  final String? description;
+  final String? createdAt;
+  final String? updatedAat;
+  final String? currencyCode;
 
   RetrieveSaving(
-      {required this.amount,
-      required this.description,
-      required this.createdAt,
-      required this.updatedAat});
+      {this.amount,
+      this.description,
+      this.createdAt,
+      this.updatedAat,
+      this.currencyCode});
 
   factory RetrieveSaving.fromJson(Map<String, dynamic> json) {
     return RetrieveSaving(
         amount: json["amount"].toString(),
         description: json["description"].toString(),
         createdAt: json["created_at"].toString(),
-        updatedAat: json["updated_at"].toString());
+        updatedAat: json["updated_at"].toString(),
+        currencyCode: json["code"].toString());
   }
 }
 
 // Retrieve list of expenses
-Future<List<RetrieveSaving>> fetchRetrieveSaving() async {
+Future<List<RetrieveSaving>> fetchRetrieveSaving({setCurrency}) async {
   var token = await UserPreferences.getToken();
-  var userId = await UserPreferences.getUserId();
 
   final response = await http.get(
-      Uri.parse(Network.getSavingListByDate + "/$userId"),
+      Uri.parse(Network.getSavingListByDate + "/$setCurrency"),
       headers: Network.authorizedHeaders(token: token));
-
   if (response.statusCode == 200) {
     var expensesData = jsonDecode(response.body)["data"]["saving_list"] as List;
     return expensesData
@@ -44,26 +45,25 @@ Future<List<RetrieveSaving>> fetchRetrieveSaving() async {
 }
 
 class RetrieveSavingTotal {
-  final String totalAmount;
-  final String todayDate;
+  final String? totalAmount;
+  final String? todayDate;
+  final String? currencyCode;
 
-  RetrieveSavingTotal({required this.totalAmount, required this.todayDate});
+  RetrieveSavingTotal({this.totalAmount, this.todayDate, this.currencyCode});
 
   factory RetrieveSavingTotal.fromJson(Map<String, dynamic> json) {
     return RetrieveSavingTotal(
-      totalAmount: json["total_amount"].toString(),
-      todayDate: json["today_date"].toString(),
-    );
+        totalAmount: json["total_amount"]['amount'].toString(),
+        todayDate: json["today_date"].toString(),
+        currencyCode: json["total_amount"]["currency"].toString());
   }
 }
 
 // Retrieve total amount on expenses
-Future<RetrieveSavingTotal> fetchRetrieveSavingTotal() async {
+Future<RetrieveSavingTotal> fetchRetrieveSavingTotal({setCurrency}) async {
   var token = await UserPreferences.getToken();
-  var userId = await UserPreferences.getUserId();
-
   final response = await http.get(
-      Uri.parse(Network.getSavingListByDate + "/$userId"),
+      Uri.parse(Network.getSavingListByDate + "/$setCurrency"),
       headers: Network.authorizedHeaders(token: token));
 
   if (response.statusCode == 200) {

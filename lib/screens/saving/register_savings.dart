@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:fuko_app/widgets/bottom_sheet/currenncies.dart';
 import 'package:fuko_app/widgets/popup/alert_dialog.dart';
 import 'package:fuko_app/widgets/popup/popup_dialog_4_saving.dart';
 import 'package:http/http.dart' as http;
@@ -40,14 +41,13 @@ class _RegisterSavingScreenState extends State<RegisterSavingScreen> {
     if (expenseData.isEmpty) {
       scaffoldMessenger.showSnackBar(const SnackBar(
         content: Text(
-          "No saving to save!",
+          "No saving to record!",
           style: TextStyle(color: Colors.red),
         ),
       ));
     } else {
       waitingOption(context, title: "Please Wait...");
-      final response = await http.post(
-          Uri.parse(Network.registerSaving + "/$userId"),
+      final response = await http.post(Uri.parse(Network.registerSaving),
           headers: Network.authorizedHeaders(token: token),
           body: jsonEncode({"data": expenseData}));
 
@@ -121,12 +121,29 @@ class _RegisterSavingScreenState extends State<RegisterSavingScreen> {
               ),
             ),
             verticalSpaceRegular,
-            Container(
-              alignment: Alignment.bottomLeft,
-              child: const Text(
-                "Record Saving",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  alignment: Alignment.bottomLeft,
+                  child: const Text(
+                    "Record Saving",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
+                  ),
+                ),
+                Container(
+                  alignment: Alignment.center,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(4.0),
+                    child: Container(
+                      color: fkDefaultColor,
+                      child: Row(
+                        children: const [CurrencyButtonSheet()],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
             verticalSpaceRegular,
             Row(
