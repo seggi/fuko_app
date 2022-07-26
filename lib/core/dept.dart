@@ -45,11 +45,10 @@ Future<List<RetrieveBorrowersList>> fetchBorrowerList() async {
       headers: Network.authorizedHeaders(token: token));
 
   if (response.statusCode == 200) {
-    var borrowerDataList =
-        jsonDecode(response.body)["data"]["dept_list"] as List;
+    var borrowerDataList = jsonDecode(response.body)["data"] as List;
 
     return borrowerDataList
-        .map((expense) => RetrieveBorrowersList.fromJson(expense))
+        .map((user) => RetrieveBorrowersList.fromJson(user))
         .toList();
   } else {
     throw Exception('Failed to load data');
@@ -57,10 +56,11 @@ Future<List<RetrieveBorrowersList>> fetchBorrowerList() async {
 }
 
 // Retrieve total Dept amount
-Future<RetrieveBorrowersList> fetchDeptAmount() async {
+Future<RetrieveBorrowersList> fetchDeptAmount({setCurrency}) async {
   var token = await UserPreferences.getToken();
 
-  final response = await http.get(Uri.parse(Network.getBorrowerList),
+  final response = await http.get(
+      Uri.parse(Network.getTotalDeptAmount + '/$setCurrency'),
       headers: Network.authorizedHeaders(token: token));
 
   if (response.statusCode == 200) {

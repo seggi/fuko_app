@@ -4,6 +4,7 @@ import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/core/dept.dart';
 import 'package:fuko_app/core/user_preferences.dart';
 import 'package:fuko_app/screens/content_box_widgets.dart';
+import 'package:fuko_app/utils/constant.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 import 'package:fuko_app/widgets/show_modal_bottom_sheet.dart';
@@ -28,19 +29,25 @@ class _DeptPageState extends State<DeptPage> {
   @override
   void initState() {
     super.initState();
-    retrieveDeptAmount = fetchDeptAmount();
+    retrieveDeptAmount = fetchDeptAmount(setCurrency: defaultCurrency);
     retrieveBorrowerList = fetchBorrowerList();
   }
 
   @override
   Widget build(BuildContext context) {
     final screenTitle = FkManageProviders.save["save-screen-title"];
+    var selectedCurrency =
+        FkManageProviders.get(context)["get-default-currency"];
+    var setCurrency =
+        selectedCurrency != '' ? selectedCurrency : defaultCurrency.toString();
+
     if (widget.status == "true") {
       setState(() {
-        retrieveDeptAmount = fetchDeptAmount();
+        retrieveDeptAmount = fetchDeptAmount(setCurrency: setCurrency);
         retrieveBorrowerList = fetchBorrowerList();
       });
     }
+
     return FkContentBoxWidgets.body(context, 'savings', itemList: [
       Padding(
           padding: const EdgeInsets.only(right: 20.0, left: 20.0),
@@ -84,15 +91,7 @@ class _DeptPageState extends State<DeptPage> {
             ],
           )),
       fkContentBoxWidgets.initialItems(itemList: [
-        const Align(
-          alignment: Alignment.bottomLeft,
-          child: Text(
-            "Total Dept Amount",
-            style: TextStyle(
-                color: fkGreyText, fontWeight: FontWeight.w400, fontSize: 16),
-          ),
-        ),
-        verticalSpaceTiny,
+        verticalSpaceRegular,
         SizedBox(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -194,8 +193,11 @@ class _DeptPageState extends State<DeptPage> {
                     padding: const EdgeInsets.all(8),
                     itemCount: snapshot.data!.length,
                     itemBuilder: (BuildContext context, int index) {
-                      var dateTime =
-                          DateTime.parse("${snapshot.data?[index].createdAt}");
+                      if (snapshot.data!.isEmpty) {
+                        return const Center(
+                          child: Text('No data to show.'),
+                        );
+                      }
 
                       return Container(
                           margin: const EdgeInsets.only(top: 0.0),
