@@ -133,6 +133,13 @@ class PagesGenerator {
                 path: 'register-saving',
                 builder: (context, state) => const RegisterSavingScreen(),
               ),
+              GoRoute(
+                name: "saving-report",
+                path: 'saving-report',
+                builder: (context, state) {
+                  return const SavingReport();
+                },
+              ),
             ],
           ),
           GoRoute(
