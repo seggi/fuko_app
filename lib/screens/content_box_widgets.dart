@@ -132,7 +132,7 @@ class FkContentBoxWidgets {
         },
         child: SingleChildScrollView(
           physics: const ClampingScrollPhysics(),
-          padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+          padding: const EdgeInsets.only(left: 0.0, right: 0.0),
           child: Form(
             autovalidateMode: AutovalidateMode.onUserInteraction,
             child: Column(
