@@ -160,7 +160,6 @@ class _ExpensesPageState extends State<ExpensesPage> {
                     );
                   } else if (snapshot.hasError) {
                     return Expanded(
-                        // padding: const EdgeInsets.all(20.0),
                         child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

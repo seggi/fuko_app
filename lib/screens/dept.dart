@@ -5,6 +5,7 @@ import 'package:fuko_app/core/dept.dart';
 import 'package:fuko_app/core/user_preferences.dart';
 import 'package:fuko_app/screens/content_box_widgets.dart';
 import 'package:fuko_app/utils/constant.dart';
+import 'package:fuko_app/widgets/bottom_sheet/currenncies.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 import 'package:fuko_app/widgets/show_modal_bottom_sheet.dart';
@@ -41,12 +42,10 @@ class _DeptPageState extends State<DeptPage> {
     var setCurrency =
         selectedCurrency != '' ? selectedCurrency : defaultCurrency.toString();
 
-    if (widget.status == "true") {
-      setState(() {
-        retrieveDeptAmount = fetchDeptAmount(setCurrency: setCurrency);
-        retrieveBorrowerList = fetchBorrowerList();
-      });
-    }
+    setState(() {
+      retrieveDeptAmount = fetchDeptAmount(setCurrency: setCurrency);
+      retrieveBorrowerList = fetchBorrowerList();
+    });
 
     return FkContentBoxWidgets.body(context, 'savings', itemList: [
       Padding(
@@ -58,7 +57,6 @@ class _DeptPageState extends State<DeptPage> {
                 children: [
                   InkWell(
                       onTap: () async {
-                        var token = await UserPreferences.getToken();
                         PagesGenerator.goTo(context, pathName: "/?status=true");
                       },
                       child: const Icon(Icons.arrow_back_ios)),
@@ -70,9 +68,6 @@ class _DeptPageState extends State<DeptPage> {
               ),
               Row(
                 children: [
-                  IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.notifications_none_sharp)),
                   IconButton(
                       onPressed: () => customBottomModalSheet(context),
                       // PagesGenerator.goTo(context, name: "create-expense"),
@@ -104,40 +99,88 @@ class _DeptPageState extends State<DeptPage> {
                   AsyncSnapshot snapshot,
                 ) {
                   if (snapshot.hasData) {
-                    return Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          "Rwf",
-                          style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                              color: fkGreyText),
-                        ),
-                        Text(
-                          "${snapshot.data!.totalDept}",
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                              fontSize: 28,
-                              fontWeight: FontWeight.w600,
-                              color: fkBlackText),
-                        ),
-                      ],
+                    return Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "${snapshot.data!.currencyCode ?? ''}",
+                                style: const TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500,
+                                    color: fkGreyText),
+                              ),
+                              Text(
+                                "${snapshot.data!.totalDept}",
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                    fontSize: 28,
+                                    fontWeight: FontWeight.w600,
+                                    color: fkBlackText),
+                              ),
+                            ],
+                          ),
+                          Container(
+                            alignment: Alignment.center,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(4.0),
+                              child: Container(
+                                color: fkDefaultColor,
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        "${snapshot.data!.currencyCode ?? ''}",
+                                        style: const TextStyle(
+                                            fontSize: 24,
+                                            fontWeight: FontWeight.w600,
+                                            color: fkWhiteText),
+                                      ),
+                                    ),
+                                    const CurrencyButtonSheet(),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                     );
                   } else if (snapshot.hasError) {
-                    return Container(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Center(
-                            child: Text(
-                          snapshot.error != null
-                              ? "Failed to load data"
-                              : "Amount not available...",
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              color: fkGreyText),
-                        )));
+                    return Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Center(
+                              child: Text(
+                            snapshot.error != null
+                                ? "Failed to load data"
+                                : "Amount not available...",
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: fkGreyText),
+                          )),
+                          Container(
+                            alignment: Alignment.center,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(4.0),
+                              child: Container(
+                                color: fkDefaultColor,
+                                child: Row(
+                                  children: const [CurrencyButtonSheet()],
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    );
                   }
                   return Container(
                       padding: const EdgeInsets.all(20.0),
@@ -152,17 +195,6 @@ class _DeptPageState extends State<DeptPage> {
                       )));
                 },
               ),
-              Container(
-                alignment: Alignment.center,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
-                  child: const Icon(
-                    Icons.account_tree_outlined,
-                    size: 30,
-                    color: fkGreyText,
-                  ),
-                ),
-              )
             ],
           ),
         ),
@@ -204,8 +236,10 @@ class _DeptPageState extends State<DeptPage> {
                           child: InkWell(
                             child: Card(
                               child: ListTile(
-                                leading:
-                                    const Icon(Icons.account_circle_outlined),
+                                leading: const Icon(
+                                  Icons.account_circle_outlined,
+                                  size: 30,
+                                ),
                                 title: SizedBox(
                                   width: 200,
                                   child: Text(

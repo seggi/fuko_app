@@ -13,6 +13,7 @@ class RetrieveBorrowersList {
   final String? createdAt;
   final String? updatedAat;
   final String? totalDept;
+  final String? currencyCode;
 
   RetrieveBorrowersList(
       {this.borrowerId,
@@ -22,7 +23,8 @@ class RetrieveBorrowersList {
       this.lastName,
       this.createdAt,
       this.updatedAat,
-      this.totalDept});
+      this.totalDept,
+      this.currencyCode});
 
   factory RetrieveBorrowersList.fromJson(Map<String, dynamic> json) {
     return RetrieveBorrowersList(
@@ -33,7 +35,8 @@ class RetrieveBorrowersList {
         lastName: json["last_name"].toString(),
         createdAt: json["created_at"].toString(),
         updatedAat: json["updated_at"].toString(),
-        totalDept: json["total_dept"].toString());
+        totalDept: json["total_dept"].toString(),
+        currencyCode: json["currency"].toString());
   }
 }
 
@@ -80,6 +83,7 @@ class RetrieveDept {
   final String? createdAt;
   final String? totalDeptAmount;
   final String? todayDate;
+  final String? currencyCode;
 
   RetrieveDept(
       {this.deptId,
@@ -89,7 +93,8 @@ class RetrieveDept {
       this.paymentStatus,
       this.createdAt,
       this.totalDeptAmount,
-      this.todayDate});
+      this.todayDate,
+      this.currencyCode});
 
   factory RetrieveDept.fromJson(Map<String, dynamic> json) {
     return RetrieveDept(
@@ -100,7 +105,8 @@ class RetrieveDept {
         paymentStatus: json['payment_status'].toString(),
         createdAt: json['created_at'].toString(),
         totalDeptAmount: json['total_amount'].toString(),
-        todayDate: json['today_date'].toString());
+        todayDate: json['today_date'].toString(),
+        currencyCode: json['currency'].toString());
   }
 }
 
