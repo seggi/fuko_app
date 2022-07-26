@@ -58,11 +58,6 @@ class PagesGenerator {
             },
             routes: [
               GoRoute(
-                name: "expense-options",
-                path: 'expense-options',
-                builder: (context, state) => const ExpenseOptionsScreen(),
-              ),
-              GoRoute(
                 name: "save-expenses",
                 path: 'save-expenses/:id',
                 builder: (context, state) {
@@ -123,11 +118,6 @@ class PagesGenerator {
               return SavingPage(status: data);
             },
             routes: [
-              GoRoute(
-                name: "saving-options",
-                path: 'saving-options',
-                builder: (context, state) => const ExpenseOptionsScreen(),
-              ),
               GoRoute(
                 name: "register-saving",
                 path: 'register-saving',
