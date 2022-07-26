@@ -67,7 +67,7 @@ class _ExpenseListState extends State<ExpenseList> {
         ),
       ),
       fkContentBoxWidgets.initialItems(itemList: [
-        verticalSpaceTiny,
+        verticalSpaceRegular,
         const Align(
           alignment: Alignment.bottomLeft,
           child: Text(
@@ -108,29 +108,31 @@ class _ExpenseListState extends State<ExpenseList> {
                       ),
                     ],
                   ),
-                  Container(
-                    alignment: Alignment.center,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(4.0),
-                      child: Container(
-                        color: fkDefaultColor,
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                "${snapshot.data!.currencyCode}",
-                                style: const TextStyle(
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.w600,
-                                    color: fkWhiteText),
+                  snapshot.data!.currencyCode != ""
+                      ? Container(
+                          alignment: Alignment.center,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(4.0),
+                            child: Container(
+                              color: fkDefaultColor,
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      "${snapshot.data!.currencyCode}",
+                                      style: const TextStyle(
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.w600,
+                                          color: fkWhiteText),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  )
+                          ),
+                        )
+                      : Container()
                 ],
               );
             } else if (snapshot.hasError) {

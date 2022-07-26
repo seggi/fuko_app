@@ -84,6 +84,7 @@ class RetrieveDept {
   final String? totalDeptAmount;
   final String? todayDate;
   final String? currencyCode;
+  final String? totalDept;
 
   RetrieveDept(
       {this.deptId,
@@ -94,6 +95,7 @@ class RetrieveDept {
       this.createdAt,
       this.totalDeptAmount,
       this.todayDate,
+      this.totalDept,
       this.currencyCode});
 
   factory RetrieveDept.fromJson(Map<String, dynamic> json) {
@@ -106,15 +108,17 @@ class RetrieveDept {
         createdAt: json['created_at'].toString(),
         totalDeptAmount: json['total_amount'].toString(),
         todayDate: json['today_date'].toString(),
+        totalDept: json["total_dept"].toString(),
         currencyCode: json['currency'].toString());
   }
 }
 
-Future<List<RetrieveDept>> fetchBorrowerDept({String? borrowerId}) async {
+Future<List<RetrieveDept>> fetchBorrowerDept(
+    {String? borrowerId, currencyCode}) async {
   var token = await UserPreferences.getToken();
 
   final response = await http.get(
-      Uri.parse(Network.getBorrowerDept + "/$borrowerId"),
+      Uri.parse(Network.getBorrowerDept + "/$borrowerId/$currencyCode"),
       headers: Network.authorizedHeaders(token: token));
 
   if (response.statusCode == 200) {
@@ -129,11 +133,12 @@ Future<List<RetrieveDept>> fetchBorrowerDept({String? borrowerId}) async {
   }
 }
 
-Future<RetrieveDept> fetchTotalDeptAmount({String? borrowerId}) async {
+Future<RetrieveDept> fetchTotalDeptAmount(
+    {String? borrowerId, currencyCode}) async {
   var token = await UserPreferences.getToken();
 
   final response = await http.get(
-      Uri.parse(Network.getBorrowerDept + "/$borrowerId"),
+      Uri.parse(Network.getBorrowerDept + "/$borrowerId/$currencyCode"),
       headers: Network.authorizedHeaders(token: token));
 
   if (response.statusCode == 200) {
