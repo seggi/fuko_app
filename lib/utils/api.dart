@@ -27,8 +27,7 @@ class Network {
   static String getBorrowerList = liveUrl! + "/account/dept/retrieve";
   static String addNewBorrower =
       liveUrl! + "/account/dept/add-borrower-to-notebook";
-  static String searchBorrowerFromUsers =
-      liveUrl! + "/account/dept/search-user";
+  static String searchUser = liveUrl! + "/manage_request/search-user";
   static String getBorrowerDept = liveUrl! + "/account/dept/retrieve-date";
   static String recordDept = liveUrl! + "/account/dept/add-dept";
   static String currencies = liveUrl! + "/manage_request/retrieve-curries";

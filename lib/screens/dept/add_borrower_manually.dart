@@ -34,7 +34,7 @@ class _AddBorrowerManuallyState extends State<AddBorrowerManually> {
     if (addBorrowerNameController.text == "") {
       scaffoldMessenger.showSnackBar(const SnackBar(
           content: Text(
-        "This field can't remain empty.",
+        "This field can't remain emptys.",
         style: TextStyle(color: Colors.white, fontSize: 16),
       )));
       return;

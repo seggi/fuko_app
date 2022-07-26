@@ -23,6 +23,7 @@ class _AddBorrowerFromFukoState extends State<AddBorrowerFromFuko> {
   TextEditingController addBorrowerNameController = TextEditingController();
   late ScaffoldMessengerState scaffoldMessenger = ScaffoldMessenger.of(context);
   bool showFoundUser = false;
+  late List<dynamic> getFoundUser = [];
 
   Future saveBorrowerName({userId, borrowerName}) async {
     FocusManager.instance.primaryFocus?.unfocus();
@@ -70,8 +71,7 @@ class _AddBorrowerFromFukoState extends State<AddBorrowerFromFuko> {
       )));
       return;
     } else {
-      final response = await http.post(
-          Uri.parse(Network.searchBorrowerFromUsers),
+      final response = await http.post(Uri.parse(Network.searchUser),
           headers: Network.authorizedHeaders(token: token),
           body: jsonEncode(newItem));
 
@@ -82,6 +82,7 @@ class _AddBorrowerFromFukoState extends State<AddBorrowerFromFuko> {
               NewBorrower.fromJson(jsonDecode(response.body));
           FkManageProviders.save["save_new_borrower"](context,
               itemData: {"data": newBorrowerData.userData});
+          getFoundUser = newBorrowerData.userData;
         });
       } else {
         scaffoldMessenger.showSnackBar(const SnackBar(
@@ -96,8 +97,8 @@ class _AddBorrowerFromFukoState extends State<AddBorrowerFromFuko> {
 
   @override
   Widget build(BuildContext context) {
-    final borrowerList = FkManageProviders.get(context)["get-borrowers"];
-    final borrowers = borrowerList.isEmpty ? [] : borrowerList[0]["data"];
+    final borrowers = getFoundUser.isEmpty ? [] : getFoundUser;
+
     return FkScrollViewWidgets.body(context, itemList: [
       Container(
           padding: const EdgeInsets.all(20.0),
@@ -160,8 +161,12 @@ class _AddBorrowerFromFukoState extends State<AddBorrowerFromFuko> {
                   verticalSpaceMedium,
                   SizedBox(
                     height: MediaQuery.of(context).size.height / 2,
-                    child: showFoundUser != true && borrowers.isEmpty
-                        ? const SizedBox()
+                    child: borrowers.isEmpty
+                        ? const SizedBox(
+                            child: Center(
+                                child:
+                                    Text("No person found with that name...")),
+                          )
                         : ListView.builder(
                             itemCount: borrowers.length,
                             itemBuilder: (context, index) {
