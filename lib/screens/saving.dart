@@ -81,7 +81,7 @@ class _SavingPageState extends State<SavingPage> {
                       )),
                   IconButton(
                       onPressed: () =>
-                          PagesGenerator.goTo(context, name: "expense-report"),
+                          PagesGenerator.goTo(context, name: "saving-report"),
                       icon: const Icon(
                         Icons.manage_history,
                         color: fkBlueText,
@@ -232,7 +232,7 @@ class _SavingPageState extends State<SavingPage> {
                       horizontalSpaceSmall,
                       Container(
                         margin: const EdgeInsets.only(top: 10),
-                        child: const Text("There is no saving saved yet...",
+                        child: const Text("There is no saving recorded yet...",
                             style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
