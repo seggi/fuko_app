@@ -24,9 +24,13 @@ class Network {
   static String expensesDetails = liveUrl! + "/account/expense-details";
   static String getExpensesDetailsByMonth =
       liveUrl! + "/account/expenses-by-month";
-  static String getBorrowerList = liveUrl! + "/account/dept/retrieve";
+  static String getBorrowerList =
+      liveUrl! + "/account/dept/get-friend-from-dept-notebook";
   static String addNewBorrower =
       liveUrl! + "/account/dept/add-borrower-to-notebook";
+  static String getTotalDeptAmount = liveUrl! + "/account/dept/retrieve";
+  static String addNewBorrowerManually =
+      liveUrl! + "/account/dept/add-people-notebook";
   static String searchUser = liveUrl! + "/manage_request/search-user";
   static String getBorrowerDept = liveUrl! + "/account/dept/retrieve-date";
   static String recordDept = liveUrl! + "/account/dept/add-dept";
