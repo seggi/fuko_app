@@ -4,6 +4,7 @@ import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/core/default_data.dart';
 import 'package:fuko_app/core/dept.dart';
 import 'package:fuko_app/screens/content_box_widgets.dart';
+import 'package:fuko_app/utils/constant.dart';
 import 'package:fuko_app/widgets/other_widgets.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
@@ -26,39 +27,57 @@ class _BorrowerDeptListState extends State<BorrowerDeptList> {
   @override
   void initState() {
     super.initState();
-    retrieveBorrowerDeptList = fetchBorrowerDept(borrowerId: widget.id);
-    retrieveBorrowerTotalAmount = fetchTotalDeptAmount(borrowerId: widget.id);
+    retrieveBorrowerDeptList =
+        fetchBorrowerDept(borrowerId: widget.id, currencyCode: defaultCurrency);
+    retrieveBorrowerTotalAmount = fetchTotalDeptAmount(
+        borrowerId: widget.id, currencyCode: defaultCurrency);
   }
 
   @override
   Widget build(BuildContext context) {
     final screenTitle = FkManageProviders.get(context)['get-screen-title'];
+    var selectedCurrency =
+        FkManageProviders.get(context)["get-default-currency"];
+    var setCurrency =
+        selectedCurrency != '' ? selectedCurrency : defaultCurrency.toString();
+
+    setState(() {
+      retrieveBorrowerDeptList =
+          fetchBorrowerDept(borrowerId: widget.id, currencyCode: setCurrency);
+      retrieveBorrowerTotalAmount = fetchTotalDeptAmount(
+          borrowerId: widget.id, currencyCode: setCurrency);
+    });
     return FkContentBoxWidgets.body(context, 'dept list', fn: () {
       PagesGenerator.goTo(context,
           name: "save-dept", params: {"id": widget.id});
     }, itemList: [
       Padding(
-          padding: const EdgeInsets.only(right: 20.0, left: 20.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              IconButton(
-                  onPressed: () async {
-                    PagesGenerator.goTo(context, pathName: "/dept");
-                  },
-                  icon: const Icon(Icons.arrow_back_ios)),
-            ],
-          )),
-      fkContentBoxWidgets.initialItems(itemList: [
-        Align(
-          alignment: Alignment.bottomLeft,
-          child: Text(
-            screenTitle,
-            style: const TextStyle(
-                fontSize: 28, fontWeight: FontWeight.w600, color: fkBlackText),
-          ),
+        padding: const EdgeInsets.only(right: 20.0, left: 20.0, top: 20.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                InkWell(
+                    onTap: () async {
+                      PagesGenerator.goTo(context, pathName: "/dept");
+                    },
+                    child: const Icon(
+                      Icons.arrow_back_ios,
+                      size: 20,
+                    )),
+                Text(
+                  screenTitle,
+                  style: const TextStyle(
+                      fontSize: 20, fontWeight: FontWeight.bold),
+                )
+              ],
+            ),
+          ],
         ),
-        verticalSpaceTiny,
+      ),
+      fkContentBoxWidgets.initialItems(itemList: [
+        verticalSpaceRegular,
         const Align(
           alignment: Alignment.bottomLeft,
           child: Text(
@@ -75,23 +94,53 @@ class _BorrowerDeptListState extends State<BorrowerDeptList> {
           ) {
             if (snapshot.hasData) {
               return Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    "Rwf",
-                    style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                        color: fkGreyText),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "${snapshot.data!.currencyCode}",
+                        style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            color: fkGreyText),
+                      ),
+                      Text(
+                        "${double.parse(snapshot.data!.totalDept)}",
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                            fontSize: 28,
+                            fontWeight: FontWeight.w600,
+                            color: fkBlackText),
+                      ),
+                    ],
                   ),
-                  Text(
-                    "${double.parse(snapshot.data!.totalDeptAmount)}",
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                        fontSize: 35,
-                        fontWeight: FontWeight.w600,
-                        color: fkGreyText),
-                  ),
+                  snapshot.data!.currencyCode != ""
+                      ? Container(
+                          alignment: Alignment.center,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(4.0),
+                            child: Container(
+                              color: fkDefaultColor,
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      "${snapshot.data!.currencyCode}",
+                                      style: const TextStyle(
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.w600,
+                                          color: fkWhiteText),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        )
+                      : Container()
                 ],
               );
             } else if (snapshot.hasError) {
@@ -125,7 +174,7 @@ class _BorrowerDeptListState extends State<BorrowerDeptList> {
       ]),
       Expanded(
         child: FutureBuilder(
-          future: fetchBorrowerDept(borrowerId: widget.id),
+          future: retrieveBorrowerDeptList,
           builder: (context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
               if (snapshot.data.isEmpty) {
