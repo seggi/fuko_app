@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fuko_app/controllers/manage_provider.dart';
+import 'package:fuko_app/utils/constant.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
@@ -33,13 +34,15 @@ class _RegisterDeptState extends State<RegisterDept> {
   TextEditingController descriptionController = TextEditingController();
   late ScaffoldMessengerState scaffoldMessenger = ScaffoldMessenger.of(context);
 
-  Future registerDept() async {
+  Future registerDept({selectedCurrency = ""}) async {
     FocusManager.instance.primaryFocus?.unfocus();
 
     Map newItem = {
       "amount": amountController.text,
       "description": descriptionController.text,
-      // "lent_at": ,
+      "lent_at": todayDate,
+      "currency_id":
+          selectedCurrency != "" ? selectedCurrency : defaultCurrency,
     };
 
     if (amountController.text == "" || descriptionController.text == "") {
@@ -60,6 +63,7 @@ class _RegisterDeptState extends State<RegisterDept> {
 
   @override
   Widget build(BuildContext context) {
+    var selectedCurrency = FkManageProviders.get(context)["get-currency"];
     return SizedBox(
       child: SingleChildScrollView(
         child: Form(
@@ -123,7 +127,8 @@ class _RegisterDeptState extends State<RegisterDept> {
                           color: fkDefaultColor,
                         )),
                     child: TextButton(
-                      onPressed: registerDept,
+                      onPressed: () =>
+                          registerDept(selectedCurrency: selectedCurrency),
                       child: const Icon(
                         Icons.add,
                         color: fkWhiteText,
