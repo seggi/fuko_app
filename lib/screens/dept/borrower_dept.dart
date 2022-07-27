@@ -35,6 +35,7 @@ class _BorrowerDeptListState extends State<BorrowerDeptList> {
 
   @override
   Widget build(BuildContext context) {
+    FkManageProviders.save["save-borrower-id"](context, itemData: widget.id);
     final screenTitle = FkManageProviders.get(context)['get-screen-title'];
     var selectedCurrency =
         FkManageProviders.get(context)["get-default-currency"];
@@ -180,7 +181,7 @@ class _BorrowerDeptListState extends State<BorrowerDeptList> {
               if (snapshot.data.isEmpty) {
                 return Container(
                     margin: const EdgeInsets.only(top: 0.0),
-                    child: const Center(child: Text("No expense saved yet!")));
+                    child: const Center(child: Text("No amount saved yet!")));
               }
               return SizedBox(
                 child: NotificationListener<OverscrollIndicatorNotification>(
@@ -199,10 +200,13 @@ class _BorrowerDeptListState extends State<BorrowerDeptList> {
                       return Container(
                         margin: const EdgeInsets.only(top: 0.0),
                         child: reportCard(context,
+                            borrowerId: widget.id,
+                            deptId: snapshot.data?[index].deptId,
+                            currencyCode: setCurrency,
                             monthText: toBeginningOfSentenceCase(
                                 months[dateTime.month - 1]),
                             leadingText: "${dateTime.day}",
-                            currency: "Rwf",
+                            currency: "",
                             amount: snapshot.data?[index].amount,
                             titleTxt:
                                 snapshot.data?[index].description != "null"
