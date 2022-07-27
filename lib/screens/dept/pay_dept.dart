@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/utils/api.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -63,6 +64,8 @@ class _PayDeptState extends State<PayDept> {
 
   @override
   Widget build(BuildContext context) {
+    final borrowerId = FkManageProviders.get(context)['get-borrower-id'];
+
     return FkScrollViewWidgets.body(context, itemList: [
       Container(
           padding: const EdgeInsets.all(20.0),
@@ -74,8 +77,9 @@ class _PayDeptState extends State<PayDept> {
                 children: [
                   IconButton(
                       icon: const Icon(Icons.cancel_outlined),
-                      onPressed: () =>
-                          PagesGenerator.goTo(context, pathName: "/dept")),
+                      onPressed: () => PagesGenerator.goTo(context,
+                          name: "borrower_dept_details",
+                          params: {"id": borrowerId})),
                 ],
               ),
             ),

@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 
 class RecordDept extends ChangeNotifier {
   var _screenTitle = '';
+  String _borrowerId = '';
   final List _items = [];
   final List _totalAmountList = [];
 
   List get getNewItem => _items;
+  String get borrowerId => _borrowerId;
   String get screenTitle => _screenTitle;
   double get getTotalAmount {
     // Compute total amount in the list
@@ -42,6 +44,11 @@ class RecordDept extends ChangeNotifier {
 
   void addScreenTitle(String screenTitle) {
     _screenTitle = screenTitle;
+    notifyListeners();
+  }
+
+  void saveBorrowerId(String borrowerId) {
+    _borrowerId = borrowerId;
     notifyListeners();
   }
 }

@@ -147,3 +147,66 @@ Future<RetrieveDept> fetchTotalDeptAmount(
     throw Exception('Failed to load data');
   }
 }
+
+class ReportCardTotal {
+  final String? currencyCode;
+  final String? paidAmount;
+  final bool? paymentStatus;
+
+  ReportCardTotal({this.currencyCode, this.paidAmount, this.paymentStatus});
+
+  factory ReportCardTotal.fromJson(Map<String, dynamic> json) {
+    return ReportCardTotal(
+        currencyCode: json["currency"].toString(),
+        paidAmount: json["paid_amount"].toString(),
+        paymentStatus: json["status"]);
+  }
+}
+
+Future<ReportCardTotal> fetchReportCardTotal({deptId, currencyCode}) async {
+  var token = await UserPreferences.getToken();
+
+  final response = await http.get(
+      Uri.parse(Network.getDeptDetails + "/$currencyCode/$deptId"),
+      headers: Network.authorizedHeaders(token: token));
+
+  if (response.statusCode == 200) {
+    return ReportCardTotal.fromJson(jsonDecode(response.body)["data"]);
+  } else {
+    throw Exception('Failed to load data');
+  }
+}
+
+class ReportCardData {
+  final String? amount;
+  final String? description;
+  final String? createdAt;
+
+  ReportCardData({this.amount, this.description, this.createdAt});
+
+  factory ReportCardData.fromJson(Map<String, dynamic> json) {
+    return ReportCardData(
+        amount: json["amount"].toString(),
+        description: json["description"].toString(),
+        createdAt: json["created_at"].toString());
+  }
+}
+
+Future<List<ReportCardData>> fetchReportCardData({deptId, currencyCode}) async {
+  var token = await UserPreferences.getToken();
+
+  final response = await http.get(
+      Uri.parse(Network.getDeptDetails + "/$currencyCode/$deptId"),
+      headers: Network.authorizedHeaders(token: token));
+
+  if (response.statusCode == 200) {
+    var deptPaymentReport =
+        jsonDecode(response.body)["data"]["payment_history"] as List;
+
+    return deptPaymentReport
+        .map((expense) => ReportCardData.fromJson(expense))
+        .toList();
+  } else {
+    throw Exception('Failed to load data');
+  }
+}
