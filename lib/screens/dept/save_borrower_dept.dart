@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:fuko_app/core/notification.dart';
 import 'package:fuko_app/core/user_preferences.dart';
+import 'package:fuko_app/utils/constant.dart';
 import 'package:fuko_app/widgets/popup/alert_dialog.dart';
 import 'package:http/http.dart' as http;
 
@@ -47,6 +48,7 @@ class _RecordBorrowerDeptState extends State<RecordBorrowerDept> {
       ));
     } else {
       waitingOption(context, title: "Please Wait...");
+
       final response = await http.post(
           Uri.parse(Network.recordDept + "/$noteId"),
           headers: Network.authorizedHeaders(token: token),
@@ -70,6 +72,7 @@ class _RecordBorrowerDeptState extends State<RecordBorrowerDept> {
           Navigator.of(context).pop();
         }
       } else {
+        print("${response.statusCode} $noteId");
         scaffoldMessenger.showSnackBar(const SnackBar(
           content: Text(
             "Error from server",
