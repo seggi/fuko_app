@@ -201,6 +201,8 @@ class _BorrowerDeptListState extends State<BorrowerDeptList> {
                       return Container(
                         margin: const EdgeInsets.only(top: 0.0),
                         child: reportCard(context,
+                            paymentStatus:
+                                "${snapshot.data?[index].paymentStatus}",
                             borrowerId: widget.id,
                             deptId: snapshot.data?[index].deptId,
                             currencyCode: setCurrency,
