@@ -204,7 +204,7 @@ Future<List<ReportCardData>> fetchReportCardData({deptId, currencyCode}) async {
         jsonDecode(response.body)["data"]["payment_history"] as List;
 
     return deptPaymentReport
-        .map((expense) => ReportCardData.fromJson(expense))
+        .map((dept) => ReportCardData.fromJson(dept))
         .toList();
   } else {
     throw Exception('Failed to load data');

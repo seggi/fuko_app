@@ -36,6 +36,8 @@ class Network {
       liveUrl! + "/account/dept/retrieve-friend-dept";
   static String getDeptDetails =
       liveUrl! + "/account/dept/retrieve-paid-amount";
+  static String personalManageDept =
+      liveUrl! + "/account/dept/pay-borrowed-amount";
   static String recordDept = liveUrl! + "/account/dept/record-dept";
   static String currencies = liveUrl! + "/manage_request/retrieve-curries";
   static String yearsList = liveUrl! + "/manage_request/retrieve-years";

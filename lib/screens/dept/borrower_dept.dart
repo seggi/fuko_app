@@ -48,6 +48,7 @@ class _BorrowerDeptListState extends State<BorrowerDeptList> {
       retrieveBorrowerTotalAmount = fetchTotalDeptAmount(
           borrowerId: widget.id, currencyCode: setCurrency);
     });
+
     return FkContentBoxWidgets.body(context, 'dept list', fn: () {
       PagesGenerator.goTo(context,
           name: "save-dept", params: {"id": widget.id});
