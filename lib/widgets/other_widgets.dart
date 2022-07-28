@@ -59,9 +59,11 @@ Widget reportCard(context,
     titleTxt,
     currencyCode,
     borrowerId,
+    paymentStatus,
     String? bdTxt,
     fn}) {
   return ReportCard(
+      paymentStatus: paymentStatus,
       borrowerId: borrowerId,
       currencyCode: currencyCode,
       deptId: deptId,
@@ -82,6 +84,7 @@ class ReportCard extends StatefulWidget {
   final String? currencyCode;
   final String? monthText;
   final String? borrowerId;
+  final String? paymentStatus;
 
   const ReportCard(
       {Key? key,
@@ -93,6 +96,7 @@ class ReportCard extends StatefulWidget {
       this.amount,
       this.titleTxt,
       this.borrowerId,
+      this.paymentStatus,
       this.currencyCode})
       : super(key: key);
 
@@ -123,6 +127,7 @@ class _ReportCardState extends State<ReportCard> {
     final titleTxt = widget.titleTxt;
     final currencyCode = widget.currencyCode;
     final borrowerId = widget.borrowerId;
+    final paymentStatus = widget.paymentStatus;
 
     return Card(
       child: ExpansionTile(
@@ -158,16 +163,50 @@ class _ReportCardState extends State<ReportCard> {
                     fontWeight: FontWeight.w300,
                     fontSize: 11)),
             horizontalSpaceTiny,
-            Text(amount!,
-                style: const TextStyle(
-                    color: fkGreyText,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 18)),
+            paymentStatus != "true"
+                ? Text(amount!,
+                    style: const TextStyle(
+                        color: fkGreyText,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 18))
+                : Text(amount!,
+                    style: const TextStyle(
+                        color: Color.fromARGB(255, 239, 154, 154),
+                        fontWeight: FontWeight.w600,
+                        decoration: TextDecoration.lineThrough,
+                        fontSize: 18))
           ],
         ),
-        title: Text(titleTxt!,
-            style: const TextStyle(
-                color: fkBlackText, fontWeight: FontWeight.w400, fontSize: 18)),
+        title: paymentStatus != "true"
+            ? Text(titleTxt!,
+                style: const TextStyle(
+                    color: fkBlackText,
+                    overflow: TextOverflow.visible,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 16))
+            : Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // titleTxt!
+                  Expanded(
+                    child: Text(titleTxt!,
+                        overflow: TextOverflow.visible,
+                        style: const TextStyle(
+                            color: Color.fromARGB(255, 239, 154, 154),
+                            decoration: TextDecoration.lineThrough,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 16)),
+                  ),
+                  const SizedBox(
+                    width: 50,
+                    child: Icon(
+                      Icons.verified,
+                      color: Colors.green,
+                    ),
+                  )
+                ],
+              ),
         controlAffinity: ListTileControlAffinity.leading,
         trailing: const Icon(Icons.arrow_drop_down),
         children: <Widget>[
@@ -190,46 +229,73 @@ class _ReportCardState extends State<ReportCard> {
                           children: [
                             const Text("Total Paid",
                                 style: TextStyle(fontWeight: FontWeight.w400)),
+                            verticalSpaceTiny,
                             Text("${snapshot.data!.paidAmount}",
                                 style: const TextStyle(
                                     fontSize: 16, fontWeight: FontWeight.bold))
                           ],
                         ),
                         InkWell(
-                          onTap: snapshot.data!.paymentStatus != true
+                          onTap: "${snapshot.data!.paymentStatus}" != "true"
                               ? () => PagesGenerator.goTo(context,
                                       name: "dept-payment",
                                       params: {
                                         "id": "$deptId",
                                       })
                               : () {},
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: const Color.fromARGB(238, 129, 0, 0),
-                                borderRadius: BorderRadius.circular(4.0)),
-                            padding: const EdgeInsets.all(4.0),
-                            child: Row(
-                              children: const [
-                                Icon(
-                                  Icons.payments_sharp,
-                                  color: fkWhiteText,
-                                ),
-                                horizontalSpaceTiny,
-                                Text(
-                                  "Pay",
-                                  style: TextStyle(
-                                      color: fkWhiteText,
-                                      fontWeight: FontWeight.bold),
+                          child: "${snapshot.data!.paymentStatus}" != "true"
+                              ? Container(
+                                  decoration: BoxDecoration(
+                                      color:
+                                          const Color.fromARGB(238, 129, 0, 0),
+                                      borderRadius: BorderRadius.circular(4.0)),
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: Row(
+                                    children: const [
+                                      Icon(
+                                        Icons.payments_sharp,
+                                        color: fkWhiteText,
+                                      ),
+                                      horizontalSpaceTiny,
+                                      Text(
+                                        "Pay",
+                                        style: TextStyle(
+                                            color: fkWhiteText,
+                                            fontWeight: FontWeight.bold),
+                                      )
+                                    ],
+                                  ),
                                 )
-                              ],
-                            ),
-                          ),
+                              : Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.green,
+                                      borderRadius: BorderRadius.circular(4.0)),
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: Row(
+                                    children: const [
+                                      Icon(
+                                        Icons.paid,
+                                        color: fkWhiteText,
+                                      ),
+                                      horizontalSpaceTiny,
+                                      Text(
+                                        "Paid",
+                                        style: TextStyle(
+                                            color: fkWhiteText,
+                                            fontWeight: FontWeight.bold),
+                                      )
+                                    ],
+                                  ),
+                                ),
                         ),
                       ],
                     ),
                   );
                 } else {
-                  return Container(child: Text("DDD"));
+                  return const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Center(child: Text("Loading...")),
+                  );
                 }
               }),
           verticalSpaceSmall,
