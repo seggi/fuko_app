@@ -248,13 +248,13 @@ class _ReportCardState extends State<ReportCard> {
                 const Divider(
                   thickness: 1,
                 ),
-                const Text(
-                  "Description",
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
+                // const Text(
+                //   "Description",
+                //   style: TextStyle(
+                //     fontSize: 16,
+                //     fontWeight: FontWeight.w500,
+                //   ),
+                // ),
                 const Divider(
                   thickness: 1,
                 ),
@@ -280,54 +280,64 @@ class _ReportCardState extends State<ReportCard> {
                     deptId: deptId, currencyCode: currencyCode),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    if (snapshot.data!.isEmpty) {
-                      return ListView.builder(
-                          shrinkWrap: true,
-                          padding: const EdgeInsets.all(8),
-                          itemCount: snapshot.data!.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Row(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "${snapshot.data?[index].amount}",
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
+                    return ListView.builder(
+                        shrinkWrap: true,
+                        padding: const EdgeInsets.all(8),
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          var dateTime = DateTime.parse(
+                              "${snapshot.data?[index].createdAt}");
+                          return Column(
+                            children: [
+                              Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "${snapshot.data?[index].amount}",
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
-                                ),
-                                const Divider(
-                                  thickness: 1,
-                                ),
-                                Text(
-                                  "${snapshot.data?[index].description}",
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
+                                  const Divider(
+                                    thickness: 1,
                                   ),
-                                ),
-                                const Divider(
-                                  thickness: 1,
-                                ),
-                                Text(
-                                  "${snapshot.data?[index].createdAt}",
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
+                                  // SizedBox(
+                                  //   width: 200,
+                                  //   child: Text(
+                                  //     "${snapshot.data?[index].description}",
+                                  //     style: const TextStyle(
+                                  //       fontSize: 16,
+                                  //       fontWeight: FontWeight.w500,
+                                  //     ),
+                                  //   ),
+                                  // ),
+                                  // const Divider(
+                                  //   thickness: 1,
+                                  // ),
+                                  Text(
+                                    "${dateTime.year}-${dateTime.month}-${dateTime.day}",
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
-                                ),
-                              ],
-                            );
-                          });
-                    } else {
-                      return const SizedBox(
-                        child: Center(
-                          child: Text("No data to show currently."),
-                        ),
-                      );
-                    }
+                                ],
+                              ),
+                              verticalSpaceSmall
+                            ],
+                          );
+                        });
+                    // } else {
+                    //   return const SizedBox(
+                    //     child: Center(
+                    //       child: Text("No data to show currently."),
+                    //     ),
+                    //   );
+                    // }
                   } else if (snapshot.hasError) {
                     return const Center(child: Text('Something went wrong :('));
                   }
@@ -342,54 +352,6 @@ class _ReportCardState extends State<ReportCard> {
           verticalSpaceSmall,
         ],
       ),
-
-      // : ListTile(
-      //     leading: ClipRRect(
-      //       borderRadius: BorderRadius.circular(8),
-      //       child: Container(
-      //         width: 50,
-      //         height: 50,
-      //         padding: const EdgeInsets.all(8.0),
-      //         color: fkBlueText,
-      //         child: FittedBox(
-      //           child: Column(
-      //             children: [
-      //               Text(
-      //                 monthText,
-      //                 style:
-      //                     const TextStyle(fontSize: 15, color: fkWhiteText),
-      //               ),
-      //               Text(leadingText,
-      //                   style: const TextStyle(
-      //                       color: Colors.white,
-      //                       fontWeight: FontWeight.w800,
-      //                       fontSize: 24))
-      //             ],
-      //           ),
-      //         ),
-      //       ),
-      //     ),
-      //     subtitle: Row(
-      //       children: [
-      //         Text(currency,
-      //             style: const TextStyle(
-      //                 color: fkGreyText,
-      //                 fontWeight: FontWeight.w300,
-      //                 fontSize: 11)),
-      //         horizontalSpaceTiny,
-      //         Text(amount,
-      //             style: const TextStyle(
-      //                 color: fkGreyText,
-      //                 fontWeight: FontWeight.w600,
-      //                 fontSize: 18)),
-      //       ],
-      //     ),
-      //     title: Text(titleTxt,
-      //         style: const TextStyle(
-      //             color: fkBlackText,
-      //             fontWeight: FontWeight.w400,
-      //             fontSize: 18)),
-      //   ),
     );
   }
 }
