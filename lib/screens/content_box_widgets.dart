@@ -8,7 +8,12 @@ List mainScreesName = ["savings", "loan", "groupe", "expenses"];
 
 class FkContentBoxWidgets {
   static Widget body(context, screenName,
-      {username = "", widTxt = "", List<Widget> itemList = const [], fn}) {
+      {onItemTapped,
+      selectedIndex,
+      username = "",
+      widTxt = "",
+      List<Widget> itemList = const [],
+      fn}) {
     if (screenName == "home") {
       return Scaffold(
         backgroundColor: fkDefaultColor,
@@ -69,6 +74,32 @@ class FkContentBoxWidgets {
               children: [...itemList],
             ),
           ),
+        ),
+      );
+    } else if (screenName == "dept" || screenName == "loan") {
+      return Scaffold(
+        body: SafeArea(
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height,
+            child: Column(
+              children: [...itemList],
+            ),
+          ),
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.privacy_tip_sharp),
+              label: 'Personal dept',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.people_alt),
+              label: 'With other',
+            ),
+          ],
+          currentIndex: selectedIndex,
+          selectedItemColor: fkBlueText,
+          onTap: onItemTapped,
         ),
       );
     } else {
