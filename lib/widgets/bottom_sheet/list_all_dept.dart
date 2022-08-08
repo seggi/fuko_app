@@ -17,44 +17,19 @@ class ListAllDept extends StatefulWidget {
 class _ListAllDeptState extends State<ListAllDept> {
   String searchString = " ";
   List<bool> selectedBtn = [false, false];
-  late Future<List<RetrieveDept>> retrieveBorrowerDeptList;
-  late Future<RetrieveDept> retrieveBorrowerTotalAmount;
+  late Future<List<RetrieveDept>> retrieveBorrowerPaymentHistory;
+  late Future<RetrieveDept> retrieveBorrowerTotalPaidAmount;
   FkContentBoxWidgets fkContentBoxWidgets = FkContentBoxWidgets();
 
   get scaffoldMessenger => null;
 
-  // Future<List<RetrieveDetailsExpenses>> getExpenseByMonth() async {
-  //   var token = await UserPreferences.getToken();
-  //   var expenseData = {"year": 2022, "month": 8, "currency_id": 150};
-  //   final response = await http.post(
-  //       Uri.parse(Network.getExpensesDetailsByMonth + "/8"),
-  //       headers: Network.authorizedHeaders(token: token),
-  //       body: jsonEncode(expenseData));
-
-  //   if (response.statusCode == 200) {
-  //     var expensesData =
-  //         jsonDecode(response.body)["data"]["expenses_list"] as List;
-
-  //     setState(() {
-  //       retrieveExpensesDetailListByMonth = expensesData;
-  //     });
-
-  //     return expensesData
-  //         .map((expense) => RetrieveDetailsExpenses.fromJson(expense))
-  //         .toList();
-  //   } else {
-  //     throw Exception('Failed to load data');
-  //   }
-
-  // }
-
   @override
   void initState() {
     super.initState();
-    retrieveBorrowerDeptList =
-        fetchBorrowerDept(borrowerId: widget.id, currencyCode: defaultCurrency);
-    retrieveBorrowerTotalAmount = fetchTotalDeptAmount(
-        borrowerId: widget.id, currencyCode: defaultCurrency);
+    retrieveBorrowerPaymentHistory = fetchBorrowerPaymentHistory(
+        noteId: widget.id, currencyCode: defaultCurrency);
+    retrieveBorrowerTotalPaidAmount =
+        fetchTotalPaidAmount(noteId: widget.id, currencyCode: defaultCurrency);
   }
 
   @override
@@ -65,10 +40,10 @@ class _ListAllDeptState extends State<ListAllDept> {
         selectedCurrency != '' ? selectedCurrency : defaultCurrency.toString();
 
     setState(() {
-      retrieveBorrowerDeptList =
-          fetchBorrowerDept(borrowerId: widget.id, currencyCode: setCurrency);
-      retrieveBorrowerTotalAmount = fetchTotalDeptAmount(
-          borrowerId: widget.id, currencyCode: setCurrency);
+      retrieveBorrowerPaymentHistory = fetchBorrowerPaymentHistory(
+          noteId: widget.id, currencyCode: setCurrency);
+      retrieveBorrowerTotalPaidAmount =
+          fetchTotalPaidAmount(noteId: widget.id, currencyCode: setCurrency);
     });
 
     return IconButton(
@@ -88,7 +63,7 @@ class _ListAllDeptState extends State<ListAllDept> {
                     const Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Text(
-                        "All Dept",
+                        "Payment history",
                         style: TextStyle(
                             fontSize: 16, fontWeight: FontWeight.bold),
                       ),
@@ -126,7 +101,7 @@ class _ListAllDeptState extends State<ListAllDept> {
                           ),
                         ),
                         FutureBuilder(
-                          future: retrieveBorrowerDeptList,
+                          future: retrieveBorrowerPaymentHistory,
                           builder: (context, AsyncSnapshot snapshot) {
                             if (snapshot.hasData) {
                               if (snapshot.data.isEmpty) {
@@ -148,25 +123,6 @@ class _ListAllDeptState extends State<ListAllDept> {
                                   itemCount: snapshot.data!.length,
                                   itemBuilder:
                                       (BuildContext context, int index) {
-                                    // return Container(
-                                    //   margin: const EdgeInsets.only(top: 0.0),
-                                    //   child: reportCard(context,
-                                    //       paymentStatus:
-                                    //           "${snapshot.data?[index].paymentStatus}",
-                                    //       borrowerId: widget.id,
-                                    //       deptId: snapshot.data?[index].deptId,
-                                    //       currencyCode: setCurrency,
-                                    //       monthText: toBeginningOfSentenceCase(
-                                    //           months[dateTime.month - 1]),
-                                    //       leadingText: "${dateTime.day}",
-                                    //       currency: "",
-                                    //       amount: snapshot.data?[index].amount,
-                                    //       titleTxt:
-                                    //           snapshot.data?[index].description != "null"
-                                    //               ? "${snapshot.data?[index].description}"
-                                    //               : "No description",
-                                    //       fn: () {}),
-                                    // );
                                     return Card(
                                       key: UniqueKey(),
                                       child: ListTile(
