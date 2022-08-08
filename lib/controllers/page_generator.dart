@@ -170,13 +170,6 @@ class PagesGenerator {
                           );
                         },
                       ),
-                      GoRoute(
-                        name: "dept-payment",
-                        path: 'dept-payment',
-                        builder: (context, state) {
-                          return const PayDept();
-                        },
-                      ),
                     ]),
               ]),
           GoRoute(
