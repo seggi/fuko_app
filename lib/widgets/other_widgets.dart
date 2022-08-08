@@ -105,32 +105,15 @@ class ReportCard extends StatefulWidget {
 }
 
 class _ReportCardState extends State<ReportCard> {
-  late Future<ReportCardTotal> retrieveReportCardTotal;
-  late Future<List<ReportCardData>> retrieveReportCardData;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    retrieveReportCardTotal = fetchReportCardTotal();
-    retrieveReportCardData = fetchReportCardData();
-  }
-
   @override
   Widget build(BuildContext context) {
-    final deptId = widget.deptId;
-    final bdTxt = widget.bdTxt;
     final monthText = widget.monthText;
     final leadingText = widget.leadingText;
-    final currency = widget.currency;
     final amount = widget.amount;
     final titleTxt = widget.titleTxt;
-    final currencyCode = widget.currencyCode;
-    final borrowerId = widget.borrowerId;
-    final paymentStatus = widget.paymentStatus;
 
     return Card(
-      child: ExpansionTile(
+      child: ListTile(
         leading: ClipRRect(
           borderRadius: BorderRadius.circular(8),
           child: Container(
@@ -157,266 +140,19 @@ class _ReportCardState extends State<ReportCard> {
         ),
         subtitle: Row(
           children: [
-            Text(currency!,
+            Text(amount!,
                 style: const TextStyle(
                     color: fkGreyText,
-                    fontWeight: FontWeight.w300,
-                    fontSize: 11)),
-            horizontalSpaceTiny,
-            paymentStatus != "true"
-                ? Text(amount!,
-                    style: const TextStyle(
-                        color: fkGreyText,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 18))
-                : Text(amount!,
-                    style: const TextStyle(
-                        color: Color.fromARGB(255, 239, 154, 154),
-                        fontWeight: FontWeight.w600,
-                        decoration: TextDecoration.lineThrough,
-                        fontSize: 18))
+                    fontWeight: FontWeight.w600,
+                    fontSize: 18))
           ],
         ),
-        title: paymentStatus != "true"
-            ? Text(titleTxt!,
-                style: const TextStyle(
-                    color: fkBlackText,
-                    overflow: TextOverflow.visible,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 16))
-            : Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  // titleTxt!
-                  Expanded(
-                    child: Text(titleTxt!,
-                        overflow: TextOverflow.visible,
-                        style: const TextStyle(
-                            color: Color.fromARGB(255, 239, 154, 154),
-                            decoration: TextDecoration.lineThrough,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 16)),
-                  ),
-                  const SizedBox(
-                    width: 50,
-                    child: Icon(
-                      Icons.verified,
-                      color: Colors.green,
-                    ),
-                  )
-                ],
-              ),
-        controlAffinity: ListTileControlAffinity.leading,
-        trailing: const Icon(Icons.arrow_drop_down),
-        children: <Widget>[
-          const Divider(
-            height: 1,
-          ),
-          FutureBuilder<ReportCardTotal>(
-              future: fetchReportCardTotal(
-                  deptId: deptId, currencyCode: currencyCode),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return Container(
-                    color: fkBlueLight,
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text("Total Paid",
-                                style: TextStyle(fontWeight: FontWeight.w400)),
-                            verticalSpaceTiny,
-                            Text("${snapshot.data!.paidAmount}",
-                                style: const TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.bold))
-                          ],
-                        ),
-                        InkWell(
-                          onTap: "${snapshot.data!.paymentStatus}" != "true"
-                              ? () => PagesGenerator.goTo(context,
-                                      name: "dept-payment",
-                                      params: {
-                                        "id": "$deptId",
-                                      })
-                              : () {},
-                          child: "${snapshot.data!.paymentStatus}" != "true"
-                              ? Container(
-                                  decoration: BoxDecoration(
-                                      color:
-                                          const Color.fromARGB(238, 129, 0, 0),
-                                      borderRadius: BorderRadius.circular(4.0)),
-                                  padding: const EdgeInsets.all(4.0),
-                                  child: Row(
-                                    children: const [
-                                      Icon(
-                                        Icons.payments_sharp,
-                                        color: fkWhiteText,
-                                      ),
-                                      horizontalSpaceTiny,
-                                      Text(
-                                        "Pay",
-                                        style: TextStyle(
-                                            color: fkWhiteText,
-                                            fontWeight: FontWeight.bold),
-                                      )
-                                    ],
-                                  ),
-                                )
-                              : Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.green,
-                                      borderRadius: BorderRadius.circular(4.0)),
-                                  padding: const EdgeInsets.all(4.0),
-                                  child: Row(
-                                    children: const [
-                                      Icon(
-                                        Icons.paid,
-                                        color: fkWhiteText,
-                                      ),
-                                      horizontalSpaceTiny,
-                                      Text(
-                                        "Paid",
-                                        style: TextStyle(
-                                            color: fkWhiteText,
-                                            fontWeight: FontWeight.bold),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                        ),
-                      ],
-                    ),
-                  );
-                } else {
-                  return const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Center(child: Text("Loading...")),
-                  );
-                }
-              }),
-          verticalSpaceSmall,
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  "Amount",
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                const Divider(
-                  thickness: 1,
-                ),
-                // const Text(
-                //   "Description",
-                //   style: TextStyle(
-                //     fontSize: 16,
-                //     fontWeight: FontWeight.w500,
-                //   ),
-                // ),
-                const Divider(
-                  thickness: 1,
-                ),
-                Row(
-                  children: const [
-                    Text(
-                      "Date",
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: FutureBuilder<List<ReportCardData>>(
-                future: fetchReportCardData(
-                    deptId: deptId, currencyCode: currencyCode),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return ListView.builder(
-                        shrinkWrap: true,
-                        padding: const EdgeInsets.all(8),
-                        itemCount: snapshot.data!.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          var dateTime = DateTime.parse(
-                              "${snapshot.data?[index].createdAt}");
-                          return Column(
-                            children: [
-                              Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "${snapshot.data?[index].amount}",
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  const Divider(
-                                    thickness: 1,
-                                  ),
-                                  // SizedBox(
-                                  //   width: 200,
-                                  //   child: Text(
-                                  //     "${snapshot.data?[index].description}",
-                                  //     style: const TextStyle(
-                                  //       fontSize: 16,
-                                  //       fontWeight: FontWeight.w500,
-                                  //     ),
-                                  //   ),
-                                  // ),
-                                  // const Divider(
-                                  //   thickness: 1,
-                                  // ),
-                                  Text(
-                                    "${dateTime.year}-${dateTime.month}-${dateTime.day}",
-                                    overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              verticalSpaceSmall
-                            ],
-                          );
-                        });
-                    // } else {
-                    //   return const SizedBox(
-                    //     child: Center(
-                    //       child: Text("No data to show currently."),
-                    //     ),
-                    //   );
-                    // }
-                  } else if (snapshot.hasError) {
-                    return const Center(child: Text('Something went wrong :('));
-                  }
-                  return const Center(
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2.0,
-                      color: Colors.black,
-                    ),
-                  );
-                }),
-          ),
-          verticalSpaceSmall,
-        ],
+        title: Text(titleTxt!,
+            style: const TextStyle(
+                color: fkBlackText,
+                overflow: TextOverflow.visible,
+                fontWeight: FontWeight.w400,
+                fontSize: 16)),
       ),
     );
   }

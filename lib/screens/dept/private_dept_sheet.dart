@@ -69,13 +69,6 @@ class _PrivateDeptSheetState extends State<PrivateDeptSheet> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "${snapshot.data!.currencyCode ?? ''}",
-                                  style: const TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500,
-                                      color: fkGreyText),
-                                ),
-                                Text(
                                   "${snapshot.data!.totalDept}",
                                   overflow: TextOverflow.ellipsis,
                                   style: const TextStyle(
@@ -164,7 +157,7 @@ class _PrivateDeptSheetState extends State<PrivateDeptSheet> {
           const Align(
             alignment: Alignment.bottomLeft,
             child: Text(
-              "Borrowers Recorded",
+              "Recorded Borrowers",
               style: TextStyle(
                   color: fkBlackText,
                   fontWeight: FontWeight.w400,

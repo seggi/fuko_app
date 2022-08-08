@@ -172,10 +172,9 @@ class PagesGenerator {
                       ),
                       GoRoute(
                         name: "dept-payment",
-                        path: 'dept-payment/:id',
+                        path: 'dept-payment',
                         builder: (context, state) {
-                          var data = state.params['id']!;
-                          return PayDept(id: data);
+                          return const PayDept();
                         },
                       ),
                     ]),

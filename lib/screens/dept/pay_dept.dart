@@ -6,15 +6,13 @@ import 'package:fuko_app/utils/constant.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
-import 'package:fuko_app/core/notification.dart';
 import 'package:fuko_app/core/user_preferences.dart';
 import 'package:fuko_app/screens/content_box_widgets.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
 class PayDept extends StatefulWidget {
-  final String id;
-  const PayDept({Key? key, required this.id}) : super(key: key);
+  const PayDept({Key? key}) : super(key: key);
 
   @override
   State<PayDept> createState() => _PayDeptState();
@@ -30,7 +28,6 @@ class _PayDeptState extends State<PayDept> {
   late ScaffoldMessengerState scaffoldMessenger = ScaffoldMessenger.of(context);
 
   Future savePaidAmount({currencyCode}) async {
-    var deptId = widget.id;
     FocusManager.instance.primaryFocus?.unfocus();
     var token = await UserPreferences.getToken();
     Map newItem = {
@@ -56,7 +53,7 @@ class _PayDeptState extends State<PayDept> {
         loading = true;
       });
       final response = await http.post(
-          Uri.parse("${Network.personalManageDept}/${deptId}"),
+          Uri.parse("${Network.personalManageDept}/"),
           headers: Network.authorizedHeaders(token: token),
           body: jsonEncode(newItem));
 
