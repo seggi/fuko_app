@@ -5,6 +5,8 @@ import 'package:fuko_app/core/default_data.dart';
 import 'package:fuko_app/core/dept.dart';
 import 'package:fuko_app/screens/content_box_widgets.dart';
 import 'package:fuko_app/utils/constant.dart';
+import 'package:fuko_app/widgets/bottom_sheet/list_all_dept.dart';
+import 'package:fuko_app/widgets/bottom_sheet/pay_private_dept.dart';
 import 'package:fuko_app/widgets/other_widgets.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
@@ -35,6 +37,7 @@ class _BorrowerDeptListState extends State<BorrowerDeptList> {
 
   @override
   Widget build(BuildContext context) {
+    final deptCategoryId = widget.id;
     FkManageProviders.save["save-borrower-id"](context, itemData: widget.id);
     final screenTitle = FkManageProviders.get(context)['get-screen-title'];
     var selectedCurrency =
@@ -75,6 +78,17 @@ class _BorrowerDeptListState extends State<BorrowerDeptList> {
                 )
               ],
             ),
+            Row(
+              children: [
+                ListAllDept(
+                  id: deptCategoryId.toString(),
+                ),
+                horizontalSpaceSmall,
+                PayPrivateDept(
+                  noteId: deptCategoryId.toString(),
+                )
+              ],
+            )
           ],
         ),
       ),
@@ -101,13 +115,6 @@ class _BorrowerDeptListState extends State<BorrowerDeptList> {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        "${snapshot.data!.currencyCode}",
-                        style: const TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                            color: fkGreyText),
-                      ),
                       Text(
                         "${double.parse(snapshot.data!.totalDept)}",
                         overflow: TextOverflow.ellipsis,
@@ -204,7 +211,6 @@ class _BorrowerDeptListState extends State<BorrowerDeptList> {
                             paymentStatus:
                                 "${snapshot.data?[index].paymentStatus}",
                             borrowerId: widget.id,
-                            deptId: snapshot.data?[index].deptId,
                             currencyCode: setCurrency,
                             monthText: toBeginningOfSentenceCase(
                                 months[dateTime.month - 1]),

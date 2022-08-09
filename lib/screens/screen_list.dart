@@ -16,7 +16,6 @@ export 'dept/add_borrower_manually.dart';
 export 'dept/add_borrower_from_fuko.dart';
 export 'dept/borrower_dept.dart';
 export 'dept/save_borrower_dept.dart';
-export 'dept/pay_dept.dart';
 export 'dashboard.dart';
 export 'groupe.dart';
 export 'groupe/groupe_detail.dart';

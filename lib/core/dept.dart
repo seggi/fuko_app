@@ -85,6 +85,7 @@ class RetrieveDept {
   final String? todayDate;
   final String? currencyCode;
   final String? totalDept;
+  final String? paidAmount;
 
   RetrieveDept(
       {this.deptId,
@@ -96,6 +97,7 @@ class RetrieveDept {
       this.totalDeptAmount,
       this.todayDate,
       this.totalDept,
+      this.paidAmount,
       this.currencyCode});
 
   factory RetrieveDept.fromJson(Map<String, dynamic> json) {
@@ -109,6 +111,7 @@ class RetrieveDept {
         totalDeptAmount: json['total_amount'].toString(),
         todayDate: json['today_date'].toString(),
         totalDept: json["total_dept"].toString(),
+        paidAmount: json["paid_amount"].toString(),
         currencyCode: json['currency'].toString());
   }
 }
@@ -128,6 +131,41 @@ Future<List<RetrieveDept>> fetchBorrowerDept(
     return borrowerDataList
         .map((expense) => RetrieveDept.fromJson(expense))
         .toList();
+  } else {
+    throw Exception('Failed to load data');
+  }
+}
+
+Future<List<RetrieveDept>> fetchBorrowerPaymentHistory(
+    {String? noteId, currencyCode}) async {
+  var token = await UserPreferences.getToken();
+
+  final response = await http.get(
+      Uri.parse(Network.privatePaidDeptHistory + "/$noteId/$currencyCode"),
+      headers: Network.authorizedHeaders(token: token));
+
+  if (response.statusCode == 200) {
+    var borrowerDataList =
+        jsonDecode(response.body)["data"]["payment_history"] as List;
+
+    return borrowerDataList
+        .map((expense) => RetrieveDept.fromJson(expense))
+        .toList();
+  } else {
+    throw Exception('Failed to load data');
+  }
+}
+
+Future<RetrieveDept> fetchTotalPaidAmount(
+    {String? noteId, currencyCode}) async {
+  var token = await UserPreferences.getToken();
+
+  final response = await http.get(
+      Uri.parse(Network.privatePaidDeptHistory + "/$noteId/$currencyCode"),
+      headers: Network.authorizedHeaders(token: token));
+
+  if (response.statusCode == 200) {
+    return RetrieveDept.fromJson(jsonDecode(response.body)["data"]);
   } else {
     throw Exception('Failed to load data');
   }
