@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/core/user_preferences.dart';
-import 'package:fuko_app/screens/content_box_widgets.dart';
 import 'package:fuko_app/utils/api.dart';
 import 'package:fuko_app/utils/constant.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
@@ -12,7 +11,8 @@ import 'package:fuko_app/widgets/shared/ui_helper.dart';
 import 'package:http/http.dart' as http;
 
 class PayPrivateDept extends StatefulWidget {
-  const PayPrivateDept({Key? key}) : super(key: key);
+  final String? noteId;
+  const PayPrivateDept({Key? key, this.noteId}) : super(key: key);
 
   @override
   State<PayPrivateDept> createState() => _PayPrivateDeptState();
@@ -20,6 +20,7 @@ class PayPrivateDept extends StatefulWidget {
 
 class _PayPrivateDeptState extends State<PayPrivateDept> {
   final _formKey = GlobalKey();
+
   bool loading = false;
 
   TextEditingController amountController = TextEditingController();
@@ -30,16 +31,16 @@ class _PayPrivateDeptState extends State<PayPrivateDept> {
   Future savePaidAmount({currencyCode}) async {
     FocusManager.instance.primaryFocus?.unfocus();
     var token = await UserPreferences.getToken();
-    Map newItem = {
-      "data": {
+    List<Map> newItem = [
+      {
         "amount": double.parse(amountController.text),
         "description": descriptionController.text == ""
             ? deptPaymentLabel
             : descriptionController.text,
-        "currency_id": currencyCode
+        "currency_id": currencyCode,
+        "note_id": widget.noteId
       },
-      "method": "single"
-    };
+    ];
 
     if (amountController.text == "") {
       scaffoldMessenger.showSnackBar(const SnackBar(
@@ -52,8 +53,9 @@ class _PayPrivateDeptState extends State<PayPrivateDept> {
       setState(() {
         loading = true;
       });
+
       final response = await http.post(
-          Uri.parse("${Network.personalManageDept}/"),
+          Uri.parse(Network.privatePaidDeptPayment),
           headers: Network.authorizedHeaders(token: token),
           body: jsonEncode(newItem));
 
@@ -70,7 +72,7 @@ class _PayPrivateDeptState extends State<PayPrivateDept> {
             ),
           ));
         } else {
-          PagesGenerator.goTo(context, pathName: "/dept?status=true");
+          Navigator.pop(context);
         }
       } else {
         setState(() {

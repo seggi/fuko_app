@@ -40,6 +40,8 @@ class Network {
       liveUrl! + "/account/dept/pay-borrowed-amount";
   static String privatePaidDeptHistory =
       liveUrl! + "/account/dept/retrieved-paid-amount";
+  static String privatePaidDeptPayment =
+      liveUrl! + "/account/dept/pay-many-dept";
   static String recordDept = liveUrl! + "/account/dept/record-dept";
   static String currencies = liveUrl! + "/manage_request/retrieve-curries";
   static String yearsList = liveUrl! + "/manage_request/retrieve-years";

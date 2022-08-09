@@ -84,7 +84,9 @@ class _BorrowerDeptListState extends State<BorrowerDeptList> {
                   id: deptCategoryId.toString(),
                 ),
                 horizontalSpaceSmall,
-                const PayPrivateDept()
+                PayPrivateDept(
+                  noteId: deptCategoryId.toString(),
+                )
               ],
             )
           ],
