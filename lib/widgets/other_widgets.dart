@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fuko_app/controllers/page_generator.dart';
-import 'package:fuko_app/core/dept.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
