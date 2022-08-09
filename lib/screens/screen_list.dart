@@ -21,3 +21,4 @@ export 'groupe.dart';
 export 'groupe/groupe_detail.dart';
 export './expenses/expenses_report.dart';
 export './saving/saving_report.dart';
+export './dept/private_dept_sheet.dart';

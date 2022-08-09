@@ -14,11 +14,9 @@ import 'package:fuko_app/utils/api.dart';
 import 'package:fuko_app/widgets/popup/popup_dialog_4_expenses.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
-import 'package:intl/intl.dart';
 
 import '../../core/currency_data.dart';
 import '../../widgets/bottom_sheet/currenncies.dart';
-import '../../widgets/other_widgets.dart';
 
 class SaveExpenses extends StatefulWidget {
   final String id;
@@ -94,7 +92,6 @@ class _SaveExpensesState extends State<SaveExpenses> {
 
   @override
   Widget build(BuildContext context) {
-    final setCurrencyId = FkManageProviders.save["add-currency"];
     final List newItems = FkManageProviders.get(context)["add-expenses"];
     final totalAmount = FkManageProviders.get(context)["get-added-expenses"];
 

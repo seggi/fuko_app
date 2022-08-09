@@ -6,7 +6,7 @@ import 'package:fuko_app/core/dept.dart';
 import 'package:fuko_app/screens/content_box_widgets.dart';
 import 'package:fuko_app/utils/constant.dart';
 import 'package:fuko_app/widgets/bottom_sheet/list_all_dept.dart';
-import 'package:fuko_app/widgets/bottom_sheet/pay_private_dept.dart';
+import 'package:fuko_app/screens/dept/pay_private_dept.dart';
 import 'package:fuko_app/widgets/other_widgets.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
@@ -46,10 +46,10 @@ class _BorrowerDeptListState extends State<BorrowerDeptList> {
         selectedCurrency != '' ? selectedCurrency : defaultCurrency.toString();
 
     setState(() {
-      retrieveBorrowerDeptList =
-          fetchBorrowerDept(borrowerId: widget.id, currencyCode: setCurrency);
+      retrieveBorrowerDeptList = fetchBorrowerDept(
+          borrowerId: deptCategoryId, currencyCode: setCurrency);
       retrieveBorrowerTotalAmount = fetchTotalDeptAmount(
-          borrowerId: widget.id, currencyCode: setCurrency);
+          borrowerId: deptCategoryId, currencyCode: setCurrency);
     });
 
     return FkContentBoxWidgets.body(context, 'dept list', fn: () {
@@ -84,9 +84,18 @@ class _BorrowerDeptListState extends State<BorrowerDeptList> {
                   id: deptCategoryId.toString(),
                 ),
                 horizontalSpaceSmall,
-                PayPrivateDept(
-                  noteId: deptCategoryId.toString(),
-                )
+                IconButton(
+                    onPressed: () {
+                      PagesGenerator.goTo(
+                        context,
+                        name: "pay-private-dept",
+                        params: {"id": deptCategoryId},
+                      );
+                    },
+                    icon: const Icon(
+                      Icons.payment,
+                      color: fkBlueText,
+                    ))
               ],
             )
           ],

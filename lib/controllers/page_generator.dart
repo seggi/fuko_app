@@ -1,5 +1,6 @@
 import 'package:fuko_app/provider/authentication.dart';
 import 'package:fuko_app/screens/budget/budget_details.dart';
+import 'package:fuko_app/screens/dept/pay_private_dept.dart';
 import 'package:fuko_app/screens/screen_list.dart';
 import 'package:go_router/go_router.dart';
 
@@ -166,6 +167,16 @@ class PagesGenerator {
                         builder: (context, state) {
                           var data = state.params['id']!;
                           return RecordBorrowerDept(
+                            id: data,
+                          );
+                        },
+                      ),
+                      GoRoute(
+                        name: "pay-private-dept",
+                        path: 'pay-private-dept/:id',
+                        builder: (context, state) {
+                          var data = state.params['id']!;
+                          return PayPrivateDept(
                             id: data,
                           );
                         },
