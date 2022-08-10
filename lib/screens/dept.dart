@@ -48,7 +48,10 @@ class _DeptPageState extends State<DeptPage> {
         onItemTapped: _onItemTapped,
         itemList: [
           Padding(
-            padding: const EdgeInsets.only(right: 20.0, left: 20.0),
+            padding: const EdgeInsets.only(
+              right: 20.0,
+              left: 20.0,
+            ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

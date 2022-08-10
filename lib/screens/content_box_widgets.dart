@@ -79,10 +79,19 @@ class FkContentBoxWidgets {
     } else if (screenName == "dept" || screenName == "loan") {
       return Scaffold(
         body: SafeArea(
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height,
-            child: Column(
-              children: [...itemList],
+          child: NotificationListener<OverscrollIndicatorNotification>(
+            onNotification: (OverscrollIndicatorNotification? overscroll) {
+              overscroll!.disallowIndicator();
+              return true;
+            },
+            child: SingleChildScrollView(
+              physics: const NeverScrollableScrollPhysics(),
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height,
+                child: Column(
+                  children: [...itemList],
+                ),
+              ),
             ),
           ),
         ),

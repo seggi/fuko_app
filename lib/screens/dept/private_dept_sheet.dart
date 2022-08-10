@@ -7,7 +7,6 @@ import 'package:fuko_app/utils/constant.dart';
 import 'package:fuko_app/widgets/bottom_sheet/currenncies.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
-import 'package:fuko_app/widgets/show_modal_bottom_sheet.dart';
 
 class PrivateDeptSheet extends StatefulWidget {
   const PrivateDeptSheet({Key? key}) : super(key: key);
@@ -87,7 +86,8 @@ class _PrivateDeptSheetState extends State<PrivateDeptSheet> {
                                   child: Row(
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsets.all(8.0),
+                                        padding: const EdgeInsets.only(
+                                            left: 8.0, right: 8.0),
                                         child: Text(
                                           "${snapshot.data!.currencyCode ?? ''}",
                                           style: const TextStyle(
@@ -154,16 +154,31 @@ class _PrivateDeptSheetState extends State<PrivateDeptSheet> {
             ),
           ),
           verticalSpaceRegular,
-          const Align(
-            alignment: Alignment.bottomLeft,
-            child: Text(
-              "Recorded Borrowers",
-              style: TextStyle(
-                  color: fkBlackText,
-                  fontWeight: FontWeight.w400,
-                  fontSize: 14),
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Align(
+                alignment: Alignment.bottomLeft,
+                child: Text(
+                  "Recorded Borrowers",
+                  style: TextStyle(
+                      color: fkBlackText,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14),
+                ),
+              ),
+              InkWell(
+                  onTap: () {
+                    setState(() {
+                      retrieveDeptAmount =
+                          fetchDeptAmount(setCurrency: setCurrency);
+                      retrieveBorrowerList = fetchBorrowerList();
+                    });
+                  },
+                  child: const Icon(Icons.refresh))
+            ],
           ),
+          verticalSpaceRegular,
         ]),
         FutureBuilder(
           future: retrieveBorrowerList,
@@ -171,6 +186,7 @@ class _PrivateDeptSheetState extends State<PrivateDeptSheet> {
               (context, AsyncSnapshot<List<RetrieveBorrowersList>> snapshot) {
             if (snapshot.hasData) {
               return SizedBox(
+                height: 620,
                 child: NotificationListener<OverscrollIndicatorNotification>(
                   onNotification:
                       (OverscrollIndicatorNotification? overscroll) {
@@ -179,7 +195,7 @@ class _PrivateDeptSheetState extends State<PrivateDeptSheet> {
                   },
                   child: ListView.builder(
                     shrinkWrap: true,
-                    padding: const EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(8.0),
                     itemCount: snapshot.data!.length,
                     itemBuilder: (BuildContext context, int index) {
                       if (snapshot.data!.isEmpty) {
@@ -229,6 +245,7 @@ class _PrivateDeptSheetState extends State<PrivateDeptSheet> {
             } else if (snapshot.hasError) {
               return const Center(child: Text('Something went wrong :('));
             }
+
             return const Center(
               child: CircularProgressIndicator(
                 strokeWidth: 2.0,
