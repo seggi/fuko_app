@@ -60,7 +60,8 @@ class _RecordBorrowerDeptState extends State<RecordBorrowerDept> {
 
         if (backendFeedBack.code == "success") {
           clearWidgetList(context);
-          PagesGenerator.goTo(context, pathName: "/dept?status=true");
+          PagesGenerator.goTo(context,
+              name: "borrower_dept_details", params: {"id": widget.id});
           Navigator.of(context).pop();
         } else {
           scaffoldMessenger.showSnackBar(const SnackBar(
@@ -72,7 +73,6 @@ class _RecordBorrowerDeptState extends State<RecordBorrowerDept> {
           Navigator.of(context).pop();
         }
       } else {
-        print("${response.statusCode} $noteId");
         scaffoldMessenger.showSnackBar(const SnackBar(
           content: Text(
             "Error from server",
@@ -86,6 +86,7 @@ class _RecordBorrowerDeptState extends State<RecordBorrowerDept> {
 
   @override
   Widget build(BuildContext context) {
+    final deptCategoryId = widget.id;
     final List newItems = FkManageProviders.get(context)["get-added-dept"];
     final totalAmount = FkManageProviders.get(context)["get-total-dept-amount"];
 
@@ -101,8 +102,9 @@ class _RecordBorrowerDeptState extends State<RecordBorrowerDept> {
                 children: [
                   IconButton(
                       icon: const Icon(Icons.cancel_outlined),
-                      onPressed: () =>
-                          PagesGenerator.goTo(context, pathName: "/dept")),
+                      onPressed: () => PagesGenerator.goTo(context,
+                          name: "borrower_dept_details",
+                          params: {"id": deptCategoryId})),
                   Row(
                     children: [
                       IconButton(

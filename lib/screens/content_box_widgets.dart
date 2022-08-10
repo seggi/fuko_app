@@ -253,3 +253,54 @@ class FkScrollViewWidgets {
     );
   }
 }
+
+// Screen tabBar
+
+class FkTabBarView {
+  static Widget tabBar(context,
+      {addDeptFn,
+      payDeptFn,
+      String? screenTitle,
+      List<Widget> pageTitle = const [],
+      List<Widget> page = const []}) {
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        body: NestedScrollView(
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return <Widget>[
+              SliverAppBar(
+                backgroundColor: const Color(0xFF2C384A),
+                title: Text('$screenTitle',
+                    style: const TextStyle(
+                        fontWeight: FontWeight.w600, fontSize: 18.0)),
+                pinned: true,
+                floating: true,
+                bottom: TabBar(
+                  // isScrollable: true,
+                  indicatorColor: Colors.deepOrange,
+                  tabs: [...pageTitle],
+                ),
+                actions: [
+                  IconButton(
+                      onPressed: addDeptFn,
+                      icon: const Icon(
+                        Icons.add_circle_outline,
+                        color: fkWhiteText,
+                      )),
+                  IconButton(
+                      onPressed: payDeptFn,
+                      icon: const Icon(
+                        Icons.payment,
+                        color: fkWhiteText,
+                      ))
+                ],
+              )
+            ];
+          },
+          body: TabBarView(children: <Widget>[...page]),
+        ),
+      ),
+    );
+  }
+}
