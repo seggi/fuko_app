@@ -1,9 +1,7 @@
-import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:fuko_app/screens/content_box_widgets.dart';
 import 'package:fuko_app/screens/dashboard/chart.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 import 'package:money_formatter/money_formatter.dart';
 import 'package:provider/provider.dart';
 
@@ -14,7 +12,6 @@ import '../core/user_preferences.dart';
 import '../provider/authentication.dart';
 import '../widgets/shared/style.dart';
 import '../widgets/shared/ui_helper.dart';
-import 'package:charts_flutter/flutter.dart' as charts;
 
 class DashBoardPage extends StatefulWidget {
   final String? status;
