@@ -74,12 +74,6 @@ class _DeptPageState extends State<DeptPage> {
                           color: fkBlueText,
                         )),
                     IconButton(
-                        onPressed: () => customBottomModalSheet(context),
-                        icon: const Icon(
-                          Icons.note_add,
-                          color: fkBlueText,
-                        )),
-                    IconButton(
                         onPressed: () {},
                         icon: const Icon(
                           Icons.search_sharp,

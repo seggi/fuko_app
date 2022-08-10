@@ -186,7 +186,7 @@ class _PrivateDeptSheetState extends State<PrivateDeptSheet> {
               (context, AsyncSnapshot<List<RetrieveBorrowersList>> snapshot) {
             if (snapshot.hasData) {
               return SizedBox(
-                height: 620,
+                height: MediaQuery.of(context).size.height,
                 child: NotificationListener<OverscrollIndicatorNotification>(
                   onNotification:
                       (OverscrollIndicatorNotification? overscroll) {
