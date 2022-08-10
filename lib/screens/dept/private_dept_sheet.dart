@@ -68,7 +68,7 @@ class _PrivateDeptSheetState extends State<PrivateDeptSheet> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "${snapshot.data!.totalDept}",
+                                  "${double.parse(snapshot.data!.totalDept)}",
                                   overflow: TextOverflow.ellipsis,
                                   style: const TextStyle(
                                       fontSize: 28,
@@ -195,6 +195,7 @@ class _PrivateDeptSheetState extends State<PrivateDeptSheet> {
                   },
                   child: ListView.builder(
                     shrinkWrap: true,
+                    physics: const ClampingScrollPhysics(),
                     padding: const EdgeInsets.all(8.0),
                     itemCount: snapshot.data!.length,
                     itemBuilder: (BuildContext context, int index) {
