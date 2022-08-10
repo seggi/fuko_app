@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
-import 'package:fuko_app/core/dept.dart';
 import 'package:fuko_app/screens/content_box_widgets.dart';
 import 'package:fuko_app/screens/dept/private_dept_sheet.dart';
-import 'package:fuko_app/utils/constant.dart';
-import 'package:fuko_app/widgets/bottom_sheet/currenncies.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
-import 'package:fuko_app/widgets/shared/ui_helper.dart';
 import 'package:fuko_app/widgets/show_modal_bottom_sheet.dart';
 
 class DeptPage extends StatefulWidget {

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:fuko_app/core/expense_report.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
 class CustomExpandedListTile extends StatefulWidget {
   final Map data;
-  CustomExpandedListTile({Key? key, required this.data}) : super(key: key);
+  const CustomExpandedListTile({Key? key, required this.data})
+      : super(key: key);
 
   @override
   State<CustomExpandedListTile> createState() => _CustomExpandedListTileState();
@@ -14,13 +14,10 @@ class CustomExpandedListTile extends StatefulWidget {
 class _CustomExpandedListTileState extends State<CustomExpandedListTile> {
   bool _customTileExpanded = false;
 
-  // late List<MonthlyReportDetailList> retrieveMonthlyReportDetailList;
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    // retrieveMonthlyReportDetailList = fetchMonthlyReportDetailList();
   }
 
   @override
