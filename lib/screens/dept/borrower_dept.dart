@@ -198,14 +198,12 @@ class _BorrowerDeptListState extends State<BorrowerDeptList> {
                       return Container(
                         margin: const EdgeInsets.only(top: 0.0),
                         child: reportCard(context,
-                            paymentStatus:
-                                "${snapshot.data?[index].paymentStatus}",
-                            borrowerId: widget.id,
                             currencyCode: setCurrency,
                             monthText: toBeginningOfSentenceCase(
                                 months[dateTime.month - 1]),
-                            leadingText: "${dateTime.day}",
-                            currency: "",
+                            leadingText: dateTime.day >= 10
+                                ? "${dateTime.day}"
+                                : "0${dateTime.day}",
                             amount: snapshot.data?[index].amount,
                             titleTxt:
                                 snapshot.data?[index].description != "null"
@@ -354,25 +352,27 @@ class _BorrowerDeptListState extends State<BorrowerDeptList> {
                   },
                   child: ListView.builder(
                     shrinkWrap: true,
-                    padding: EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8.0),
                     itemCount: snapshot.data!.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return Card(
-                        key: UniqueKey(),
-                        child: ListTile(
-                          selected: false,
-                          onTap: () {
-                            setState(() {});
-                          },
-                          title: Text(
-                              snapshot.data?[index].description != "null"
-                                  ? "${snapshot.data?[index].description}"
-                                  : "No description"),
-                          subtitle: Text(
-                            snapshot.data?[index].amount,
-                            overflow: TextOverflow.fade,
-                          ),
-                        ),
+                      var dateTime =
+                          DateTime.parse("${snapshot.data?[index].createdAt}");
+
+                      return Container(
+                        margin: const EdgeInsets.only(top: 0.0),
+                        child: reportCard(context,
+                            currencyCode: setCurrency,
+                            monthText: toBeginningOfSentenceCase(
+                                months[dateTime.month - 1]),
+                            leadingText: dateTime.day >= 10
+                                ? "${dateTime.day}"
+                                : "0${dateTime.day}",
+                            amount: snapshot.data?[index].amount,
+                            titleTxt:
+                                snapshot.data?[index].description != "null"
+                                    ? "${snapshot.data?[index].description}"
+                                    : "No description",
+                            fn: () {}),
                       );
                     },
                   ),

@@ -107,7 +107,7 @@ class _CustomExpandedListTileState extends State<CustomExpandedListTile> {
                   color: fkBlueText,
                   child: FittedBox(
                       child: Text(
-                          "${dateTime.day > 10 ? dateTime.day : '0${dateTime.day}'}",
+                          "${dateTime.day >= 10 ? dateTime.day : '0${dateTime.day}'}",
                           style: const TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w800,
