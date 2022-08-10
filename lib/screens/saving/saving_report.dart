@@ -183,25 +183,23 @@ class _SavingReportState extends State<SavingReport> {
                         );
                       });
                 } else {
-                  return Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(
-                          Icons.warning,
-                          color: Colors.orange,
-                        ),
-                        horizontalSpaceSmall,
-                        Container(
-                          margin: const EdgeInsets.only(top: 10),
-                          child: const Text("No data to show in this year ",
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                              )),
-                        ),
-                      ],
-                    ),
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.warning,
+                        color: Colors.orange,
+                      ),
+                      horizontalSpaceSmall,
+                      Container(
+                        margin: const EdgeInsets.only(top: 10),
+                        child: const Text("No data to show in this year ",
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            )),
+                      ),
+                    ],
                   );
                 }
               }),

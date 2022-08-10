@@ -50,47 +50,48 @@ class _SavingPageState extends State<SavingPage> {
       PagesGenerator.goTo(context, name: "register-saving");
     }, itemList: [
       Padding(
-          padding: const EdgeInsets.only(right: 20.0, left: 20.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  InkWell(
-                      onTap: () async {
-                        PagesGenerator.goTo(context, pathName: "/?status=true");
-                      },
-                      child: const Icon(
-                        Icons.arrow_back_ios,
-                        size: 20,
-                      )),
-                  const Text(
-                    "Savings",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  )
-                ],
-              ),
-              Row(
-                children: [
-                  IconButton(
-                      onPressed: () =>
-                          PagesGenerator.goTo(context, name: "register-saving"),
-                      icon: const Icon(
-                        Icons.add_circle,
-                        color: fkBlueText,
-                      )),
-                  IconButton(
-                      onPressed: () =>
-                          PagesGenerator.goTo(context, name: "saving-report"),
-                      icon: const Icon(
-                        Icons.manage_history,
-                        color: fkBlueText,
-                        size: 20,
-                      )),
-                ],
-              )
-            ],
-          )),
+        padding: const EdgeInsets.only(right: 20.0, left: 20.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                InkWell(
+                    onTap: () async {
+                      PagesGenerator.goTo(context, pathName: "/?status=true");
+                    },
+                    child: const Icon(
+                      Icons.arrow_back_ios,
+                      size: 20,
+                    )),
+                const Text(
+                  "Savings",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                )
+              ],
+            ),
+            Row(
+              children: [
+                IconButton(
+                    onPressed: () =>
+                        PagesGenerator.goTo(context, name: "register-saving"),
+                    icon: const Icon(
+                      Icons.add_circle,
+                      color: fkBlueText,
+                    )),
+                IconButton(
+                    onPressed: () =>
+                        PagesGenerator.goTo(context, name: "saving-report"),
+                    icon: const Icon(
+                      Icons.manage_history,
+                      color: fkBlueText,
+                      size: 20,
+                    )),
+              ],
+            )
+          ],
+        ),
+      ),
       verticalSpaceRegular,
       fkContentBoxWidgets.initialItems(itemList: [
         SizedBox(
@@ -114,14 +115,7 @@ class _SavingPageState extends State<SavingPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "${snapshot.data!.currencyCode}",
-                                style: const TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500,
-                                    color: fkGreyText),
-                              ),
-                              Text(
-                                "${snapshot.data!.totalAmount}",
+                                "${double.parse(snapshot.data!.totalAmount)}",
                                 overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
                                     fontSize: 28,
@@ -215,73 +209,71 @@ class _SavingPageState extends State<SavingPage> {
           ),
         ),
       ]),
-      Expanded(
-        child: FutureBuilder<List<RetrieveSaving>>(
-          future: retrieveSavings,
-          builder: (context, AsyncSnapshot snapshot) {
-            if (snapshot.hasData) {
-              if (snapshot.data.isEmpty) {
-                return Expanded(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(
-                        Icons.warning,
-                        color: Colors.orange,
-                      ),
-                      horizontalSpaceSmall,
-                      Container(
-                        margin: const EdgeInsets.only(top: 10),
-                        child: const Text("There is no saving recorded yet...",
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.red)),
-                      ),
-                    ],
-                  ),
-                );
-              }
-              return SizedBox(
-                child: NotificationListener<OverscrollIndicatorNotification>(
-                  onNotification:
-                      (OverscrollIndicatorNotification? overscroll) {
-                    overscroll!.disallowIndicator();
-                    return true;
-                  },
-                  child: ListView.builder(
-                    padding: const EdgeInsets.all(8),
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      var dateTime =
-                          DateTime.parse("${snapshot.data?[index].createdAt}");
-
-                      return Container(
-                        margin: const EdgeInsets.only(top: 0.0),
-                        child: reportCard(context,
-                            monthText: toBeginningOfSentenceCase(
-                                months[dateTime.month - 1]),
-                            leadingText: "${dateTime.day}",
-                            currency: snapshot.data?[index].currencyCode,
-                            amount: snapshot.data?[index].amount,
-                            titleTxt: "${snapshot.data?[index].description}",
-                            bdTxt: snapshot.data?[index].description,
-                            fn: () {}),
-                      );
-                    },
-                  ),
+      FutureBuilder<List<RetrieveSaving>>(
+        future: retrieveSavings,
+        builder: (context, AsyncSnapshot snapshot) {
+          if (snapshot.hasData) {
+            if (snapshot.data.isEmpty) {
+              return Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(
+                      Icons.warning,
+                      color: Colors.orange,
+                    ),
+                    horizontalSpaceSmall,
+                    Container(
+                      margin: const EdgeInsets.only(top: 10),
+                      child: const Text(
+                          "There is no saving recorded yet in this month...",
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.red)),
+                    ),
+                  ],
                 ),
               );
-            } else if (snapshot.hasError) {
-              return const Center(child: Text('Something went wrong :('));
             }
-            return const Center(
-              child: CircularProgressIndicator(
-                strokeWidth: 2.0,
+            return SizedBox(
+              child: NotificationListener<OverscrollIndicatorNotification>(
+                onNotification: (OverscrollIndicatorNotification? overscroll) {
+                  overscroll!.disallowIndicator();
+                  return true;
+                },
+                child: ListView.builder(
+                  padding: const EdgeInsets.all(8),
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    var dateTime =
+                        DateTime.parse("${snapshot.data?[index].createdAt}");
+
+                    return Container(
+                      margin: const EdgeInsets.only(top: 0.0),
+                      child: reportCard(context,
+                          monthText: toBeginningOfSentenceCase(
+                              months[dateTime.month - 1]),
+                          leadingText: "${dateTime.day}",
+                          currency: snapshot.data?[index].currencyCode,
+                          amount: snapshot.data?[index].amount,
+                          titleTxt: "${snapshot.data?[index].description}",
+                          bdTxt: snapshot.data?[index].description,
+                          fn: () {}),
+                    );
+                  },
+                ),
               ),
             );
-          },
-        ),
+          } else if (snapshot.hasError) {
+            return const Center(child: Text('Something went wrong :('));
+          }
+          return const Center(
+            child: CircularProgressIndicator(
+              strokeWidth: 2.0,
+            ),
+          );
+        },
       ),
     ]);
   }

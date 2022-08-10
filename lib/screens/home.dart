@@ -58,7 +58,7 @@ class _HomePageState extends State<HomePage> {
         },
         child: RefreshIndicator(
           child: SingleChildScrollView(
-            physics: const AlwaysScrollableScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             child: SizedBox.fromSize(
                 size: MediaQuery.of(context).size,
                 child: customFutureBuilder(userData)),
