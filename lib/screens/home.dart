@@ -58,7 +58,7 @@ class _HomePageState extends State<HomePage> {
         },
         child: RefreshIndicator(
           child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
+            physics: const ClampingScrollPhysics(),
             child: SizedBox.fromSize(
                 size: MediaQuery.of(context).size,
                 child: customFutureBuilder(userData)),
@@ -186,28 +186,6 @@ class _HomePageState extends State<HomePage> {
                                     verticalSpaceSmall,
                                     const Text(
                                       "Groupe",
-                                      style: TextStyle(color: fkWhiteText),
-                                    )
-                                  ],
-                                ),
-                                Column(
-                                  children: [
-                                    InkWell(
-                                      child: Container(
-                                          height: 50,
-                                          width: 50,
-                                          decoration: const BoxDecoration(
-                                            color: fkWhiteText,
-                                            borderRadius: BorderRadius.all(
-                                              Radius.circular(30.0),
-                                            ),
-                                          ),
-                                          child: const Icon(Icons.book)),
-                                      onTap: () => context.go('/groupe'),
-                                    ),
-                                    verticalSpaceSmall,
-                                    const Text(
-                                      "Note book",
                                       style: TextStyle(color: fkWhiteText),
                                     )
                                   ],

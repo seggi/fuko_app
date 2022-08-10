@@ -68,7 +68,7 @@ class _PrivateDeptSheetState extends State<PrivateDeptSheet> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "${snapshot.data!.totalDept}",
+                                  "${double.parse(snapshot.data!.totalDept)}",
                                   overflow: TextOverflow.ellipsis,
                                   style: const TextStyle(
                                       fontSize: 28,
@@ -186,7 +186,7 @@ class _PrivateDeptSheetState extends State<PrivateDeptSheet> {
               (context, AsyncSnapshot<List<RetrieveBorrowersList>> snapshot) {
             if (snapshot.hasData) {
               return SizedBox(
-                height: 620,
+                height: MediaQuery.of(context).size.height,
                 child: NotificationListener<OverscrollIndicatorNotification>(
                   onNotification:
                       (OverscrollIndicatorNotification? overscroll) {
@@ -195,6 +195,7 @@ class _PrivateDeptSheetState extends State<PrivateDeptSheet> {
                   },
                   child: ListView.builder(
                     shrinkWrap: true,
+                    physics: const ClampingScrollPhysics(),
                     padding: const EdgeInsets.all(8.0),
                     itemCount: snapshot.data!.length,
                     itemBuilder: (BuildContext context, int index) {
