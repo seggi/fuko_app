@@ -84,10 +84,10 @@ class FkContentBoxWidgets {
               overscroll!.disallowIndicator();
               return true;
             },
-            child: SingleChildScrollView(
-              physics: const NeverScrollableScrollPhysics(),
-              child: SizedBox(
-                height: MediaQuery.of(context).size.height,
+            child: SizedBox(
+              // height: MediaQuery.of(context).size.height,
+              child: SingleChildScrollView(
+                physics: const ClampingScrollPhysics(),
                 child: Column(
                   children: [...itemList],
                 ),
@@ -276,6 +276,7 @@ class FkTabBarView {
       length: 2,
       child: Scaffold(
         body: NestedScrollView(
+          physics: const NeverScrollableScrollPhysics(),
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
               SliverAppBar(
@@ -307,7 +308,9 @@ class FkTabBarView {
               )
             ];
           },
-          body: TabBarView(children: <Widget>[...page]),
+          body: TabBarView(
+              physics: const NeverScrollableScrollPhysics(),
+              children: <Widget>[...page]),
         ),
       ),
     );

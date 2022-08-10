@@ -44,7 +44,7 @@ class _PrivateDeptSheetState extends State<PrivateDeptSheet> {
     });
 
     return Column(
-      mainAxisSize: MainAxisSize.max,
+      mainAxisSize: MainAxisSize.min,
       children: [
         fkContentBoxWidgets.initialItems(itemList: [
           verticalSpaceRegular,
@@ -153,14 +153,14 @@ class _PrivateDeptSheetState extends State<PrivateDeptSheet> {
               ],
             ),
           ),
-          verticalSpaceRegular,
+          verticalSpaceSmall,
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(
-                  "Recorded Borrowers",
+                  "Recorded info",
                   style: TextStyle(
                       color: fkBlackText,
                       fontWeight: FontWeight.w400,
@@ -178,82 +178,75 @@ class _PrivateDeptSheetState extends State<PrivateDeptSheet> {
                   child: const Icon(Icons.refresh))
             ],
           ),
-          verticalSpaceRegular,
+          verticalSpaceSmall,
         ]),
-        FutureBuilder(
-          future: retrieveBorrowerList,
-          builder:
-              (context, AsyncSnapshot<List<RetrieveBorrowersList>> snapshot) {
-            if (snapshot.hasData) {
-              return SizedBox(
-                height: MediaQuery.of(context).size.height,
-                child: NotificationListener<OverscrollIndicatorNotification>(
-                  onNotification:
-                      (OverscrollIndicatorNotification? overscroll) {
-                    overscroll!.disallowIndicator();
-                    return true;
-                  },
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    physics: const ClampingScrollPhysics(),
-                    padding: const EdgeInsets.all(8.0),
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      if (snapshot.data!.isEmpty) {
-                        return const Center(
-                          child: Text('No data to show.'),
-                        );
-                      }
-
-                      return Container(
-                          margin: const EdgeInsets.only(top: 0.0),
-                          child: InkWell(
-                            child: Card(
-                              child: ListTile(
-                                leading: const Icon(
-                                  Icons.account_circle_outlined,
-                                  size: 30,
-                                ),
-                                title: SizedBox(
-                                  width: 200,
-                                  child: Text(
-                                    snapshot.data?[index].borrowerName != null
-                                        ? "${snapshot.data?[index].borrowerName != "null" ? snapshot.data![index].borrowerName : 'No name provided'}"
-                                        : "${snapshot.data?[index].firstName != null}",
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                ),
+        SizedBox(
+          height: MediaQuery.of(context).size.height - 290,
+          child: FutureBuilder(
+            future: retrieveBorrowerList,
+            builder:
+                (context, AsyncSnapshot<List<RetrieveBorrowersList>> snapshot) {
+              if (snapshot.hasData) {
+                return ListView.builder(
+                  shrinkWrap: true,
+                  physics: const ClampingScrollPhysics(),
+                  padding: const EdgeInsets.all(8.0),
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    if (snapshot.data!.isEmpty) {
+                      return const Center(
+                        child: Text('No data to show.'),
+                      );
+                    }
+                    return InkWell(
+                      child: Card(
+                        child: ListTile(
+                          leading: const Icon(
+                            Icons.account_circle_outlined,
+                            size: 30,
+                          ),
+                          title: SizedBox(
+                            width: 200,
+                            child: Text(
+                              snapshot.data?[index].borrowerName != null
+                                  ? "${snapshot.data?[index].borrowerName != "null" ? snapshot.data![index].borrowerName : 'No name provided'}"
+                                  : "${snapshot.data?[index].firstName != null}",
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16,
                               ),
                             ),
-                            onTap: () {
-                              screenTitle(context,
-                                  screenTitle:
-                                      "${snapshot.data?[index].borrowerName}");
-                              PagesGenerator.goTo(context,
-                                  name: "borrower_dept_details",
-                                  params: {
-                                    "id": "${snapshot.data?[index].borrowerId}"
-                                  });
-                            },
-                          ));
-                    },
+                          ),
+                        ),
+                      ),
+                      onTap: () {
+                        screenTitle(context,
+                            screenTitle:
+                                "${snapshot.data?[index].borrowerName}");
+                        PagesGenerator.goTo(context,
+                            name: "borrower_dept_details",
+                            params: {
+                              "id": "${snapshot.data?[index].borrowerId}"
+                            });
+                      },
+                    );
+                  },
+                );
+              } else if (snapshot.hasError) {
+                return const Center(child: Text('Something went wrong :('));
+              }
+
+              return SizedBox(
+                height: MediaQuery.of(context).size.height,
+                child: const Center(
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2.0,
                   ),
                 ),
               );
-            } else if (snapshot.hasError) {
-              return const Center(child: Text('Something went wrong :('));
-            }
-
-            return const Center(
-              child: CircularProgressIndicator(
-                strokeWidth: 2.0,
-              ),
-            );
-          },
-        )
+            },
+          ),
+        ),
       ],
     );
   }
