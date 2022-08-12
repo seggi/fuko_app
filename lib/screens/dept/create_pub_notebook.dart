@@ -9,28 +9,30 @@ import 'package:fuko_app/screens/content_box_widgets.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
-class AddBorrowerManually extends StatefulWidget {
-  const AddBorrowerManually({Key? key}) : super(key: key);
+class CreatePubNoteBook extends StatefulWidget {
+  const CreatePubNoteBook({Key? key}) : super(key: key);
 
   @override
-  State<AddBorrowerManually> createState() => _AddBorrowerManuallyState();
+  State<CreatePubNoteBook> createState() => _CreatePubNoteBookState();
 }
 
-class _AddBorrowerManuallyState extends State<AddBorrowerManually> {
+class _CreatePubNoteBookState extends State<CreatePubNoteBook> {
   final _formKey = GlobalKey();
   bool loading = false;
-  TextEditingController addBorrowerNameController = TextEditingController();
+  TextEditingController notebookTitleController = TextEditingController();
+  TextEditingController descriptionTitleController = TextEditingController();
 
   late ScaffoldMessengerState scaffoldMessenger = ScaffoldMessenger.of(context);
 
-  Future saveBorrowerName() async {
+  Future saveNoteBookTitle() async {
     FocusManager.instance.primaryFocus?.unfocus();
     var token = await UserPreferences.getToken();
     Map newItem = {
-      "borrower_name": addBorrowerNameController.text,
+      "notebook_name": notebookTitleController.text,
+      "description": descriptionTitleController.text
     };
 
-    if (addBorrowerNameController.text == "") {
+    if (notebookTitleController.text == "") {
       scaffoldMessenger.showSnackBar(const SnackBar(
           content: Text(
         "This field can't remain empty.",
@@ -41,8 +43,8 @@ class _AddBorrowerManuallyState extends State<AddBorrowerManually> {
       setState(() {
         loading = true;
       });
-      final response = await http.post(
-          Uri.parse(Network.addNewBorrowerManually),
+
+      final response = await http.post(Uri.parse(Network.createNotebook),
           headers: Network.authorizedHeaders(token: token),
           body: jsonEncode(newItem));
 
@@ -110,11 +112,25 @@ class _AddBorrowerManuallyState extends State<AddBorrowerManually> {
                   children: [
                     TextFormField(
                       autofocus: true,
-                      controller: addBorrowerNameController,
+                      controller: notebookTitleController,
                       keyboardType: TextInputType.text,
                       textInputAction: TextInputAction.done,
                       decoration: InputDecoration(
                           hintText: 'Enter notebook title',
+                          border: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: fkInputFormBorderColor, width: 1.0),
+                              borderRadius: BorderRadius.circular(8.0))),
+                      onSaved: (String? value) {},
+                    ),
+                    verticalSpaceRegular,
+                    TextFormField(
+                      autofocus: true,
+                      controller: descriptionTitleController,
+                      keyboardType: TextInputType.text,
+                      textInputAction: TextInputAction.done,
+                      decoration: InputDecoration(
+                          hintText: 'Enter description',
                           border: OutlineInputBorder(
                               borderSide: const BorderSide(
                                   color: fkInputFormBorderColor, width: 1.0),
@@ -133,10 +149,10 @@ class _AddBorrowerManuallyState extends State<AddBorrowerManually> {
                           )),
                       child: TextButton(
                         onPressed:
-                            loading == true ? () {} : () => saveBorrowerName(),
+                            loading == true ? () {} : () => saveNoteBookTitle(),
                         child: loading == false
                             ? const Icon(
-                                Icons.person_add_alt,
+                                Icons.add_circle,
                                 color: fkWhiteText,
                               )
                             : const SizedBox(

@@ -31,6 +31,7 @@ class Network {
   static String getTotalDeptAmount = liveUrl! + "/account/dept/retrieve";
   static String addNewBorrowerManually =
       liveUrl! + "/account/dept/add-people-notebook";
+  static String createNotebook = liveUrl! + "/notebook/create";
   static String searchUser = liveUrl! + "/manage_request/search-user";
   static String getBorrowerDept =
       liveUrl! + "/account/dept/retrieve-friend-dept";
