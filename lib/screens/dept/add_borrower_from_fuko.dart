@@ -29,7 +29,7 @@ class _AddBorrowerFromFukoState extends State<AddBorrowerFromFuko> {
     FocusManager.instance.primaryFocus?.unfocus();
     var token = await UserPreferences.getToken();
     Map newItem = {
-      "borrower_id": userId.toString(),
+      "memeber_id": userId.toString(),
       "borrower_name": borrowerName,
     };
 

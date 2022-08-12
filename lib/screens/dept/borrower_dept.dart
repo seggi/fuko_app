@@ -81,7 +81,7 @@ class _BorrowerDeptListState extends State<BorrowerDeptList> {
         FkManageProviders.get(context)["get-default-currency"];
     var setCurrency =
         selectedCurrency != '' ? selectedCurrency : defaultCurrency.toString();
-    return Column(children: [
+    return Column(mainAxisSize: MainAxisSize.min, children: [
       fkContentBoxWidgets.initialItems(itemList: [
         verticalSpaceRegular,
         const Align(
@@ -171,58 +171,63 @@ class _BorrowerDeptListState extends State<BorrowerDeptList> {
           },
         ),
       ]),
-      FutureBuilder(
-        future: retrieveBorrowerDeptList,
-        builder: (context, AsyncSnapshot snapshot) {
-          if (snapshot.hasData) {
-            if (snapshot.data.isEmpty) {
-              return Container(
-                  margin: const EdgeInsets.only(top: 0.0),
-                  child: const Center(child: Text("No amount saved yet!")));
-            }
-            return SizedBox(
-              child: NotificationListener<OverscrollIndicatorNotification>(
-                onNotification: (OverscrollIndicatorNotification? overscroll) {
-                  overscroll!.disallowIndicator();
-                  return true;
-                },
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  physics: const ClampingScrollPhysics(),
-                  padding: const EdgeInsets.all(8),
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    var dateTime =
-                        DateTime.parse("${snapshot.data?[index].createdAt}");
-
-                    return Container(
-                      margin: const EdgeInsets.only(top: 0.0),
-                      child: reportCard(context,
-                          currencyCode: setCurrency,
-                          monthText: toBeginningOfSentenceCase(
-                              months[dateTime.month - 1]),
-                          leadingText: dateTime.day >= 10
-                              ? "${dateTime.day}"
-                              : "0${dateTime.day}",
-                          amount: snapshot.data?[index].amount,
-                          titleTxt: snapshot.data?[index].description != "null"
-                              ? "${snapshot.data?[index].description}"
-                              : "No description",
-                          fn: () {}),
-                    );
+      SizedBox(
+        height: MediaQuery.of(context).size.height - 220,
+        child: FutureBuilder(
+          future: retrieveBorrowerDeptList,
+          builder: (context, AsyncSnapshot snapshot) {
+            if (snapshot.hasData) {
+              if (snapshot.data.isEmpty) {
+                return Container(
+                    margin: const EdgeInsets.only(top: 0.0),
+                    child: const Center(child: Text("No amount saved yet!")));
+              }
+              return SizedBox(
+                child: NotificationListener<OverscrollIndicatorNotification>(
+                  onNotification:
+                      (OverscrollIndicatorNotification? overscroll) {
+                    overscroll!.disallowIndicator();
+                    return true;
                   },
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    physics: const ClampingScrollPhysics(),
+                    padding: const EdgeInsets.all(8),
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      var dateTime =
+                          DateTime.parse("${snapshot.data?[index].createdAt}");
+
+                      return Container(
+                        margin: const EdgeInsets.only(top: 0.0),
+                        child: reportCard(context,
+                            currencyCode: setCurrency,
+                            monthText: toBeginningOfSentenceCase(
+                                months[dateTime.month - 1]),
+                            leadingText: dateTime.day >= 10
+                                ? "${dateTime.day}"
+                                : "0${dateTime.day}",
+                            amount: snapshot.data?[index].amount,
+                            titleTxt:
+                                snapshot.data?[index].description != "null"
+                                    ? "${snapshot.data?[index].description}"
+                                    : "No description",
+                            fn: () {}),
+                      );
+                    },
+                  ),
                 ),
+              );
+            } else if (snapshot.hasError) {
+              return const Center(child: Text('Something went wrong :('));
+            }
+            return const Center(
+              child: CircularProgressIndicator(
+                strokeWidth: 2.0,
               ),
             );
-          } else if (snapshot.hasError) {
-            return const Center(child: Text('Something went wrong :('));
-          }
-          return const Center(
-            child: CircularProgressIndicator(
-              strokeWidth: 2.0,
-            ),
-          );
-        },
+          },
+        ),
       ),
     ]);
   }
@@ -332,56 +337,61 @@ class _BorrowerDeptListState extends State<BorrowerDeptList> {
             },
           ),
         ]),
-        FutureBuilder(
-          future: retrieveBorrowerPaymentHistory,
-          builder: (context, AsyncSnapshot snapshot) {
-            if (snapshot.hasData) {
-              if (snapshot.data.isEmpty) {
-                return Container(
-                    margin: const EdgeInsets.only(top: 0.0),
-                    child: const Center(child: Text("No amount saved yet!")));
-              }
-              return NotificationListener<OverscrollIndicatorNotification>(
-                onNotification: (OverscrollIndicatorNotification? overscroll) {
-                  overscroll!.disallowIndicator();
-                  return true;
-                },
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  physics: const ClampingScrollPhysics(),
-                  padding: const EdgeInsets.all(8.0),
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    var dateTime =
-                        DateTime.parse("${snapshot.data?[index].createdAt}");
-
-                    return Container(
+        SizedBox(
+          height: MediaQuery.of(context).size.height - 220,
+          child: FutureBuilder(
+            future: retrieveBorrowerPaymentHistory,
+            builder: (context, AsyncSnapshot snapshot) {
+              if (snapshot.hasData) {
+                if (snapshot.data.isEmpty) {
+                  return Container(
                       margin: const EdgeInsets.only(top: 0.0),
-                      child: reportCard(context,
-                          currencyCode: setCurrency,
-                          monthText: toBeginningOfSentenceCase(
-                              months[dateTime.month - 1]),
-                          leadingText: dateTime.day >= 10
-                              ? "${dateTime.day}"
-                              : "0${dateTime.day}",
-                          amount: snapshot.data?[index].amount,
-                          titleTxt: snapshot.data?[index].description != "null"
-                              ? "${snapshot.data?[index].description}"
-                              : "No description",
-                          fn: () {}),
-                    );
+                      child: const Center(child: Text("No amount saved yet!")));
+                }
+                return NotificationListener<OverscrollIndicatorNotification>(
+                  onNotification:
+                      (OverscrollIndicatorNotification? overscroll) {
+                    overscroll!.disallowIndicator();
+                    return true;
                   },
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    physics: const ClampingScrollPhysics(),
+                    padding: const EdgeInsets.all(8.0),
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      var dateTime =
+                          DateTime.parse("${snapshot.data?[index].createdAt}");
+
+                      return Container(
+                        margin: const EdgeInsets.only(top: 0.0),
+                        child: reportCard(context,
+                            currencyCode: setCurrency,
+                            monthText: toBeginningOfSentenceCase(
+                                months[dateTime.month - 1]),
+                            leadingText: dateTime.day >= 10
+                                ? "${dateTime.day}"
+                                : "0${dateTime.day}",
+                            amount: snapshot.data?[index].amount,
+                            titleTxt:
+                                snapshot.data?[index].description != "null"
+                                    ? "${snapshot.data?[index].description}"
+                                    : "No description",
+                            fn: () {}),
+                      );
+                    },
+                  ),
+                );
+              } else if (snapshot.hasError) {
+                return const Center(child: Text('Something went wrong :('));
+              }
+              return const Center(
+                child: CircularProgressIndicator(
+                  strokeWidth: 2.0,
                 ),
               );
-            } else if (snapshot.hasError) {
-              return const Center(child: Text('Something went wrong :('));
-            }
-            return const Center(
-              child: CircularProgressIndicator(
-                strokeWidth: 2.0,
-              ),
-            );
-          },
+            },
+          ),
         )
       ],
     );

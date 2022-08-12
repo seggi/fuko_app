@@ -2,32 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/core/dept.dart';
+import 'package:fuko_app/core/notebook.dart';
 import 'package:fuko_app/screens/content_box_widgets.dart';
 import 'package:fuko_app/utils/constant.dart';
 import 'package:fuko_app/widgets/bottom_sheet/currenncies.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
-class PrivateDeptSheet extends StatefulWidget {
-  const PrivateDeptSheet({Key? key}) : super(key: key);
+class PubNotebookSheet extends StatefulWidget {
+  const PubNotebookSheet({Key? key}) : super(key: key);
 
   @override
-  State<PrivateDeptSheet> createState() => _PrivateDeptSheetState();
+  State<PubNotebookSheet> createState() => _PubNotebookSheetState();
 }
 
-class _PrivateDeptSheetState extends State<PrivateDeptSheet> {
+class _PubNotebookSheetState extends State<PubNotebookSheet> {
   FkContentBoxWidgets fkContentBoxWidgets = FkContentBoxWidgets();
 
 // RetrieveBorrowersList
 
   late Future<RetrieveBorrowersList> retrieveDeptAmount;
-  late Future<List<RetrieveBorrowersList>> retrieveBorrowerList;
+  late Future<List<Notebook>> retrieveNotebook;
 
   @override
   void initState() {
     super.initState();
     retrieveDeptAmount = fetchDeptAmount(setCurrency: defaultCurrency);
-    retrieveBorrowerList = fetchBorrowerList();
+    retrieveNotebook = fetchNotebook();
   }
 
   @override
@@ -40,7 +41,7 @@ class _PrivateDeptSheetState extends State<PrivateDeptSheet> {
 
     setState(() {
       retrieveDeptAmount = fetchDeptAmount(setCurrency: setCurrency);
-      retrieveBorrowerList = fetchBorrowerList();
+      retrieveNotebook = fetchNotebook();
     });
 
     return Column(
@@ -160,7 +161,7 @@ class _PrivateDeptSheetState extends State<PrivateDeptSheet> {
               const Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(
-                  "Recorded info",
+                  "Created notebook",
                   style: TextStyle(
                       color: fkBlackText,
                       fontWeight: FontWeight.w400,
@@ -172,7 +173,7 @@ class _PrivateDeptSheetState extends State<PrivateDeptSheet> {
                     setState(() {
                       retrieveDeptAmount =
                           fetchDeptAmount(setCurrency: setCurrency);
-                      retrieveBorrowerList = fetchBorrowerList();
+                      retrieveNotebook = fetchNotebook();
                     });
                   },
                   child: const Icon(Icons.refresh))
@@ -183,9 +184,8 @@ class _PrivateDeptSheetState extends State<PrivateDeptSheet> {
         SizedBox(
           height: MediaQuery.of(context).size.height - 290,
           child: FutureBuilder(
-            future: retrieveBorrowerList,
-            builder:
-                (context, AsyncSnapshot<List<RetrieveBorrowersList>> snapshot) {
+            future: retrieveNotebook,
+            builder: (context, AsyncSnapshot<List<Notebook>> snapshot) {
               if (snapshot.hasData) {
                 return ListView.builder(
                   shrinkWrap: true,
@@ -202,15 +202,13 @@ class _PrivateDeptSheetState extends State<PrivateDeptSheet> {
                       child: Card(
                         child: ListTile(
                           leading: const Icon(
-                            Icons.account_circle_outlined,
+                            Icons.people_outline_outlined,
                             size: 30,
                           ),
                           title: SizedBox(
                             width: 200,
                             child: Text(
-                              snapshot.data?[index].borrowerName != null
-                                  ? "${snapshot.data?[index].borrowerName != "null" ? snapshot.data![index].borrowerName : 'No name provided'}"
-                                  : "${snapshot.data?[index].firstName != null}",
+                              snapshot.data![index].name ?? 'No name provided',
                               style: const TextStyle(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 16,
@@ -221,13 +219,10 @@ class _PrivateDeptSheetState extends State<PrivateDeptSheet> {
                       ),
                       onTap: () {
                         screenTitle(context,
-                            screenTitle:
-                                "${snapshot.data?[index].borrowerName}");
+                            screenTitle: "${snapshot.data?[index].name}");
                         PagesGenerator.goTo(context,
                             name: "borrower_dept_details",
-                            params: {
-                              "id": "${snapshot.data?[index].borrowerId}"
-                            });
+                            params: {"id": "${snapshot.data?[index].id}"});
                       },
                     );
                   },

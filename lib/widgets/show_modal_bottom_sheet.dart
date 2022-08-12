@@ -10,16 +10,16 @@ customBottomModalSheet(BuildContext context) {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             ListTile(
-              leading: const Icon(Icons.person_add_alt),
-              title: const Text('Add Borrower from Fuko Users'),
+              leading: const Icon(Icons.note_add),
+              title: const Text('Create public notebook'),
               onTap: () {
-                PagesGenerator.goTo(context, name: "add-borrow-from-fuko");
+                PagesGenerator.goTo(context, name: "pub-notebook");
                 Navigator.pop(context);
               },
             ),
             ListTile(
               leading: const Icon(Icons.person_add_alt),
-              title: const Text('Add Borrower Manually'),
+              title: const Text('Add private notebook'),
               onTap: () {
                 PagesGenerator.goTo(context, name: "add-borrow-manually");
                 Navigator.pop(context);

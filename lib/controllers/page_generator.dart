@@ -142,6 +142,11 @@ class PagesGenerator {
               },
               routes: [
                 GoRoute(
+                  name: "pub-notebook",
+                  path: 'pub-notebook',
+                  builder: (context, state) => const CreatePubNoteBook(),
+                ),
+                GoRoute(
                   name: "add-borrow-manually",
                   path: 'add-borrow-manually',
                   builder: (context, state) => const AddBorrowerManually(),
