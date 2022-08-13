@@ -38,6 +38,12 @@ class PagesGenerator {
             },
           ),
           GoRoute(
+            path: 'notebook',
+            builder: (context, state) {
+              return const NotebookPage();
+            },
+          ),
+          GoRoute(
               path: 'groupe',
               builder: (context, state) {
                 return const GroupePage();

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fuko_app/core/user_preferences.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
-import 'package:go_router/go_router.dart';
 
 import '../controllers/page_generator.dart';
 import '../widgets/shared/style.dart';

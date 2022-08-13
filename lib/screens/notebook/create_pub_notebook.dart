@@ -61,7 +61,7 @@ class _CreatePubNoteBookState extends State<CreatePubNoteBook> {
             ),
           ));
         } else {
-          PagesGenerator.goTo(context, pathName: "/dept?status=true");
+          PagesGenerator.goTo(context, pathName: "/notebook");
         }
       } else {
         setState(() {
@@ -91,7 +91,7 @@ class _CreatePubNoteBookState extends State<CreatePubNoteBook> {
                   IconButton(
                       icon: const Icon(Icons.cancel_outlined),
                       onPressed: () =>
-                          PagesGenerator.goTo(context, pathName: "/dept")),
+                          PagesGenerator.goTo(context, pathName: "/notebook")),
                 ],
               ),
             ),

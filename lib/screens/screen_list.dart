@@ -1,6 +1,7 @@
 export 'expenses.dart';
 export 'home.dart';
 export 'loan.dart';
+export 'notebook.dart';
 export './auth/login.dart';
 export './auth/signup.dart';
 export './auth/complete_profile.dart';
@@ -22,4 +23,4 @@ export 'groupe/groupe_detail.dart';
 export './expenses/expenses_report.dart';
 export './saving/saving_report.dart';
 export './dept/private_dept_sheet.dart';
-export './dept/create_pub_notebook.dart';
+export 'notebook/create_pub_notebook.dart';
