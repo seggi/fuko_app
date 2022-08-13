@@ -6,8 +6,6 @@ import 'package:fuko_app/screens/screen_list.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/show_modal_bottom_sheet.dart';
 
-import 'dept/pub_notebook_sheet.dart';
-
 class DeptPage extends StatefulWidget {
   final String? status;
 
@@ -25,7 +23,8 @@ class _DeptPageState extends State<DeptPage> {
       TextStyle(fontSize: 20, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     PrivateDeptSheet(),
-    PubNotebookSheet(),
+    // PubNotebookSheet(),
+    Text("Dept notebook")
   ];
 
   void _onItemTapped(int index) {

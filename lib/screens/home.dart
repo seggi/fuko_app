@@ -111,13 +111,14 @@ class _HomePageState extends State<HomePage> {
                   FkContentBoxWidgets.buttonsItemsBox(context, itemList: [
                     verticalSpaceMedium,
                     // Saving Screen
-
-                    SizedBox(
+                    Container(
+                      padding: const EdgeInsets.all(4.0),
                       width: MediaQuery.of(context).size.width,
                       child: SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
-                        child: SizedBox(
+                        child: Container(
                             width: MediaQuery.of(context).size.width,
+                            margin: const EdgeInsets.only(left: 10.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
@@ -140,10 +141,14 @@ class _HomePageState extends State<HomePage> {
                                     verticalSpaceSmall,
                                     const Text(
                                       "Dashboard",
-                                      style: TextStyle(color: fkWhiteText),
+                                      style: TextStyle(
+                                          color: fkWhiteText,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w300),
                                     )
                                   ],
                                 ),
+                                horizontalSpaceSmall,
                                 Column(
                                   children: [
                                     InkWell(
@@ -163,10 +168,14 @@ class _HomePageState extends State<HomePage> {
                                     verticalSpaceSmall,
                                     const Text(
                                       "Lodging",
-                                      style: TextStyle(color: fkWhiteText),
+                                      style: TextStyle(
+                                          color: fkWhiteText,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w300),
                                     )
                                   ],
                                 ),
+                                horizontalSpaceSmall,
                                 Column(
                                   children: [
                                     InkWell(
@@ -186,7 +195,37 @@ class _HomePageState extends State<HomePage> {
                                     verticalSpaceSmall,
                                     const Text(
                                       "Groupe",
-                                      style: TextStyle(color: fkWhiteText),
+                                      style: TextStyle(
+                                          color: fkWhiteText,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w300),
+                                    )
+                                  ],
+                                ),
+                                horizontalSpaceSmall,
+                                Column(
+                                  children: [
+                                    InkWell(
+                                      child: Container(
+                                        height: 50,
+                                        width: 50,
+                                        decoration: const BoxDecoration(
+                                          color: fkWhiteText,
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(30.0),
+                                          ),
+                                        ),
+                                        child: const Icon(Icons.note_add),
+                                      ),
+                                      onTap: () => context.go('/notebook'),
+                                    ),
+                                    verticalSpaceSmall,
+                                    const Text(
+                                      "Notebook",
+                                      style: TextStyle(
+                                          color: fkWhiteText,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w300),
                                     )
                                   ],
                                 ),
