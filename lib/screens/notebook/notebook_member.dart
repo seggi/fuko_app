@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/core/notebook.dart';
-import 'package:fuko_app/core/user_preferences.dart';
 import 'package:fuko_app/screens/content_box_widgets.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
@@ -62,6 +61,8 @@ class _NotebookMemberState extends State<NotebookMember> {
               Row(
                 children: [
                   IconButton(
+                      onPressed: () {}, icon: const Icon(Icons.call_made)),
+                  IconButton(
                       onPressed: () => PagesGenerator.goTo(context,
                           name: "invite-friend-to-notebook",
                           params: {"id": notebookId}),
@@ -84,28 +85,6 @@ class _NotebookMemberState extends State<NotebookMember> {
           ),
         ),
         verticalSpaceRegular,
-        // InkWell(
-        //   onTap: () => PagesGenerator.goTo(context, name: "groupe-detail"),
-        //   child: Container(
-        //     height: 60,
-        //     decoration: const BoxDecoration(
-        //         border:
-        //             Border(bottom: BorderSide(color: fkGreyText, width: 0.5))),
-        //     child: Row(
-        //       children: [
-        //         Container(
-        //           width: 40,
-        //           height: 40,
-        //           decoration: BoxDecoration(
-        //               color: fkGreyText,
-        //               borderRadius: BorderRadius.circular(8.0)),
-        //         ),
-        //         horizontalSpaceSmall,
-        //         const Text("Test")
-        //       ],
-        //     ),
-        //   ),
-        // )
       ]),
       Expanded(
         child: FutureBuilder(
