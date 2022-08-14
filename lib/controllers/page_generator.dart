@@ -53,6 +53,16 @@ class PagesGenerator {
                     );
                   },
                 ),
+                GoRoute(
+                  name: "invite-friend-to-notebook",
+                  path: 'invite-friend-to-notebook/:id',
+                  builder: (context, state) {
+                    var notebookId = state.params['id']!;
+                    return InviteFriendToNotebook(
+                      id: notebookId,
+                    );
+                  },
+                ),
               ]),
           GoRoute(
               path: 'groupe',

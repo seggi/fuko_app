@@ -62,8 +62,9 @@ class _NotebookMemberState extends State<NotebookMember> {
               Row(
                 children: [
                   IconButton(
-                      onPressed: () =>
-                          PagesGenerator.goTo(context, name: "create-groupe"),
+                      onPressed: () => PagesGenerator.goTo(context,
+                          name: "invite-friend-to-notebook",
+                          params: {"id": notebookId}),
                       icon: const Icon(
                         Icons.person_add_alt,
                         color: fkBlueText,

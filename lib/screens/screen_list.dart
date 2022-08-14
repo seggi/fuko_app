@@ -25,3 +25,4 @@ export './saving/saving_report.dart';
 export './dept/private_dept_sheet.dart';
 export 'notebook/create_pub_notebook.dart';
 export 'notebook/notebook_member.dart';
+export 'notebook/invite_friend.dart';
