@@ -51,11 +51,21 @@ class _InviteFriendToNotebookState extends State<InviteFriendToNotebook> {
     });
 
     if (response.statusCode == 200) {
-      setState(() {
-        secondLoading = false;
-      });
-      PagesGenerator.goTo(context,
-          name: "notebook-member", params: {"id": "$notebookId"});
+      var data = jsonDecode(response.body);
+      if (data["code"] == "success") {
+        setState(() {
+          secondLoading = false;
+        });
+        scaffoldMessenger.showSnackBar(SnackBar(
+          content: Text(
+            "${data["message"]}",
+            style: const TextStyle(color: Colors.red),
+          ),
+        ));
+      } else {
+        PagesGenerator.goTo(context,
+            name: "notebook-member", params: {"id": "$notebookId"});
+      }
     } else {
       setState(() {
         secondLoading = false;

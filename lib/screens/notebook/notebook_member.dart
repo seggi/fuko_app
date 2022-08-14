@@ -146,17 +146,13 @@ class _NotebookMemberState extends State<NotebookMember> {
                             ),
                           ),
                         ),
+                        subtitle: Row(children: [
+                          const Text("Request :"),
+                          Text("${snapshot.data?[index].requestStatus}")
+                        ]),
+                        trailing: const InkWell(child: Icon(Icons.more)),
                       ),
                     ),
-                    // onTap: () {
-                    //   screenTitle(context,
-                    //       screenTitle: "${snapshot.data?[index].borrowerName}");
-                    //   PagesGenerator.goTo(context,
-                    //       name: "borrower_dept_details",
-                    //       params: {
-                    //         "id": "${snapshot.data?[index].borrowerId}"
-                    //       });
-                    // },
                   );
                 },
               );
