@@ -33,6 +33,8 @@ class Network {
       liveUrl! + "/account/dept/add-people-notebook";
   static String createNotebook = liveUrl! + "/notebook/create";
   static String getNotebook = liveUrl! + "/notebook/retrieve";
+  static String getNotebookMember =
+      liveUrl! + "/notebook/retrieve-notebook-member";
   static String searchUser = liveUrl! + "/manage_request/search-user";
   static String getBorrowerDept =
       liveUrl! + "/account/dept/retrieve-friend-dept";
