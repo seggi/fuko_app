@@ -38,11 +38,22 @@ class PagesGenerator {
             },
           ),
           GoRoute(
-            path: 'notebook',
-            builder: (context, state) {
-              return const NotebookPage();
-            },
-          ),
+              path: 'notebook',
+              builder: (context, state) {
+                return const NotebookPage();
+              },
+              routes: [
+                GoRoute(
+                  name: "notebook-member",
+                  path: 'notebook-member/:id',
+                  builder: (context, state) {
+                    var notebookId = state.params['id']!;
+                    return NotebookMember(
+                      id: notebookId,
+                    );
+                  },
+                ),
+              ]),
           GoRoute(
               path: 'groupe',
               builder: (context, state) {
