@@ -82,21 +82,14 @@ class _PubNotebookSheetState extends State<PubNotebookSheet> {
                               ),
                             ),
                           ),
-                          trailing: IconButton(
-                            onPressed: () {},
-                            icon: const Icon(
-                              Icons.circle,
-                              color: Colors.red,
-                              size: 16,
-                            ),
-                          ),
+                          trailing: const Icon(Icons.more_vert),
                         ),
                       ),
                       onTap: () {
                         screenTitle(context,
                             screenTitle: "${snapshot.data?[index].name}");
                         PagesGenerator.goTo(context,
-                            name: "borrower_dept_details",
+                            name: "notebook-member",
                             params: {"id": "${snapshot.data?[index].id}"});
                       },
                     );

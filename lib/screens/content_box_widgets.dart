@@ -4,7 +4,7 @@ import 'package:fuko_app/widgets/drawer.dart';
 
 import '../widgets/shared/style.dart';
 
-List mainScreesName = ["savings", "loan", "groupe", "expenses"];
+List mainScreesName = ["savings", "loan", "groupe", "expenses", "notebook"];
 
 class FkContentBoxWidgets {
   static Widget body(context, screenName,
