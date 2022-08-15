@@ -84,3 +84,17 @@ Future<List<Notebook>> fetchIncomingRequest() async {
     throw Exception('Failed to load data');
   }
 }
+
+Future<List<Notebook>> fetchRequestSent() async {
+  var token = await UserPreferences.getToken();
+  final response = await http.get(Uri.parse(Network.getNotebookRequestSent),
+      headers: Network.authorizedHeaders(token: token));
+
+  if (response.statusCode == 200) {
+    var notebookMember = jsonDecode(response.body)["data"] as List;
+
+    return notebookMember.map((dept) => Notebook.fromJson(dept)).toList();
+  } else {
+    throw Exception('Failed to load data');
+  }
+}

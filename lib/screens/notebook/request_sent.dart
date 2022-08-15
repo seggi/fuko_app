@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/core/notebook.dart';
 import 'package:fuko_app/screens/content_box_widgets.dart';
@@ -6,22 +7,22 @@ import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 import 'package:fuko_app/widgets/show_modal_bottom_sheet.dart';
 
-class IncomingRequest extends StatefulWidget {
-  const IncomingRequest({Key? key}) : super(key: key);
+class RequestSent extends StatefulWidget {
+  const RequestSent({Key? key}) : super(key: key);
 
   @override
-  State<IncomingRequest> createState() => _IncomingRequestState();
+  State<RequestSent> createState() => _RequestSentState();
 }
 
-class _IncomingRequestState extends State<IncomingRequest> {
+class _RequestSentState extends State<RequestSent> {
   FkContentBoxWidgets fkContentBoxWidgets = FkContentBoxWidgets();
 
-  late Future<List<Notebook>> retrieveIncomingRequest;
+  late Future<List<Notebook>> notebookRequestSent;
 
   @override
   void initState() {
     super.initState();
-    retrieveIncomingRequest = fetchIncomingRequest();
+    notebookRequestSent = fetchRequestSent();
   }
 
   @override
@@ -68,7 +69,7 @@ class _IncomingRequestState extends State<IncomingRequest> {
       ]),
       Expanded(
         child: FutureBuilder(
-          future: retrieveIncomingRequest,
+          future: notebookRequestSent,
           builder: (context, AsyncSnapshot<List<Notebook>> snapshot) {
             if (snapshot.hasData) {
               if (snapshot.data!.isEmpty) {

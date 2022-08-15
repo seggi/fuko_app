@@ -27,3 +27,4 @@ export 'notebook/create_pub_notebook.dart';
 export 'notebook/notebook_member.dart';
 export 'notebook/invite_friend.dart';
 export 'notebook/incoming_request.dart';
+export 'notebook/request_sent.dart';

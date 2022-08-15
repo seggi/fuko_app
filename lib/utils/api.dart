@@ -35,6 +35,7 @@ class Network {
   static String getNotebook = liveUrl! + "/notebook/retrieve";
   static String getNotebookMember =
       liveUrl! + "/notebook/retrieve-notebook-member";
+  static String getNotebookRequestSent = liveUrl! + "/notebook/request-sent";
   static String getInComingRequest = liveUrl! + "/notebook/received-request";
   static String inviteFriend = liveUrl! + "/notebook/invite-friend";
   static String searchUser = liveUrl! + "/manage_request/search-user";

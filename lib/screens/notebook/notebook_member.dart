@@ -61,7 +61,9 @@ class _NotebookMemberState extends State<NotebookMember> {
               Row(
                 children: [
                   IconButton(
-                      onPressed: () {}, icon: const Icon(Icons.call_made)),
+                      onPressed: () =>
+                          PagesGenerator.goTo(context, name: "request-sent"),
+                      icon: const Icon(Icons.call_made)),
                   IconButton(
                       onPressed: () => PagesGenerator.goTo(context,
                           name: "invite-friend-to-notebook",

@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
-import 'package:fuko_app/core/dept.dart';
 import 'package:fuko_app/core/notebook.dart';
 import 'package:fuko_app/screens/content_box_widgets.dart';
-import 'package:fuko_app/utils/constant.dart';
 import 'package:fuko_app/widgets/bottom_sheet/currenncies.dart';
-import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
 class PubNotebookSheet extends StatefulWidget {
@@ -18,29 +15,19 @@ class PubNotebookSheet extends StatefulWidget {
 
 class _PubNotebookSheetState extends State<PubNotebookSheet> {
   FkContentBoxWidgets fkContentBoxWidgets = FkContentBoxWidgets();
-
-// RetrieveBorrowersList
-
-  late Future<RetrieveBorrowersList> retrieveDeptAmount;
   late Future<List<Notebook>> retrieveNotebook;
 
   @override
   void initState() {
     super.initState();
-    retrieveDeptAmount = fetchDeptAmount(setCurrency: defaultCurrency);
     retrieveNotebook = fetchNotebook();
   }
 
   @override
   Widget build(BuildContext context) {
     final screenTitle = FkManageProviders.save["save-screen-title"];
-    var selectedCurrency =
-        FkManageProviders.get(context)["get-default-currency"];
-    var setCurrency =
-        selectedCurrency != '' ? selectedCurrency : defaultCurrency.toString();
 
     setState(() {
-      retrieveDeptAmount = fetchDeptAmount(setCurrency: setCurrency);
       retrieveNotebook = fetchNotebook();
     });
 

@@ -33,7 +33,9 @@ customBottomModalSheet(BuildContext context) {
 
 notebookCustomBottomModalSheet(BuildContext context) {
   return showModalBottomSheet(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0))),
       context: context,
       builder: (context) {
         return Column(
@@ -61,7 +63,6 @@ notebookCustomBottomModalSheet(BuildContext context) {
                 Navigator.pop(context);
               },
             ),
-            const SizedBox(height: 20.0)
           ],
         );
       });
