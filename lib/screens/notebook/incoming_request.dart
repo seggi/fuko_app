@@ -5,6 +5,7 @@ import 'package:fuko_app/core/notebook.dart';
 import 'package:fuko_app/screens/content_box_widgets.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
+import 'package:fuko_app/widgets/show_modal_bottom_sheet.dart';
 
 class IncomingRequest extends StatefulWidget {
   const IncomingRequest({Key? key}) : super(key: key);
@@ -126,7 +127,10 @@ class _IncomingRequestState extends State<IncomingRequest> {
                                 "${dateTime.year}-${dateTime.month}-${dateTime.day}")
                           ]),
                         ),
-                        trailing: const InkWell(child: Icon(Icons.more)),
+                        trailing: InkWell(
+                          child: const Icon(Icons.more),
+                          onTap: () => notebookCustomBottomModalSheet(context),
+                        ),
                       ),
                     ),
                   );
