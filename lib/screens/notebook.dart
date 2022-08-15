@@ -46,14 +46,16 @@ class _NotebookPageState extends State<NotebookPage> {
             Row(
               children: [
                 IconButton(
-                    onPressed: () {}, icon: const Icon(Icons.call_received)),
-                IconButton(
                     onPressed: () =>
                         PagesGenerator.goTo(context, name: "pub-notebook"),
                     icon: const Icon(
                       Icons.add_circle,
                       color: fkBlueText,
-                    ))
+                    )),
+                IconButton(
+                    onPressed: () =>
+                        PagesGenerator.goTo(context, name: "incoming-request"),
+                    icon: const Icon(Icons.call_received)),
               ],
             ),
           ],

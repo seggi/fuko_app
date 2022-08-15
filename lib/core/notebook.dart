@@ -12,6 +12,8 @@ class Notebook {
   final String? firstName;
   final String? lastName;
   final String? requestStatus;
+  final String? notebookName;
+  final String? sentAt;
 
   Notebook(
       {this.name,
@@ -20,6 +22,8 @@ class Notebook {
       this.lastName,
       this.firstName,
       this.username,
+      this.notebookName,
+      this.sentAt,
       this.requestStatus});
 
   factory Notebook.fromJson(Map<String, dynamic> json) {
@@ -30,6 +34,8 @@ class Notebook {
         firstName: json["first_name"].toString(),
         lastName: json["last_name"].toString(),
         requestStatus: json["request_status_name"].toString(),
+        notebookName: json["notebook_name"].toString(),
+        sentAt: json["sent_at"],
         username: json["username"].toString());
   }
 }
@@ -54,6 +60,20 @@ Future<List<Notebook>> fetchNotebookMember({String? notebookId}) async {
 
   final response = await http.get(
       Uri.parse("${Network.getNotebookMember}/$notebookId"),
+      headers: Network.authorizedHeaders(token: token));
+
+  if (response.statusCode == 200) {
+    var notebookMember = jsonDecode(response.body)["data"] as List;
+
+    return notebookMember.map((dept) => Notebook.fromJson(dept)).toList();
+  } else {
+    throw Exception('Failed to load data');
+  }
+}
+
+Future<List<Notebook>> fetchIncomingRequest() async {
+  var token = await UserPreferences.getToken();
+  final response = await http.get(Uri.parse(Network.getInComingRequest),
       headers: Network.authorizedHeaders(token: token));
 
   if (response.statusCode == 200) {

@@ -63,6 +63,13 @@ class PagesGenerator {
                     );
                   },
                 ),
+                GoRoute(
+                  name: "incoming-request",
+                  path: 'incoming-request',
+                  builder: (context, state) {
+                    return const IncomingRequest();
+                  },
+                ),
               ]),
           GoRoute(
               path: 'groupe',
