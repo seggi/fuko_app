@@ -15,6 +15,8 @@ class NotebookMember extends StatefulWidget {
 }
 
 class _NotebookMemberState extends State<NotebookMember> {
+  bool loading1 = false;
+  bool loading = false;
   FkContentBoxWidgets fkContentBoxWidgets = FkContentBoxWidgets();
 
   late Future<List<Notebook>> retrieveNotebookMember;
@@ -106,8 +108,9 @@ class _NotebookMemberState extends State<NotebookMember> {
                     );
                   }
 
-                  return InkWell(
-                    child: Card(
+                  return Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
                       child: ListTile(
                         leading: const Icon(
                           Icons.account_circle_outlined,
@@ -123,11 +126,75 @@ class _NotebookMemberState extends State<NotebookMember> {
                             ),
                           ),
                         ),
-                        subtitle: Row(children: [
-                          const Text("Request :"),
-                          Text("${snapshot.data?[index].requestStatus}")
+                        subtitle: Column(children: [
+                          verticalSpaceSmall,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              loading == false
+                                  ? InkWell(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Row(
+                                          children: const [
+                                            Icon(
+                                              Icons.add_link,
+                                              color: Colors.blue,
+                                            ),
+                                            horizontalSpaceSmall,
+                                            Text("Dept")
+                                          ],
+                                        ),
+                                      ),
+                                      onLongPress: () => connect(
+                                          notebookMemberId:
+                                              '${snapshot.data?[index].id}',
+                                          requestStatus: 2),
+                                    )
+                                  : Container(
+                                      width: 20,
+                                      height: 20,
+                                      margin: const EdgeInsets.only(left: 40.0),
+                                      child: const Center(
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2.0,
+                                        ),
+                                      ),
+                                    ),
+                              loading1 == false
+                                  ? InkWell(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Row(
+                                          children: const [
+                                            Icon(
+                                              Icons.add_link,
+                                              color: Colors.blue,
+                                            ),
+                                            horizontalSpaceSmall,
+                                            Text("Loan")
+                                          ],
+                                        ),
+                                      ),
+                                      onLongPress: () => reject(
+                                          notebookMemberId:
+                                              '${snapshot.data?[index].id}',
+                                          requestStatus: 3))
+                                  : Container(
+                                      width: 20,
+                                      height: 20,
+                                      margin:
+                                          const EdgeInsets.only(right: 40.0),
+                                      child: const Center(
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2.0,
+                                        ),
+                                      ),
+                                    )
+                            ],
+                          )
                         ]),
-                        trailing: const InkWell(child: Icon(Icons.more)),
                       ),
                     ),
                   );
@@ -150,4 +217,8 @@ class _NotebookMemberState extends State<NotebookMember> {
       ),
     ]));
   }
+
+  connect({required String notebookMemberId, required int requestStatus}) {}
+
+  reject({required String notebookMemberId, required int requestStatus}) {}
 }

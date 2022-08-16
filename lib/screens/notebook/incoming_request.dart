@@ -158,7 +158,7 @@ class _IncomingRequestState extends State<IncomingRequest> {
         const Align(
           alignment: Alignment.bottomLeft,
           child: Text(
-            "All requests",
+            "Pending requests",
             style: TextStyle(
                 color: fkGreyText, fontWeight: FontWeight.w400, fontSize: 16),
           ),
@@ -172,7 +172,7 @@ class _IncomingRequestState extends State<IncomingRequest> {
             if (snapshot.hasData) {
               if (snapshot.data!.isEmpty) {
                 return const Center(
-                  child: Text('No request found.'),
+                  child: Text('No pending request.'),
                 );
               }
               return ListView.builder(
@@ -183,7 +183,7 @@ class _IncomingRequestState extends State<IncomingRequest> {
                 itemBuilder: (BuildContext context, int index) {
                   if (snapshot.data!.isEmpty) {
                     return const Center(
-                      child: Text('No request found.'),
+                      child: Text('No pending request.'),
                     );
                   }
                   var dateTime =
