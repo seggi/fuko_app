@@ -13,7 +13,7 @@ customBottomModalSheet(BuildContext context) {
               leading: const Icon(Icons.note_add),
               title: const Text('Create public notebook'),
               onTap: () {
-                PagesGenerator.goTo(context, name: "pub-notebook");
+                PagesGenerator.goTo(context, pathName: "/notebook");
                 Navigator.pop(context);
               },
             ),
