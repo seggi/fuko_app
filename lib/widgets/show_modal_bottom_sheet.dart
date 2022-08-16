@@ -31,7 +31,8 @@ customBottomModalSheet(BuildContext context) {
       });
 }
 
-notebookCustomBottomModalSheet(BuildContext context) {
+notebookCustomBottomModalSheet(BuildContext context,
+    {fn, notebookMemberId, requestStatus, loading}) {
   return showModalBottomSheet(
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
