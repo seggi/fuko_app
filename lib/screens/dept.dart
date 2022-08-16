@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/screens/content_box_widgets.dart';
 import 'package:fuko_app/screens/dept/private_dept_sheet.dart';
+import 'package:fuko_app/screens/dept/pub_member_dept.dart';
 import 'package:fuko_app/screens/screen_list.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/show_modal_bottom_sheet.dart';
@@ -23,8 +24,7 @@ class _DeptPageState extends State<DeptPage> {
       TextStyle(fontSize: 20, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     PrivateDeptSheet(),
-    // PubNotebookSheet(),
-    Text("Dept notebook")
+    PubMemberDeptNotebookSheet(),
   ];
 
   void _onItemTapped(int index) {

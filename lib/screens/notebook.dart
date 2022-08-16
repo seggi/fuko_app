@@ -54,6 +54,10 @@ class _NotebookPageState extends State<NotebookPage> {
                     )),
                 IconButton(
                     onPressed: () =>
+                        PagesGenerator.goTo(context, name: "request-sent"),
+                    icon: const Icon(Icons.call_made)),
+                IconButton(
+                    onPressed: () =>
                         PagesGenerator.goTo(context, name: "incoming-request"),
                     icon: const Icon(Icons.call_received)),
               ],

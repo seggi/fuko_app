@@ -11,6 +11,7 @@ import 'package:fuko_app/screens/content_box_widgets.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
+// ignore: must_be_immutable
 class InviteFriendToNotebook extends StatefulWidget {
   late String? id;
   InviteFriendToNotebook({Key? key, this.id}) : super(key: key);

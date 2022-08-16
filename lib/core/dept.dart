@@ -14,6 +14,8 @@ class RetrieveBorrowersList {
   final String? updatedAat;
   final String? totalDept;
   final String? currencyCode;
+  final String? username;
+  final String? notebook;
 
   RetrieveBorrowersList(
       {this.borrowerId,
@@ -24,6 +26,8 @@ class RetrieveBorrowersList {
       this.createdAt,
       this.updatedAat,
       this.totalDept,
+      this.username,
+      this.notebook,
       this.currencyCode});
 
   factory RetrieveBorrowersList.fromJson(Map<String, dynamic> json) {
@@ -36,6 +40,8 @@ class RetrieveBorrowersList {
         createdAt: json["created_at"].toString(),
         updatedAat: json["updated_at"].toString(),
         totalDept: json["total_dept"].toString(),
+        username: json["username"].toString(),
+        notebook: json["notebook_name"].toString(),
         currencyCode: json["currency"].toString());
   }
 }
@@ -45,6 +51,24 @@ Future<List<RetrieveBorrowersList>> fetchBorrowerList() async {
   var token = await UserPreferences.getToken();
 
   final response = await http.get(Uri.parse(Network.getBorrowerList),
+      headers: Network.authorizedHeaders(token: token));
+
+  if (response.statusCode == 200) {
+    var borrowerDataList = jsonDecode(response.body)["data"] as List;
+
+    return borrowerDataList
+        .map((user) => RetrieveBorrowersList.fromJson(user))
+        .toList();
+  } else {
+    throw Exception('Failed to load data');
+  }
+}
+
+// Retrieve List of members from dept notebook
+Future<List<RetrieveBorrowersList>> fetchMemberFromDeptNotebook() async {
+  var token = await UserPreferences.getToken();
+
+  final response = await http.get(Uri.parse(Network.getMemberFromDeptNotebook),
       headers: Network.authorizedHeaders(token: token));
 
   if (response.statusCode == 200) {

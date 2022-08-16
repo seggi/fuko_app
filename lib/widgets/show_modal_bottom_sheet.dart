@@ -13,7 +13,7 @@ customBottomModalSheet(BuildContext context) {
               leading: const Icon(Icons.note_add),
               title: const Text('Create public notebook'),
               onTap: () {
-                PagesGenerator.goTo(context, name: "pub-notebook");
+                PagesGenerator.goTo(context, pathName: "/notebook");
                 Navigator.pop(context);
               },
             ),
@@ -31,9 +31,12 @@ customBottomModalSheet(BuildContext context) {
       });
 }
 
-notebookCustomBottomModalSheet(BuildContext context) {
+notebookCustomBottomModalSheet(BuildContext context,
+    {fn, notebookMemberId, requestStatus, loading}) {
   return showModalBottomSheet(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0))),
       context: context,
       builder: (context) {
         return Column(
@@ -61,7 +64,6 @@ notebookCustomBottomModalSheet(BuildContext context) {
                 Navigator.pop(context);
               },
             ),
-            const SizedBox(height: 20.0)
           ],
         );
       });
