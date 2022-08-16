@@ -39,6 +39,10 @@ class Network {
   static String getInComingRequest = liveUrl! + "/notebook/received-request";
   static String confirmRejectRequest =
       liveUrl! + "/notebook/confirm-reject-request";
+  static String getMemberFromDeptNotebook =
+      liveUrl! + "/account/dept/friend-pub-dept-notebook";
+  static String linkNotebookMemberToDeptNotebook =
+      liveUrl! + "/notebook/link-dept-notebook-notebook-member";
   static String inviteFriend = liveUrl! + "/notebook/invite-friend";
   static String searchUser = liveUrl! + "/manage_request/search-user";
   static String getBorrowerDept =

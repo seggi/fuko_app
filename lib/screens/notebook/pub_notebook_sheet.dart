@@ -52,24 +52,33 @@ class _PubNotebookSheetState extends State<PubNotebookSheet> {
                         child: Text('No data to show.'),
                       );
                     }
-                    return Card(
-                      child: ListTile(
-                        leading: const Icon(
-                          Icons.people_outline_outlined,
-                          size: 30,
-                        ),
-                        title: SizedBox(
-                          width: 200,
-                          child: Text(
-                            snapshot.data![index].name ?? 'No name provided',
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16,
+                    return InkWell(
+                      child: Card(
+                        child: ListTile(
+                          leading: const Icon(
+                            Icons.people_outline_outlined,
+                            size: 30,
+                          ),
+                          title: SizedBox(
+                            width: 200,
+                            child: Text(
+                              snapshot.data![index].name ?? 'No name provided',
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16,
+                              ),
                             ),
                           ),
+                          trailing: const Icon(Icons.more_vert),
                         ),
-                        trailing: const Icon(Icons.more_vert),
                       ),
+                      onTap: () {
+                        screenTitle(context,
+                            screenTitle: "${snapshot.data?[index].name}");
+                        PagesGenerator.goTo(context,
+                            name: "notebook-member",
+                            params: {"id": "${snapshot.data?[index].id}"});
+                      },
                     );
                   },
                 );

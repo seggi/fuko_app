@@ -1,7 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/core/notebook.dart';
+import 'package:fuko_app/utils/api.dart';
+import 'package:http/http.dart' as http;
+import 'package:fuko_app/core/user_preferences.dart';
 import 'package:fuko_app/screens/content_box_widgets.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
@@ -147,10 +152,9 @@ class _NotebookMemberState extends State<NotebookMember> {
                                           ],
                                         ),
                                       ),
-                                      onLongPress: () => connect(
+                                      onLongPress: () => deptFn(
                                           notebookMemberId:
-                                              '${snapshot.data?[index].id}',
-                                          requestStatus: 2),
+                                              '${snapshot.data?[index].id}'),
                                     )
                                   : Container(
                                       width: 20,
@@ -218,7 +222,49 @@ class _NotebookMemberState extends State<NotebookMember> {
     ]));
   }
 
-  connect({required String notebookMemberId, required int requestStatus}) {}
+  late ScaffoldMessengerState scaffoldMessenger = ScaffoldMessenger.of(context);
+
+  deptFn({required String notebookMemberId}) async {
+    FocusManager.instance.primaryFocus?.unfocus();
+    var token = await UserPreferences.getToken();
+    Map newItem = {"memeber_id": notebookMemberId};
+
+    setState(() {
+      loading = true;
+    });
+
+    final response = await http.post(
+        Uri.parse(Network.linkNotebookMemberToDeptNotebook),
+        headers: Network.authorizedHeaders(token: token),
+        body: jsonEncode(newItem));
+
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      if (data["code"] == "Alert") {
+        setState(() {
+          loading = false;
+        });
+        scaffoldMessenger.showSnackBar(SnackBar(
+          content: Text(
+            "${data["message"]}",
+            style: const TextStyle(color: Colors.red),
+          ),
+        ));
+      } else {
+        PagesGenerator.goTo(context, pathName: "/dept");
+      }
+    } else {
+      setState(() {
+        loading = false;
+      });
+      scaffoldMessenger.showSnackBar(const SnackBar(
+        content: Text(
+          "Error from server",
+          style: TextStyle(color: Colors.red),
+        ),
+      ));
+    }
+  }
 
   reject({required String notebookMemberId, required int requestStatus}) {}
 }
