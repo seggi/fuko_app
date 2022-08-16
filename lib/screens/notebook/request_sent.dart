@@ -45,7 +45,7 @@ class _RequestSentState extends State<RequestSent> {
                         size: 20,
                       )),
                   const Text(
-                    "Request received",
+                    "Request sent",
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   )
                 ],
@@ -102,6 +102,7 @@ class _RequestSentState extends State<RequestSent> {
                             width: 200,
                             child: RichText(
                               text: TextSpan(
+                                text: 'You sent a request to ',
                                 style: DefaultTextStyle.of(context).style,
                                 children: <TextSpan>[
                                   TextSpan(
@@ -109,7 +110,7 @@ class _RequestSentState extends State<RequestSent> {
                                           '${snapshot.data?[index].username} ',
                                       style: const TextStyle(
                                           fontWeight: FontWeight.bold)),
-                                  const TextSpan(text: 'invited you to join '),
+                                  const TextSpan(text: 'to join '),
                                   TextSpan(
                                       text:
                                           '${snapshot.data?[index].notebookName} ',
@@ -122,7 +123,7 @@ class _RequestSentState extends State<RequestSent> {
                         subtitle: Padding(
                           padding: const EdgeInsets.only(top: 8.0),
                           child: Row(children: [
-                            const Text("Sent "),
+                            const Text("Sent at "),
                             Text(
                                 "${dateTime.year}-${dateTime.month}-${dateTime.day}")
                           ]),
