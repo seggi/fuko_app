@@ -3,6 +3,7 @@ import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/screens/content_box_widgets.dart';
 import 'package:fuko_app/screens/loan/pay_private_loan.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
+import 'package:fuko_app/widgets/show_modal_bottom_sheet.dart';
 
 class LoanPage extends StatefulWidget {
   final String? status;
@@ -65,7 +66,7 @@ class _LoanPageState extends State<LoanPage> {
                 Row(
                   children: [
                     IconButton(
-                        onPressed: () => {},
+                        onPressed: () => customLoanBottomModalSheet(context),
                         icon: const Icon(
                           Icons.person_add_alt,
                           color: fkBlueText,

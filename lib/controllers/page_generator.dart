@@ -234,7 +234,14 @@ class PagesGenerator {
               builder: (context, state) {
                 final data = state.queryParams['status'];
                 return LoanPage(status: data);
-              })
+              },
+              routes: [
+                GoRoute(
+                  name: "add-lender-manually",
+                  path: 'add-lender-manually',
+                  builder: (context, state) => const AddLenderManually(),
+                ),
+              ])
         ],
         redirect: (state) {
           final loggedIn = loginInfo.loggedIn;
