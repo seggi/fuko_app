@@ -228,6 +228,7 @@ class PagesGenerator {
                       ),
                     ]),
               ]),
+          // LenderLoanList
           GoRoute(
               path: "loan",
               name: 'loan',
@@ -241,6 +242,16 @@ class PagesGenerator {
                   path: 'add-lender-manually',
                   builder: (context, state) => const AddLenderManually(),
                 ),
+                GoRoute(
+                  name: "lender-loan-details",
+                  path: 'lender-loan-details/:id',
+                  builder: (context, state) {
+                    var data = state.params['id']!;
+                    return LenderLoanList(
+                      id: data,
+                    );
+                  },
+                )
               ])
         ],
         redirect: (state) {
