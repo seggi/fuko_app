@@ -99,7 +99,7 @@ class FkContentBoxWidgets {
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(Icons.privacy_tip_sharp),
-              label: 'Personal dept',
+              label: 'Personal',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.people_alt),

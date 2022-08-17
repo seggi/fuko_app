@@ -59,4 +59,10 @@ class Network {
   static String currencies = liveUrl! + "/manage_request/retrieve-curries";
   static String yearsList = liveUrl! + "/manage_request/retrieve-years";
   static String expenseReport = liveUrl! + "/account//expense-report";
+
+  static String getPrivateLoanList =
+      liveUrl! + "/account/loans/personal-loan-notebook";
+  static String getLoanList = liveUrl! + "/account/loans/retrieve";
+  static String addPrivateLoan =
+      liveUrl! + "/account/loans/add-people-notebook";
 }
