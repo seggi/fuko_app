@@ -47,6 +47,7 @@ dependencies:
   money_formatter: ^0.0.3
   syncfusion_flutter_charts: ^20.2.36
   charts_flutter: ^0.12.0
+  font_awesome_flutter: ^10.1.0
 
 dev_dependencies:
   flutter_test:

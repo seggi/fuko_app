@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/core/user_preferences.dart';
 import 'package:fuko_app/screens/content_box_widgets.dart';
@@ -34,9 +35,7 @@ class _NotebookPageState extends State<NotebookPage> {
                     },
                     icon: const Icon(
                       Icons.arrow_back_ios,
-                      size: 20,
                     )),
-                horizontalSpaceRegular,
                 const Text(
                   "Notebook",
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
@@ -46,20 +45,30 @@ class _NotebookPageState extends State<NotebookPage> {
             Row(
               children: [
                 IconButton(
-                    onPressed: () =>
-                        PagesGenerator.goTo(context, name: "pub-notebook"),
-                    icon: const Icon(
-                      Icons.add_circle,
-                      color: fkBlueText,
-                    )),
+                  onPressed: () =>
+                      PagesGenerator.goTo(context, name: "pub-notebook"),
+                  icon: const Icon(
+                    Icons.add_circle,
+                    color: fkBlueText,
+                  ),
+                ),
                 IconButton(
                     onPressed: () =>
                         PagesGenerator.goTo(context, name: "request-sent"),
-                    icon: const Icon(Icons.call_made)),
-                IconButton(
-                    onPressed: () =>
-                        PagesGenerator.goTo(context, name: "incoming-request"),
-                    icon: const Icon(Icons.call_received)),
+                    icon: const FaIcon(
+                      FontAwesomeIcons.squareArrowUpRight,
+                      size: 18,
+                      color: fkBlueText,
+                    )),
+                InkWell(
+                  onTap: () =>
+                      PagesGenerator.goTo(context, name: "incoming-request"),
+                  child: const FaIcon(
+                    FontAwesomeIcons.link,
+                    size: 18,
+                    color: fkBlueText,
+                  ),
+                ),
               ],
             ),
           ],
