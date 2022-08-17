@@ -65,46 +65,7 @@ class _PubMemberDeptNotebookSheetState
                       return Expanded(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: const [
-                            // Row(
-                            //   crossAxisAlignment: CrossAxisAlignment.start,
-                            //   children: [
-                            //     Text(
-                            //       "${double.parse(snapshot.data!.totalDept)}",
-                            //       overflow: TextOverflow.ellipsis,
-                            //       style: const TextStyle(
-                            //           fontSize: 28,
-                            //           fontWeight: FontWeight.w600,
-                            //           color: fkBlackText),
-                            //     ),
-                            //   ],
-                            // ),
-                            // Container(
-                            //   alignment: Alignment.center,
-                            //   child: ClipRRect(
-                            //     borderRadius: BorderRadius.circular(4.0),
-                            //     child: Container(
-                            //       color: fkDefaultColor,
-                            //       child: Row(
-                            //         children: [
-                            //           Padding(
-                            //             padding: const EdgeInsets.only(
-                            //                 left: 8.0, right: 8.0),
-                            //             child: Text(
-                            //               "${snapshot.data!.currencyCode ?? ''}",
-                            //               style: const TextStyle(
-                            //                   fontSize: 24,
-                            //                   fontWeight: FontWeight.w600,
-                            //                   color: fkWhiteText),
-                            //             ),
-                            //           ),
-                            //           const CurrencyButtonSheet(),
-                            //         ],
-                            //       ),
-                            //     ),
-                            //   ),
-                            // )
-                          ],
+                          children: const [],
                         ),
                       );
                     } else if (snapshot.hasError) {

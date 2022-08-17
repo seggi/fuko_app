@@ -98,7 +98,7 @@ class _PayPrivateDeptState extends State<PayPrivateDept> {
         FkManageProviders.get(context)["get-default-currency"];
     var setCurrency =
         selectedCurrency != '' ? selectedCurrency : defaultCurrency.toString();
-    return FkContentBoxWidgets.body(context, 'dept list', fn: () {}, itemList: [
+    return FkContentBoxWidgets.body(context, 'savings', fn: () {}, itemList: [
       Expanded(
         child: Column(
           children: [

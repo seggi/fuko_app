@@ -140,7 +140,6 @@ class _IncomingRequestState extends State<IncomingRequest> {
                           PagesGenerator.goTo(context, pathName: "/notebook"),
                       icon: const Icon(
                         Icons.arrow_back_ios,
-                        size: 20,
                       )),
                   const Text(
                     "Request received",
