@@ -65,4 +65,8 @@ class Network {
   static String getLoanList = liveUrl! + "/account/loans/retrieve";
   static String addPrivateLoan =
       liveUrl! + "/account/loans/add-people-notebook";
+  static String retrievePersonalLoan =
+      liveUrl! + "/account/loans/retrieve-friend-loan";
+  static String retrievedPaidAmount =
+      liveUrl! + "/account/loans/retrieved-paid-amount";
 }

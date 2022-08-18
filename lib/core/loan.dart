@@ -16,6 +16,9 @@ class LoanList {
   final String? currencyCode;
   final String? username;
   final String? notebook;
+  final String? paidAmount;
+  final String? description;
+  final bool? paymentStatus;
 
   LoanList(
       {this.id,
@@ -28,6 +31,9 @@ class LoanList {
       this.currencyCode,
       this.username,
       this.notebook,
+      this.paidAmount,
+      this.paymentStatus,
+      this.description,
       this.lastName});
 
   factory LoanList.fromJson(Map<String, dynamic> json) {
@@ -42,6 +48,8 @@ class LoanList {
         totalLoan: json["total_loan"].toString(),
         username: json["username"].toString(),
         notebook: json["notebook_name"].toString(),
+        description: json["description"].toString(),
+        paidAmount: json["paid_amount"].toString(),
         currencyCode: json["currency"].toString());
   }
 }
@@ -81,6 +89,71 @@ Future<LoanList> fetchLoanAmount({setCurrency}) async {
 
   final response = await http.get(
       Uri.parse(Network.getLoanList + '/$setCurrency'),
+      headers: Network.authorizedHeaders(token: token));
+
+  if (response.statusCode == 200) {
+    return LoanList.fromJson(jsonDecode(response.body)["data"]);
+  } else {
+    throw Exception('Failed to load data');
+  }
+}
+
+Future<List<LoanList>> fetchLenderLoan({String? lenderId, currencyCode}) async {
+  var token = await UserPreferences.getToken();
+
+  final response = await http.get(
+      Uri.parse(Network.retrievePersonalLoan + "/$lenderId/$currencyCode"),
+      headers: Network.authorizedHeaders(token: token));
+
+  if (response.statusCode == 200) {
+    var lenderList = jsonDecode(response.body)["data"]["loan_list"] as List;
+
+    return lenderList.map((expense) => LoanList.fromJson(expense)).toList();
+  } else {
+    throw Exception('Failed to load data');
+  }
+}
+
+Future<LoanList> fetchTotalLoanAmount({String? lenderId, currencyCode}) async {
+  var token = await UserPreferences.getToken();
+
+  final response = await http.get(
+      Uri.parse(Network.retrievePersonalLoan + "/$lenderId/$currencyCode"),
+      headers: Network.authorizedHeaders(token: token));
+
+  if (response.statusCode == 200) {
+    return LoanList.fromJson(jsonDecode(response.body)["data"]);
+  } else {
+    throw Exception('Failed to load data');
+  }
+}
+
+Future<List<LoanList>> fetchPaymentHistory(
+    {String? noteId, currencyCode}) async {
+  var token = await UserPreferences.getToken();
+
+  final response = await http.get(
+      Uri.parse(Network.retrievedPaidAmount + "/$noteId/$currencyCode"),
+      headers: Network.authorizedHeaders(token: token));
+
+  if (response.statusCode == 200) {
+    var borrowerDataList =
+        jsonDecode(response.body)["data"]["payment_history"] as List;
+
+    return borrowerDataList
+        .map((expense) => LoanList.fromJson(expense))
+        .toList();
+  } else {
+    throw Exception('Failed to load data');
+  }
+}
+
+Future<LoanList> fetchTotalLenderPaidAmount(
+    {String? noteId, currencyCode}) async {
+  var token = await UserPreferences.getToken();
+
+  final response = await http.get(
+      Uri.parse(Network.retrievedPaidAmount + "/$noteId/$currencyCode"),
       headers: Network.authorizedHeaders(token: token));
 
   if (response.statusCode == 200) {
