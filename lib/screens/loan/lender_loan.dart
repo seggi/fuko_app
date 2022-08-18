@@ -3,6 +3,7 @@ import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/core/default_data.dart';
 import 'package:fuko_app/core/dept.dart';
+import 'package:fuko_app/core/loan.dart';
 import 'package:fuko_app/screens/content_box_widgets.dart';
 import 'package:fuko_app/utils/constant.dart';
 import 'package:fuko_app/widgets/other_widgets.dart';
@@ -21,24 +22,24 @@ class LenderLoanList extends StatefulWidget {
 class _LenderLoanListState extends State<LenderLoanList> {
   FkContentBoxWidgets fkContentBoxWidgets = FkContentBoxWidgets();
 
-  late Future<List<RetrieveDept>> retrieveBorrowerDeptList;
-  late Future<RetrieveDept> retrieveBorrowerTotalAmount;
+  late Future<List<LoanList>> retrieveLenderLoanList;
+  late Future<LoanList> retrieveTotalAmount;
 
-  late Future<List<RetrieveDept>> retrieveBorrowerPaymentHistory;
-  late Future<RetrieveDept> retrieveBorrowerTotalPaidAmount;
+  late Future<List<LoanList>> retrievePaymentHistory;
+  late Future<LoanList> retrieveTotalPaidAmount;
 
   @override
   void initState() {
     super.initState();
-    retrieveBorrowerDeptList =
-        fetchBorrowerDept(borrowerId: widget.id, currencyCode: defaultCurrency);
-    retrieveBorrowerTotalAmount = fetchTotalDeptAmount(
-        borrowerId: widget.id, currencyCode: defaultCurrency);
+    retrieveLenderLoanList =
+        fetchLenderLoan(lenderId: widget.id, currencyCode: defaultCurrency);
+    retrieveTotalAmount = fetchTotalLoanAmount(
+        lenderId: widget.id, currencyCode: defaultCurrency);
 
-    retrieveBorrowerPaymentHistory = fetchBorrowerPaymentHistory(
+    retrievePaymentHistory =
+        fetchPaymentHistory(noteId: widget.id, currencyCode: defaultCurrency);
+    retrieveTotalPaidAmount = fetchTotalLenderPaidAmount(
         noteId: widget.id, currencyCode: defaultCurrency);
-    retrieveBorrowerTotalPaidAmount =
-        fetchTotalPaidAmount(noteId: widget.id, currencyCode: defaultCurrency);
   }
 
   @override
@@ -52,10 +53,10 @@ class _LenderLoanListState extends State<LenderLoanList> {
         selectedCurrency != '' ? selectedCurrency : defaultCurrency.toString();
 
     setState(() {
-      retrieveBorrowerDeptList = fetchBorrowerDept(
-          borrowerId: deptCategoryId, currencyCode: setCurrency);
-      retrieveBorrowerTotalAmount = fetchTotalDeptAmount(
-          borrowerId: deptCategoryId, currencyCode: setCurrency);
+      retrieveLenderLoanList =
+          fetchLenderLoan(lenderId: deptCategoryId, currencyCode: setCurrency);
+      retrieveTotalAmount = fetchTotalLoanAmount(
+          lenderId: deptCategoryId, currencyCode: setCurrency);
     });
 
     return FkTabBarView.tabBar(context, addDeptFn: () {
@@ -92,8 +93,8 @@ class _LenderLoanListState extends State<LenderLoanList> {
                 color: fkBlackText, fontWeight: FontWeight.w400, fontSize: 14),
           ),
         ),
-        FutureBuilder<RetrieveDept>(
-          future: retrieveBorrowerTotalAmount,
+        FutureBuilder<LoanList>(
+          future: retrieveTotalAmount,
           builder: (
             BuildContext context,
             AsyncSnapshot snapshot,
@@ -106,7 +107,7 @@ class _LenderLoanListState extends State<LenderLoanList> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "${double.parse(snapshot.data!.totalDept)}",
+                        "${double.parse(snapshot.data!.totalLoan)}",
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
                             fontSize: 28,
@@ -174,7 +175,7 @@ class _LenderLoanListState extends State<LenderLoanList> {
       SizedBox(
         height: MediaQuery.of(context).size.height - 220,
         child: FutureBuilder(
-          future: retrieveBorrowerDeptList,
+          future: retrieveLenderLoanList,
           builder: (context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
               if (snapshot.data.isEmpty) {
@@ -239,10 +240,10 @@ class _LenderLoanListState extends State<LenderLoanList> {
         selectedCurrency != '' ? selectedCurrency : defaultCurrency.toString();
 
     setState(() {
-      retrieveBorrowerPaymentHistory = fetchBorrowerPaymentHistory(
+      retrievePaymentHistory =
+          fetchPaymentHistory(noteId: widget.id, currencyCode: setCurrency);
+      retrieveTotalPaidAmount = fetchTotalLenderPaidAmount(
           noteId: widget.id, currencyCode: setCurrency);
-      retrieveBorrowerTotalPaidAmount =
-          fetchTotalPaidAmount(noteId: widget.id, currencyCode: setCurrency);
     });
     return Column(
       children: [
@@ -251,15 +252,15 @@ class _LenderLoanListState extends State<LenderLoanList> {
           const Align(
             alignment: Alignment.bottomLeft,
             child: Text(
-              "Total Amount",
+              "Total Amounts",
               style: TextStyle(
                   color: fkBlackText,
                   fontWeight: FontWeight.w400,
                   fontSize: 14),
             ),
           ),
-          FutureBuilder<RetrieveDept>(
-            future: retrieveBorrowerTotalPaidAmount,
+          FutureBuilder<LoanList>(
+            future: retrieveTotalPaidAmount,
             builder: (
               BuildContext context,
               AsyncSnapshot snapshot,
@@ -340,7 +341,7 @@ class _LenderLoanListState extends State<LenderLoanList> {
         SizedBox(
           height: MediaQuery.of(context).size.height - 220,
           child: FutureBuilder(
-            future: retrieveBorrowerPaymentHistory,
+            future: retrievePaymentHistory,
             builder: (context, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
                 if (snapshot.data.isEmpty) {
