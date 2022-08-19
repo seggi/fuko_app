@@ -69,4 +69,7 @@ class Network {
       liveUrl! + "/account/loans/retrieve-friend-loan";
   static String retrievedPaidAmount =
       liveUrl! + "/account/loans/retrieved-paid-amount";
+
+  static String recordLoan = "${liveUrl!}/account/loans/record-loan";
+  static String privatePaidLoanPayment = "";
 }

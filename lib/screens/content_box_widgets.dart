@@ -267,8 +267,8 @@ class FkScrollViewWidgets {
 
 class FkTabBarView {
   static Widget tabBar(context,
-      {addDeptFn,
-      payDeptFn,
+      {addFn,
+      paymentFn,
       String? screenTitle,
       List<Widget> pageTitle = const [],
       List<Widget> page = const []}) {
@@ -293,13 +293,13 @@ class FkTabBarView {
                 ),
                 actions: [
                   IconButton(
-                      onPressed: addDeptFn,
+                      onPressed: addFn,
                       icon: const Icon(
                         Icons.add_circle_outline,
                         color: fkWhiteText,
                       )),
                   IconButton(
-                      onPressed: payDeptFn,
+                      onPressed: paymentFn,
                       icon: const Icon(
                         Icons.payment,
                         color: fkWhiteText,

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/core/default_data.dart';
-import 'package:fuko_app/core/dept.dart';
 import 'package:fuko_app/core/loan.dart';
 import 'package:fuko_app/screens/content_box_widgets.dart';
 import 'package:fuko_app/utils/constant.dart';
@@ -44,8 +43,8 @@ class _LenderLoanListState extends State<LenderLoanList> {
 
   @override
   Widget build(BuildContext context) {
-    final deptCategoryId = widget.id;
-    FkManageProviders.save["save-borrower-id"](context, itemData: widget.id);
+    final loanCategoryId = widget.id;
+    FkManageProviders.save["save-lender-id"](context, itemData: widget.id);
     final screenTitle = FkManageProviders.get(context)['get-screen-title'];
     var selectedCurrency =
         FkManageProviders.get(context)["get-default-currency"];
@@ -54,19 +53,19 @@ class _LenderLoanListState extends State<LenderLoanList> {
 
     setState(() {
       retrieveLenderLoanList =
-          fetchLenderLoan(lenderId: deptCategoryId, currencyCode: setCurrency);
+          fetchLenderLoan(lenderId: loanCategoryId, currencyCode: setCurrency);
       retrieveTotalAmount = fetchTotalLoanAmount(
-          lenderId: deptCategoryId, currencyCode: setCurrency);
+          lenderId: loanCategoryId, currencyCode: setCurrency);
     });
 
-    return FkTabBarView.tabBar(context, addDeptFn: () {
+    return FkTabBarView.tabBar(context, addFn: () {
       PagesGenerator.goTo(context,
-          name: "save-dept", params: {"id": deptCategoryId});
-    }, payDeptFn: () {
+          name: "save-loan", params: {"id": loanCategoryId});
+    }, paymentFn: () {
       PagesGenerator.goTo(
         context,
-        name: "pay-private-dept",
-        params: {"id": deptCategoryId},
+        name: "pay-private-loan",
+        params: {"id": loanCategoryId},
       );
     }, screenTitle: screenTitle, pageTitle: const [
       Tab(child: Text("Loan")),

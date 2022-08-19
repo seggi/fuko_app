@@ -51,15 +51,30 @@ class FkManageProviders {
     "save_new_borrower": (context, {itemData}) =>
         Provider.of<SaveNewBorrower>(context, listen: false).add(itemData),
     "record-dept": (context, {itemData}) =>
-        Provider.of<RecordDept>(context, listen: false).add(itemData),
+        Provider.of<RecordAmount>(context, listen: false).add(itemData),
     "remove-dept": (context, {itemData}) =>
-        Provider.of<RecordDept>(context, listen: false).remove(itemData),
+        Provider.of<RecordAmount>(context, listen: false).remove(itemData),
     "remove-all-dept": (context, {itemData}) =>
-        Provider.of<RecordDept>(context, listen: false).removeFromList(),
+        Provider.of<RecordAmount>(context, listen: false).removeFromList(),
     "save-dept-amount": (context, {itemData}) =>
-        Provider.of<RecordDept>(context, listen: false).addAmount(itemData),
+        Provider.of<RecordAmount>(context, listen: false).addAmount(itemData),
     "save-borrower-id": (context, {itemData}) =>
-        Provider.of<RecordDept>(context, listen: false)
+        Provider.of<RecordAmount>(context, listen: false)
+            .saveBorrowerId(itemData),
+
+    // Loan Section
+    "save_new_lender": (context, {itemData}) =>
+        Provider.of<SaveNewBorrower>(context, listen: false).add(itemData),
+    "record-loan": (context, {itemData}) =>
+        Provider.of<RecordAmount>(context, listen: false).add(itemData),
+    "remove-loan": (context, {itemData}) =>
+        Provider.of<RecordAmount>(context, listen: false).remove(itemData),
+    "remove-all-loan": (context, {itemData}) =>
+        Provider.of<RecordAmount>(context, listen: false).removeFromList(),
+    "save-loan-amount": (context, {itemData}) =>
+        Provider.of<RecordAmount>(context, listen: false).addAmount(itemData),
+    "save-lender-id": (context, {itemData}) =>
+        Provider.of<RecordAmount>(context, listen: false)
             .saveBorrowerId(itemData),
   };
 
@@ -83,9 +98,17 @@ class FkManageProviders {
 
       // dept
       "get-borrowers": Provider.of<SaveNewBorrower>(context).getUserData,
-      "get-added-dept": Provider.of<RecordDept>(context).getNewItem,
-      "get-total-dept-amount": Provider.of<RecordDept>(context).getTotalAmount,
-      "get-borrower-id": Provider.of<RecordDept>(context).borrowerId
+      "get-added-dept": Provider.of<RecordAmount>(context).getNewItem,
+      "get-total-dept-amount":
+          Provider.of<RecordAmount>(context).getTotalAmount,
+      "get-borrower-id": Provider.of<RecordAmount>(context).borrowerId,
+
+      // loan
+      "get-lender": Provider.of<SaveNewBorrower>(context).getUserData,
+      "get-added-loan": Provider.of<RecordAmount>(context).getNewItem,
+      "get-total-loan-amount":
+          Provider.of<RecordAmount>(context).getTotalAmount,
+      "get-loan-id": Provider.of<RecordAmount>(context).borrowerId
     };
   }
 }

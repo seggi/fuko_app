@@ -11,15 +11,15 @@ import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 import 'package:http/http.dart' as http;
 
-class PayPrivateDept extends StatefulWidget {
+class PayPrivateLoan extends StatefulWidget {
   final String? id;
-  const PayPrivateDept({Key? key, this.id}) : super(key: key);
+  const PayPrivateLoan({Key? key, this.id}) : super(key: key);
 
   @override
-  State<PayPrivateDept> createState() => _PayPrivateDeptState();
+  State<PayPrivateLoan> createState() => _PayPrivateLoanState();
 }
 
-class _PayPrivateDeptState extends State<PayPrivateDept> {
+class _PayPrivateLoanState extends State<PayPrivateLoan> {
   final _formKey = GlobalKey();
 
   bool loading = false;
@@ -56,7 +56,7 @@ class _PayPrivateDeptState extends State<PayPrivateDept> {
       return;
     }
 
-    final response = await http.post(Uri.parse(Network.privatePaidDeptPayment),
+    final response = await http.post(Uri.parse(Network.privatePaidLoanPayment),
         headers: Network.authorizedHeaders(token: token),
         body: jsonEncode(newItem));
 
@@ -77,7 +77,7 @@ class _PayPrivateDeptState extends State<PayPrivateDept> {
         ));
       } else {
         PagesGenerator.goTo(context,
-            name: "borrower_dept_details", params: {"id": "${widget.id}"});
+            name: "lender-loan-details", params: {"id": "${widget.id}"});
       }
     } else {
       setState(() {
@@ -115,7 +115,7 @@ class _PayPrivateDeptState extends State<PayPrivateDept> {
                       ),
                       onPressed: () => {
                             PagesGenerator.goTo(context,
-                                name: "borrower_dept_details",
+                                name: "lender-loan-details",
                                 params: {"id": "${widget.id}"})
                           }),
                 ],
@@ -129,7 +129,7 @@ class _PayPrivateDeptState extends State<PayPrivateDept> {
                 Container(
                   alignment: Alignment.bottomLeft,
                   child: const Text(
-                    "Dept payment",
+                    "Reimburse",
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                   ),
                 ),
