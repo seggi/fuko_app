@@ -231,8 +231,8 @@ class _PrivateLoanSheetState extends State<PrivateLoanSheet> {
                 return const Center(child: Text('Something went wrong :('));
               }
 
-              return SizedBox(
-                height: MediaQuery.of(context).size.height,
+              return Container(
+                margin: const EdgeInsets.symmetric(vertical: 50.0),
                 child: const Center(
                   child: CircularProgressIndicator(
                     strokeWidth: 2.0,
