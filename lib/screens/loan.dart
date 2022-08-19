@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/screens/content_box_widgets.dart';
 import 'package:fuko_app/screens/loan/private_loan_sheet.dart';
+import 'package:fuko_app/screens/loan/pub_member_loan.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/show_modal_bottom_sheet.dart';
 
@@ -21,7 +22,7 @@ class _LoanPageState extends State<LoanPage> {
       TextStyle(fontSize: 20, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     PrivateLoanSheet(),
-    Text('test1')
+    PubMemberLoanNotebookSheet()
   ];
 
   void _onItemTapped(int index) {

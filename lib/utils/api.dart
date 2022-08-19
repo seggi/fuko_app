@@ -43,6 +43,8 @@ class Network {
       liveUrl! + "/account/dept/friend-pub-dept-notebook";
   static String linkNotebookMemberToDeptNotebook =
       liveUrl! + "/notebook/link-dept-notebook-notebook-member";
+  static String linkNotebookMemberToLoanNotebook =
+      liveUrl! + "/notebook/link-loan-notebook-notebook-member";
   static String inviteFriend = liveUrl! + "/notebook/invite-friend";
   static String searchUser = liveUrl! + "/manage_request/search-user";
   static String getBorrowerDept =
@@ -73,4 +75,6 @@ class Network {
   static String recordLoan = "${liveUrl!}/account/loans/record-loan";
   static String privatePaidLoanPayment =
       "${liveUrl!}/account/loans/reimburse-loan";
+  static String getMemberFromLoanNotebook =
+      "${liveUrl!}/account/loans/pub-loan-notebook";
 }

@@ -181,10 +181,10 @@ class _NotebookMemberState extends State<NotebookMember> {
                                           ],
                                         ),
                                       ),
-                                      onLongPress: () => reject(
-                                          notebookMemberId:
-                                              '${snapshot.data?[index].id}',
-                                          requestStatus: 3))
+                                      onLongPress: () => loanFn(
+                                            notebookMemberId:
+                                                '${snapshot.data?[index].id}',
+                                          ))
                                   : Container(
                                       width: 20,
                                       height: 20,
@@ -266,5 +266,45 @@ class _NotebookMemberState extends State<NotebookMember> {
     }
   }
 
-  reject({required String notebookMemberId, required int requestStatus}) {}
+  loanFn({required String notebookMemberId}) async {
+    FocusManager.instance.primaryFocus?.unfocus();
+    var token = await UserPreferences.getToken();
+    Map newItem = {"friend_id": notebookMemberId};
+
+    setState(() {
+      loading1 = true;
+    });
+
+    final response = await http.post(
+        Uri.parse(Network.linkNotebookMemberToLoanNotebook),
+        headers: Network.authorizedHeaders(token: token),
+        body: jsonEncode(newItem));
+
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      if (data["code"] == "Alert") {
+        setState(() {
+          loading1 = false;
+        });
+        scaffoldMessenger.showSnackBar(SnackBar(
+          content: Text(
+            "${data["message"]}",
+            style: const TextStyle(color: Colors.red),
+          ),
+        ));
+      } else {
+        PagesGenerator.goTo(context, pathName: "/loan");
+      }
+    } else {
+      setState(() {
+        loading1 = false;
+      });
+      scaffoldMessenger.showSnackBar(const SnackBar(
+        content: Text(
+          "Error from server",
+          style: TextStyle(color: Colors.red),
+        ),
+      ));
+    }
+  }
 }
