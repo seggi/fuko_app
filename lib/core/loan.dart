@@ -162,3 +162,18 @@ Future<LoanList> fetchTotalLenderPaidAmount(
     throw Exception('Failed to load data');
   }
 }
+
+Future<List<LoanList>> fetchMemberFromLoanNotebook() async {
+  var token = await UserPreferences.getToken();
+
+  final response = await http.get(Uri.parse(Network.getMemberFromLoanNotebook),
+      headers: Network.authorizedHeaders(token: token));
+
+  if (response.statusCode == 200) {
+    var borrowerDataList = jsonDecode(response.body)["data"] as List;
+
+    return borrowerDataList.map((user) => LoanList.fromJson(user)).toList();
+  } else {
+    throw Exception('Failed to load data');
+  }
+}
