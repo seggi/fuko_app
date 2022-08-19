@@ -32,5 +32,5 @@ final DateTime today = DateTime.now();
 final DateFormat formatterDate = DateFormat('yyyy-MM-dd');
 var todayDate = formatterDate.format(today);
 
-String deptPaymentLabel = "Pay one part";
+String amountPaymentLabel = "Pay one part";
 String singlePaymentMethod = "single";

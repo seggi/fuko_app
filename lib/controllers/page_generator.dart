@@ -251,7 +251,27 @@ class PagesGenerator {
                       id: data,
                     );
                   },
-                )
+                ),
+                GoRoute(
+                  name: "save-loan",
+                  path: 'save-loan/:id',
+                  builder: (context, state) {
+                    var data = state.params['id']!;
+                    return RecordLoan(
+                      id: data,
+                    );
+                  },
+                ),
+                GoRoute(
+                  name: "pay-private-loan",
+                  path: 'pay-private-loan/:id',
+                  builder: (context, state) {
+                    var data = state.params['id']!;
+                    return PayPrivateLoan(
+                      id: data,
+                    );
+                  },
+                ),
               ])
         ],
         redirect: (state) {

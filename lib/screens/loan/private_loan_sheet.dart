@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
-import 'package:fuko_app/core/dept.dart';
 import 'package:fuko_app/core/loan.dart';
 import 'package:fuko_app/screens/content_box_widgets.dart';
 import 'package:fuko_app/utils/constant.dart';
@@ -196,6 +195,7 @@ class _PrivateLoanSheetState extends State<PrivateLoanSheet> {
                         child: Text('No data to show.'),
                       );
                     }
+
                     return InkWell(
                       child: Card(
                         child: ListTile(
@@ -219,7 +219,7 @@ class _PrivateLoanSheetState extends State<PrivateLoanSheet> {
                       ),
                       onTap: () {
                         screenTitle(context,
-                            screenTitle: "${snapshot.data?[index].lenderName}");
+                            screenTitle: "${snapshot.data![index].lenderName}");
                         PagesGenerator.goTo(context,
                             name: "lender-loan-details",
                             params: {"id": "${snapshot.data?[index].id}"});

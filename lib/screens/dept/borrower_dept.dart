@@ -58,10 +58,10 @@ class _BorrowerDeptListState extends State<BorrowerDeptList> {
           borrowerId: deptCategoryId, currencyCode: setCurrency);
     });
 
-    return FkTabBarView.tabBar(context, addDeptFn: () {
+    return FkTabBarView.tabBar(context, addFn: () {
       PagesGenerator.goTo(context,
           name: "save-dept", params: {"id": deptCategoryId});
-    }, payDeptFn: () {
+    }, paymentFn: () {
       PagesGenerator.goTo(
         context,
         name: "pay-private-dept",

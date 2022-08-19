@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class RecordDept extends ChangeNotifier {
+class RecordAmount extends ChangeNotifier {
   var _screenTitle = '';
   String _borrowerId = '';
   final List _items = [];
