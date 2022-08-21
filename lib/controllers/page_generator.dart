@@ -198,12 +198,12 @@ class PagesGenerator {
                 ),
                 GoRoute(
                     name: "borrower_dept_details",
-                    path: 'borrower_dept_details/:id',
+                    path: 'borrower_dept_details/:id/:loanMembership',
                     builder: (context, state) {
                       var data = state.params['id']!;
+                      var loanMembership = state.params['loanMembership']!;
                       return BorrowerDeptList(
-                        id: data,
-                      );
+                          id: data, loanMembership: loanMembership);
                     },
                     routes: [
                       GoRoute(
