@@ -109,6 +109,7 @@ class RetrieveDept {
   final String? todayDate;
   final String? currencyCode;
   final String? totalDept;
+  final String? username;
   final String? paidAmount;
 
   RetrieveDept(
@@ -122,6 +123,7 @@ class RetrieveDept {
       this.todayDate,
       this.totalDept,
       this.paidAmount,
+      this.username,
       this.currencyCode});
 
   factory RetrieveDept.fromJson(Map<String, dynamic> json) {
@@ -136,6 +138,7 @@ class RetrieveDept {
         todayDate: json['today_date'].toString(),
         totalDept: json["total_dept"].toString(),
         paidAmount: json["paid_amount"].toString(),
+        username: json["username"].toString(),
         currencyCode: json['currency'].toString());
   }
 }
