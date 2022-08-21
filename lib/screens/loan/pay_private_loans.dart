@@ -39,7 +39,7 @@ class _PayPrivateLoanState extends State<PayPrivateLoan> {
             ? amountPaymentLabel
             : descriptionController.text,
         "currency_id": currencyCode,
-        "loan_id": widget.id
+        "notebook_id": widget.id
       },
     ];
     setState(() {
