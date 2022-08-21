@@ -208,6 +208,8 @@ class _LenderLoanListState extends State<LenderLoanList> {
                                 ? "${dateTime.day}"
                                 : "0${dateTime.day}",
                             amount: snapshot.data?[index].amount,
+                            trailingText:
+                                "From: ${snapshot.data?[index].username}",
                             titleTxt:
                                 snapshot.data?[index].description != "null"
                                     ? "${snapshot.data?[index].description}"

@@ -58,6 +58,7 @@ Widget reportCard(context,
     currencyCode,
     borrowerId,
     paymentStatus,
+    trailingText,
     String? bdTxt,
     fn}) {
   return ReportCard(
@@ -69,6 +70,7 @@ Widget reportCard(context,
       leadingText: leadingText,
       currency: currency,
       amount: amount,
+      trailingText: trailingText,
       titleTxt: titleTxt);
 }
 
@@ -83,6 +85,7 @@ class ReportCard extends StatefulWidget {
   final String? monthText;
   final String? borrowerId;
   final String? paymentStatus;
+  final String? trailingText;
 
   const ReportCard(
       {Key? key,
@@ -95,6 +98,7 @@ class ReportCard extends StatefulWidget {
       this.titleTxt,
       this.borrowerId,
       this.paymentStatus,
+      this.trailingText,
       this.currencyCode})
       : super(key: key);
 
@@ -109,6 +113,7 @@ class _ReportCardState extends State<ReportCard> {
     final leadingText = widget.leadingText;
     final amount = widget.amount;
     final titleTxt = widget.titleTxt;
+    final trailingText = widget.trailingText;
 
     return Card(
       child: ListTile(
@@ -151,6 +156,12 @@ class _ReportCardState extends State<ReportCard> {
                 overflow: TextOverflow.visible,
                 fontWeight: FontWeight.w400,
                 fontSize: 16)),
+        trailing: trailingText == "From: null"
+            ? const Text("")
+            : Text(
+                "$trailingText",
+                style: const TextStyle(fontWeight: FontWeight.w300),
+              ),
       ),
     );
   }
