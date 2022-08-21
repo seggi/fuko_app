@@ -222,7 +222,11 @@ class _PrivateLoanSheetState extends State<PrivateLoanSheet> {
                             screenTitle: "${snapshot.data![index].lenderName}");
                         PagesGenerator.goTo(context,
                             name: "lender-loan-details",
-                            params: {"id": "${snapshot.data?[index].id}"});
+                            params: {
+                              "id": "${snapshot.data?[index].id}",
+                              "deptMemberShip":
+                                  "${snapshot.data?[index].deptMemberShip}"
+                            });
                       },
                     );
                   },

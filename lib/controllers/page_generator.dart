@@ -198,12 +198,12 @@ class PagesGenerator {
                 ),
                 GoRoute(
                     name: "borrower_dept_details",
-                    path: 'borrower_dept_details/:id',
+                    path: 'borrower_dept_details/:id/:loanMembership',
                     builder: (context, state) {
                       var data = state.params['id']!;
+                      var loanMembership = state.params['loanMembership']!;
                       return BorrowerDeptList(
-                        id: data,
-                      );
+                          id: data, loanMembership: loanMembership);
                     },
                     routes: [
                       GoRoute(
@@ -244,11 +244,13 @@ class PagesGenerator {
                 ),
                 GoRoute(
                   name: "lender-loan-details",
-                  path: 'lender-loan-details/:id',
+                  path: 'lender-loan-details/:id/:deptMemberShip',
                   builder: (context, state) {
-                    var data = state.params['id']!;
+                    var id = state.params['id']!;
+                    var deptMemberShip = state.params['deptMemberShip']!;
                     return LenderLoanList(
-                      id: data,
+                      id: id,
+                      deptMemberShip: deptMemberShip,
                     );
                   },
                 ),

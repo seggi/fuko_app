@@ -16,6 +16,7 @@ class RetrieveBorrowersList {
   final String? currencyCode;
   final String? username;
   final String? notebook;
+  final String? loanMembership;
 
   RetrieveBorrowersList(
       {this.borrowerId,
@@ -28,6 +29,7 @@ class RetrieveBorrowersList {
       this.totalDept,
       this.username,
       this.notebook,
+      this.loanMembership,
       this.currencyCode});
 
   factory RetrieveBorrowersList.fromJson(Map<String, dynamic> json) {
@@ -42,6 +44,7 @@ class RetrieveBorrowersList {
         totalDept: json["total_dept"].toString(),
         username: json["username"].toString(),
         notebook: json["notebook_name"].toString(),
+        loanMembership: json["loan_notebook_membership_id"].toString(),
         currencyCode: json["currency"].toString());
   }
 }
@@ -111,6 +114,7 @@ class RetrieveDept {
   final String? totalDept;
   final String? username;
   final String? paidAmount;
+  final String? loanMembership;
 
   RetrieveDept(
       {this.deptId,
@@ -124,6 +128,7 @@ class RetrieveDept {
       this.totalDept,
       this.paidAmount,
       this.username,
+      this.loanMembership,
       this.currencyCode});
 
   factory RetrieveDept.fromJson(Map<String, dynamic> json) {
@@ -139,12 +144,13 @@ class RetrieveDept {
         totalDept: json["total_dept"].toString(),
         paidAmount: json["paid_amount"].toString(),
         username: json["username"].toString(),
+        loanMembership: json["loan_notebook_membership_id"].toString(),
         currencyCode: json['currency'].toString());
   }
 }
 
 Future<List<RetrieveDept>> fetchBorrowerDept(
-    {String? borrowerId, currencyCode}) async {
+    {String? borrowerId, currencyCode, loanMembership}) async {
   var token = await UserPreferences.getToken();
 
   final response = await http.get(
@@ -164,11 +170,12 @@ Future<List<RetrieveDept>> fetchBorrowerDept(
 }
 
 Future<List<RetrieveDept>> fetchBorrowerPaymentHistory(
-    {String? noteId, currencyCode}) async {
+    {String? noteId, currencyCode, loanMembership}) async {
   var token = await UserPreferences.getToken();
 
   final response = await http.get(
-      Uri.parse(Network.privatePaidDeptHistory + "/$noteId/$currencyCode"),
+      Uri.parse(Network.privatePaidDeptHistory +
+          "/$noteId/${loanMembership == null || loanMembership == "null" ? 0 : loanMembership}/$currencyCode"),
       headers: Network.authorizedHeaders(token: token));
 
   if (response.statusCode == 200) {
@@ -184,11 +191,12 @@ Future<List<RetrieveDept>> fetchBorrowerPaymentHistory(
 }
 
 Future<RetrieveDept> fetchTotalPaidAmount(
-    {String? noteId, currencyCode}) async {
+    {String? noteId, currencyCode, loanMembership}) async {
   var token = await UserPreferences.getToken();
 
   final response = await http.get(
-      Uri.parse(Network.privatePaidDeptHistory + "/$noteId/$currencyCode"),
+      Uri.parse(Network.privatePaidDeptHistory +
+          "/$noteId/${loanMembership == null || loanMembership == "null" ? 0 : loanMembership}/$currencyCode"),
       headers: Network.authorizedHeaders(token: token));
 
   if (response.statusCode == 200) {
@@ -199,7 +207,7 @@ Future<RetrieveDept> fetchTotalPaidAmount(
 }
 
 Future<RetrieveDept> fetchTotalDeptAmount(
-    {String? borrowerId, currencyCode}) async {
+    {String? borrowerId, currencyCode, loanMembership}) async {
   var token = await UserPreferences.getToken();
 
   final response = await http.get(

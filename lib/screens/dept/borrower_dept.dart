@@ -12,7 +12,10 @@ import 'package:intl/intl.dart';
 
 class BorrowerDeptList extends StatefulWidget {
   final String id;
-  const BorrowerDeptList({Key? key, required this.id}) : super(key: key);
+  final String loanMembership;
+  const BorrowerDeptList(
+      {Key? key, required this.id, required this.loanMembership})
+      : super(key: key);
 
   @override
   State<BorrowerDeptList> createState() => _BorrowerDeptListState();
@@ -30,20 +33,29 @@ class _BorrowerDeptListState extends State<BorrowerDeptList> {
   @override
   void initState() {
     super.initState();
-    retrieveBorrowerDeptList =
-        fetchBorrowerDept(borrowerId: widget.id, currencyCode: defaultCurrency);
+    retrieveBorrowerDeptList = fetchBorrowerDept(
+        borrowerId: widget.id,
+        currencyCode: defaultCurrency,
+        loanMembership: widget.loanMembership);
     retrieveBorrowerTotalAmount = fetchTotalDeptAmount(
-        borrowerId: widget.id, currencyCode: defaultCurrency);
+        borrowerId: widget.id,
+        currencyCode: defaultCurrency,
+        loanMembership: widget.loanMembership);
 
     retrieveBorrowerPaymentHistory = fetchBorrowerPaymentHistory(
-        noteId: widget.id, currencyCode: defaultCurrency);
-    retrieveBorrowerTotalPaidAmount =
-        fetchTotalPaidAmount(noteId: widget.id, currencyCode: defaultCurrency);
+        noteId: widget.id,
+        currencyCode: defaultCurrency,
+        loanMembership: widget.loanMembership);
+    retrieveBorrowerTotalPaidAmount = fetchTotalPaidAmount(
+        noteId: widget.id,
+        currencyCode: defaultCurrency,
+        loanMembership: widget.loanMembership);
   }
 
   @override
   Widget build(BuildContext context) {
     final deptCategoryId = widget.id;
+    final loanMembership = widget.loanMembership;
     FkManageProviders.save["save-borrower-id"](context, itemData: widget.id);
     final screenTitle = FkManageProviders.get(context)['get-screen-title'];
     var selectedCurrency =
@@ -53,9 +65,14 @@ class _BorrowerDeptListState extends State<BorrowerDeptList> {
 
     setState(() {
       retrieveBorrowerDeptList = fetchBorrowerDept(
-          borrowerId: deptCategoryId, currencyCode: setCurrency);
+          borrowerId: deptCategoryId,
+          currencyCode: setCurrency,
+          loanMembership: widget.loanMembership);
+
       retrieveBorrowerTotalAmount = fetchTotalDeptAmount(
-          borrowerId: deptCategoryId, currencyCode: setCurrency);
+          borrowerId: deptCategoryId,
+          currencyCode: setCurrency,
+          loanMembership: loanMembership);
     });
 
     return FkTabBarView.tabBar(context, addFn: () {
@@ -87,7 +104,7 @@ class _BorrowerDeptListState extends State<BorrowerDeptList> {
         const Align(
           alignment: Alignment.bottomLeft,
           child: Text(
-            "Total Amount",
+            "Total Amounts",
             style: TextStyle(
                 color: fkBlackText, fontWeight: FontWeight.w400, fontSize: 14),
           ),

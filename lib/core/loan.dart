@@ -18,6 +18,7 @@ class LoanList {
   final String? notebook;
   final String? paidAmount;
   final String? description;
+  final String? deptMemberShip;
   final bool? paymentStatus;
 
   LoanList(
@@ -34,6 +35,7 @@ class LoanList {
       this.paidAmount,
       this.paymentStatus,
       this.description,
+      this.deptMemberShip,
       this.lastName});
 
   factory LoanList.fromJson(Map<String, dynamic> json) {
@@ -50,6 +52,7 @@ class LoanList {
         notebook: json["notebook_name"].toString(),
         description: json["description"].toString(),
         paidAmount: json["paid_amount"].toString(),
+        deptMemberShip: json['dept_notebook_membership_id'].toString(),
         currencyCode: json["currency"].toString());
   }
 }
@@ -98,11 +101,13 @@ Future<LoanList> fetchLoanAmount({setCurrency}) async {
   }
 }
 
-Future<List<LoanList>> fetchLenderLoan({String? lenderId, currencyCode}) async {
+Future<List<LoanList>> fetchLenderLoan(
+    {String? lenderId, currencyCode, deptMembership}) async {
   var token = await UserPreferences.getToken();
 
   final response = await http.get(
-      Uri.parse(Network.retrievePersonalLoan + "/$lenderId/$currencyCode"),
+      Uri.parse(Network.retrievePersonalLoan +
+          "/$lenderId/${deptMembership == "null" ? 0 : deptMembership}/$currencyCode"),
       headers: Network.authorizedHeaders(token: token));
 
   if (response.statusCode == 200) {
@@ -114,11 +119,13 @@ Future<List<LoanList>> fetchLenderLoan({String? lenderId, currencyCode}) async {
   }
 }
 
-Future<LoanList> fetchTotalLoanAmount({String? lenderId, currencyCode}) async {
+Future<LoanList> fetchTotalLoanAmount(
+    {String? lenderId, currencyCode, deptMembership}) async {
   var token = await UserPreferences.getToken();
 
   final response = await http.get(
-      Uri.parse(Network.retrievePersonalLoan + "/$lenderId/$currencyCode"),
+      Uri.parse(Network.retrievePersonalLoan +
+          "/$lenderId/${deptMembership == "null" ? 0 : deptMembership}/$currencyCode"),
       headers: Network.authorizedHeaders(token: token));
 
   if (response.statusCode == 200) {
