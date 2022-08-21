@@ -198,7 +198,11 @@ class _PubMemberLoanNotebookSheetState
                             screenTitle: "${snapshot.data?[index].username}");
                         PagesGenerator.goTo(context,
                             name: "lender-loan-details",
-                            params: {"id": "${snapshot.data?[index].id}"});
+                            params: {
+                              "id": "${snapshot.data?[index].id}",
+                              "deptMemberShip":
+                                  "${snapshot.data?[index].deptMemberShip}"
+                            });
                       },
                     );
                   },
