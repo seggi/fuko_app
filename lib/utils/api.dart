@@ -79,4 +79,5 @@ class Network {
       "${liveUrl!}/account/loans/pub-loan-notebook";
 
   static String getBudgetList = "${liveUrl!}/budget/retrieve-all";
+  static String registerBudgetName = "${liveUrl!}/budget/create-budget";
 }

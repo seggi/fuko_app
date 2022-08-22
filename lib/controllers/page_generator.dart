@@ -140,7 +140,10 @@ class PagesGenerator {
           ),
           GoRoute(
               path: 'budget',
-              builder: (context, state) => const BudgetScreen(),
+              builder: (context, state) {
+                final data = state.queryParams['status'];
+                return BudgetScreen(status: data);
+              },
               routes: [
                 GoRoute(
                     name: 'budget-detail',
@@ -150,6 +153,12 @@ class PagesGenerator {
                       return BudgetDetails(
                         title: data,
                       );
+                    }),
+                GoRoute(
+                    name: 'register-budget',
+                    path: 'register-budget',
+                    builder: (context, state) {
+                      return const RegisterBudgetName();
                     }),
               ]),
           GoRoute(

@@ -9,7 +9,8 @@ import 'package:fuko_app/widgets/shared/ui_helper.dart';
 import 'budget/budget_card.dart';
 
 class BudgetScreen extends StatefulWidget {
-  const BudgetScreen({Key? key}) : super(key: key);
+  final String? status;
+  const BudgetScreen({Key? key, this.status}) : super(key: key);
 
   @override
   _BudgetScreenState createState() => _BudgetScreenState();
@@ -32,7 +33,13 @@ class _BudgetScreenState extends State<BudgetScreen> {
     setState(() {
       retrieveBudgetList = fetchBudgetList();
     });
-    return FkContentBoxWidgets.body(context, "budget", fn: () {}, itemList: [
+
+    return FkContentBoxWidgets.body(context, "budget", fn: () {
+      PagesGenerator.goTo(
+        context,
+        name: "register-budget",
+      );
+    }, itemList: [
       Padding(
         padding: const EdgeInsets.only(right: 20.0, left: 20.0),
         child: Row(
@@ -88,31 +95,18 @@ class _BudgetScreenState extends State<BudgetScreen> {
                       var dateTime =
                           DateTime.parse("${snapshot.data?[index].createdAt}");
 
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      return Column(
                         children: [
-                          Container(
-                            alignment: Alignment.center,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(4.0),
-                              child: Container(
-                                color: fkDefaultColor,
-                                child: Column(
-                                  children: [
-                                    BudgetBoxCard(
-                                      createdAt: "${snapshot.data!.createdAt}",
-                                      title: "${snapshot.data!.title}",
-                                      fn: () => PagesGenerator.goTo(context,
-                                          name: "budget-detail",
-                                          params: {
-                                            "title": "${snapshot.data!.title}"
-                                          }),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          )
+                          BudgetBoxCard(
+                            createdAt:
+                                "${dateTime.day}-${dateTime.month}-${dateTime.year}",
+                            title: "${snapshot.data?[index].title}",
+                            fn: () => PagesGenerator.goTo(context,
+                                name: "budget-detail",
+                                params: {
+                                  "title": "${snapshot.data?[index].title}"
+                                }),
+                          ),
                         ],
                       );
                     }));
