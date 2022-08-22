@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:fuko_app/core/notification.dart';
 import 'package:fuko_app/core/user_preferences.dart';
-import 'package:fuko_app/utils/constant.dart';
 import 'package:fuko_app/widgets/popup/alert_dialog.dart';
 import 'package:http/http.dart' as http;
 

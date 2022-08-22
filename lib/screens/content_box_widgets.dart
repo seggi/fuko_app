@@ -124,7 +124,7 @@ class FkContentBoxWidgets {
               ),
               floatingActionButton: FloatingActionButton(
                 onPressed: fn,
-                backgroundColor: Colors.deepOrangeAccent,
+                backgroundColor: fkDefaultColor,
                 child: const Icon(
                   Icons.add,
                   size: 30,
