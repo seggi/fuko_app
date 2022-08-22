@@ -1,11 +1,11 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
+import 'package:fuko_app/core/budget.dart';
 import 'package:fuko_app/screens/content_box_widgets.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
-import '../core/user_preferences.dart';
 import 'budget/budget_card.dart';
 
 class BudgetScreen extends StatefulWidget {
@@ -17,8 +17,21 @@ class BudgetScreen extends StatefulWidget {
 
 class _BudgetScreenState extends State<BudgetScreen> {
   FkContentBoxWidgets fkContentBoxWidgets = FkContentBoxWidgets();
+
+  late Future<List<BudgetData>> retrieveBudgetList;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    retrieveBudgetList = fetchBudgetList();
+  }
+
   @override
   Widget build(BuildContext context) {
+    setState(() {
+      retrieveBudgetList = fetchBudgetList();
+    });
     return FkContentBoxWidgets.body(context, "budget", fn: () {}, itemList: [
       Padding(
         padding: const EdgeInsets.only(right: 20.0, left: 20.0),
@@ -27,17 +40,16 @@ class _BudgetScreenState extends State<BudgetScreen> {
           children: [
             Row(
               children: [
-                InkWell(
-                    onTap: () async {
-                      var token = await UserPreferences.getToken();
+                IconButton(
+                    onPressed: () async {
                       PagesGenerator.goTo(context, pathName: "/?status=true");
                     },
-                    child: const Icon(
+                    icon: const Icon(
                       Icons.arrow_back_ios,
                       size: 20,
                     )),
                 const Text(
-                  "Loan",
+                  "Budget",
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 )
               ],
@@ -45,58 +57,99 @@ class _BudgetScreenState extends State<BudgetScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Badge(
-                  badgeContent: const Text(
-                    '3',
-                    style: TextStyle(color: fkWhiteText),
-                  ),
-                  child: IconButton(
-                      onPressed: () {}, icon: const Icon(Icons.notifications)),
-                  position: BadgePosition.topEnd(end: 2, top: 2),
-                ),
                 IconButton(onPressed: () {}, icon: const Icon(Icons.search))
               ],
             )
           ],
         ),
       ),
-      fkContentBoxWidgets.initialItems(itemList: [
-        const Align(
-          alignment: Alignment.bottomLeft,
-          child: Text(
-            "List of budgets",
-            style: TextStyle(
-                color: fkGreyText, fontWeight: FontWeight.w400, fontSize: 16),
-          ),
-        ),
-        verticalSpaceTiny,
-      ]),
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-        child: Column(
-          children: [
-            BudgetBoxCard(
-              amount: "27,000",
-              currency: "Rwf",
-              title: "January Expenses",
-              startDate: "12/02/2022",
-              endDate: "12/03/2022",
-              fn: () => PagesGenerator.goTo(context,
-                  name: "budget-detail", params: {"title": "January Expenses"}),
-            ),
-            verticalSpaceTiny,
-            BudgetBoxCard(
-              amount: "35,000",
-              currency: "Rwf",
-              title: "Wedding",
-              startDate: "1/05/2022",
-              endDate: "12/06/2022",
-              fn: () => PagesGenerator.goTo(context,
-                  name: "budget-detail", params: {"title": "Wedding"}),
-            )
-          ],
-        ),
-      )
+      FutureBuilder(
+        future: retrieveBudgetList,
+        builder: (
+          BuildContext context,
+          AsyncSnapshot snapshot,
+        ) {
+          if (snapshot.hasData) {
+            if (snapshot.data.isEmpty) {
+              return Container(
+                margin: const EdgeInsets.symmetric(vertical: 200),
+                child: const Center(
+                  child: Text('No budget save yet.'),
+                ),
+              );
+            }
+            return Expanded(
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    physics: const ClampingScrollPhysics(),
+                    padding: const EdgeInsets.all(8),
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      var dateTime =
+                          DateTime.parse("${snapshot.data?[index].createdAt}");
+
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            alignment: Alignment.center,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(4.0),
+                              child: Container(
+                                color: fkDefaultColor,
+                                child: Column(
+                                  children: [
+                                    BudgetBoxCard(
+                                      createdAt: "${snapshot.data!.createdAt}",
+                                      title: "${snapshot.data!.title}",
+                                      fn: () => PagesGenerator.goTo(context,
+                                          name: "budget-detail",
+                                          params: {
+                                            "title": "${snapshot.data!.title}"
+                                          }),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      );
+                    }));
+          } else if (snapshot.hasError) {
+            return Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Center(
+                    child: Text(
+                      snapshot.error != null
+                          ? "Failed to load data"
+                          : "Amount not available...",
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: fkGreyText),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }
+          return Container(
+              padding: const EdgeInsets.all(20.0),
+              child: const Center(
+                  child: Text(
+                "Loading Amount...",
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: fkGreyText),
+              )));
+        },
+      ),
     ]);
   }
 }
