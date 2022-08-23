@@ -160,6 +160,12 @@ class PagesGenerator {
                     builder: (context, state) {
                       return const RegisterBudgetName();
                     }),
+                GoRoute(
+                    name: 'add-budget-details',
+                    path: 'add-budget-details',
+                    builder: (context, state) {
+                      return const AddBudgetDetails();
+                    }),
               ]),
           GoRoute(
             path: 'saving',

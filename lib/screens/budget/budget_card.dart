@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
-import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
 class BudgetBoxCard extends StatelessWidget {
   final String? amount;

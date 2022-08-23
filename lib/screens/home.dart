@@ -46,11 +46,9 @@ class _HomePageState extends State<HomePage> {
     var getCurrency =
         selectedCurrency != '' ? selectedCurrency : defaultCurrency.toString();
 
-    if (widget.status == "true") {
-      setState(() {
-        globalAmount = fetchGlobalAmount(currencyId: getCurrency);
-      });
-    }
+    setState(() {
+      globalAmount = fetchGlobalAmount(currencyId: getCurrency);
+    });
 
     return WillPopScope(
         onWillPop: () async {
@@ -311,7 +309,7 @@ class _HomePageState extends State<HomePage> {
         return FkContentBoxWidgets.body(context, 'home', itemList: [
           Expanded(
               child: Container(
-            color: Colors.grey[300],
+            color: fkDefaultColor,
             padding: const EdgeInsets.all(20.0),
             child: Center(
               child: Container(
