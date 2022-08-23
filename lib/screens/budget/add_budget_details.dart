@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/utils/api.dart';
+import 'package:fuko_app/widgets/bottom_sheet/budgetCategory.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
@@ -110,19 +111,7 @@ class _AddBudgetDetailsState extends State<AddBudgetDetails> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    TextFormField(
-                      autofocus: true,
-                      controller: addBudgetNameController,
-                      keyboardType: TextInputType.text,
-                      textInputAction: TextInputAction.done,
-                      decoration: InputDecoration(
-                          hintText: 'Enter envelop title',
-                          border: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color: fkInputFormBorderColor, width: 1.0),
-                              borderRadius: BorderRadius.circular(8.0))),
-                      onSaved: (String? value) {},
-                    ),
+                    const BudgetCategorySheet(),
                     verticalSpaceSmall,
                     TextFormField(
                       autofocus: true,
