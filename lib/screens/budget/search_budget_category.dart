@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/core/budget.dart';
 import 'package:fuko_app/screens/content_box_widgets.dart';
@@ -26,6 +25,7 @@ class _SearchBudgetCategoryState extends State<SearchBudgetCategory> {
 
   @override
   Widget build(BuildContext context) {
+    final saveSelectedItem = FkManageProviders.save["save-select-item"];
     return FkScrollViewWidgets.body(context, itemList: [
       Container(
         padding: const EdgeInsets.only(left: 20.0, right: 20.0),
@@ -52,7 +52,6 @@ class _SearchBudgetCategoryState extends State<SearchBudgetCategory> {
                         contentPadding: const EdgeInsets.all(2.0),
                         hintText: 'Search',
                         prefixIcon: const Icon(Icons.search),
-                        // suffixIcon: const Icon(Icons.cancel),
                         border: OutlineInputBorder(
                             borderSide: const BorderSide(width: 1.0),
                             borderRadius: BorderRadius.circular(4.0)),
@@ -107,6 +106,12 @@ class _SearchBudgetCategoryState extends State<SearchBudgetCategory> {
                                           snapshot.data?[index].description ??
                                               "No description"),
                                       onTap: () {
+                                        saveSelectedItem(context, itemData: {
+                                          "id": "${snapshot.data?[index].id}",
+                                          "name":
+                                              "${snapshot.data?[index].budgetCategory}"
+                                        });
+
                                         PagesGenerator.goTo(
                                           context,
                                           name: "add-budget-details",

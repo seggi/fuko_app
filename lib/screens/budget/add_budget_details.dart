@@ -20,6 +20,7 @@ class AddBudgetDetails extends StatefulWidget {
 class _AddBudgetDetailsState extends State<AddBudgetDetails> {
   final _formKey = GlobalKey();
   bool loading = false;
+  late Map selectedItem;
   TextEditingController addBudgetNameController = TextEditingController();
 
   late ScaffoldMessengerState scaffoldMessenger = ScaffoldMessenger.of(context);
@@ -78,6 +79,8 @@ class _AddBudgetDetailsState extends State<AddBudgetDetails> {
   @override
   Widget build(BuildContext context) {
     final screenTitle = FkManageProviders.get(context)['get-screen-title'];
+    selectedItem = FkManageProviders.get(context)['get-item-selected'];
+
     return FkScrollViewWidgets.body(context, itemList: [
       Container(
           padding: const EdgeInsets.only(left: 20.0, right: 20.0),
@@ -115,6 +118,7 @@ class _AddBudgetDetailsState extends State<AddBudgetDetails> {
                         // controller: addBudgetNameController,
                         keyboardType: TextInputType.text,
                         textInputAction: TextInputAction.done,
+                        initialValue: selectedItem['name'],
                         decoration: InputDecoration(
                             hintText: 'Enter envelop title',
                             border: OutlineInputBorder(

@@ -76,6 +76,9 @@ class FkManageProviders {
     "save-lender-id": (context, {itemData}) =>
         Provider.of<RecordAmount>(context, listen: false)
             .saveBorrowerId(itemData),
+
+    "save-select-item": (context, {itemData}) =>
+        Provider.of<SelectFromDataList>(context, listen: false).add(itemData),
   };
 
   static get(context) {
@@ -108,7 +111,9 @@ class FkManageProviders {
       "get-added-loan": Provider.of<RecordAmount>(context).getNewItem,
       "get-total-loan-amount":
           Provider.of<RecordAmount>(context).getTotalAmount,
-      "get-loan-id": Provider.of<RecordAmount>(context).borrowerId
+      "get-loan-id": Provider.of<RecordAmount>(context).borrowerId,
+
+      "get-item-selected": Provider.of<SelectFromDataList>(context).getNewItem,
     };
   }
 }
