@@ -166,6 +166,12 @@ class PagesGenerator {
                     builder: (context, state) {
                       return const AddBudgetDetails();
                     }),
+                GoRoute(
+                    name: 'search-budget-category',
+                    path: 'search-budget-category',
+                    builder: (context, state) {
+                      return const SearchBudgetCategory();
+                    }),
               ]),
           GoRoute(
             path: 'saving',
