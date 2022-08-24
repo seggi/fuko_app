@@ -33,3 +33,5 @@ export 'loan/lender_loan.dart';
 export 'loan/save_loan.dart';
 export 'loan/pay_private_loans.dart';
 export 'budget/register_budget_name.dart';
+export 'budget/add_budget_details.dart';
+export 'budget/search_budget_category.dart';

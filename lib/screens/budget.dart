@@ -1,10 +1,8 @@
-import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/core/budget.dart';
 import 'package:fuko_app/screens/content_box_widgets.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
-import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
 import 'budget/budget_card.dart';
 
@@ -119,7 +117,7 @@ class _BudgetScreenState extends State<BudgetScreen> {
                     child: Text(
                       snapshot.error != null
                           ? "Failed to load data"
-                          : "Amount not available...",
+                          : "Not data available...",
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                           fontSize: 16,
@@ -135,11 +133,11 @@ class _BudgetScreenState extends State<BudgetScreen> {
               padding: const EdgeInsets.all(20.0),
               child: const Center(
                   child: Text(
-                "Loading Amount...",
+                "Loading budget...",
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w300,
                     color: fkGreyText),
               )));
         },

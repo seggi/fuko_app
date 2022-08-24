@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/screens/content_box_widgets.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
@@ -6,7 +7,6 @@ import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
 class BudgetDetails extends StatefulWidget {
   final String title;
-
   const BudgetDetails({Key? key, required this.title}) : super(key: key);
 
   @override
@@ -16,9 +16,11 @@ class BudgetDetails extends StatefulWidget {
 class _BudgetDetailsState extends State<BudgetDetails> {
   @override
   Widget build(BuildContext context) {
+    final screenTitle = FkManageProviders.save["save-screen-title"];
+
     return FkScrollViewWidgets.body(context, itemList: [
       Container(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.only(left: 20.0, right: 20.0),
         height: MediaQuery.of(context).size.height,
         child: Column(
           children: [
@@ -29,18 +31,36 @@ class _BudgetDetailsState extends State<BudgetDetails> {
                   Row(
                     children: [
                       IconButton(
-                          icon: const Icon(Icons.arrow_back_ios),
+                          icon: const Icon(
+                            Icons.arrow_back_ios,
+                            size: 20,
+                          ),
                           onPressed: () => PagesGenerator.goTo(context,
                               pathName: "/budget")),
                       Text(
                         widget.title,
                         style: const TextStyle(
-                            color: fkBlueText,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold),
+                            fontSize: 16, fontWeight: FontWeight.bold),
                       )
                     ],
                   ),
+                  Row(
+                    children: [
+                      IconButton(
+                          onPressed: () {
+                            screenTitle(context,
+                                screenTitle: "${widget.title}");
+                            PagesGenerator.goTo(
+                              context,
+                              name: "add-budget-details",
+                            );
+                          },
+                          icon: const Icon(
+                            Icons.add_circle,
+                            color: fkBlueText,
+                          ))
+                    ],
+                  )
                 ],
               ),
             ),
