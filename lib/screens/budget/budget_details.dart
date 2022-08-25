@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
+import 'package:fuko_app/core/budget.dart';
 import 'package:fuko_app/screens/content_box_widgets.dart';
+import 'package:fuko_app/utils/constant.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
@@ -14,9 +16,27 @@ class BudgetDetails extends StatefulWidget {
 }
 
 class _BudgetDetailsState extends State<BudgetDetails> {
+  late Future<List<BudgetData>> retrieveBudgetEnvelop;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    retrieveBudgetEnvelop =
+        fetchBudgetEnvelope(currencyCode: defaultCurrency.toString());
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenTitle = FkManageProviders.save["save-screen-title"];
+    var selectedCurrency =
+        FkManageProviders.get(context)["get-default-currency"];
+    var setCurrency =
+        selectedCurrency != '' ? selectedCurrency : defaultCurrency.toString();
+
+    setState(() {
+      retrieveBudgetEnvelop = fetchBudgetEnvelope(currencyCode: setCurrency);
+    });
 
     return FkScrollViewWidgets.body(context, itemList: [
       Container(
@@ -48,8 +68,7 @@ class _BudgetDetailsState extends State<BudgetDetails> {
                     children: [
                       IconButton(
                           onPressed: () {
-                            screenTitle(context,
-                                screenTitle: "${widget.title}");
+                            screenTitle(context, screenTitle: widget.title);
                             PagesGenerator.goTo(
                               context,
                               name: "add-budget-details",
@@ -64,140 +83,83 @@ class _BudgetDetailsState extends State<BudgetDetails> {
                 ],
               ),
             ),
-            verticalSpaceRegular,
-            Column(
-              children: [
-                const Align(
-                  alignment: Alignment.bottomLeft,
-                  child: Text(
-                    "Total Amount",
-                    style: TextStyle(
-                        color: fkGreyText,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16),
-                  ),
-                ),
-                Row(
-                  children: const [
-                    Align(
-                      alignment: Alignment.bottomLeft,
-                      child: Text(
-                        "Rwf",
-                        style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w300,
-                            color: fkBlackText),
-                      ),
-                    ),
-                    horizontalSpaceTiny,
-                    Align(
-                      alignment: Alignment.bottomLeft,
-                      child: Text(
-                        "270,000",
-                        style: TextStyle(
-                            fontSize: 28,
-                            fontWeight: FontWeight.w600,
-                            color: fkBlackText),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            verticalSpaceRegular,
-            Column(
-              children: [
-                const Align(
-                  alignment: Alignment.bottomLeft,
-                  child: Text(
-                    "These operations must go ",
-                    style: TextStyle(
-                        color: fkGreyText,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16),
-                  ),
-                ),
-                Row(
-                  children: [
-                    Row(
-                      children: const [
-                        Align(
-                          alignment: Alignment.bottomLeft,
-                          child: Text(
-                            "From",
-                            style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600,
-                                color: fkBlackText),
-                          ),
-                        ),
-                        horizontalSpaceTiny,
-                        Align(
-                          alignment: Alignment.bottomLeft,
-                          child: Text(
-                            "12/02/2022",
-                            style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w300,
-                                color: fkBlackText),
-                          ),
-                        ),
-                      ],
-                    ),
-                    horizontalSpaceSmall,
-                    Row(
-                      children: const [
-                        Align(
-                          alignment: Alignment.bottomLeft,
-                          child: Text(
-                            "to",
-                            style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600,
-                                color: fkBlackText),
-                          ),
-                        ),
-                        horizontalSpaceTiny,
-                        Align(
-                          alignment: Alignment.bottomLeft,
-                          child: Text(
-                            "12/02/2022",
-                            style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w300,
-                                color: fkBlackText),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            verticalSpaceRegular,
+            verticalSpaceSmall,
             const Divider(
               color: fkGreyText,
             ),
-            verticalSpaceRegular,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
-                Text(
-                  "Description",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                ),
-                Text(
-                  "Amount",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                ),
-              ],
-            ),
-            verticalSpaceRegular,
-            const Expanded(
-              child: Center(
-                child: Text("No data to show currently"),
+            //
+
+            Expanded(
+              child: FutureBuilder(
+                future: retrieveBudgetEnvelop,
+                builder: (
+                  BuildContext context,
+                  AsyncSnapshot snapshot,
+                ) {
+                  if (snapshot.hasData) {
+                    if (snapshot.data.isEmpty) {
+                      return Container(
+                          margin: const EdgeInsets.only(top: 0.0),
+                          child:
+                              const Center(child: Text("No budget to show!")));
+                    }
+                    return SizedBox(
+                      child:
+                          NotificationListener<OverscrollIndicatorNotification>(
+                        onNotification:
+                            (OverscrollIndicatorNotification? overscroll) {
+                          overscroll!.disallowIndicator();
+                          return true;
+                        },
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: snapshot.data!.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return InkWell(
+                              child: Container(
+                                padding: const EdgeInsets.only(
+                                    left: 8.0,
+                                    top: 12.0,
+                                    right: 8.0,
+                                    bottom: 12.0),
+                                decoration: BoxDecoration(
+                                  color: fkBlueLight,
+                                  borderRadius: BorderRadius.circular(4.0),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                        "${snapshot.data?[index].budgetCategory}"),
+                                    Column(children: [
+                                      Text(
+                                          "${snapshot.data?[index].amountInitial}"),
+                                      verticalSpaceTiny,
+                                      Text(
+                                          "${snapshot.data?[index].amountConsumed}")
+                                    ])
+                                  ],
+                                ),
+                              ),
+                              onTap: () {},
+                            );
+                          },
+                        ),
+                      ),
+                    );
+                  } else if (snapshot.hasError) {
+                    return const Center(child: Text('Something went wrong:('));
+                  }
+                  return const Center(
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2.0,
+                    ),
+                  );
+                },
               ),
-            )
+            ),
           ],
         ),
       )

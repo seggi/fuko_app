@@ -13,6 +13,10 @@ class BudgetData {
   final String? updatedAt;
   final String? budgetCategory;
   final String? budget;
+  final String? amount;
+  final String? envelope;
+  final String? amountConsumed;
+  final String? amountInitial;
 
   BudgetData(
       {this.createdAt,
@@ -21,18 +25,25 @@ class BudgetData {
       this.title,
       this.updatedAt,
       this.budget,
+      this.amount,
+      this.envelope,
+      this.amountInitial,
+      this.amountConsumed,
       this.budgetCategory});
 
   factory BudgetData.fromJson(Map<String, dynamic> json) {
     return BudgetData(
-      description: json["description"].toString(),
-      createdAt: json['created_at'].toString(),
-      updatedAt: json['updated_at'].toString(),
-      title: json['name'].toString(),
-      id: json['id'].toString(),
-      budget: json['budget'].toString(),
-      budgetCategory: json['name'].toString(),
-    );
+        description: json["description"].toString(),
+        createdAt: json['created_at'].toString(),
+        updatedAt: json['updated_at'].toString(),
+        title: json['name'].toString(),
+        id: json['id'].toString(),
+        budget: json['budget'].toString(),
+        amount: json["amount"].toString(),
+        envelope: json["envelope"].toString(),
+        budgetCategory: json['name'].toString(),
+        amountConsumed: json["amount_consumed"].toString(),
+        amountInitial: json["amount_initial"].toString());
   }
 }
 
@@ -67,4 +78,20 @@ Future<List<BudgetData>> fetchBudgetCategories() async {
 Future<List<BudgetData>> fetchBudgetPeriod() async {
   var periodList = budgetPeriodList;
   return periodList.map((period) => BudgetData.fromJson(period)).toList();
+}
+
+Future<List<BudgetData>> fetchBudgetEnvelope(
+    {required String currencyCode}) async {
+  var token = await UserPreferences.getToken();
+  final response = await http.get(
+      Uri.parse("${Network.getEnvelopeList}/$currencyCode"),
+      headers: Network.authorizedHeaders(token: token));
+
+  if (response.statusCode == 200) {
+    var envelopeList = jsonDecode(response.body)["data"] as List;
+
+    return envelopeList.map((user) => BudgetData.fromJson(user)).toList();
+  } else {
+    throw Exception('Failed to load data');
+  }
 }
