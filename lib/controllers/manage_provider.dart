@@ -79,6 +79,10 @@ class FkManageProviders {
 
     "save-select-item": (context, {itemData}) =>
         Provider.of<SelectFromDataList>(context, listen: false).add(itemData),
+
+    "add-selected-budget": (context, {periods}) =>
+        Provider.of<SelectFromDataList>(context, listen: false)
+            .addPeriod(periods),
   };
 
   static get(context) {
@@ -114,6 +118,7 @@ class FkManageProviders {
       "get-loan-id": Provider.of<RecordAmount>(context).borrowerId,
 
       "get-item-selected": Provider.of<SelectFromDataList>(context).getNewItem,
+      "get-period-selected": Provider.of<SelectFromDataList>(context).getPeriod,
     };
   }
 }

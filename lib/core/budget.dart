@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:fuko_app/core/user_preferences.dart';
 import 'package:fuko_app/utils/api.dart';
+import 'package:fuko_app/utils/constant.dart';
 import 'package:http/http.dart' as http;
 
 class BudgetData {
@@ -11,6 +12,7 @@ class BudgetData {
   final String? createdAt;
   final String? updatedAt;
   final String? budgetCategory;
+  final String? budget;
 
   BudgetData(
       {this.createdAt,
@@ -18,6 +20,7 @@ class BudgetData {
       this.id,
       this.title,
       this.updatedAt,
+      this.budget,
       this.budgetCategory});
 
   factory BudgetData.fromJson(Map<String, dynamic> json) {
@@ -27,6 +30,7 @@ class BudgetData {
       updatedAt: json['updated_at'].toString(),
       title: json['name'].toString(),
       id: json['id'].toString(),
+      budget: json['budget'].toString(),
       budgetCategory: json['name'].toString(),
     );
   }
@@ -58,4 +62,9 @@ Future<List<BudgetData>> fetchBudgetCategories() async {
   } else {
     throw Exception('Failed to load data');
   }
+}
+
+Future<List<BudgetData>> fetchBudgetPeriod() async {
+  var periodList = budgetPeriodList;
+  return periodList.map((period) => BudgetData.fromJson(period)).toList();
 }
