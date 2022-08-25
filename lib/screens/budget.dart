@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/core/budget.dart';
 import 'package:fuko_app/screens/content_box_widgets.dart';
@@ -28,6 +29,7 @@ class _BudgetScreenState extends State<BudgetScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final saveId = FkManageProviders.save['save-id'];
     setState(() {
       retrieveBudgetList = fetchBudgetList();
     });
@@ -99,11 +101,16 @@ class _BudgetScreenState extends State<BudgetScreen> {
                             createdAt:
                                 "${dateTime.day}-${dateTime.month}-${dateTime.year}",
                             title: "${snapshot.data?[index].title}",
-                            fn: () => PagesGenerator.goTo(context,
-                                name: "budget-detail",
-                                params: {
-                                  "title": "${snapshot.data?[index].title}"
-                                }),
+                            fn: () {
+                              saveId(context,
+                                  id: "${snapshot.data?[index].id}");
+
+                              PagesGenerator.goTo(context,
+                                  name: "budget-detail",
+                                  params: {
+                                    "title": "${snapshot.data?[index].title}"
+                                  });
+                            },
                           ),
                         ],
                       );

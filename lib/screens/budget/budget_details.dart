@@ -29,6 +29,7 @@ class _BudgetDetailsState extends State<BudgetDetails> {
   @override
   Widget build(BuildContext context) {
     final screenTitle = FkManageProviders.save["save-screen-title"];
+
     var selectedCurrency =
         FkManageProviders.get(context)["get-default-currency"];
     var setCurrency =
@@ -116,32 +117,42 @@ class _BudgetDetailsState extends State<BudgetDetails> {
                           itemCount: snapshot.data!.length,
                           itemBuilder: (BuildContext context, int index) {
                             return InkWell(
-                              child: Container(
-                                padding: const EdgeInsets.only(
-                                    left: 8.0,
-                                    top: 12.0,
-                                    right: 8.0,
-                                    bottom: 12.0),
-                                decoration: BoxDecoration(
-                                  color: fkBlueLight,
-                                  borderRadius: BorderRadius.circular(4.0),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                        "${snapshot.data?[index].budgetCategory}"),
-                                    Column(children: [
-                                      Text(
-                                          "${snapshot.data?[index].amountInitial}"),
-                                      verticalSpaceTiny,
-                                      Text(
-                                          "${snapshot.data?[index].amountConsumed}")
-                                    ])
-                                  ],
-                                ),
+                              child: Column(
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.only(
+                                        left: 8.0,
+                                        top: 12.0,
+                                        right: 8.0,
+                                        bottom: 12.0),
+                                    decoration: BoxDecoration(
+                                      color: fkBlueLight,
+                                      borderRadius: BorderRadius.circular(4.0),
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "${snapshot.data?[index].budgetCategory}",
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 14),
+                                        ),
+                                        Column(children: [
+                                          Text(
+                                              "${snapshot.data?[index].amountConsumed == 'null' ? "0.0" : snapshot.data?[index].amountConsumed}"),
+                                          verticalSpaceTiny,
+                                          Text(
+                                              "${snapshot.data?[index].amountInitial}")
+                                        ])
+                                      ],
+                                    ),
+                                  ),
+                                  verticalSpaceSmall,
+                                ],
                               ),
                               onTap: () {},
                             );
