@@ -23,18 +23,21 @@ class _AddBudgetDetailsState extends State<AddBudgetDetails> {
   bool loading = false;
   late Map getPeriod;
   late Map selectedItem;
-  TextEditingController addBudgetNameController = TextEditingController();
+  TextEditingController addBudgeAmountController = TextEditingController();
 
   late ScaffoldMessengerState scaffoldMessenger = ScaffoldMessenger.of(context);
 
-  Future saveBudgetName() async {
+  Future saveBudgetEnvelop(
+      {budgetCategory, envelopeAmount, budgetPeriod}) async {
     FocusManager.instance.primaryFocus?.unfocus();
     var token = await UserPreferences.getToken();
     Map newItem = {
-      "name": addBudgetNameController.text,
+      "budget_category_id": budgetCategory,
+      "budget_period_id": budgetPeriod,
+      "amount": addBudgeAmountController.text,
     };
 
-    if (addBudgetNameController.text == "") {
+    if (addBudgeAmountController.text == "") {
       scaffoldMessenger.showSnackBar(const SnackBar(
           content: Text(
         "This field can't remain empty.",
@@ -121,7 +124,7 @@ class _AddBudgetDetailsState extends State<AddBudgetDetails> {
                   children: [
                     TextFormField(
                         autofocus: true,
-                        // controller: addBudgetNameController,
+                        // controller: addBudgeAmountController,
                         keyboardType: TextInputType.text,
                         textInputAction: TextInputAction.done,
                         initialValue: selectedItem['name'],
@@ -139,7 +142,7 @@ class _AddBudgetDetailsState extends State<AddBudgetDetails> {
                     verticalSpaceSmall,
                     TextFormField(
                       autofocus: true,
-                      controller: addBudgetNameController,
+                      controller: addBudgeAmountController,
                       keyboardType: TextInputType.text,
                       textInputAction: TextInputAction.done,
                       decoration: InputDecoration(
@@ -184,8 +187,11 @@ class _AddBudgetDetailsState extends State<AddBudgetDetails> {
                             color: fkDefaultColor,
                           )),
                       child: TextButton(
-                        onPressed:
-                            loading == true ? () {} : () => saveBudgetName(),
+                        onPressed: loading == true
+                            ? () {}
+                            : () => saveBudgetEnvelop(
+                                budgetCategory: selectedItem["id"],
+                                budgetPeriod: getPeriod['id']),
                         child: loading == false
                             ? const Icon(
                                 Icons.add_circle,

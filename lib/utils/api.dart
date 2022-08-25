@@ -80,5 +80,6 @@ class Network {
 
   static String getBudgetList = "${liveUrl!}/budget/retrieve-all";
   static String registerBudgetName = "${liveUrl!}/budget/create-budget";
+  static String addEnvelope = "${liveUrl!}/budget/add-envelope-budget";
   static String getBudgetCategories = "${liveUrl!}/budget/budget-category";
 }
