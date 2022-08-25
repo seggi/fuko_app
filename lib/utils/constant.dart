@@ -7,6 +7,7 @@ var defaultCurrency = 150;
 late Future<List<GetCurrencies>> retrieveCurrencies;
 late Future<List<GetMonths>> retrieveMonths;
 late Future<List<BudgetData>> retrieveBudgetCategories;
+late Future<List<BudgetData>> retrieveBudgetPeriod;
 late List? retrieveExpensesDetailListByMonth;
 
 List<Map<String, Object>> monthsList = [
@@ -36,3 +37,24 @@ var todayDate = formatterDate.format(today);
 
 String amountPaymentLabel = "Pay one part";
 String singlePaymentMethod = "single";
+
+List<Map<String, Object>> budgetPeriodList = [
+  {
+    "id": 1,
+    "budget": "Zero period",
+    "description":
+        "Use the Zero period when the budget is not assigned to a specific month, but to the entire fiscal year."
+  },
+  {
+    "id": 2,
+    "budget": "Monthly periods",
+    "description":
+        "Use Enter Budget Amount Options and Budget routines to load monthly budgets."
+  },
+  {
+    "id": 3,
+    "budget": "Period 13",
+    "description":
+        "Use Annualized Budget when you want to project the actual current year amounts to the end of the year."
+  },
+];

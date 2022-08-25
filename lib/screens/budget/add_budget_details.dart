@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/utils/api.dart';
+import 'package:fuko_app/widgets/bottom_sheet/budget_periode.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
@@ -20,19 +21,23 @@ class AddBudgetDetails extends StatefulWidget {
 class _AddBudgetDetailsState extends State<AddBudgetDetails> {
   final _formKey = GlobalKey();
   bool loading = false;
+  late Map getPeriod;
   late Map selectedItem;
-  TextEditingController addBudgetNameController = TextEditingController();
+  TextEditingController addBudgeAmountController = TextEditingController();
 
   late ScaffoldMessengerState scaffoldMessenger = ScaffoldMessenger.of(context);
 
-  Future saveBudgetName() async {
+  Future saveBudgetEnvelop(
+      {budgetCategory, envelopeAmount, budgetPeriod}) async {
     FocusManager.instance.primaryFocus?.unfocus();
     var token = await UserPreferences.getToken();
     Map newItem = {
-      "name": addBudgetNameController.text,
+      "budget_category_id": budgetCategory,
+      "budget_period_id": budgetPeriod,
+      "amount": addBudgeAmountController.text,
     };
 
-    if (addBudgetNameController.text == "") {
+    if (addBudgeAmountController.text == "") {
       scaffoldMessenger.showSnackBar(const SnackBar(
           content: Text(
         "This field can't remain empty.",
@@ -80,6 +85,9 @@ class _AddBudgetDetailsState extends State<AddBudgetDetails> {
   Widget build(BuildContext context) {
     final screenTitle = FkManageProviders.get(context)['get-screen-title'];
     selectedItem = FkManageProviders.get(context)['get-item-selected'];
+    setState(() {
+      getPeriod = FkManageProviders.get(context)['get-period-selected'];
+    });
 
     return FkScrollViewWidgets.body(context, itemList: [
       Container(
@@ -95,6 +103,7 @@ class _AddBudgetDetailsState extends State<AddBudgetDetails> {
                       onPressed: () => PagesGenerator.goTo(context,
                           name: "budget-detail",
                           params: {"title": '$screenTitle'})),
+                  const BudgetListSheet()
                 ],
               ),
             ),
@@ -102,7 +111,7 @@ class _AddBudgetDetailsState extends State<AddBudgetDetails> {
             Container(
               alignment: Alignment.bottomLeft,
               child: const Text(
-                "Add Envelop",
+                "Add Envelope",
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
               ),
             ),
@@ -115,12 +124,12 @@ class _AddBudgetDetailsState extends State<AddBudgetDetails> {
                   children: [
                     TextFormField(
                         autofocus: true,
-                        // controller: addBudgetNameController,
+                        // controller: addBudgeAmountController,
                         keyboardType: TextInputType.text,
                         textInputAction: TextInputAction.done,
                         initialValue: selectedItem['name'],
                         decoration: InputDecoration(
-                            hintText: 'Enter envelop title',
+                            hintText: 'Enter envelope title',
                             border: OutlineInputBorder(
                                 borderSide: const BorderSide(
                                     color: fkInputFormBorderColor, width: 1.0),
@@ -133,11 +142,11 @@ class _AddBudgetDetailsState extends State<AddBudgetDetails> {
                     verticalSpaceSmall,
                     TextFormField(
                       autofocus: true,
-                      controller: addBudgetNameController,
+                      controller: addBudgeAmountController,
                       keyboardType: TextInputType.text,
                       textInputAction: TextInputAction.done,
                       decoration: InputDecoration(
-                          hintText: 'Enter envelop amount',
+                          hintText: 'Enter envelope amount',
                           border: OutlineInputBorder(
                               borderSide: const BorderSide(
                                   color: fkInputFormBorderColor, width: 1.0),
@@ -145,18 +154,27 @@ class _AddBudgetDetailsState extends State<AddBudgetDetails> {
                       onSaved: (String? value) {},
                     ),
                     verticalSpaceSmall,
-                    TextFormField(
-                      autofocus: true,
-                      controller: addBudgetNameController,
-                      keyboardType: TextInputType.text,
-                      textInputAction: TextInputAction.done,
-                      decoration: InputDecoration(
-                          hintText: 'Enter Period',
-                          border: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color: fkInputFormBorderColor, width: 1.0),
-                              borderRadius: BorderRadius.circular(8.0))),
-                      onSaved: (String? value) {},
+                    Container(
+                      padding: const EdgeInsets.symmetric(vertical: 20.0),
+                      decoration: BoxDecoration(
+                          color: fkBlueLight,
+                          border: Border.all(color: fkGreyText),
+                          borderRadius: BorderRadius.circular(8.0)),
+                      child: Container(
+                        margin: const EdgeInsets.only(left: 10),
+                        child: Align(
+                            alignment: Alignment.bottomLeft,
+                            child: getPeriod["budget"] == null
+                                ? const Text(
+                                    "Select period (Optional)",
+                                    style: TextStyle(
+                                        fontSize: 16, color: fkGreyText),
+                                  )
+                                : Text(
+                                    getPeriod["budget"],
+                                    style: const TextStyle(fontSize: 16),
+                                  )),
+                      ),
                     ),
                     verticalSpaceLarge,
                     Container(
@@ -169,8 +187,11 @@ class _AddBudgetDetailsState extends State<AddBudgetDetails> {
                             color: fkDefaultColor,
                           )),
                       child: TextButton(
-                        onPressed:
-                            loading == true ? () {} : () => saveBudgetName(),
+                        onPressed: loading == true
+                            ? () {}
+                            : () => saveBudgetEnvelop(
+                                budgetCategory: selectedItem["id"],
+                                budgetPeriod: getPeriod['id']),
                         child: loading == false
                             ? const Icon(
                                 Icons.add_circle,
