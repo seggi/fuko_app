@@ -22,21 +22,23 @@ class _BudgetDetailsState extends State<BudgetDetails> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    retrieveBudgetEnvelop =
-        fetchBudgetEnvelope(currencyCode: defaultCurrency.toString());
+    // retrieveBudgetEnvelop = fetchBudgetEnvelope(
+    //     currencyCode: defaultCurrency.toString(),
+    //     getId: FkManageProviders.get(context)['get-id']);
   }
 
   @override
   Widget build(BuildContext context) {
     final screenTitle = FkManageProviders.save["save-screen-title"];
-
+    final getId = FkManageProviders.get(context)['get-id'];
     var selectedCurrency =
         FkManageProviders.get(context)["get-default-currency"];
     var setCurrency =
         selectedCurrency != '' ? selectedCurrency : defaultCurrency.toString();
 
     setState(() {
-      retrieveBudgetEnvelop = fetchBudgetEnvelope(currencyCode: setCurrency);
+      retrieveBudgetEnvelop =
+          fetchBudgetEnvelope(currencyCode: setCurrency, getId: getId);
     });
 
     return FkScrollViewWidgets.body(context, itemList: [
