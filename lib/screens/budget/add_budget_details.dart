@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/utils/api.dart';
+import 'package:fuko_app/utils/constant.dart';
 import 'package:fuko_app/widgets/bottom_sheet/budget_periode.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -28,13 +29,23 @@ class _AddBudgetDetailsState extends State<AddBudgetDetails> {
   late ScaffoldMessengerState scaffoldMessenger = ScaffoldMessenger.of(context);
 
   Future saveBudgetEnvelop(
-      {budgetCategory, envelopeAmount, budgetPeriod}) async {
+      {budgetCategory,
+      envelopeAmount,
+      budgetPeriod,
+      defaultCurrency,
+      getId,
+      screenTitle,
+      selectedCurrency}) async {
     FocusManager.instance.primaryFocus?.unfocus();
     var token = await UserPreferences.getToken();
+
     Map newItem = {
+      "currency_id": selectedCurrency ?? defaultCurrency,
       "budget_category_id": budgetCategory,
-      "budget_period_id": budgetPeriod,
-      "amount": addBudgeAmountController.text,
+      // "budget_period_id": budgetPeriod,
+      "budget_option_id": expense.toString(),
+      "budget_id": getId,
+      "budget_amount": addBudgeAmountController.text,
     };
 
     if (addBudgeAmountController.text == "") {
@@ -48,7 +59,7 @@ class _AddBudgetDetailsState extends State<AddBudgetDetails> {
       setState(() {
         loading = true;
       });
-      final response = await http.post(Uri.parse(Network.registerBudgetName),
+      final response = await http.post(Uri.parse(Network.addEnvelope),
           headers: Network.authorizedHeaders(token: token),
           body: jsonEncode(newItem));
 
@@ -65,7 +76,8 @@ class _AddBudgetDetailsState extends State<AddBudgetDetails> {
             ),
           ));
         } else {
-          PagesGenerator.goTo(context, pathName: "/budget?status=true");
+          PagesGenerator.goTo(context,
+              name: "budget-detail", params: {"title": '$screenTitle'});
         }
       } else {
         setState(() {
@@ -85,6 +97,13 @@ class _AddBudgetDetailsState extends State<AddBudgetDetails> {
   Widget build(BuildContext context) {
     final screenTitle = FkManageProviders.get(context)['get-screen-title'];
     selectedItem = FkManageProviders.get(context)['get-item-selected'];
+    final getId = FkManageProviders.get(context)['get-id'];
+
+    var selectedCurrency =
+        FkManageProviders.get(context)["get-default-currency"];
+    var setCurrency =
+        selectedCurrency != '' ? selectedCurrency : defaultCurrency.toString();
+
     setState(() {
       getPeriod = FkManageProviders.get(context)['get-period-selected'];
     });
@@ -190,6 +209,10 @@ class _AddBudgetDetailsState extends State<AddBudgetDetails> {
                         onPressed: loading == true
                             ? () {}
                             : () => saveBudgetEnvelop(
+                                getId: getId,
+                                screenTitle: screenTitle,
+                                defaultCurrency: defaultCurrency,
+                                selectedCurrency: setCurrency,
                                 budgetCategory: selectedItem["id"],
                                 budgetPeriod: getPeriod['id']),
                         child: loading == false

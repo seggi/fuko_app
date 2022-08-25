@@ -4,6 +4,8 @@ import 'package:fuko_app/core/months_data.dart';
 import 'package:intl/intl.dart';
 
 var defaultCurrency = 150;
+var income = 1;
+var expense = 2;
 late Future<List<GetCurrencies>> retrieveCurrencies;
 late Future<List<GetMonths>> retrieveMonths;
 late Future<List<BudgetData>> retrieveBudgetCategories;

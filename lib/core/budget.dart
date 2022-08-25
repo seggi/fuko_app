@@ -43,7 +43,7 @@ class BudgetData {
         envelope: json["envelope"].toString(),
         budgetCategory: json['name'].toString(),
         amountConsumed: json["amount_consumed"].toString(),
-        amountInitial: json["amount_initial"].toString());
+        amountInitial: json["budget_amount"].toString());
   }
 }
 
@@ -81,10 +81,11 @@ Future<List<BudgetData>> fetchBudgetPeriod() async {
 }
 
 Future<List<BudgetData>> fetchBudgetEnvelope(
-    {required String currencyCode}) async {
+    {required String currencyCode, required getId}) async {
   var token = await UserPreferences.getToken();
+
   final response = await http.get(
-      Uri.parse("${Network.getEnvelopeList}/$currencyCode"),
+      Uri.parse("${Network.getEnvelopeList}/$getId/$currencyCode"),
       headers: Network.authorizedHeaders(token: token));
 
   if (response.statusCode == 200) {
