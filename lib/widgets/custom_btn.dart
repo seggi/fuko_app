@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 
-Widget authButton({context, title, btnColor, textColor, fn}) {
+Widget authButton({context, title, btnColor, textColor, loading, fn}) {
   return Container(
     width: MediaQuery.of(context).size.width,
     padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
@@ -14,13 +14,22 @@ Widget authButton({context, title, btnColor, textColor, fn}) {
             border: Border.all(color: ftBtnColorBgSolid, width: 2.0)),
     child: TextButton(
         child: title == "Login"
-            ? Text(
-                title,
-                style: TextStyle(
-                    color: textColor,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 20.0),
-              )
+            ? loading == false
+                ? Text(
+                    title,
+                    style: TextStyle(
+                        color: textColor,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 20.0),
+                  )
+                : const SizedBox(
+                    height: 20,
+                    width: 20,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2.0,
+                      color: fkWhiteText,
+                    ),
+                  )
             : Text(
                 title,
                 style: const TextStyle(
