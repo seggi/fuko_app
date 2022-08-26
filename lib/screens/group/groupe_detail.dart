@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fuko_app/controllers/manage_provider.dart';
 
 import '../../controllers/page_generator.dart';
@@ -57,6 +58,9 @@ class _GroupDetailState extends State<GroupDetail> {
                             Icons.add_circle,
                             color: fkBlueText,
                           )),
+                      IconButton(
+                          onPressed: () {},
+                          icon: const Icon(FontAwesomeIcons.peopleGroup))
                     ],
                   )
                 ],
