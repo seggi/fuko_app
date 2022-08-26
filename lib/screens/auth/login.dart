@@ -45,11 +45,17 @@ class _LoginPageState extends State<LoginPage> {
     final String password = passwordController.text;
 
     if (emailController.text.isEmpty) {
+      setState(() {
+        isLoading = false;
+      });
       scaffoldMessenger
           .showSnackBar(const SnackBar(content: Text("Please Enter email")));
     }
 
     if (passwordController.text.isEmpty) {
+      setState(() {
+        isLoading = false;
+      });
       scaffoldMessenger
           .showSnackBar(const SnackBar(content: Text("Please Enter Password")));
     } else {
@@ -75,6 +81,9 @@ class _LoginPageState extends State<LoginPage> {
               provider: "auth",
               token: user.token);
         } else {
+          setState(() {
+            isLoading = false;
+          });
           PagesGenerator.goTo(context,
               pathName: "/complete-profile",
               itemData: {"data": user.data, "token": user.token},
@@ -92,6 +101,13 @@ class _LoginPageState extends State<LoginPage> {
         ));
       }
     }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    isLoading = false;
   }
 
   @override
@@ -142,22 +158,24 @@ class _LoginPageState extends State<LoginPage> {
             passwordController: passwordController,
           ),
           verticalSpaceLarge,
-          isLoading == false
-              ? authButton(
-                  context: context,
-                  title: 'Login',
-                  btnColor: ftBtnColorBgSolid,
-                  textColor: fkWhiteText,
-                  fn: () {
-                    login();
-                  })
-              : const SizedBox(
-                  height: 20,
-                  width: 20,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2.0,
-                  ),
-                ),
+          // isLoading == false
+          // ?
+          authButton(
+              context: context,
+              title: 'Login',
+              btnColor: ftBtnColorBgSolid,
+              textColor: fkWhiteText,
+              loading: isLoading,
+              fn: () {
+                login();
+              }),
+          // : const SizedBox(
+          //     height: 20,
+          //     width: 20,
+          //     child: CircularProgressIndicator(
+          //       strokeWidth: 2.0,
+          //     ),
+          //   ),
           verticalSpaceRegular,
           authButton(
               context: context,

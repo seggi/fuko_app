@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:fuko_app/controllers/manage_provider.dart';
 
 import '../../controllers/page_generator.dart';
 import '../../core/user_preferences.dart';
@@ -21,6 +21,7 @@ class _GroupDetailState extends State<GroupDetail> {
 
   @override
   Widget build(BuildContext context) {
+    final screenTitle = FkManageProviders.get(context)['get-screen-title'];
     return Container(
         child: FkContentBoxWidgets.body(context, 'groupe detail', itemList: [
       Column(
@@ -41,9 +42,9 @@ class _GroupDetailState extends State<GroupDetail> {
                             Icons.arrow_back_ios,
                             size: 20,
                           )),
-                      const Text(
-                        "Groupe Detail",
-                        style: TextStyle(
+                      Text(
+                        "$screenTitle",
+                        style: const TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold),
                       )
                     ],
@@ -57,6 +58,9 @@ class _GroupDetailState extends State<GroupDetail> {
                             Icons.add_circle,
                             color: fkBlueText,
                           )),
+                      IconButton(
+                          onPressed: () {},
+                          icon: const Icon(FontAwesomeIcons.peopleGroup))
                     ],
                   )
                 ],
