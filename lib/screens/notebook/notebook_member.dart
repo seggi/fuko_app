@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/core/notebook.dart';
@@ -79,18 +80,6 @@ class _NotebookMemberState extends State<NotebookMember> {
               )
             ],
           )),
-      fkContentBoxWidgets.initialItems(itemList: [
-        verticalSpaceRegular,
-        const Align(
-          alignment: Alignment.bottomLeft,
-          child: Text(
-            "All members",
-            style: TextStyle(
-                color: fkGreyText, fontWeight: FontWeight.w400, fontSize: 16),
-          ),
-        ),
-        verticalSpaceRegular,
-      ]),
       Expanded(
         child: FutureBuilder(
           future: retrieveNotebookMember,
@@ -117,9 +106,13 @@ class _NotebookMemberState extends State<NotebookMember> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: ListTile(
-                        leading: const Icon(
-                          Icons.account_circle_outlined,
-                          size: 30,
+                        leading: const CircleAvatar(
+                          backgroundColor: fkGreyText,
+                          child: Icon(
+                            Icons.person,
+                            size: 30,
+                            color: fkWhiteText,
+                          ),
                         ),
                         title: SizedBox(
                           width: 200,
@@ -144,8 +137,37 @@ class _NotebookMemberState extends State<NotebookMember> {
                                         child: Row(
                                           children: const [
                                             Icon(
-                                              Icons.add_link,
-                                              color: Colors.blue,
+                                              FontAwesomeIcons.userGroup,
+                                              color: fkBlueText,
+                                              size: 14,
+                                            ),
+                                            horizontalSpaceSmall,
+                                            Text("Group")
+                                          ],
+                                        ),
+                                      ),
+                                      onLongPress: () {},
+                                    )
+                                  : Container(
+                                      width: 20,
+                                      height: 20,
+                                      margin: const EdgeInsets.only(left: 40.0),
+                                      child: const Center(
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2.0,
+                                        ),
+                                      ),
+                                    ),
+                              loading == false
+                                  ? InkWell(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Row(
+                                          children: const [
+                                            Icon(
+                                              FontAwesomeIcons.bank,
+                                              color: fkBlueText,
+                                              size: 14,
                                             ),
                                             horizontalSpaceSmall,
                                             Text("Dept")
@@ -173,8 +195,9 @@ class _NotebookMemberState extends State<NotebookMember> {
                                         child: Row(
                                           children: const [
                                             Icon(
-                                              Icons.add_link,
-                                              color: Colors.blue,
+                                              FontAwesomeIcons.wallet,
+                                              color: fkBlueText,
+                                              size: 14,
                                             ),
                                             horizontalSpaceSmall,
                                             Text("Loan")

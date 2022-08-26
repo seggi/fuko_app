@@ -31,6 +31,7 @@ class _GroupePageState extends State<GroupePage> {
   @override
   Widget build(BuildContext context) {
     final screenTitle = FkManageProviders.save["save-screen-title"];
+    final saveId = FkManageProviders.save['save-id'];
 
     setState(() {
       retrieveGroupName = fetchGroupList();
@@ -100,6 +101,8 @@ class _GroupePageState extends State<GroupePage> {
                     itemBuilder: (BuildContext context, int index) {
                       return InkWell(
                         onTap: () {
+                          saveId(context,
+                              id: "${snapshot.data?[index].groupName}");
                           screenTitle(context,
                               screenTitle:
                                   "${snapshot.data?[index].groupName}");

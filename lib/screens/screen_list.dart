@@ -36,3 +36,4 @@ export 'budget/register_budget_name.dart';
 export 'budget/add_budget_details.dart';
 export 'budget/search_budget_category.dart';
 export 'group/create_group.dart';
+export 'group/invite_friend.dart';

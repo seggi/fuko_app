@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class Network {
@@ -86,4 +87,10 @@ class Network {
 
   static String getGroupList = "${liveUrl!}/account/group/retrieve-group";
   static String createGroup = "${liveUrl!}/account/group/create-group";
+  static String groupRequest =
+      "${liveUrl!}/account/group/retrieve-request-sent";
+  static String inviteFriendToGroup =
+      "${liveUrl!}/account/group/add-partner-to-your-group";
+  static String confirmedCanceled =
+      "${liveUrl!}/account/group/cancel-accept-reject-request";
 }

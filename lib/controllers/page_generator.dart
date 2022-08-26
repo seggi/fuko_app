@@ -97,6 +97,13 @@ class PagesGenerator {
                     return const CreateGroup();
                   },
                 ),
+                GoRoute(
+                  name: 'invite-friend-to-group',
+                  path: 'invite-friend-to-group',
+                  builder: (context, state) {
+                    return const InviteFriendToGroup();
+                  },
+                ),
               ]),
           GoRoute(
             path: 'expenses',
