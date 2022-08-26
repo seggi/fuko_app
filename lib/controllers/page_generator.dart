@@ -90,6 +90,13 @@ class PagesGenerator {
                     return const GroupDetail();
                   },
                 ),
+                GoRoute(
+                  name: 'create-group',
+                  path: 'create-group',
+                  builder: (context, state) {
+                    return const CreateGroup();
+                  },
+                ),
               ]),
           GoRoute(
             path: 'expenses',
