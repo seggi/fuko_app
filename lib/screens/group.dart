@@ -101,8 +101,7 @@ class _GroupePageState extends State<GroupePage> {
                     itemBuilder: (BuildContext context, int index) {
                       return InkWell(
                         onTap: () {
-                          saveId(context,
-                              id: "${snapshot.data?[index].groupName}");
+                          saveId(context, id: "${snapshot.data?[index].id}");
                           screenTitle(context,
                               screenTitle:
                                   "${snapshot.data?[index].groupName}");

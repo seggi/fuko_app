@@ -93,4 +93,10 @@ class Network {
       "${liveUrl!}/account/group/add-partner-to-your-group";
   static String confirmedCanceled =
       "${liveUrl!}/account/group/cancel-accept-reject-request";
+  static String retrieveMemberContribution =
+      "${liveUrl!}/account/group/retrieve-member-contribution";
+  static String retrieveParticipator =
+      "${liveUrl!}/account/group/retrieve-participator";
+  static String saveGroupContributor =
+      "${liveUrl!}/account/group/save-group-contribution";
 }
