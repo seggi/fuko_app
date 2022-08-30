@@ -76,8 +76,8 @@ class _GroupDetailState extends State<GroupDetail> {
                 Row(
                   children: [
                     IconButton(
-                      onPressed: () =>
-                          PagesGenerator.goTo(context, name: "create-groupe"),
+                      onPressed: () => PagesGenerator.goTo(context,
+                          name: "add-contribution"),
                       icon: const Icon(
                         Icons.add_circle,
                         color: fkBlueText,
