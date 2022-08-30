@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/utils/api.dart';
+import 'package:fuko_app/utils/constant.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
@@ -21,20 +23,37 @@ class _AddContributionState extends State<AddContribution> {
   bool loading = false;
   late Map getPeriod;
   late Map selectedItem;
-  TextEditingController groupNameController = TextEditingController();
+  TextEditingController amountController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
 
   late ScaffoldMessengerState scaffoldMessenger = ScaffoldMessenger.of(context);
 
-  Future createGroup() async {
+  Future addContribution(
+      {selectedCurrency, groupId, List? members = const []}) async {
     FocusManager.instance.primaryFocus?.unfocus();
     var token = await UserPreferences.getToken();
 
-    Map newItem = {"group_name": groupNameController.text, "is_admin": 1};
+    List<Map> newItem = [
+      {
+        "amount": amountController,
+        "currency_id": selectedCurrency,
+        "description": descriptionController
+      },
+      {"members": members}
+    ];
 
-    if (groupNameController.text == "") {
+    if (amountController.text.isEmpty) {
       scaffoldMessenger.showSnackBar(const SnackBar(
           content: Text(
-        "This field can't remain empty.",
+        "Amount field can't remain empty.",
+        style: TextStyle(color: Colors.white, fontSize: 16),
+      )));
+      return;
+    }
+    if (descriptionController.text.isEmpty) {
+      scaffoldMessenger.showSnackBar(const SnackBar(
+          content: Text(
+        "Description field can't remain empty.",
         style: TextStyle(color: Colors.white, fontSize: 16),
       )));
       return;
@@ -42,7 +61,8 @@ class _AddContributionState extends State<AddContribution> {
       setState(() {
         loading = true;
       });
-      final response = await http.post(Uri.parse(Network.createGroup),
+      final response = await http.post(
+          Uri.parse("${Network.saveGroupContributor}/$groupId"),
           headers: Network.authorizedHeaders(token: token),
           body: jsonEncode(newItem));
 
@@ -59,7 +79,7 @@ class _AddContributionState extends State<AddContribution> {
             ),
           ));
         } else {
-          PagesGenerator.goTo(context, pathName: "/groupe");
+          PagesGenerator.goTo(context, name: "groupe-detail");
         }
       } else {
         setState(() {
@@ -77,6 +97,12 @@ class _AddContributionState extends State<AddContribution> {
 
   @override
   Widget build(BuildContext context) {
+    final groupId = FkManageProviders.get(context)['get-id'];
+    var selectedCurrency =
+        FkManageProviders.get(context)["get-default-currency"];
+    var setCurrency =
+        selectedCurrency != '' ? selectedCurrency : defaultCurrency.toString();
+
     return FkScrollViewWidgets.body(
       context,
       itemList: [
@@ -93,6 +119,13 @@ class _AddContributionState extends State<AddContribution> {
                         icon: const Icon(Icons.cancel_outlined),
                         onPressed: () => PagesGenerator.goTo(context,
                             name: "groupe-detail")),
+                    IconButton(
+                        onPressed: () {},
+                        icon: const Icon(
+                          Icons.safety_divider,
+                          color: fkBlueText,
+                          size: 28,
+                        ))
                   ],
                 ),
               ),
@@ -114,7 +147,7 @@ class _AddContributionState extends State<AddContribution> {
                       verticalSpaceSmall,
                       TextFormField(
                         autofocus: true,
-                        controller: groupNameController,
+                        controller: amountController,
                         keyboardType: TextInputType.text,
                         textInputAction: TextInputAction.done,
                         decoration: InputDecoration(
@@ -128,7 +161,7 @@ class _AddContributionState extends State<AddContribution> {
                       verticalSpaceRegular,
                       TextFormField(
                         autofocus: true,
-                        controller: groupNameController,
+                        controller: descriptionController,
                         keyboardType: TextInputType.text,
                         textInputAction: TextInputAction.done,
                         decoration: InputDecoration(
@@ -150,8 +183,11 @@ class _AddContributionState extends State<AddContribution> {
                               color: fkDefaultColor,
                             )),
                         child: TextButton(
-                          onPressed:
-                              loading == true ? () {} : () => createGroup(),
+                          onPressed: loading == true
+                              ? () {}
+                              : () => addContribution(
+                                  selectedCurrency: setCurrency,
+                                  groupId: groupId),
                           child: loading == false
                               ? const Icon(
                                   Icons.add_circle,
