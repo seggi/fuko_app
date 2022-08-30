@@ -2,16 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
-class CustomExpandedListTile extends StatefulWidget {
+class ContributionDetailsListTile extends StatefulWidget {
   final Map data;
-  const CustomExpandedListTile({Key? key, required this.data})
+  const ContributionDetailsListTile({Key? key, required this.data})
       : super(key: key);
 
   @override
-  State<CustomExpandedListTile> createState() => _CustomExpandedListTileState();
+  State<ContributionDetailsListTile> createState() =>
+      _ContributionDetailsListTileState();
 }
 
-class _CustomExpandedListTileState extends State<CustomExpandedListTile> {
+class _ContributionDetailsListTileState
+    extends State<ContributionDetailsListTile> {
   bool _customTileExpanded = false;
 
   @override

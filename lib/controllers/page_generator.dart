@@ -104,6 +104,13 @@ class PagesGenerator {
                     return const InviteFriendToGroup();
                   },
                 ),
+                GoRoute(
+                  name: 'add-contribution',
+                  path: 'add-contribution',
+                  builder: (context, state) {
+                    return const AddContribution();
+                  },
+                ),
               ]),
           GoRoute(
             path: 'expenses',

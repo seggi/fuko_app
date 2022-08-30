@@ -14,28 +14,36 @@ class GroupData {
   final String? groupDeleted;
   final String? groupName;
   final String? isAdmin;
+  final String? firstName;
+  final String? lastName;
+  final String? username;
 
-  GroupData({
-    this.createdAt,
-    this.description,
-    this.id,
-    this.updatedAt,
-    this.amount,
-    this.groupDeleted,
-    this.groupName,
-    this.isAdmin,
-  });
+  GroupData(
+      {this.createdAt,
+      this.description,
+      this.id,
+      this.updatedAt,
+      this.amount,
+      this.groupDeleted,
+      this.groupName,
+      this.isAdmin,
+      this.username,
+      this.firstName,
+      this.lastName});
 
   factory GroupData.fromJson(Map<String, dynamic> json) {
     return GroupData(
         description: json["description"].toString(),
-        createdAt: json['created_at'].toString(),
-        updatedAt: json['updated_at'].toString(),
-        id: json['id'].toString(),
+        createdAt: json["created_at"].toString(),
+        updatedAt: json["updated_at"].toString(),
+        id: json["id"].toString(),
         amount: json["amount"].toString(),
         groupName: json["group_name"].toString(),
         isAdmin: json["is_admin"].toString(),
-        groupDeleted: json["group_deleted"].toString());
+        groupDeleted: json["group_deleted"].toString(),
+        firstName: json["first_name"].toString(),
+        lastName: json["last_name"].toString(),
+        username: json["username"].toString());
   }
 }
 
@@ -46,6 +54,38 @@ Future<List<GroupData>> fetchGroupList() async {
 
   if (response.statusCode == 200) {
     var groupList = jsonDecode(response.body)["all_group"] as List;
+
+    return groupList.map((group) => GroupData.fromJson(group)).toList();
+  } else {
+    throw Exception('Failed to load data');
+  }
+}
+
+Future<List<GroupData>> fetchMemberContribution({groupId, currencyCode}) async {
+  var token = await UserPreferences.getToken();
+  final response = await http.get(
+      Uri.parse("${Network.retrieveMemberContribution}/$groupId/$currencyCode"),
+      headers: Network.authorizedHeaders(token: token));
+
+  if (response.statusCode == 200) {
+    var groupList = jsonDecode(response.body)["data"] as List;
+
+    return groupList.map((group) => GroupData.fromJson(group)).toList();
+  } else {
+    throw Exception('Failed to load data');
+  }
+}
+
+Future<List<GroupData>> fetchParticipator(
+    {contributionId, currencyCode}) async {
+  var token = await UserPreferences.getToken();
+  final response = await http.get(
+      Uri.parse(
+          "${Network.retrieveParticipator}/$contributionId/$currencyCode"),
+      headers: Network.authorizedHeaders(token: token));
+
+  if (response.statusCode == 200) {
+    var groupList = jsonDecode(response.body)["data"] as List;
 
     return groupList.map((group) => GroupData.fromJson(group)).toList();
   } else {

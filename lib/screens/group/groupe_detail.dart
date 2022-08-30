@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fuko_app/controllers/manage_provider.dart';
+import 'package:fuko_app/core/group.dart';
+import 'package:fuko_app/utils/constant.dart';
+import 'package:fuko_app/widgets/expanded/contribution_details.dart';
 
 import '../../controllers/page_generator.dart';
 import '../../widgets/draggable/custom_draggable_sheet.dart';
@@ -18,9 +21,31 @@ class GroupDetail extends StatefulWidget {
 class _GroupDetailState extends State<GroupDetail> {
   FkContentBoxWidgets fkContentBoxWidgets = FkContentBoxWidgets();
 
+  late Future<List<GroupData>> retrieveMemberContribution;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // retrieveMemberContribution = fetchMemberContribution(
+    //     groupId: FkManageProviders.get(context)['get-id'],
+    //     currencyCode: defaultCurrency);
+  }
+
   @override
   Widget build(BuildContext context) {
+    final groupId = FkManageProviders.get(context)['get-id'];
     final screenTitle = FkManageProviders.get(context)['get-screen-title'];
+    var selectedCurrency =
+        FkManageProviders.get(context)["get-default-currency"];
+
+    var setCurrency =
+        selectedCurrency != '' ? selectedCurrency : defaultCurrency.toString();
+
+    setState(() {
+      retrieveMemberContribution =
+          fetchMemberContribution(groupId: groupId, currencyCode: setCurrency);
+    });
     return Container(
         child: FkContentBoxWidgets.body(context, 'groupe detail', itemList: [
       Column(
@@ -51,8 +76,8 @@ class _GroupDetailState extends State<GroupDetail> {
                 Row(
                   children: [
                     IconButton(
-                      onPressed: () =>
-                          PagesGenerator.goTo(context, name: "create-groupe"),
+                      onPressed: () => PagesGenerator.goTo(context,
+                          name: "add-contribution"),
                       icon: const Icon(
                         Icons.add_circle,
                         color: fkBlueText,
@@ -72,87 +97,53 @@ class _GroupDetailState extends State<GroupDetail> {
               ],
             ),
           ),
-          fkContentBoxWidgets.initialItems(itemList: [
-            verticalSpaceMedium,
-            Container(
-              padding: const EdgeInsets.only(left: 0.0, right: 0.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const <Widget>[
-                      Text(
-                        "Rwf",
-                        style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                            color: fkBlackText),
+          Expanded(
+            child: FutureBuilder<List<GroupData>>(
+              future: retrieveMemberContribution,
+              builder: (
+                BuildContext context,
+                AsyncSnapshot snapshot,
+              ) {
+                if (snapshot.hasData) {
+                  if (snapshot.data.isEmpty) {
+                    return Container(
+                        margin: const EdgeInsets.only(top: 0.0),
+                        child: const Center(child: Text("No group")));
+                  }
+                  return Container(
+                    padding: const EdgeInsets.only(left: 20, right: 20),
+                    child:
+                        NotificationListener<OverscrollIndicatorNotification>(
+                      onNotification:
+                          (OverscrollIndicatorNotification? overscroll) {
+                        overscroll!.disallowIndicator();
+                        return true;
+                      },
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return ContributionDetailsListTile(data: {
+                            "id": "${snapshot.data?[index].id}",
+                            "amount": "${snapshot.data?[index].amount}",
+                            "name":
+                                "${snapshot.data?[index].firstName} ${snapshot.data?[index].lastName}"
+                          });
+                        },
                       ),
-                      Text(
-                        "3,456",
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.w600,
-                            color: fkBlackText),
-                      ),
-                    ],
-                  ),
-                  Container(
-                    alignment: Alignment.center,
-                    padding: const EdgeInsets.only(right: 8.0),
-                    child: const Icon(
-                      Icons.account_balance_wallet,
-                      size: 24,
-                      color: fkBlackText,
                     ),
-                  )
-                ],
-              ),
-            ),
-            verticalSpaceRegular,
-            InkWell(
-              onTap: () => PagesGenerator.goTo(context, name: "groupe-detail"),
-              child: Container(
-                decoration: const BoxDecoration(
-                    border: Border(
-                        bottom: BorderSide(color: fkGreyText, width: 0.5))),
-                child: ListTile(
-                  leading: const CircleAvatar(
-                    backgroundColor: fkGreyText,
-                    child: Icon(
-                      Icons.person,
-                      color: fkWhiteText,
-                    ),
+                  );
+                } else if (snapshot.hasError) {
+                  return const Center(child: Text('Something went wrong:('));
+                }
+                return const Center(
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2.0,
                   ),
-                  title: const Text("Seggi SMS"),
-                  subtitle: const Text("Paid for Ingredients"),
-                  trailing: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: const [
-                      Text(
-                        "2235",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w300,
-                          fontSize: 16,
-                        ),
-                      ),
-                      verticalSpaceTiny,
-                      Text(
-                        "Borrowed",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w300,
-                            fontSize: 16,
-                            color: Colors.red),
-                      )
-                    ],
-                  ),
-                ),
-              ),
+                );
+              },
             ),
-          ])
+          ),
         ],
       ),
       const CustomDraggableSheet()
