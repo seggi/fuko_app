@@ -111,6 +111,13 @@ class PagesGenerator {
                     return const AddContribution();
                   },
                 ),
+                GoRoute(
+                  name: 'group-member',
+                  path: 'group-member',
+                  builder: (context, state) {
+                    return const GroupMember();
+                  },
+                ),
               ]),
           GoRoute(
             path: 'expenses',

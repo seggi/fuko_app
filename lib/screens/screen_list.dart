@@ -38,3 +38,4 @@ export 'budget/search_budget_category.dart';
 export 'group/create_group.dart';
 export 'group/invite_friend.dart';
 export 'group/add_contribution.dart';
+export 'group/group_member.dart';
