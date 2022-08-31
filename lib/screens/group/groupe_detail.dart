@@ -146,7 +146,7 @@ class _GroupDetailState extends State<GroupDetail> {
           ),
         ],
       ),
-      const CustomDraggableSheet()
+      // const CustomDraggableSheet()
     ]));
   }
 }

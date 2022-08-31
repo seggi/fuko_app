@@ -76,7 +76,7 @@ class _GroupMemberState extends State<GroupMember> {
                                 ],
                               ),
                               child: ListTile(
-                                contentPadding: EdgeInsets.all(8.0),
+                                contentPadding: const EdgeInsets.all(8.0),
                                 leading: const Icon(
                                   Icons.delete_sweep,
                                   color: Color(0xFFFE4A49),
