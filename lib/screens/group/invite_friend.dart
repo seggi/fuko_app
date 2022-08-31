@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/core/user.dart';
 import 'package:fuko_app/utils/api.dart';
@@ -140,6 +141,15 @@ class _InviteFriendToGroupState extends State<InviteFriendToGroup> {
                       icon: const Icon(Icons.cancel_outlined),
                       onPressed: () =>
                           PagesGenerator.goTo(context, name: "groupe-detail")),
+                  IconButton(
+                    onPressed: () =>
+                        PagesGenerator.goTo(context, name: "gr-request-sent"),
+                    icon: const Icon(
+                      Icons.pending_outlined,
+                      color: fkBlueText,
+                      size: 24,
+                    ),
+                  ),
                 ],
               ),
             ),

@@ -6,9 +6,7 @@ import 'package:fuko_app/utils/constant.dart';
 import 'package:fuko_app/widgets/expanded/contribution_details.dart';
 
 import '../../controllers/page_generator.dart';
-import '../../widgets/draggable/custom_draggable_sheet.dart';
 import '../../widgets/shared/style.dart';
-import '../../widgets/shared/ui_helper.dart';
 import '../content_box_widgets.dart';
 
 class GroupDetail extends StatefulWidget {
@@ -79,7 +77,7 @@ class _GroupDetailState extends State<GroupDetail> {
                       onPressed: () => PagesGenerator.goTo(context,
                           name: "add-contribution"),
                       icon: const Icon(
-                        Icons.add_circle,
+                        Icons.add_circle_outline,
                         color: fkBlueText,
                       ),
                     ),

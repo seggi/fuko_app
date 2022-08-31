@@ -50,32 +50,35 @@ class _HomePageState extends State<HomePage> {
       globalAmount = fetchGlobalAmount(currencyId: getCurrency);
     });
 
-    return WillPopScope(
-        onWillPop: () async {
-          return false;
-        },
-        child: RefreshIndicator(
-          child: SingleChildScrollView(
-            physics: const ClampingScrollPhysics(),
-            child: SizedBox.fromSize(
-                size: MediaQuery.of(context).size,
-                child: customFutureBuilder(userData)),
-          ),
-          onRefresh: () {
-            return Future.delayed(const Duration(seconds: 1), () {
-              setState(() {
-                globalAmount = fetchGlobalAmount(currencyId: getCurrency);
-              });
-
-              // ignore: deprecated_member_use
-              _scaffoldKey.currentState!.showSnackBar(
-                const SnackBar(
-                  content: Text('Page Refreshed'),
-                ),
-              );
-            });
+    return Container(
+      color: fkDefaultColor,
+      child: WillPopScope(
+          onWillPop: () async {
+            return false;
           },
-        ));
+          child: RefreshIndicator(
+            child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              child: SizedBox.fromSize(
+                  size: MediaQuery.of(context).size,
+                  child: customFutureBuilder(userData)),
+            ),
+            onRefresh: () {
+              return Future.delayed(const Duration(seconds: 1), () {
+                setState(() {
+                  globalAmount = fetchGlobalAmount(currencyId: getCurrency);
+                });
+
+                // ignore: deprecated_member_use
+                _scaffoldKey.currentState!.showSnackBar(
+                  const SnackBar(
+                    content: Text('Page Refreshed'),
+                  ),
+                );
+              });
+            },
+          )),
+    );
   }
 
   Widget customFutureBuilder(userData) {
@@ -103,6 +106,8 @@ class _HomePageState extends State<HomePage> {
                     snapshot.data!.globalAmountDetails['dept'].toString()));
 
             return FkContentBoxWidgets.body(context, 'home',
+                fn: () =>
+                    PagesGenerator.goTo(context, pathName: "/notification"),
                 username:
                     "${toBeginningOfSentenceCase("${userData['data']["username"]}")}",
                 itemList: [
@@ -116,7 +121,6 @@ class _HomePageState extends State<HomePage> {
                         scrollDirection: Axis.horizontal,
                         child: Container(
                             width: MediaQuery.of(context).size.width,
-                            margin: const EdgeInsets.only(left: 10.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
@@ -146,34 +150,6 @@ class _HomePageState extends State<HomePage> {
                                     )
                                   ],
                                 ),
-                                horizontalSpaceSmall,
-                                Column(
-                                  children: [
-                                    InkWell(
-                                      child: Container(
-                                        height: 50,
-                                        width: 50,
-                                        decoration: const BoxDecoration(
-                                          color: fkWhiteText,
-                                          borderRadius: BorderRadius.all(
-                                            Radius.circular(30.0),
-                                          ),
-                                        ),
-                                        child: const Icon(Icons.apartment),
-                                      ),
-                                      // onTap: () => context.go('/dashboard'),
-                                    ),
-                                    verticalSpaceSmall,
-                                    const Text(
-                                      "Lodging",
-                                      style: TextStyle(
-                                          color: fkWhiteText,
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w300),
-                                    )
-                                  ],
-                                ),
-                                horizontalSpaceSmall,
                                 Column(
                                   children: [
                                     InkWell(
@@ -200,7 +176,6 @@ class _HomePageState extends State<HomePage> {
                                     )
                                   ],
                                 ),
-                                horizontalSpaceSmall,
                                 Column(
                                   children: [
                                     InkWell(

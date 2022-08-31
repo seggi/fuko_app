@@ -38,6 +38,12 @@ class PagesGenerator {
             },
           ),
           GoRoute(
+            path: 'notification',
+            builder: (context, state) {
+              return const Notification();
+            },
+          ),
+          GoRoute(
               path: 'notebook',
               builder: (context, state) {
                 return const NotebookPage();
@@ -116,6 +122,13 @@ class PagesGenerator {
                   path: 'group-member',
                   builder: (context, state) {
                     return const GroupMember();
+                  },
+                ),
+                GoRoute(
+                  name: 'gr-request-sent',
+                  path: 'gr-request-sent',
+                  builder: (context, state) {
+                    return const GrRequestSent();
                   },
                 ),
               ]),
