@@ -137,34 +137,6 @@ class _NotebookMemberState extends State<NotebookMember> {
                                         child: Row(
                                           children: const [
                                             Icon(
-                                              FontAwesomeIcons.userGroup,
-                                              color: fkBlueText,
-                                              size: 14,
-                                            ),
-                                            horizontalSpaceSmall,
-                                            Text("Group")
-                                          ],
-                                        ),
-                                      ),
-                                      onLongPress: () {},
-                                    )
-                                  : Container(
-                                      width: 20,
-                                      height: 20,
-                                      margin: const EdgeInsets.only(left: 40.0),
-                                      child: const Center(
-                                        child: CircularProgressIndicator(
-                                          strokeWidth: 2.0,
-                                        ),
-                                      ),
-                                    ),
-                              loading == false
-                                  ? InkWell(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Row(
-                                          children: const [
-                                            Icon(
                                               FontAwesomeIcons.bank,
                                               color: fkBlueText,
                                               size: 14,
