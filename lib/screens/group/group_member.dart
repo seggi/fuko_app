@@ -15,6 +15,7 @@ class GroupMember extends StatefulWidget {
 class _GroupMemberState extends State<GroupMember> {
   @override
   Widget build(BuildContext context) {
+    final groupId = FkManageProviders.get(context)['get-id'];
     final List newItems = FkManageProviders.get(context)["get-list-items"];
     return FkScrollViewWidgets.body(
       context,

@@ -25,11 +25,11 @@ class FkContentBoxWidgets {
             padding: const EdgeInsets.all(8.0),
             child: Badge(
               badgeContent: const Text(
-                '9',
+                '2',
                 style: TextStyle(color: fkWhiteText),
               ),
               child: IconButton(
-                  onPressed: () {}, icon: const Icon(Icons.notifications)),
+                  onPressed: fn, icon: const Icon(Icons.notifications)),
               position: BadgePosition.topEnd(end: 2, top: 2),
             ),
           ),
