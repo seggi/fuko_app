@@ -17,6 +17,8 @@ class GroupData {
   final String? firstName;
   final String? lastName;
   final String? username;
+  final String? requestedAt;
+  final String? requestStatus;
 
   GroupData(
       {this.createdAt,
@@ -29,6 +31,8 @@ class GroupData {
       this.isAdmin,
       this.username,
       this.firstName,
+      this.requestStatus,
+      this.requestedAt,
       this.lastName});
 
   factory GroupData.fromJson(Map<String, dynamic> json) {
@@ -43,6 +47,8 @@ class GroupData {
         groupDeleted: json["group_deleted"].toString(),
         firstName: json["first_name"].toString(),
         lastName: json["last_name"].toString(),
+        requestStatus: json["request_status_name"].toString(),
+        requestedAt: json["requested_at"].toString(),
         username: json["username"].toString());
   }
 }
@@ -82,6 +88,20 @@ Future<List<GroupData>> fetchParticipator(
   final response = await http.get(
       Uri.parse(
           "${Network.retrieveParticipator}/$contributionId/$currencyCode"),
+      headers: Network.authorizedHeaders(token: token));
+
+  if (response.statusCode == 200) {
+    var groupList = jsonDecode(response.body)["data"] as List;
+
+    return groupList.map((group) => GroupData.fromJson(group)).toList();
+  } else {
+    throw Exception('Failed to load data');
+  }
+}
+
+Future<List<GroupData>> fetchRequestSent() async {
+  var token = await UserPreferences.getToken();
+  final response = await http.get(Uri.parse(Network.groupRequest),
       headers: Network.authorizedHeaders(token: token));
 
   if (response.statusCode == 200) {

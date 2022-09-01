@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
+import 'package:fuko_app/core/group.dart';
 import 'package:fuko_app/screens/content_box_widgets.dart';
+import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
+import 'package:fuko_app/widgets/show_modal_bottom_sheet.dart';
 
 class GrRequestSent extends StatefulWidget {
   const GrRequestSent({Key? key}) : super(key: key);
@@ -13,31 +14,143 @@ class GrRequestSent extends StatefulWidget {
 }
 
 class _GrRequestSentState extends State<GrRequestSent> {
+  FkContentBoxWidgets fkContentBoxWidgets = FkContentBoxWidgets();
+
+  late Future<List<GroupData>> requestRequestSent;
+
+  @override
+  void initState() {
+    super.initState();
+    requestRequestSent = fetchRequestSent();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return FkScrollViewWidgets.body(
-      context,
-      itemList: [
-        Container(
-          padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-          height: MediaQuery.of(context).size.height,
-          child: Column(
+    return Container(
+        child: FkContentBoxWidgets.body(context, 'notebook', itemList: [
+      Padding(
+          padding: const EdgeInsets.only(right: 20.0, left: 20.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SizedBox(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    IconButton(
-                        icon: const Icon(Icons.cancel_outlined),
-                        onPressed: () => PagesGenerator.goTo(context,
-                            name: "invite-friend-to-group")),
-                  ],
+              Row(
+                children: [
+                  IconButton(
+                      iconSize: 18,
+                      onPressed: () =>
+                          PagesGenerator.goTo(context, pathName: "/notebook"),
+                      icon: const Icon(
+                        Icons.arrow_back_ios,
+                        size: 20,
+                      )),
+                  const Text(
+                    "Request sent",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  )
+                ],
+              ),
+              Row(
+                children: const [],
+              )
+            ],
+          )),
+      fkContentBoxWidgets.initialItems(itemList: [
+        verticalSpaceRegular,
+        const Align(
+          alignment: Alignment.bottomLeft,
+          child: Text(
+            "Pending requests",
+            style: TextStyle(
+                color: fkGreyText, fontWeight: FontWeight.w400, fontSize: 16),
+          ),
+        ),
+        verticalSpaceRegular,
+      ]),
+      Expanded(
+        child: FutureBuilder(
+          future: requestRequestSent,
+          builder: (context, AsyncSnapshot<List<GroupData>> snapshot) {
+            if (snapshot.hasData) {
+              if (snapshot.data!.isEmpty) {
+                return const Center(
+                  child: Text('No pending request.'),
+                );
+              }
+              return ListView.builder(
+                shrinkWrap: true,
+                physics: const ClampingScrollPhysics(),
+                padding: const EdgeInsets.all(8.0),
+                itemCount: snapshot.data!.length,
+                itemBuilder: (BuildContext context, int index) {
+                  if (snapshot.data!.isEmpty) {
+                    return const Center(
+                      child: Text('No pending request.'),
+                    );
+                  }
+                  var dateTime =
+                      DateTime.parse("${snapshot.data?[index].requestedAt}");
+                  return InkWell(
+                    child: Card(
+                      child: ListTile(
+                        leading: const Icon(
+                          Icons.message,
+                          size: 30,
+                          color: fkBlueText,
+                        ),
+                        title: SizedBox(
+                            width: 200,
+                            child: RichText(
+                              text: TextSpan(
+                                text: 'You sent a request to ',
+                                style: DefaultTextStyle.of(context).style,
+                                children: <TextSpan>[
+                                  TextSpan(
+                                      text:
+                                          '${snapshot.data?[index].username} ',
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold)),
+                                  const TextSpan(text: 'to join '),
+                                  TextSpan(
+                                      text:
+                                          '${snapshot.data?[index].groupName} ',
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold)),
+                                  const TextSpan(text: 'group.')
+                                ],
+                              ),
+                            )),
+                        subtitle: Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: Row(children: [
+                            const Text("Sent at "),
+                            Text(
+                                "${dateTime.year}-${dateTime.month}-${dateTime.day}")
+                          ]),
+                        ),
+                        trailing: InkWell(
+                          child: const Icon(Icons.more),
+                          onTap: () => notebookCustomBottomModalSheet(context),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              );
+            } else if (snapshot.hasError) {
+              return const Center(child: Text('Something went wrong :('));
+            }
+
+            return SizedBox(
+              height: MediaQuery.of(context).size.height,
+              child: const Center(
+                child: CircularProgressIndicator(
+                  strokeWidth: 2.0,
                 ),
               ),
-            ],
-          ),
-        )
-      ],
-    );
+            );
+          },
+        ),
+      ),
+    ]));
   }
 }

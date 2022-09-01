@@ -70,13 +70,6 @@ class PagesGenerator {
                   },
                 ),
                 GoRoute(
-                  name: "incoming-request",
-                  path: 'incoming-request',
-                  builder: (context, state) {
-                    return const IncomingRequest();
-                  },
-                ),
-                GoRoute(
                     path: "request-sent",
                     name: "request-sent",
                     builder: (context, state) {

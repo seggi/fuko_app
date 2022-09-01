@@ -176,14 +176,18 @@ class _DashBoardPageState extends State<DashBoardPage> {
                 ),
               ],
             ),
-            verticalSpaceLarge,
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: ChartReport(
-                  expenses: '$totalExpense',
-                  savings: '$totalSavings',
-                  dept: '$totalDept',
-                  loan: '$totalLoan'),
+            verticalSpaceSmall,
+            Expanded(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: ChartReport(
+                      expenses: '$totalExpense',
+                      savings: '$totalSavings',
+                      dept: '$totalDept',
+                      loan: '$totalLoan'),
+                ),
+              ),
             )
           ]);
         } else {

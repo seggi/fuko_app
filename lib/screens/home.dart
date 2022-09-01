@@ -82,6 +82,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget customFutureBuilder(userData) {
+    final badgeTxt = FkManageProviders.get(context)['get-request-number'];
     return FutureBuilder<GlobalAmount>(
       future: globalAmount,
       builder: (
@@ -106,6 +107,7 @@ class _HomePageState extends State<HomePage> {
                     snapshot.data!.globalAmountDetails['dept'].toString()));
 
             return FkContentBoxWidgets.body(context, 'home',
+                badgeTxt: badgeTxt,
                 fn: () =>
                     PagesGenerator.goTo(context, pathName: "/notification"),
                 username:

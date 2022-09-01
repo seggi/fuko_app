@@ -147,72 +147,75 @@ class _CompleteProfileState extends State<CompleteProfile> {
           FkContentBoxWidgets.buttonsItemsBox(context, itemList: [
             Form(
                 key: _formKey,
-                child: Column(
-                  children: [
-                    commonFormField(
-                        commonController: firstNameController,
-                        hintTxt: "Your First Name",
-                        inpIcon: Icons.perm_identity),
-                    verticalSpaceRegular,
-                    commonFormField(
-                        commonController: lastNameController,
-                        hintTxt: "Your Last Name",
-                        inpIcon: Icons.perm_identity),
-                    verticalSpaceRegular,
-                    commonFormField(
-                        commonController: phoneNumberController,
-                        hintTxt: "Your Phone Number",
-                        inpIcon: Icons.phone),
-                    verticalSpaceRegular,
-                    Container(
-                      padding: const EdgeInsets.all(8.0),
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                          color: Colors.transparent,
-                          borderRadius: BorderRadius.circular(8.0),
-                          border: Border.all(color: fkGreyText, width: 2.0)),
-                      child: DropdownButtonHideUnderline(
-                        child: DropdownButton<String>(
-                          value: selectedItem,
-                          isExpanded: true,
-                          hint: const Text("Select gender", maxLines: 3),
-                          items: [
-                            "Female",
-                            "Male",
-                          ].map((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(
-                                value,
-                                textAlign: TextAlign.left,
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                                softWrap: true,
-                              ),
-                            );
-                          }).toList(),
-                          onChanged: (value) {
-                            setState(() {
-                              selectedItem = value ?? "";
-                            });
-                          },
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    children: [
+                      commonFormField(
+                          commonController: firstNameController,
+                          hintTxt: "Your First Name",
+                          inpIcon: Icons.perm_identity),
+                      verticalSpaceRegular,
+                      commonFormField(
+                          commonController: lastNameController,
+                          hintTxt: "Your Last Name",
+                          inpIcon: Icons.perm_identity),
+                      verticalSpaceRegular,
+                      commonFormField(
+                          commonController: phoneNumberController,
+                          hintTxt: "Your Phone Number",
+                          inpIcon: Icons.phone),
+                      verticalSpaceRegular,
+                      Container(
+                        padding: const EdgeInsets.all(8.0),
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                            color: Colors.transparent,
+                            borderRadius: BorderRadius.circular(8.0),
+                            border: Border.all(color: fkGreyText, width: 2.0)),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton<String>(
+                            value: selectedItem,
+                            isExpanded: true,
+                            hint: const Text("Select gender", maxLines: 3),
+                            items: [
+                              "Female",
+                              "Male",
+                            ].map((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(
+                                  value,
+                                  textAlign: TextAlign.left,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  softWrap: true,
+                                ),
+                              );
+                            }).toList(),
+                            onChanged: (value) {
+                              setState(() {
+                                selectedItem = value ?? "";
+                              });
+                            },
+                          ),
                         ),
                       ),
-                    ),
-                    verticalSpaceLarge,
-                    isLoading == false
-                        ? customTextButton(context, btnTxt: "Start", fn: () {
-                            confirmData(context, userData);
-                          })
-                        : const SizedBox(
-                            height: 20,
-                            width: 20,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2.0,
+                      verticalSpaceLarge,
+                      isLoading == false
+                          ? customTextButton(context, btnTxt: "Start", fn: () {
+                              confirmData(context, userData);
+                            })
+                          : const SizedBox(
+                              height: 20,
+                              width: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2.0,
+                              ),
                             ),
-                          ),
-                    verticalSpaceRegular,
-                  ],
+                      verticalSpaceRegular,
+                    ],
+                  ),
                 )),
           ])
         ]);

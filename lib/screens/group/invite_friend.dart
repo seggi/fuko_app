@@ -145,9 +145,9 @@ class _InviteFriendToGroupState extends State<InviteFriendToGroup> {
                     onPressed: () =>
                         PagesGenerator.goTo(context, name: "gr-request-sent"),
                     icon: const Icon(
-                      Icons.pending_outlined,
+                      FontAwesomeIcons.squareArrowUpRight,
                       color: fkBlueText,
-                      size: 24,
+                      size: 20,
                     ),
                   ),
                 ],
@@ -196,7 +196,8 @@ class _InviteFriendToGroupState extends State<InviteFriendToGroup> {
                           child: loading == false
                               ? Container(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: const Icon(Icons.search_sharp))
+                                  child:
+                                      const Icon(Icons.person_search_outlined))
                               : Container(
                                   width: 20,
                                   height: 20,

@@ -63,11 +63,11 @@ class _SavingReportState extends State<SavingReport> {
           children: [
             Row(
               children: [
-                InkWell(
-                    onTap: () async {
+                IconButton(
+                    onPressed: () async {
                       PagesGenerator.goTo(context, pathName: "/saving");
                     },
-                    child: const Icon(
+                    icon: const Icon(
                       Icons.arrow_back_ios,
                       size: 20,
                     )),

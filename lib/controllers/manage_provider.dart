@@ -88,6 +88,9 @@ class FkManageProviders {
     "remove-item": (context, {itemData}) =>
         Provider.of<SelectFromDataList>(context, listen: false)
             .remove(itemData),
+    "save-request-number": (context, {number}) =>
+        Provider.of<SelectFromDataList>(context, listen: false)
+            .saveRequestNumber(number),
   };
 
   static get(context) {
@@ -126,6 +129,8 @@ class FkManageProviders {
       "get-period-selected": Provider.of<SelectFromDataList>(context).getPeriod,
       "get-id": Provider.of<SelectFromDataList>(context).getId,
       "get-list-items": Provider.of<SelectFromDataList>(context).getNewItemList,
+      "get-request-number":
+          Provider.of<SelectFromDataList>(context).getRequestNumber,
     };
   }
 
