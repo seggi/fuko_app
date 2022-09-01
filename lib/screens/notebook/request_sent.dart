@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/core/notebook.dart';
 import 'package:fuko_app/screens/content_box_widgets.dart';

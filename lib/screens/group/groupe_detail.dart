@@ -85,9 +85,9 @@ class _GroupDetailState extends State<GroupDetail> {
                       onPressed: () => PagesGenerator.goTo(context,
                           name: "invite-friend-to-group"),
                       icon: const Icon(
-                        FontAwesomeIcons.paperPlane,
+                        Icons.person_add_alt_outlined,
                         color: fkBlueText,
-                        size: 18,
+                        size: 28,
                       ),
                     )
                   ],
