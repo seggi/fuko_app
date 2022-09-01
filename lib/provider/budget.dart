@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class SelectFromDataList extends ChangeNotifier {
   Map _items = {};
   Map _periods = {};
+  String _requestNumber = '';
   String _id = '';
   final List _itemList = [
     {"full_name": "seggi", "amount": "1000"}
@@ -12,6 +13,7 @@ class SelectFromDataList extends ChangeNotifier {
   Map get getPeriod => _periods;
   String get getId => _id;
   List get getNewItemList => _itemList;
+  String get getRequestNumber => _requestNumber;
 
   void add(Map item) {
     _items = item;
@@ -35,6 +37,11 @@ class SelectFromDataList extends ChangeNotifier {
 
   void addItem(Map item) {
     _itemList.add(item);
+    notifyListeners();
+  }
+
+  void saveRequestNumber(String requestNumber) {
+    _requestNumber = requestNumber;
     notifyListeners();
   }
 }

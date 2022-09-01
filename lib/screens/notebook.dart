@@ -60,15 +60,6 @@ class _NotebookPageState extends State<NotebookPage> {
                       size: 18,
                       color: fkBlueText,
                     )),
-                InkWell(
-                  onTap: () =>
-                      PagesGenerator.goTo(context, name: "incoming-request"),
-                  child: const FaIcon(
-                    FontAwesomeIcons.link,
-                    size: 18,
-                    color: fkBlueText,
-                  ),
-                ),
               ],
             ),
           ],

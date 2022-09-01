@@ -14,6 +14,9 @@ class Notebook {
   final String? requestStatus;
   final String? notebookName;
   final String? sentAt;
+  final String? notification;
+  final String? requestedAt;
+  final String? groupName;
 
   Notebook(
       {this.name,
@@ -24,6 +27,9 @@ class Notebook {
       this.username,
       this.notebookName,
       this.sentAt,
+      this.notification,
+      this.requestedAt,
+      this.groupName,
       this.requestStatus});
 
   factory Notebook.fromJson(Map<String, dynamic> json) {
@@ -35,7 +41,10 @@ class Notebook {
         lastName: json["last_name"].toString(),
         requestStatus: json["request_status_name"].toString(),
         notebookName: json["notebook_name"].toString(),
-        sentAt: json["sent_at"],
+        sentAt: json["sent_at"].toString(),
+        requestedAt: json["requested_at"].toString(),
+        notification: json["notification"],
+        groupName: json["group_name"].toString(),
         username: json["username"].toString());
   }
 }

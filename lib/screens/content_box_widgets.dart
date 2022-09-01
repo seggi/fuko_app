@@ -12,6 +12,7 @@ class FkContentBoxWidgets {
       selectedIndex,
       username = "",
       widTxt = "",
+      badgeTxt = "",
       List<Widget> itemList = const [],
       fn}) {
     if (screenName == "home") {
@@ -24,9 +25,9 @@ class FkContentBoxWidgets {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Badge(
-              badgeContent: const Text(
-                '2',
-                style: TextStyle(color: fkWhiteText),
+              badgeContent: Text(
+                badgeTxt,
+                style: const TextStyle(color: fkWhiteText),
               ),
               child: IconButton(
                   onPressed: fn, icon: const Icon(Icons.notifications)),
