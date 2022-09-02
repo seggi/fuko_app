@@ -48,7 +48,7 @@ class GroupData {
         firstName: json["first_name"].toString(),
         lastName: json["last_name"].toString(),
         requestStatus: json["request_status_name"].toString(),
-        requestedAt: json["requested_at"].toString(),
+        requestedAt: json["sent_at"].toString(),
         username: json["username"].toString());
   }
 }
@@ -106,6 +106,7 @@ Future<List<GroupData>> fetchRequestSent() async {
 
   if (response.statusCode == 200) {
     var groupList = jsonDecode(response.body)["data"] as List;
+    print(groupList);
 
     return groupList.map((group) => GroupData.fromJson(group)).toList();
   } else {

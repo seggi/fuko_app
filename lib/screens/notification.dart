@@ -29,98 +29,10 @@ class _NotificationState extends State<Notification> {
 
   late ScaffoldMessengerState scaffoldMessenger = ScaffoldMessenger.of(context);
 
-  Future connect({notebookMemberId, requestStatus}) async {
-    FocusManager.instance.primaryFocus?.unfocus();
-    var token = await UserPreferences.getToken();
-    Map newItem = {
-      "method": accepted,
-      "notebook_member_id": notebookMemberId,
-      "request_status": requestStatus
-    };
-
-    setState(() {
-      loading = true;
-    });
-    final response = await http.put(Uri.parse(Network.confirmRejectRequest),
-        headers: Network.authorizedHeaders(token: token),
-        body: jsonEncode(newItem));
-
-    if (response.statusCode == 200) {
-      var data = jsonDecode(response.body);
-      if (data["code"] == "Alert") {
-        setState(() {
-          loading = false;
-        });
-        scaffoldMessenger.showSnackBar(SnackBar(
-          content: Text(
-            "${data["message"]}",
-            style: const TextStyle(color: Colors.red),
-          ),
-        ));
-      } else {
-        PagesGenerator.goTo(context, pathName: "/notebook");
-      }
-    } else {
-      setState(() {
-        loading = false;
-      });
-      scaffoldMessenger.showSnackBar(const SnackBar(
-        content: Text(
-          "Error from server",
-          style: TextStyle(color: Colors.red),
-        ),
-      ));
-    }
-  }
-
-  Future reject({notebookMemberId, requestStatus}) async {
-    FocusManager.instance.primaryFocus?.unfocus();
-    var token = await UserPreferences.getToken();
-    Map newItem = {
-      "method": rejected,
-      "notebook_member_id": notebookMemberId,
-      "request_status": requestStatus
-    };
-
-    setState(() {
-      loading1 = true;
-    });
-    final response = await http.put(Uri.parse(Network.confirmRejectRequest),
-        headers: Network.authorizedHeaders(token: token),
-        body: jsonEncode(newItem));
-
-    if (response.statusCode == 200) {
-      var data = jsonDecode(response.body);
-      if (data["code"] == "Alert") {
-        setState(() {
-          loading1 = false;
-        });
-        scaffoldMessenger.showSnackBar(SnackBar(
-          content: Text(
-            "${data["message"]}",
-            style: const TextStyle(color: Colors.red),
-          ),
-        ));
-      } else {
-        PagesGenerator.goTo(context, pathName: "/notebook");
-      }
-    } else {
-      setState(() {
-        loading1 = false;
-      });
-      scaffoldMessenger.showSnackBar(const SnackBar(
-        content: Text(
-          "Error from server",
-          style: TextStyle(color: Colors.red),
-        ),
-      ));
-    }
-  }
-
   @override
   void initState() {
     super.initState();
-    retrieveIncomingRequest = fetchIncomingRequest();
+    retrieveIncomingRequest = fetchIncomingRequest(context: context);
   }
 
   @override
@@ -230,79 +142,23 @@ class _NotificationState extends State<Notification> {
                                         "${DateTime.parse("${snapshot.data?[index].sentAt}").year}-${DateTime.parse("${snapshot.data?[index].sentAt}").month}-${DateTime.parse("${snapshot.data?[index].sentAt}").day}")
                                   ],
                                 ),
-                                verticalSpaceSmall,
+                                verticalSpaceRegular,
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    loading == false
-                                        ? InkWell(
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Row(
-                                                children: const [
-                                                  Icon(
-                                                    Icons.link,
-                                                    color: Colors.blue,
-                                                  ),
-                                                  horizontalSpaceSmall,
-                                                  Text("Connect")
-                                                ],
-                                              ),
-                                            ),
-                                            onLongPress: () => connect(
-                                                notebookMemberId:
-                                                    '${snapshot.data?[index].id}',
-                                                requestStatus: 2),
-                                          )
-                                        : Container(
-                                            width: 20,
-                                            height: 20,
-                                            margin: const EdgeInsets.only(
-                                                left: 40.0),
-                                            child: const Center(
-                                              child: CircularProgressIndicator(
-                                                strokeWidth: 2.0,
-                                              ),
-                                            ),
-                                          ),
-                                    loading1 == false
-                                        ? InkWell(
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Row(
-                                                children: const [
-                                                  Icon(
-                                                    Icons.link_off,
-                                                    color: Colors.red,
-                                                  ),
-                                                  horizontalSpaceSmall,
-                                                  Text("Reject")
-                                                ],
-                                              ),
-                                            ),
-                                            onLongPress: () => reject(
-                                                notebookMemberId:
-                                                    '${snapshot.data?[index].id}',
-                                                requestStatus: 3))
-                                        : Container(
-                                            width: 20,
-                                            height: 20,
-                                            margin: const EdgeInsets.only(
-                                                right: 40.0),
-                                            child: const Center(
-                                              child: CircularProgressIndicator(
-                                                strokeWidth: 2.0,
-                                              ),
-                                            ),
-                                          )
+                                  children: const [
+                                    Icon(
+                                      Icons.add_reaction_outlined,
+                                      color: Colors.blue,
+                                    ),
+                                    horizontalSpaceSmall,
+                                    Text("React")
                                   ],
-                                )
+                                ),
                               ]),
                             ),
+                            onTap: () => noteCustomBottomModalSheet(context,
+                                requestStatus: 3,
+                                notebookMemberId:
+                                    '${snapshot.data?[index].notebookName}'),
                           ),
                         )
                       : Card(
@@ -347,77 +203,21 @@ class _NotificationState extends State<Notification> {
                                 ),
                                 verticalSpaceSmall,
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    loading == false
-                                        ? InkWell(
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Row(
-                                                children: const [
-                                                  Icon(
-                                                    Icons.link,
-                                                    color: Colors.blue,
-                                                  ),
-                                                  horizontalSpaceSmall,
-                                                  Text("Connect")
-                                                ],
-                                              ),
-                                            ),
-                                            onLongPress: () => connect(
-                                                notebookMemberId:
-                                                    '${snapshot.data?[index].id}',
-                                                requestStatus: 2),
-                                          )
-                                        : Container(
-                                            width: 20,
-                                            height: 20,
-                                            margin: const EdgeInsets.only(
-                                                left: 40.0),
-                                            child: const Center(
-                                              child: CircularProgressIndicator(
-                                                strokeWidth: 2.0,
-                                              ),
-                                            ),
-                                          ),
-                                    loading1 == false
-                                        ? InkWell(
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Row(
-                                                children: const [
-                                                  Icon(
-                                                    Icons.link_off,
-                                                    color: Colors.red,
-                                                  ),
-                                                  horizontalSpaceSmall,
-                                                  Text("Reject")
-                                                ],
-                                              ),
-                                            ),
-                                            onLongPress: () => reject(
-                                                notebookMemberId:
-                                                    '${snapshot.data?[index].id}',
-                                                requestStatus: 3))
-                                        : Container(
-                                            width: 20,
-                                            height: 20,
-                                            margin: const EdgeInsets.only(
-                                                right: 40.0),
-                                            child: const Center(
-                                              child: CircularProgressIndicator(
-                                                strokeWidth: 2.0,
-                                              ),
-                                            ),
-                                          )
+                                  children: const [
+                                    Icon(
+                                      Icons.add_reaction_outlined,
+                                      color: Colors.blue,
+                                    ),
+                                    horizontalSpaceSmall,
+                                    Text("React")
                                   ],
                                 )
                               ]),
                             ),
+                            onTap: () => grCustomBottomModalSheet(context,
+                                memberShipId: '${snapshot.data?[index].id}',
+                                loading: loading1,
+                                requestStatus: 3),
                           ),
                         );
                 },
@@ -438,5 +238,250 @@ class _NotificationState extends State<Notification> {
         ),
       ),
     ]));
+  }
+
+  noteCustomBottomModalSheet(BuildContext context,
+      {fn, notebookMemberId, requestStatus, loading}) {
+    return showModalBottomSheet(
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(10.0),
+                topRight: Radius.circular(10.0))),
+        context: context,
+        builder: (context) {
+          return Container(
+            margin: const EdgeInsets.only(bottom: 80),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                ListTile(
+                  leading: const Icon(
+                    Icons.link,
+                    color: Colors.blue,
+                  ),
+                  title: const Text('Confirm'),
+                  onTap: () async {
+                    FocusManager.instance.primaryFocus?.unfocus();
+                    var token = await UserPreferences.getToken();
+                    Map newItem = {
+                      "method": accepted,
+                      "notebook_member_id": notebookMemberId,
+                      "request_status": requestStatus
+                    };
+
+                    setState(() {
+                      loading = true;
+                    });
+                    final response = await http.put(
+                        Uri.parse(Network.confirmRejectRequest),
+                        headers: Network.authorizedHeaders(token: token),
+                        body: jsonEncode(newItem));
+
+                    if (response.statusCode == 200) {
+                      var data = jsonDecode(response.body);
+                      if (data["code"] == "Alert") {
+                        setState(() {
+                          loading = false;
+                        });
+                        scaffoldMessenger.showSnackBar(SnackBar(
+                          content: Text(
+                            "${data["message"]}",
+                            style: const TextStyle(color: Colors.red),
+                          ),
+                        ));
+                      } else {
+                        PagesGenerator.goTo(context, pathName: "/?status=true");
+                        Navigator.pop(context);
+                      }
+                    } else {
+                      setState(() {
+                        loading = false;
+                      });
+                      scaffoldMessenger.showSnackBar(const SnackBar(
+                        content: Text(
+                          "Error from server",
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      ));
+                    }
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(
+                    Icons.link_off,
+                    color: Colors.deepOrange,
+                  ),
+                  title: const Text('Cancel request'),
+                  onTap: () async {
+                    FocusManager.instance.primaryFocus?.unfocus();
+                    var token = await UserPreferences.getToken();
+                    Map newItem = {
+                      "method": rejected,
+                      "notebook_member_id": notebookMemberId,
+                      "request_status": requestStatus
+                    };
+
+                    setState(() {
+                      loading1 = true;
+                    });
+                    final response = await http.put(
+                        Uri.parse(Network.confirmRejectRequest),
+                        headers: Network.authorizedHeaders(token: token),
+                        body: jsonEncode(newItem));
+
+                    if (response.statusCode == 200) {
+                      var data = jsonDecode(response.body);
+                      if (data["code"] == "Alert") {
+                        setState(() {
+                          loading1 = false;
+                        });
+                        scaffoldMessenger.showSnackBar(SnackBar(
+                          content: Text(
+                            "${data["message"]}",
+                            style: const TextStyle(color: Colors.red),
+                          ),
+                        ));
+                      } else {
+                        PagesGenerator.goTo(context, pathName: "/?status=true");
+                      }
+                    } else {
+                      setState(() {
+                        loading1 = false;
+                      });
+                      scaffoldMessenger.showSnackBar(const SnackBar(
+                        content: Text(
+                          "Error from server",
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      ));
+                    }
+                  },
+                ),
+              ],
+            ),
+          );
+        });
+  }
+
+  grCustomBottomModalSheet(BuildContext context,
+      {memberShipId, requestStatus, loading, method}) {
+    return showModalBottomSheet(
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(10.0),
+                topRight: Radius.circular(10.0))),
+        context: context,
+        builder: (context) {
+          return Container(
+            margin: const EdgeInsets.only(bottom: 80),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                ListTile(
+                  leading: const Icon(
+                    Icons.link,
+                    color: Colors.blue,
+                  ),
+                  title: const Text('Confirm'),
+                  onTap: () async {
+                    FocusManager.instance.primaryFocus?.unfocus();
+                    var token = await UserPreferences.getToken();
+                    Map newItem = {
+                      "id": memberShipId,
+                      "request_status": requestStatus
+                    };
+
+                    setState(() {
+                      loading = true;
+                    });
+                    final response = await http.put(
+                        Uri.parse(Network.confirmedCanceledGr),
+                        headers: Network.authorizedHeaders(token: token),
+                        body: jsonEncode(newItem));
+
+                    if (response.statusCode == 200) {
+                      var data = jsonDecode(response.body);
+                      if (data["code"] == "Alert") {
+                        setState(() {
+                          loading = false;
+                        });
+                        scaffoldMessenger.showSnackBar(SnackBar(
+                          content: Text(
+                            "${data["message"]}",
+                            style: const TextStyle(color: Colors.red),
+                          ),
+                        ));
+                      } else {
+                        PagesGenerator.goTo(context, pathName: "/?status=true");
+                        Navigator.pop(context);
+                      }
+                    } else {
+                      setState(() {
+                        loading = false;
+                      });
+                      scaffoldMessenger.showSnackBar(const SnackBar(
+                        content: Text(
+                          "Error from server",
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      ));
+                    }
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(
+                    Icons.link_off,
+                    color: Colors.deepOrange,
+                  ),
+                  title: const Text('Reject'),
+                  onTap: () async {
+                    FocusManager.instance.primaryFocus?.unfocus();
+                    var token = await UserPreferences.getToken();
+                    Map newItem = {
+                      "id": memberShipId,
+                      "request_status": requestStatus
+                    };
+
+                    setState(() {
+                      loading1 = true;
+                    });
+                    final response = await http.put(
+                        Uri.parse(Network.confirmedCanceledGr),
+                        headers: Network.authorizedHeaders(token: token),
+                        body: jsonEncode(newItem));
+
+                    if (response.statusCode == 200) {
+                      var data = jsonDecode(response.body);
+                      if (data["code"] == "Alert") {
+                        setState(() {
+                          loading1 = false;
+                        });
+                        scaffoldMessenger.showSnackBar(SnackBar(
+                          content: Text(
+                            "${data["message"]}",
+                            style: const TextStyle(color: Colors.red),
+                          ),
+                        ));
+                      } else {
+                        PagesGenerator.goTo(context, pathName: "/?status=true");
+                        Navigator.pop(context);
+                      }
+                    } else {
+                      setState(() {
+                        loading1 = false;
+                      });
+                      scaffoldMessenger.showSnackBar(const SnackBar(
+                        content: Text(
+                          "Error from server",
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      ));
+                    }
+                  },
+                ),
+              ],
+            ),
+          );
+        });
   }
 }

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/core/user_preferences.dart';
 import 'package:fuko_app/utils/api.dart';
 import 'package:http/http.dart' as http;
@@ -42,7 +43,7 @@ class Notebook {
         requestStatus: json["request_status_name"].toString(),
         notebookName: json["notebook_name"].toString(),
         sentAt: json["sent_at"].toString(),
-        requestedAt: json["requested_at"].toString(),
+        requestedAt: json["sent_at"].toString(),
         notification: json["notification"],
         groupName: json["group_name"].toString(),
         username: json["username"].toString());
@@ -80,13 +81,15 @@ Future<List<Notebook>> fetchNotebookMember({String? notebookId}) async {
   }
 }
 
-Future<List<Notebook>> fetchIncomingRequest() async {
+Future<List<Notebook>> fetchIncomingRequest({context}) async {
   var token = await UserPreferences.getToken();
   final response = await http.get(Uri.parse(Network.getInComingRequest),
       headers: Network.authorizedHeaders(token: token));
 
   if (response.statusCode == 200) {
     var notebookMember = jsonDecode(response.body)["data"] as List;
+    FkManageProviders.save["save-request-number"](context,
+        number: "${notebookMember!.length}");
 
     return notebookMember.map((dept) => Notebook.fromJson(dept)).toList();
   } else {

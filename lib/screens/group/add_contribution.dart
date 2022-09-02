@@ -123,7 +123,7 @@ class _AddContributionState extends State<AddContribution> {
                         onPressed: () =>
                             PagesGenerator.goTo(context, name: "group-member"),
                         icon: const Icon(
-                          Icons.safety_divider,
+                          Icons.edit_note_outlined,
                           color: fkBlueText,
                           size: 28,
                         ))

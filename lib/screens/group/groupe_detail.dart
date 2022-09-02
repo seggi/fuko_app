@@ -89,7 +89,7 @@ class _GroupDetailState extends State<GroupDetail> {
                         color: fkBlueText,
                         size: 28,
                       ),
-                    )
+                    ),
                   ],
                 )
               ],
