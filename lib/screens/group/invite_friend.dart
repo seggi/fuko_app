@@ -141,15 +141,6 @@ class _InviteFriendToGroupState extends State<InviteFriendToGroup> {
                       icon: const Icon(Icons.cancel_outlined),
                       onPressed: () =>
                           PagesGenerator.goTo(context, name: "groupe-detail")),
-                  IconButton(
-                    onPressed: () =>
-                        PagesGenerator.goTo(context, name: "gr-request-sent"),
-                    icon: const Icon(
-                      FontAwesomeIcons.squareArrowUpRight,
-                      color: fkBlueText,
-                      size: 20,
-                    ),
-                  ),
                 ],
               ),
             ),
@@ -195,9 +186,17 @@ class _InviteFriendToGroupState extends State<InviteFriendToGroup> {
                           onTap: loading == false ? () => searchUser() : () {},
                           child: loading == false
                               ? Container(
+                                  decoration: const BoxDecoration(
+                                      color: fkDefaultColor,
+                                      borderRadius: BorderRadius.only(
+                                          bottomRight: Radius.circular(8.0),
+                                          topRight: Radius.circular(8.0))),
                                   padding: const EdgeInsets.all(8.0),
-                                  child:
-                                      const Icon(Icons.person_search_outlined))
+                                  child: const Icon(
+                                    Icons.person_search_outlined,
+                                    size: 30,
+                                    color: fkWhiteText,
+                                  ))
                               : Container(
                                   width: 20,
                                   height: 20,

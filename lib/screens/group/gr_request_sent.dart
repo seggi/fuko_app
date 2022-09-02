@@ -15,12 +15,13 @@ class GrRequestSent extends StatefulWidget {
 
 class _GrRequestSentState extends State<GrRequestSent> {
   FkContentBoxWidgets fkContentBoxWidgets = FkContentBoxWidgets();
-
+  bool updatePending = false;
   late Future<List<GroupData>> requestRequestSent;
 
   @override
   void initState() {
     super.initState();
+    updatePending = false;
     requestRequestSent = fetchRequestSent();
   }
 
@@ -38,7 +39,7 @@ class _GrRequestSentState extends State<GrRequestSent> {
                   IconButton(
                       iconSize: 18,
                       onPressed: () =>
-                          PagesGenerator.goTo(context, pathName: "/notebook"),
+                          PagesGenerator.goTo(context, pathName: "/groupe"),
                       icon: const Icon(
                         Icons.arrow_back_ios,
                         size: 20,
@@ -56,13 +57,23 @@ class _GrRequestSentState extends State<GrRequestSent> {
           )),
       fkContentBoxWidgets.initialItems(itemList: [
         verticalSpaceRegular,
-        const Align(
+        Align(
           alignment: Alignment.bottomLeft,
-          child: Text(
-            "Pending requests",
-            style: TextStyle(
-                color: fkGreyText, fontWeight: FontWeight.w400, fontSize: 16),
-          ),
+          child: updatePending == false
+              ? const Text(
+                  "Pending requests",
+                  style: TextStyle(
+                      color: fkGreyText,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 16),
+                )
+              : const Text(
+                  "Not Pending requests",
+                  style: TextStyle(
+                      color: fkGreyText,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 16),
+                ),
         ),
         verticalSpaceRegular,
       ]),
@@ -72,9 +83,10 @@ class _GrRequestSentState extends State<GrRequestSent> {
           builder: (context, AsyncSnapshot<List<GroupData>> snapshot) {
             if (snapshot.hasData) {
               if (snapshot.data!.isEmpty) {
-                return const Center(
-                  child: Text('No pending request.'),
-                );
+                setState(() {
+                  updatePending == true;
+                });
+                return Container();
               }
               return ListView.builder(
                 shrinkWrap: true,
