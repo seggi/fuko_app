@@ -69,32 +69,35 @@ notebookCustomBottomModalSheet(BuildContext context,
               topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0))),
       context: context,
       builder: (context) {
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            ListTile(
-              leading: const Icon(
-                Icons.link,
-                color: Colors.blue,
+        return Container(
+          margin: const EdgeInsets.only(bottom: 80),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              ListTile(
+                leading: const Icon(
+                  Icons.link,
+                  color: Colors.blue,
+                ),
+                title: const Text('Confirm'),
+                onTap: () {
+                  PagesGenerator.goTo(context, name: "pub-notebook");
+                  Navigator.pop(context);
+                },
               ),
-              title: const Text('Confirm'),
-              onTap: () {
-                PagesGenerator.goTo(context, name: "pub-notebook");
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: const Icon(
-                Icons.cancel,
-                color: Colors.deepOrange,
+              ListTile(
+                leading: const Icon(
+                  Icons.cancel,
+                  color: Colors.deepOrange,
+                ),
+                title: const Text('Cancel request'),
+                onTap: () {
+                  PagesGenerator.goTo(context, name: "add-borrow-manually");
+                  Navigator.pop(context);
+                },
               ),
-              title: const Text('Cancel request'),
-              onTap: () {
-                PagesGenerator.goTo(context, name: "add-borrow-manually");
-                Navigator.pop(context);
-              },
-            ),
-          ],
+            ],
+          ),
         );
       });
 }
