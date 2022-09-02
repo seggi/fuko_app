@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fuko_app/core/notebook.dart';
 import 'package:fuko_app/utils/constant.dart';
 import 'package:intl/intl.dart' show toBeginningOfSentenceCase;
 
@@ -31,11 +32,13 @@ class _HomePageState extends State<HomePage> {
   FkContentBoxWidgets fkContentBoxWidgets = FkContentBoxWidgets();
 
   late Future<GlobalAmount> globalAmount;
+  late Future<List<Notebook>> retrieveIncomingRequest;
 
   @override
   void initState() {
     super.initState();
     globalAmount = fetchGlobalAmount(currencyId: defaultCurrency.toString());
+    retrieveIncomingRequest = fetchIncomingRequest(context: context);
   }
 
   @override
@@ -48,6 +51,7 @@ class _HomePageState extends State<HomePage> {
 
     setState(() {
       globalAmount = fetchGlobalAmount(currencyId: getCurrency);
+      retrieveIncomingRequest = fetchIncomingRequest();
     });
 
     return Container(
@@ -67,6 +71,8 @@ class _HomePageState extends State<HomePage> {
               return Future.delayed(const Duration(seconds: 1), () {
                 setState(() {
                   globalAmount = fetchGlobalAmount(currencyId: getCurrency);
+                  retrieveIncomingRequest =
+                      fetchIncomingRequest(context: context);
                 });
 
                 // ignore: deprecated_member_use

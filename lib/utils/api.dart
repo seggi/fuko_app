@@ -91,7 +91,7 @@ class Network {
       "${liveUrl!}/account/group/retrieve-request-sent";
   static String inviteFriendToGroup =
       "${liveUrl!}/account/group/add-partner-to-your-group";
-  static String confirmedCanceled =
+  static String confirmedCanceledGr =
       "${liveUrl!}/account/group/cancel-accept-reject-request";
   static String retrieveMemberContribution =
       "${liveUrl!}/account/group/retrieve-member-contribution";
