@@ -35,9 +35,9 @@ class _AddContributionState extends State<AddContribution> {
 
     List<Map> newItem = [
       {
-        "amount": amountController,
+        "amount": amountController.text,
         "currency_id": selectedCurrency,
-        "description": descriptionController
+        "description": descriptionController.text
       },
       {"members": members}
     ];

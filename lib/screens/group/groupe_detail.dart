@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/core/group.dart';
 import 'package:fuko_app/utils/constant.dart';
@@ -133,6 +132,9 @@ class _GroupDetailState extends State<GroupDetail> {
                           return ContributionDetailsListTile(data: {
                             "id": "${snapshot.data?[index].id}",
                             "amount": "${snapshot.data?[index].amount}",
+                            "created_at": "${snapshot.data?[index].createdAt}",
+                            "description":
+                                "${snapshot.data?[index].description}",
                             "name":
                                 "${snapshot.data?[index].firstName} ${snapshot.data?[index].lastName}"
                           });
