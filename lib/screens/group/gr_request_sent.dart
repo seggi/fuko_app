@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/core/group.dart';
 import 'package:fuko_app/screens/content_box_widgets.dart';
@@ -27,6 +28,7 @@ class _GrRequestSentState extends State<GrRequestSent> {
 
   @override
   Widget build(BuildContext context) {
+    final groupId = FkManageProviders.get(context)['get-id'];
     return Container(
         child: FkContentBoxWidgets.body(context, 'notebook', itemList: [
       Padding(
@@ -118,7 +120,9 @@ class _GrRequestSentState extends State<GrRequestSent> {
                         ),
                         trailing: InkWell(
                           child: const Icon(Icons.more),
-                          onTap: () => notebookCustomBottomModalSheet(context),
+                          onTap: () => grCustomBottomModalSheet(context,
+                              groupId: groupId,
+                              memberId: '${snapshot.data?[index].id}'),
                         ),
                       ),
                     ),
