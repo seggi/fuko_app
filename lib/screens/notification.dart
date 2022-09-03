@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/utils/api.dart';
+import 'package:fuko_app/utils/constant.dart';
 import 'package:http/http.dart' as http;
 import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/core/notebook.dart';
@@ -37,6 +38,7 @@ class _NotificationState extends State<Notification> {
 
   @override
   Widget build(BuildContext context) {
+    final badgeTxt = FkManageProviders.get(context)['get-request-number'];
     return Container(
         child: FkContentBoxWidgets.body(context, 'notebook', itemList: [
       Padding(
@@ -64,18 +66,6 @@ class _NotificationState extends State<Notification> {
               )
             ],
           )),
-      fkContentBoxWidgets.initialItems(itemList: [
-        verticalSpaceRegular,
-        const Align(
-          alignment: Alignment.bottomLeft,
-          child: Text(
-            "Pending requests",
-            style: TextStyle(
-                color: fkGreyText, fontWeight: FontWeight.w400, fontSize: 16),
-          ),
-        ),
-        verticalSpaceRegular,
-      ]),
       Expanded(
         child: FutureBuilder(
           future: retrieveIncomingRequest,
@@ -158,7 +148,7 @@ class _NotificationState extends State<Notification> {
                             onTap: () => noteCustomBottomModalSheet(context,
                                 requestStatus: 3,
                                 notebookMemberId:
-                                    '${snapshot.data?[index].notebookName}'),
+                                    '${snapshot.data?[index].id}'),
                           ),
                         )
                       : Card(
@@ -266,7 +256,7 @@ class _NotificationState extends State<Notification> {
                     Map newItem = {
                       "method": accepted,
                       "notebook_member_id": notebookMemberId,
-                      "request_status": requestStatus
+                      "request_status": acceptRequest
                     };
 
                     setState(() {
@@ -286,7 +276,7 @@ class _NotificationState extends State<Notification> {
                         scaffoldMessenger.showSnackBar(SnackBar(
                           content: Text(
                             "${data["message"]}",
-                            style: const TextStyle(color: Colors.red),
+                            style: const TextStyle(color: fkWhiteText),
                           ),
                         ));
                       } else {
@@ -318,7 +308,7 @@ class _NotificationState extends State<Notification> {
                     Map newItem = {
                       "method": rejected,
                       "notebook_member_id": notebookMemberId,
-                      "request_status": requestStatus
+                      "request_status": rejectRequest
                     };
 
                     setState(() {
@@ -343,6 +333,7 @@ class _NotificationState extends State<Notification> {
                         ));
                       } else {
                         PagesGenerator.goTo(context, pathName: "/?status=true");
+                        Navigator.pop(context);
                       }
                     } else {
                       setState(() {
@@ -388,7 +379,7 @@ class _NotificationState extends State<Notification> {
                     var token = await UserPreferences.getToken();
                     Map newItem = {
                       "id": memberShipId,
-                      "request_status": requestStatus
+                      "request_status": acceptRequest
                     };
 
                     setState(() {
@@ -439,7 +430,7 @@ class _NotificationState extends State<Notification> {
                     var token = await UserPreferences.getToken();
                     Map newItem = {
                       "id": memberShipId,
-                      "request_status": requestStatus
+                      "request_status": rejectRequest
                     };
 
                     setState(() {

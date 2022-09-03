@@ -106,7 +106,23 @@ Future<List<GroupData>> fetchRequestSent() async {
 
   if (response.statusCode == 200) {
     var groupList = jsonDecode(response.body)["data"] as List;
-    print(groupList);
+
+    return groupList.map((group) => GroupData.fromJson(group)).toList();
+  } else {
+    throw Exception('Failed to load data');
+  }
+}
+
+Future<List<GroupData>> fetchGroupMember({groupId}) async {
+  var token = await UserPreferences.getToken();
+  final response = await http.get(
+      Uri.parse("${Network.retrieveGroupMember}/$groupId"),
+      headers: Network.authorizedHeaders(token: token));
+
+  print("${Network.retrieveGroupMember}/$groupId");
+
+  if (response.statusCode == 200) {
+    var groupList = jsonDecode(response.body)["data"] as List;
 
     return groupList.map((group) => GroupData.fromJson(group)).toList();
   } else {

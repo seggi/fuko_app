@@ -7,6 +7,8 @@ var defaultCurrency = 150;
 var income = 1;
 var expense = 2;
 var isAdmin = 1;
+int acceptRequest = 2;
+int rejectRequest = 3;
 
 late Future<List<GetCurrencies>> retrieveCurrencies;
 late Future<List<GetMonths>> retrieveMonths;

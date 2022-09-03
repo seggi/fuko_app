@@ -83,6 +83,15 @@ class _GroupDetailState extends State<GroupDetail> {
                     ),
                     IconButton(
                       onPressed: () => PagesGenerator.goTo(context,
+                          name: "group-member", params: {"id": groupId}),
+                      icon: const Icon(
+                        Icons.group_outlined,
+                        color: fkBlueText,
+                        size: 30,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () => PagesGenerator.goTo(context,
                           name: "invite-friend-to-group"),
                       icon: const Icon(
                         Icons.person_add_alt_outlined,

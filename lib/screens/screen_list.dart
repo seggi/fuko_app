@@ -37,6 +37,7 @@ export 'budget/search_budget_category.dart';
 export 'group/create_group.dart';
 export 'group/invite_friend.dart';
 export 'group/add_contribution.dart';
-export 'group/group_member.dart';
+export 'group/edit_participator.dart';
 export 'group/gr_request_sent.dart';
+export 'group/group_member.dart';
 export './notification.dart';
