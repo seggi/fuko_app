@@ -120,8 +120,8 @@ class _AddContributionState extends State<AddContribution> {
                         onPressed: () => PagesGenerator.goTo(context,
                             name: "groupe-detail")),
                     IconButton(
-                        onPressed: () =>
-                            PagesGenerator.goTo(context, name: "group-member"),
+                        onPressed: () => PagesGenerator.goTo(context,
+                            name: "edit-participator"),
                         icon: const Icon(
                           Icons.edit_note_outlined,
                           color: fkBlueText,

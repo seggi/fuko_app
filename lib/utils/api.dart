@@ -99,4 +99,6 @@ class Network {
       "${liveUrl!}/account/group/retrieve-participator";
   static String saveGroupContributor =
       "${liveUrl!}/account/group/save-group-contribution";
+  static String retrieveGroupMember =
+      "${liveUrl!}/account/group/retrieve-request-accepted";
 }

@@ -37,13 +37,9 @@ class _InviteFriendToGroupState extends State<InviteFriendToGroup> {
     FocusManager.instance.primaryFocus?.unfocus();
     var token = await UserPreferences.getToken();
 
-    Map newItem = {
-      "notebook_id": groupId,
-      "request_status": requestStatus,
-      "friend_id": userId.toInt()
-    };
+    Map newItem = {"group_id": groupId, "member_id": userId.toInt()};
 
-    final response = await http.post(Uri.parse(Network.inviteFriend),
+    final response = await http.post(Uri.parse(Network.inviteFriendToGroup),
         headers: Network.authorizedHeaders(token: token),
         body: jsonEncode(newItem));
 
@@ -60,12 +56,15 @@ class _InviteFriendToGroupState extends State<InviteFriendToGroup> {
         scaffoldMessenger.showSnackBar(SnackBar(
           content: Text(
             "${data["message"]}",
-            style: const TextStyle(color: Colors.red),
+            style: const TextStyle(color: fkWhiteText),
           ),
         ));
       } else {
+        setState(() {
+          secondLoading = false;
+        });
         PagesGenerator.goTo(context,
-            name: "notebook-member", params: {"id": "$groupId"});
+            name: "groupe-detail", params: {"id": "$groupId"});
       }
     } else {
       setState(() {
@@ -251,7 +250,7 @@ class _InviteFriendToGroupState extends State<InviteFriendToGroup> {
                                             : () {},
                                         child: secondLoading == false
                                             ? const Icon(
-                                                Icons.add,
+                                                Icons.person_add_alt,
                                                 color: fkGreyText,
                                               )
                                             : const SizedBox(
