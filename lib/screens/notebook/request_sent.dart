@@ -54,18 +54,6 @@ class _RequestSentState extends State<RequestSent> {
               )
             ],
           )),
-      fkContentBoxWidgets.initialItems(itemList: [
-        verticalSpaceRegular,
-        const Align(
-          alignment: Alignment.bottomLeft,
-          child: Text(
-            "Pending requests",
-            style: TextStyle(
-                color: fkGreyText, fontWeight: FontWeight.w400, fontSize: 16),
-          ),
-        ),
-        verticalSpaceRegular,
-      ]),
       Expanded(
         child: FutureBuilder(
           future: notebookRequestSent,
@@ -129,7 +117,8 @@ class _RequestSentState extends State<RequestSent> {
                         ),
                         trailing: InkWell(
                           child: const Icon(Icons.more),
-                          onTap: () => notebookCustomBottomModalSheet(context),
+                          onTap: () => notebookCustomBottomModalSheet(context,
+                              notebookMemberId: '${snapshot.data?[index].id}'),
                         ),
                       ),
                     ),

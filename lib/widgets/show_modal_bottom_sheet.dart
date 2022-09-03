@@ -70,6 +70,7 @@ customLoanBottomModalSheet(BuildContext context) {
 
 notebookCustomBottomModalSheet(BuildContext context,
     {fn, notebookMemberId, requestStatus, loading}) {
+  late ScaffoldMessengerState scaffoldMessenger = ScaffoldMessenger.of(context);
   return showModalBottomSheet(
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
@@ -81,26 +82,45 @@ notebookCustomBottomModalSheet(BuildContext context,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              ListTile(
-                leading: const Icon(
-                  Icons.link,
-                  color: Colors.blue,
-                ),
-                title: const Text('Confirm'),
-                onTap: () {
-                  PagesGenerator.goTo(context, name: "pub-notebook");
-                  Navigator.pop(context);
-                },
-              ),
+              verticalSpaceRegular,
               ListTile(
                 leading: const Icon(
                   Icons.cancel,
                   color: Colors.deepOrange,
                 ),
                 title: const Text('Cancel request'),
-                onTap: () {
-                  PagesGenerator.goTo(context, name: "add-borrow-manually");
-                  Navigator.pop(context);
+                onTap: () async {
+                  FocusManager.instance.primaryFocus?.unfocus();
+                  var token = await UserPreferences.getToken();
+
+                  Map newItem = {
+                    "method": "canceled",
+                    "notebook_member_id": notebookMemberId,
+                    "request_status": rejectRequest
+                  };
+
+                  final response = await http.put(
+                      Uri.parse(Network.confirmRejectRequest),
+                      headers: Network.authorizedHeaders(token: token),
+                      body: jsonEncode(newItem));
+
+                  if (response.statusCode == 200) {
+                    var data = jsonDecode(response.body);
+                    if (data["code"] == "success") {
+                      PagesGenerator.goTo(context, pathName: "/notebook");
+                      Navigator.pop(context);
+                    } else {
+                      PagesGenerator.goTo(context, pathName: "/notebook");
+                      Navigator.pop(context);
+                    }
+                  } else {
+                    scaffoldMessenger.showSnackBar(const SnackBar(
+                      content: Text(
+                        "Error from server",
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    ));
+                  }
                 },
               ),
             ],
