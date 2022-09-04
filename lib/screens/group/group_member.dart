@@ -37,6 +37,7 @@ class _GroupMemberState extends State<GroupMember> {
   @override
   Widget build(BuildContext context) {
     final groupId = widget.id;
+    final saveGroupMember = FkManageProviders.save['save-list-items'];
     setState(() {
       retrieveGroupMember = fetchGroupMember(groupId: groupId);
     });
@@ -89,6 +90,12 @@ class _GroupMemberState extends State<GroupMember> {
                       child: Text('No member found.'),
                     );
                   }
+
+                  saveGroupMember(context, itemData: {
+                    "id": "${snapshot.data?[index].id}",
+                    "full_name":
+                        "${snapshot.data?[index].firstName} ${snapshot.data?[index].lastName}"
+                  });
 
                   return Card(
                     child: Padding(

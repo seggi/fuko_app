@@ -20,6 +20,7 @@ class _GroupePageState extends State<GroupePage> {
   FkContentBoxWidgets fkContentBoxWidgets = FkContentBoxWidgets();
 
   late Future<List<GroupData>> retrieveGroupName;
+  late Future<List<GroupData>> retrieveGroupMember;
 
   @override
   void initState() {
@@ -113,6 +114,11 @@ class _GroupePageState extends State<GroupePage> {
                       return Card(
                         child: ListTile(
                           onTap: () {
+                            setState(() {
+                              retrieveGroupMember = fetchGroupMember(
+                                  context: context,
+                                  groupId: idGroup.toInt().toString());
+                            });
                             saveId(context, id: idGroup.toInt().toString());
                             saveGroupCreator(context, itemData: {
                               "creator": snapshot.data?[index].creator
