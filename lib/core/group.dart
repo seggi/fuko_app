@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:fuko_app/core/user_preferences.dart';
 import 'package:fuko_app/utils/api.dart';
-import 'package:fuko_app/utils/constant.dart';
 import 'package:http/http.dart' as http;
 
 class GroupData {
@@ -18,22 +17,27 @@ class GroupData {
   final String? lastName;
   final String? username;
   final String? requestedAt;
+  final bool? creator;
+  bool isSelected;
   final String? requestStatus;
 
-  GroupData(
-      {this.createdAt,
-      this.description,
-      this.id,
-      this.updatedAt,
-      this.amount,
-      this.groupDeleted,
-      this.groupName,
-      this.isAdmin,
-      this.username,
-      this.firstName,
-      this.requestStatus,
-      this.requestedAt,
-      this.lastName});
+  GroupData({
+    this.createdAt,
+    this.description,
+    this.id,
+    this.updatedAt,
+    this.amount,
+    this.groupDeleted,
+    this.groupName,
+    this.isAdmin,
+    this.username,
+    this.firstName,
+    this.requestStatus,
+    this.requestedAt,
+    this.creator,
+    this.lastName,
+    this.isSelected = false,
+  });
 
   factory GroupData.fromJson(Map<String, dynamic> json) {
     return GroupData(
@@ -49,6 +53,7 @@ class GroupData {
         lastName: json["last_name"].toString(),
         requestStatus: json["request_status_name"].toString(),
         requestedAt: json["sent_at"].toString(),
+        creator: json["creator"],
         username: json["username"].toString());
   }
 }
@@ -113,13 +118,11 @@ Future<List<GroupData>> fetchRequestSent() async {
   }
 }
 
-Future<List<GroupData>> fetchGroupMember({groupId}) async {
+Future<List<GroupData>> fetchGroupMember({context, groupId}) async {
   var token = await UserPreferences.getToken();
   final response = await http.get(
       Uri.parse("${Network.retrieveGroupMember}/$groupId"),
       headers: Network.authorizedHeaders(token: token));
-
-  print("${Network.retrieveGroupMember}/$groupId");
 
   if (response.statusCode == 200) {
     var groupList = jsonDecode(response.body)["data"] as List;

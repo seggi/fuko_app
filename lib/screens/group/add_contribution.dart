@@ -103,6 +103,9 @@ class _AddContributionState extends State<AddContribution> {
     var setCurrency =
         selectedCurrency != '' ? selectedCurrency : defaultCurrency.toString();
 
+    final List newItems = FkManageProviders.get(context)["get-list-items"];
+    print(newItems);
+
     return FkScrollViewWidgets.body(
       context,
       itemList: [

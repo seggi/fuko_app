@@ -79,7 +79,9 @@ class FkManageProviders {
 
     "save-select-item": (context, {itemData}) =>
         Provider.of<SelectFromDataList>(context, listen: false).add(itemData),
-
+    "save-list-items": (context, {itemData}) =>
+        Provider.of<SelectFromDataList>(context, listen: false)
+            .addItem(itemData),
     "add-selected-budget": (context, {periods}) =>
         Provider.of<SelectFromDataList>(context, listen: false)
             .addPeriod(periods),
@@ -136,6 +138,7 @@ class FkManageProviders {
 
   static Map remove = {
     "remove-items": (context, {itemData}) =>
-        Provider.of<AddExpenses>(context, listen: false).remove(itemData),
+        Provider.of<SelectFromDataList>(context, listen: false)
+            .remove(itemData),
   };
 }
