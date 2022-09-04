@@ -112,76 +112,13 @@ class _GroupMemberState extends State<GroupMember> {
                             ),
                           ),
                         ),
-                        subtitle: Column(children: [
-                          verticalSpaceSmall,
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              loading == false
-                                  ? InkWell(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Row(
-                                          children: const [
-                                            Icon(
-                                              FontAwesomeIcons.bank,
-                                              color: fkBlueText,
-                                              size: 14,
-                                            ),
-                                            horizontalSpaceSmall,
-                                            Text("Dept")
-                                          ],
-                                        ),
-                                      ),
-                                      onLongPress: () => deptFn(
-                                          notebookMemberId:
-                                              '${snapshot.data?[index].id}'),
-                                    )
-                                  : Container(
-                                      width: 20,
-                                      height: 20,
-                                      margin: const EdgeInsets.only(left: 40.0),
-                                      child: const Center(
-                                        child: CircularProgressIndicator(
-                                          strokeWidth: 2.0,
-                                        ),
-                                      ),
-                                    ),
-                              loading1 == false
-                                  ? InkWell(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Row(
-                                          children: const [
-                                            Icon(
-                                              FontAwesomeIcons.wallet,
-                                              color: fkBlueText,
-                                              size: 14,
-                                            ),
-                                            horizontalSpaceSmall,
-                                            Text("Loan")
-                                          ],
-                                        ),
-                                      ),
-                                      onLongPress: () => loanFn(
-                                            notebookMemberId:
-                                                '${snapshot.data?[index].id}',
-                                          ))
-                                  : Container(
-                                      width: 20,
-                                      height: 20,
-                                      margin:
-                                          const EdgeInsets.only(right: 40.0),
-                                      child: const Center(
-                                        child: CircularProgressIndicator(
-                                          strokeWidth: 2.0,
-                                        ),
-                                      ),
-                                    )
-                            ],
-                          )
-                        ]),
+                        subtitle: Text(
+                          "${snapshot.data?[index].firstName} ${snapshot.data?[index].lastName}",
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16,
+                          ),
+                        ),
                       ),
                     ),
                   );

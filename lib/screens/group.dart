@@ -32,6 +32,7 @@ class _GroupePageState extends State<GroupePage> {
   Widget build(BuildContext context) {
     final screenTitle = FkManageProviders.save["save-screen-title"];
     final saveId = FkManageProviders.save['save-id'];
+    final saveGroupCreator = FkManageProviders.save['save-select-item'];
 
     setState(() {
       retrieveGroupName = fetchGroupList();
@@ -108,40 +109,41 @@ class _GroupePageState extends State<GroupePage> {
                     shrinkWrap: true,
                     itemCount: snapshot.data!.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return InkWell(
-                        onTap: () {
-                          saveId(context, id: "${snapshot.data?[index].id}");
-                          screenTitle(context,
-                              screenTitle:
-                                  "${snapshot.data?[index].groupName}");
-                          PagesGenerator.goTo(context, name: "groupe-detail");
-                        },
-                        child: Container(
-                          height: 60,
-                          decoration: const BoxDecoration(
-                              border: Border(
-                                  bottom: BorderSide(
-                                      color: fkGreyText, width: 0.5))),
-                          child: Row(
-                            children: [
-                              Container(
-                                width: 40,
-                                height: 40,
-                                decoration: BoxDecoration(
-                                    color: fkGreyText,
-                                    borderRadius: BorderRadius.circular(8.0)),
-                                child: const Icon(
-                                  FontAwesomeIcons.userGroup,
-                                  color: fkWhiteText,
-                                ),
-                              ),
-                              horizontalSpaceSmall,
-                              Text(
-                                "${snapshot.data?[index].groupName}",
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.w300),
-                              )
-                            ],
+                      double idGroup = double.parse(snapshot.data?[index].id);
+                      return Card(
+                        child: ListTile(
+                          onTap: () {
+                            saveId(context, id: idGroup.toInt().toString());
+                            saveGroupCreator(context, itemData: {
+                              "creator": snapshot.data?[index].creator
+                            });
+                            screenTitle(context,
+                                screenTitle:
+                                    "${snapshot.data?[index].groupName}");
+                            PagesGenerator.goTo(context, name: "groupe-detail");
+                          },
+                          leading: Container(
+                            width: 40,
+                            height: 40,
+                            decoration: BoxDecoration(
+                                color: fkGreyText,
+                                borderRadius: BorderRadius.circular(8.0)),
+                            child: const Icon(
+                              FontAwesomeIcons.userGroup,
+                              color: fkWhiteText,
+                            ),
+                          ),
+                          title: Text(
+                            "${snapshot.data?[index].groupName}",
+                            style: const TextStyle(fontWeight: FontWeight.w300),
+                          ),
+                          subtitle: Text(
+                            "Admin ➤ ${snapshot.data?[index].creator == true ? 'You' : snapshot.data?[index].username}",
+                            style: const TextStyle(fontWeight: FontWeight.w300),
+                          ),
+                          trailing: const Text(
+                            "🗂",
+                            style: TextStyle(fontSize: 30),
                           ),
                         ),
                       );

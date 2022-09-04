@@ -18,6 +18,7 @@ class GroupData {
   final String? lastName;
   final String? username;
   final String? requestedAt;
+  final bool? creator;
   final String? requestStatus;
 
   GroupData(
@@ -33,6 +34,7 @@ class GroupData {
       this.firstName,
       this.requestStatus,
       this.requestedAt,
+      this.creator,
       this.lastName});
 
   factory GroupData.fromJson(Map<String, dynamic> json) {
@@ -49,6 +51,7 @@ class GroupData {
         lastName: json["last_name"].toString(),
         requestStatus: json["request_status_name"].toString(),
         requestedAt: json["sent_at"].toString(),
+        creator: json["creator"],
         username: json["username"].toString());
   }
 }

@@ -64,7 +64,7 @@ class _ContributionDetailsListTileState
                     ),
                   ),
                   subtitle: Text(
-                    "${contributors["name"]}",
+                    "Added by ➤ ${contributors["name"]}",
                   ),
                   trailing: Text(
                     contributors["amount"],

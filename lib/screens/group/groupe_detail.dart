@@ -24,18 +24,16 @@ class _GroupDetailState extends State<GroupDetail> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    // retrieveMemberContribution = fetchMemberContribution(
-    //     groupId: FkManageProviders.get(context)['get-id'],
-    //     currencyCode: defaultCurrency);
   }
 
   @override
   Widget build(BuildContext context) {
     final groupId = FkManageProviders.get(context)['get-id'];
     final screenTitle = FkManageProviders.get(context)['get-screen-title'];
+    final getGroupCreator = FkManageProviders.get(context)['get-item-selected'];
+
     var selectedCurrency =
         FkManageProviders.get(context)["get-default-currency"];
-
     var setCurrency =
         selectedCurrency != '' ? selectedCurrency : defaultCurrency.toString();
 
@@ -89,15 +87,17 @@ class _GroupDetailState extends State<GroupDetail> {
                         size: 30,
                       ),
                     ),
-                    IconButton(
-                      onPressed: () => PagesGenerator.goTo(context,
-                          name: "invite-friend-to-group"),
-                      icon: const Icon(
-                        Icons.person_add_alt_outlined,
-                        color: fkBlueText,
-                        size: 28,
-                      ),
-                    ),
+                    getGroupCreator["creator"] == true
+                        ? IconButton(
+                            onPressed: () => PagesGenerator.goTo(context,
+                                name: "invite-friend-to-group"),
+                            icon: const Icon(
+                              Icons.person_add_alt_outlined,
+                              color: fkBlueText,
+                              size: 28,
+                            ),
+                          )
+                        : const Divider(),
                   ],
                 )
               ],
@@ -114,7 +114,7 @@ class _GroupDetailState extends State<GroupDetail> {
                   if (snapshot.data.isEmpty) {
                     return Container(
                         margin: const EdgeInsets.only(top: 0.0),
-                        child: const Center(child: Text("No group")));
+                        child: const Center(child: Text("No contribution")));
                   }
                   return Container(
                     padding: const EdgeInsets.only(left: 20, right: 20),
