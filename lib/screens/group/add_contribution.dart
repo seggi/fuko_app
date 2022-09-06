@@ -75,11 +75,13 @@ class _AddContributionState extends State<AddContribution> {
           scaffoldMessenger.showSnackBar(SnackBar(
             content: Text(
               "${data["message"]}",
-              style: const TextStyle(color: Colors.red),
+              style: const TextStyle(color: fkWhiteText),
             ),
           ));
+          FkManageProviders.remove['remove-items'](context);
         } else {
           PagesGenerator.goTo(context, name: "groupe-detail");
+          FkManageProviders.remove['remove-items'](context);
         }
       } else {
         setState(() {
@@ -102,9 +104,7 @@ class _AddContributionState extends State<AddContribution> {
         FkManageProviders.get(context)["get-default-currency"];
     var setCurrency =
         selectedCurrency != '' ? selectedCurrency : defaultCurrency.toString();
-
     final List newItems = FkManageProviders.get(context)["get-list-items"];
-    print(newItems);
 
     return FkScrollViewWidgets.body(
       context,
@@ -120,11 +120,14 @@ class _AddContributionState extends State<AddContribution> {
                   children: [
                     IconButton(
                         icon: const Icon(Icons.cancel_outlined),
-                        onPressed: () => PagesGenerator.goTo(context,
-                            name: "groupe-detail")),
+                        onPressed: () {
+                          PagesGenerator.goTo(context, name: "groupe-detail");
+                          FkManageProviders.remove['remove-items'](context);
+                        }),
                     IconButton(
                         onPressed: () => PagesGenerator.goTo(context,
-                            name: "edit-participator"),
+                            name: "edit-participator",
+                            params: {"groupId": groupId}),
                         icon: const Icon(
                           Icons.edit_note_outlined,
                           color: fkBlueText,
@@ -191,7 +194,8 @@ class _AddContributionState extends State<AddContribution> {
                               ? () {}
                               : () => addContribution(
                                   selectedCurrency: setCurrency,
-                                  groupId: groupId),
+                                  groupId: groupId,
+                                  members: newItems),
                           child: loading == false
                               ? const Icon(
                                   Icons.add_circle,

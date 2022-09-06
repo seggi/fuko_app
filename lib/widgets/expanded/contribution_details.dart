@@ -128,7 +128,8 @@ class _ContributionDetailsListTileState
                         leading: const Icon(Icons.person_pin),
                         title: Text("${snapshot.data?[index].username}"),
                         trailing: Text(
-                          "${snapshot.data?[index].amount}",
+                          double.parse("${snapshot.data?[index].amount}")
+                              .toStringAsFixed(1),
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
                               fontSize: 20,

@@ -131,7 +131,8 @@ class _GroupDetailState extends State<GroupDetail> {
                         itemBuilder: (BuildContext context, int index) {
                           return ContributionDetailsListTile(data: {
                             "id": "${snapshot.data?[index].id}",
-                            "amount": "${snapshot.data?[index].amount}",
+                            "amount":
+                                "${double.parse(snapshot.data?[index].amount)}",
                             "created_at": "${snapshot.data?[index].createdAt}",
                             "description":
                                 "${snapshot.data?[index].description}",

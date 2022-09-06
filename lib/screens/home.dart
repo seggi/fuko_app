@@ -51,7 +51,6 @@ class _HomePageState extends State<HomePage> {
 
     setState(() {
       globalAmount = fetchGlobalAmount(currencyId: getCurrency);
-      retrieveIncomingRequest = fetchIncomingRequest();
     });
 
     return Container(

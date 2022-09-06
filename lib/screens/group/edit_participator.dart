@@ -6,7 +6,8 @@ import 'package:fuko_app/screens/content_box_widgets.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
 class EditParticipator extends StatefulWidget {
-  const EditParticipator({Key? key}) : super(key: key);
+  final String? groupId;
+  const EditParticipator({Key? key, this.groupId}) : super(key: key);
 
   @override
   State<EditParticipator> createState() => _EditParticipatorState();
@@ -16,15 +17,17 @@ class _EditParticipatorState extends State<EditParticipator> {
   late Future<List<GroupData>> retrieveGroupMember;
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    retrieveGroupMember = fetchGroupMember(groupId: widget.groupId);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final groupId = FkManageProviders.get(context)['get-id'];
-    final List newItems = FkManageProviders.get(context)["get-list-items"];
+    final saveGroupMember = FkManageProviders.save['save-list-items'];
 
-    Map<String?, bool> checkBoxListValues = {};
-
-    setState(() {
-      retrieveGroupMember = fetchGroupMember(groupId: groupId);
-    });
+    final removeParticipator = FkManageProviders.remove['remove-participator'];
 
     return FkScrollViewWidgets.body(
       context,
@@ -76,24 +79,10 @@ class _EditParticipatorState extends State<EditParticipator> {
                             );
                           }
 
-                          // saveGroupMember(context, itemData: {
-                          //   "id": "${snapshot.data?[index].id}",
-                          //   "full_name":
-                          //       "${snapshot.data?[index].firstName} ${snapshot.data?[index].lastName}"
-                          // });
-
                           return Card(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: CheckboxListTile(
-                                // leading: const CircleAvatar(
-                                //   backgroundColor: fkGreyText,
-                                //   child: Icon(
-                                //     Icons.person,
-                                //     size: 30,
-                                //     color: fkWhiteText,
-                                //   ),
-                                // ),
                                 title: SizedBox(
                                   width: 200,
                                   child: Text(
@@ -115,8 +104,20 @@ class _EditParticipatorState extends State<EditParticipator> {
                                 onChanged: (bool? newValue) {
                                   setState(() {
                                     snapshot.data?[index].isSelected =
-                                        newValue ?? false;
+                                        newValue!;
                                   });
+
+                                  if (newValue == false) {
+                                    removeParticipator(context, itemData: {
+                                      "id": "${snapshot.data?[index].id}"
+                                    });
+                                  }
+
+                                  if (newValue == true) {
+                                    saveGroupMember(context, itemData: {
+                                      "id": "${snapshot.data?[index].id}",
+                                    });
+                                  }
                                 },
                               ),
                             ),

@@ -120,9 +120,10 @@ class PagesGenerator {
                 ),
                 GoRoute(
                   name: 'edit-participator',
-                  path: 'edit-participator',
+                  path: 'edit-participator/:groupId',
                   builder: (context, state) {
-                    return const EditParticipator();
+                    var groupId = state.params['groupId']!;
+                    return EditParticipator(groupId: groupId);
                   },
                 ),
                 GoRoute(
