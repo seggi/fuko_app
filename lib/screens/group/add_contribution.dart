@@ -42,8 +42,6 @@ class _AddContributionState extends State<AddContribution> {
       {"members": members}
     ];
 
-    print(newItem);
-
     if (amountController.text.isEmpty) {
       scaffoldMessenger.showSnackBar(const SnackBar(
           content: Text(
@@ -83,6 +81,7 @@ class _AddContributionState extends State<AddContribution> {
           FkManageProviders.remove['remove-items'](context);
         } else {
           PagesGenerator.goTo(context, name: "groupe-detail");
+          FkManageProviders.remove['remove-items'](context);
         }
       } else {
         setState(() {
@@ -121,8 +120,10 @@ class _AddContributionState extends State<AddContribution> {
                   children: [
                     IconButton(
                         icon: const Icon(Icons.cancel_outlined),
-                        onPressed: () => PagesGenerator.goTo(context,
-                            name: "groupe-detail")),
+                        onPressed: () {
+                          PagesGenerator.goTo(context, name: "groupe-detail");
+                          FkManageProviders.remove['remove-items'](context);
+                        }),
                     IconButton(
                         onPressed: () => PagesGenerator.goTo(context,
                             name: "edit-participator",

@@ -136,5 +136,8 @@ class FkManageProviders {
   static Map remove = {
     "remove-items": (context) =>
         Provider.of<SelectFromDataList>(context, listen: false).remove(),
+    "remove-participator": (context, {itemData}) =>
+        Provider.of<SelectFromDataList>(context, listen: false)
+            .removeParticipator(itemData),
   };
 }

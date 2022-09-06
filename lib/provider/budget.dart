@@ -33,6 +33,11 @@ class SelectFromDataList extends ChangeNotifier {
     notifyListeners();
   }
 
+  void removeParticipator(Map itemData) {
+    _itemList.removeWhere((item) => item['id'] == itemData["id"]);
+    notifyListeners();
+  }
+
   void addItem(Map item) {
     _itemList.add(item);
     notifyListeners();

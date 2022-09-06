@@ -25,15 +25,9 @@ class _EditParticipatorState extends State<EditParticipator> {
 
   @override
   Widget build(BuildContext context) {
-    final groupId = FkManageProviders.get(context)['get-id'];
     final saveGroupMember = FkManageProviders.save['save-list-items'];
-    final List newItems = FkManageProviders.get(context)["get-list-items"];
 
-    Map<String?, bool> checkBoxListValues = {};
-
-    // setState(() {
-    //   retrieveGroupMember = fetchGroupMember(groupId: groupId);
-    // });
+    final removeParticipator = FkManageProviders.remove['remove-participator'];
 
     return FkScrollViewWidgets.body(
       context,
@@ -89,15 +83,6 @@ class _EditParticipatorState extends State<EditParticipator> {
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: CheckboxListTile(
-                                // leading: const CircleAvatar(
-                                //   backgroundColor: fkGreyText,
-                                //   child: Icon(
-                                //     Icons.person,
-                                //     size: 30,
-                                //     color: fkWhiteText,
-                                //   ),
-                                // ),
-
                                 title: SizedBox(
                                   width: 200,
                                   child: Text(
@@ -122,9 +107,17 @@ class _EditParticipatorState extends State<EditParticipator> {
                                         newValue!;
                                   });
 
-                                  saveGroupMember(context, itemData: {
-                                    "id": "${snapshot.data?[index].id}",
-                                  });
+                                  if (newValue == false) {
+                                    removeParticipator(context, itemData: {
+                                      "id": "${snapshot.data?[index].id}"
+                                    });
+                                  }
+
+                                  if (newValue == true) {
+                                    saveGroupMember(context, itemData: {
+                                      "id": "${snapshot.data?[index].id}",
+                                    });
+                                  }
                                 },
                               ),
                             ),
