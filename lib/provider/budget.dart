@@ -5,9 +5,7 @@ class SelectFromDataList extends ChangeNotifier {
   Map _periods = {};
   String _requestNumber = '';
   String _id = '';
-  final List _itemList = [
-    {"id": "19", "full_name": "Seggi"}
-  ];
+  final List _itemList = [];
 
   Map get getNewItem => _items;
   Map get getPeriod => _periods;
@@ -30,8 +28,8 @@ class SelectFromDataList extends ChangeNotifier {
     notifyListeners();
   }
 
-  void remove(Map itemData) {
-    _itemList.removeWhere((item) => item['id'] == itemData["id"]);
+  void remove() {
+    _itemList.clear();
     notifyListeners();
   }
 
