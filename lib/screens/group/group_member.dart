@@ -30,6 +30,7 @@ class _GroupMemberState extends State<GroupMember> {
   Widget build(BuildContext context) {
     final groupId = widget.id;
     final saveGroupMember = FkManageProviders.save['save-list-items'];
+    final getGroupCreator = FkManageProviders.get(context)['get-item-selected'];
     setState(() {
       retrieveGroupMember = fetchGroupMember(groupId: groupId);
     });
@@ -118,6 +119,17 @@ class _GroupMemberState extends State<GroupMember> {
                             fontSize: 16,
                           ),
                         ),
+                        trailing: getGroupCreator["creator"] == true
+                            ? IconButton(
+                                onPressed: () {},
+                                icon: const Icon(
+                                  Icons.remove_circle_outline,
+                                  color: Colors.deepOrange,
+                                ))
+                            : const SizedBox(
+                                height: 0,
+                                width: 0,
+                              ),
                       ),
                     ),
                   );

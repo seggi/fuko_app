@@ -242,6 +242,7 @@ class _SavingPageState extends State<SavingPage> {
                   return true;
                 },
                 child: ListView.builder(
+                  shrinkWrap: true,
                   padding: const EdgeInsets.all(8),
                   itemCount: snapshot.data!.length,
                   itemBuilder: (BuildContext context, int index) {
