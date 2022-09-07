@@ -223,6 +223,7 @@ class _PrivateLoanSheetState extends State<PrivateLoanSheet> {
                             name: "lender-loan-details",
                             params: {
                               "id": "${snapshot.data?[index].id}",
+                              "deptMemberShip": "0"
                             });
                       },
                     );

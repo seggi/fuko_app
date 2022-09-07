@@ -307,29 +307,37 @@ class PagesGenerator {
                 ),
                 GoRoute(
                   name: "lender-loan-details",
-                  path: 'lender-loan-details/:id',
+                  path: 'lender-loan-details/:id/:deptMemberShip',
                   builder: (context, state) {
                     var id = state.params['id']!;
-                    return LenderLoanList(id: id);
+                    var deptMemberShip = state.params['deptMemberShip']!;
+                    return LenderLoanList(
+                      id: id,
+                      deptMemberShip: deptMemberShip,
+                    );
                   },
                 ),
                 GoRoute(
                   name: "save-loan",
-                  path: 'save-loan/:id',
+                  path: 'save-loan/:id/:deptMemberShip',
                   builder: (context, state) {
                     var data = state.params['id']!;
+                    var deptMemberShip = state.params['deptMemberShip']!;
                     return RecordLoan(
                       id: data,
+                      deptMemberShip: deptMemberShip,
                     );
                   },
                 ),
                 GoRoute(
                   name: "pay-private-loan",
-                  path: 'pay-private-loan/:id',
+                  path: 'pay-private-loan/:id/:deptMemberShip',
                   builder: (context, state) {
                     var data = state.params['id']!;
+                    var deptMemberShip = state.params['deptMemberShip']!;
                     return PayPrivateLoan(
                       id: data,
+                      deptMemberShip: deptMemberShip,
                     );
                   },
                 ),

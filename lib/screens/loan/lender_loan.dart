@@ -12,7 +12,10 @@ import 'package:intl/intl.dart';
 
 class LenderLoanList extends StatefulWidget {
   final String id;
-  const LenderLoanList({Key? key, required this.id}) : super(key: key);
+  final String deptMemberShip;
+  const LenderLoanList(
+      {Key? key, required this.id, required this.deptMemberShip})
+      : super(key: key);
 
   @override
   State<LenderLoanList> createState() => _LenderLoanListState();
@@ -31,13 +34,13 @@ class _LenderLoanListState extends State<LenderLoanList> {
   void initState() {
     super.initState();
     retrieveLenderLoanList = fetchLenderLoan(
-      lenderId: widget.id,
-      currencyCode: defaultCurrency,
-    );
+        lenderId: widget.id,
+        currencyCode: defaultCurrency,
+        deptMembership: widget.deptMemberShip);
     retrieveTotalAmount = fetchTotalLoanAmount(
-      lenderId: widget.id,
-      currencyCode: defaultCurrency,
-    );
+        lenderId: widget.id,
+        currencyCode: defaultCurrency,
+        deptMembership: widget.deptMemberShip);
     retrievePaymentHistory =
         fetchPaymentHistory(noteId: widget.id, currencyCode: defaultCurrency);
     retrieveTotalPaidAmount = fetchTotalLenderPaidAmount(
@@ -47,6 +50,7 @@ class _LenderLoanListState extends State<LenderLoanList> {
   @override
   Widget build(BuildContext context) {
     final loanCategoryId = widget.id;
+    final deptMemberShip = widget.deptMemberShip;
 
     FkManageProviders.save["save-lender-id"](context, itemData: widget.id);
     final screenTitle = FkManageProviders.get(context)['get-screen-title'];
@@ -57,23 +61,24 @@ class _LenderLoanListState extends State<LenderLoanList> {
 
     setState(() {
       retrieveLenderLoanList = fetchLenderLoan(
-        lenderId: loanCategoryId,
-        currencyCode: setCurrency,
-      );
+          lenderId: loanCategoryId,
+          currencyCode: setCurrency,
+          deptMembership: deptMemberShip);
       retrieveTotalAmount = fetchTotalLoanAmount(
-        lenderId: loanCategoryId,
-        currencyCode: setCurrency,
-      );
+          lenderId: loanCategoryId,
+          currencyCode: setCurrency,
+          deptMembership: deptMemberShip);
     });
 
     return FkTabBarView.tabBar(context, addFn: () {
       PagesGenerator.goTo(context,
-          name: "save-loan", params: {"id": loanCategoryId});
+          name: "save-loan",
+          params: {"id": loanCategoryId, "deptMemberShip": deptMemberShip});
     }, paymentFn: () {
       PagesGenerator.goTo(
         context,
         name: "pay-private-loan",
-        params: {"id": loanCategoryId},
+        params: {"id": loanCategoryId, "deptMemberShip": deptMemberShip},
       );
     }, screenTitle: screenTitle, pageTitle: const [
       Tab(child: Text("Loan")),
