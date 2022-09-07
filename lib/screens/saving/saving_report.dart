@@ -127,25 +127,7 @@ class _SavingReportState extends State<SavingReport> {
                         ],
                       );
                     } else {
-                      return Expanded(
-                        child: Row(
-                          children: [
-                            const Icon(
-                              Icons.warning,
-                              color: Colors.orange,
-                            ),
-                            horizontalSpaceSmall,
-                            Container(
-                              margin: const EdgeInsets.only(top: 10),
-                              child: const Text("No data to show in this year ",
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.red)),
-                            ),
-                          ],
-                        ),
-                      );
+                      return Expanded(child: Container());
                     }
                   })
             ],
@@ -172,9 +154,6 @@ class _SavingReportState extends State<SavingReport> {
                                 "currency": "",
                                 "totalAmount":
                                     "${snapshot.data[index].totalAmount}",
-                                "date": "",
-                                "amount": "",
-                                "description": "",
                                 "detailsData": snapshot.data[index]!.data
                               },
                             ),
@@ -186,14 +165,9 @@ class _SavingReportState extends State<SavingReport> {
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Icon(
-                        Icons.warning,
-                        color: Colors.orange,
-                      ),
-                      horizontalSpaceSmall,
                       Container(
                         margin: const EdgeInsets.only(top: 10),
-                        child: const Text("No data to show in this year ",
+                        child: const Text("Loading... ",
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
