@@ -76,13 +76,15 @@ class _BorrowerDeptListState extends State<BorrowerDeptList> {
     });
 
     return FkTabBarView.tabBar(context, addFn: () {
-      PagesGenerator.goTo(context,
-          name: "save-dept", params: {"id": deptCategoryId});
+      PagesGenerator.goTo(context, name: "save-dept", params: {
+        "id": deptCategoryId,
+        "loanMembership": widget.loanMembership
+      });
     }, paymentFn: () {
       PagesGenerator.goTo(
         context,
         name: "pay-private-dept",
-        params: {"id": deptCategoryId},
+        params: {"id": deptCategoryId, "loanMembership": widget.loanMembership},
       );
     }, screenTitle: screenTitle, pageTitle: const [
       Tab(child: Text("Dept")),
@@ -104,7 +106,7 @@ class _BorrowerDeptListState extends State<BorrowerDeptList> {
         const Align(
           alignment: Alignment.bottomLeft,
           child: Text(
-            "Total Amounts",
+            "Total Amount",
             style: TextStyle(
                 color: fkBlackText, fontWeight: FontWeight.w400, fontSize: 14),
           ),

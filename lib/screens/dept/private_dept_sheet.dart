@@ -227,8 +227,7 @@ class _PrivateDeptSheetState extends State<PrivateDeptSheet> {
                             name: "borrower_dept_details",
                             params: {
                               "id": "${snapshot.data?[index].borrowerId}",
-                              "loanMembership":
-                                  "${snapshot.data?[index].loanMembership}"
+                              "loanMembership": memberShipId
                             });
                       },
                     );
