@@ -292,7 +292,6 @@ class PagesGenerator {
                       ),
                     ]),
               ]),
-          // LenderLoanList
           GoRoute(
               path: "loan",
               name: 'loan',
@@ -320,21 +319,25 @@ class PagesGenerator {
                 ),
                 GoRoute(
                   name: "save-loan",
-                  path: 'save-loan/:id',
+                  path: 'save-loan/:id/:deptMemberShip',
                   builder: (context, state) {
                     var data = state.params['id']!;
+                    var deptMemberShip = state.params['deptMemberShip']!;
                     return RecordLoan(
                       id: data,
+                      deptMemberShip: deptMemberShip,
                     );
                   },
                 ),
                 GoRoute(
                   name: "pay-private-loan",
-                  path: 'pay-private-loan/:id',
+                  path: 'pay-private-loan/:id/:deptMemberShip',
                   builder: (context, state) {
                     var data = state.params['id']!;
+                    var deptMemberShip = state.params['deptMemberShip']!;
                     return PayPrivateLoan(
                       id: data,
+                      deptMemberShip: deptMemberShip,
                     );
                   },
                 ),

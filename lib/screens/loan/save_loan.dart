@@ -17,7 +17,9 @@ import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
 class RecordLoan extends StatefulWidget {
   final String id;
-  const RecordLoan({Key? key, required this.id}) : super(key: key);
+  final String deptMemberShip;
+  const RecordLoan({Key? key, required this.id, required this.deptMemberShip})
+      : super(key: key);
 
   @override
   State<RecordLoan> createState() => _RecordLoanState();
@@ -59,8 +61,10 @@ class _RecordLoanState extends State<RecordLoan> {
 
         if (backendFeedBack.code == "success") {
           clearWidgetList(context);
-          PagesGenerator.goTo(context,
-              name: "lender-loan-details", params: {"id": widget.id});
+          PagesGenerator.goTo(context, name: "lender-loan-details", params: {
+            "id": widget.id,
+            "deptMemberShip": widget.deptMemberShip
+          });
           Navigator.of(context).pop();
         } else {
           scaffoldMessenger.showSnackBar(const SnackBar(
@@ -88,6 +92,7 @@ class _RecordLoanState extends State<RecordLoan> {
     final loanCategoryId = widget.id;
     final List newItems = FkManageProviders.get(context)["get-added-loan"];
     final totalAmount = FkManageProviders.get(context)["get-total-loan-amount"];
+    final deptMemberShip = widget.deptMemberShip;
 
     return FkScrollViewWidgets.body(context, itemList: [
       Container(
@@ -100,10 +105,16 @@ class _RecordLoanState extends State<RecordLoan> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   IconButton(
-                      icon: const Icon(Icons.cancel_outlined),
-                      onPressed: () => PagesGenerator.goTo(context,
-                          name: "lender-loan-details",
-                          params: {"id": loanCategoryId})),
+                    icon: const Icon(Icons.cancel_outlined),
+                    onPressed: () => PagesGenerator.goTo(
+                      context,
+                      name: "lender-loan-details",
+                      params: {
+                        "id": loanCategoryId,
+                        "deptMemberShip": deptMemberShip
+                      },
+                    ),
+                  ),
                   Row(
                     children: [
                       IconButton(

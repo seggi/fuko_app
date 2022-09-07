@@ -41,7 +41,6 @@ class _LenderLoanListState extends State<LenderLoanList> {
         lenderId: widget.id,
         currencyCode: defaultCurrency,
         deptMembership: widget.deptMemberShip);
-
     retrievePaymentHistory =
         fetchPaymentHistory(noteId: widget.id, currencyCode: defaultCurrency);
     retrieveTotalPaidAmount = fetchTotalLenderPaidAmount(
@@ -73,12 +72,13 @@ class _LenderLoanListState extends State<LenderLoanList> {
 
     return FkTabBarView.tabBar(context, addFn: () {
       PagesGenerator.goTo(context,
-          name: "save-loan", params: {"id": loanCategoryId});
+          name: "save-loan",
+          params: {"id": loanCategoryId, "deptMemberShip": deptMemberShip});
     }, paymentFn: () {
       PagesGenerator.goTo(
         context,
         name: "pay-private-loan",
-        params: {"id": loanCategoryId},
+        params: {"id": loanCategoryId, "deptMemberShip": deptMemberShip},
       );
     }, screenTitle: screenTitle, pageTitle: const [
       Tab(child: Text("Loan")),
@@ -184,8 +184,7 @@ class _LenderLoanListState extends State<LenderLoanList> {
           },
         ),
       ]),
-      SizedBox(
-        height: MediaQuery.of(context).size.height - 220,
+      Expanded(
         child: FutureBuilder(
           future: retrieveLenderLoanList,
           builder: (context, AsyncSnapshot snapshot) {
@@ -266,7 +265,7 @@ class _LenderLoanListState extends State<LenderLoanList> {
           const Align(
             alignment: Alignment.bottomLeft,
             child: Text(
-              "Total Amounts",
+              "Total Amount",
               style: TextStyle(
                   color: fkBlackText,
                   fontWeight: FontWeight.w400,
@@ -352,8 +351,7 @@ class _LenderLoanListState extends State<LenderLoanList> {
             },
           ),
         ]),
-        SizedBox(
-          height: MediaQuery.of(context).size.height - 220,
+        Expanded(
           child: FutureBuilder(
             future: retrievePaymentHistory,
             builder: (context, AsyncSnapshot snapshot) {

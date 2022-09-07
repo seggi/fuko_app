@@ -5,7 +5,6 @@ import 'package:fuko_app/core/expense_report.dart';
 import 'package:fuko_app/screens/content_box_widgets.dart';
 import 'package:fuko_app/utils/constant.dart';
 import 'package:fuko_app/widgets/bottom_sheet/years.dart';
-import 'package:fuko_app/widgets/drop_down_box.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 
 import '../../widgets/expanded/expanded_listtile.dart';
@@ -128,25 +127,7 @@ class _ExpenseReportState extends State<ExpenseReport> {
                         ],
                       );
                     } else {
-                      return Expanded(
-                        child: Row(
-                          children: [
-                            const Icon(
-                              Icons.warning,
-                              color: Colors.orange,
-                            ),
-                            horizontalSpaceSmall,
-                            Container(
-                              margin: const EdgeInsets.only(top: 10),
-                              child: const Text("No data to show in this year ",
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.red)),
-                            ),
-                          ],
-                        ),
-                      );
+                      return Expanded(child: Container());
                     }
                   })
             ],
@@ -173,8 +154,6 @@ class _ExpenseReportState extends State<ExpenseReport> {
                                 "currency": "",
                                 "totalAmount":
                                     "${snapshot.data[index].totalAmount}",
-                                "date": "02",
-                                "amount": "2000",
                                 "description":
                                     "Achat 4 sacs du Riz & 4 d'huiles",
                                 "detailsData": snapshot.data[index]!.data
@@ -189,14 +168,9 @@ class _ExpenseReportState extends State<ExpenseReport> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Icon(
-                          Icons.warning,
-                          color: Colors.orange,
-                        ),
-                        horizontalSpaceSmall,
                         Container(
                           margin: const EdgeInsets.only(top: 10),
-                          child: const Text("No data to show in this year ",
+                          child: const Text("Loading... ",
                               style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,

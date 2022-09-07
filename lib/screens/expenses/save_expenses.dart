@@ -52,7 +52,7 @@ class _SaveExpensesState extends State<SaveExpenses> {
     } else {
       waitingOption(context, title: "Please Wait...");
       final response = await http.post(
-          Uri.parse(Network.registerSaving + "/$expenseId"),
+          Uri.parse(Network.addExpenses + "/$expenseId"),
           headers: Network.authorizedHeaders(token: token),
           body: jsonEncode({"data": expenseData}));
       if (response.statusCode == 200) {

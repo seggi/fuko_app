@@ -156,10 +156,10 @@ class _ReportCardState extends State<ReportCard> {
                 overflow: TextOverflow.visible,
                 fontWeight: FontWeight.w400,
                 fontSize: 16)),
-        trailing: trailingText == "From: null"
+        trailing: trailingText == "From: null" || trailingText == null
             ? const Text("")
             : Text(
-                "$trailingText",
+                trailingText,
                 style: const TextStyle(fontWeight: FontWeight.w300),
               ),
       ),

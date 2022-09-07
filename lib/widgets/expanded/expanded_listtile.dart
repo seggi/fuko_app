@@ -23,7 +23,6 @@ class _CustomExpandedListTileState extends State<CustomExpandedListTile> {
   @override
   Widget build(BuildContext context) {
     final Map requestData = widget.data;
-    print(requestData);
     return Card(
       elevation: 2.0,
       child: Container(
@@ -36,7 +35,7 @@ class _CustomExpandedListTileState extends State<CustomExpandedListTile> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      requestData["name"],
+                      requestData["month"],
                       style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
@@ -58,7 +57,7 @@ class _CustomExpandedListTileState extends State<CustomExpandedListTile> {
                           width: 2,
                         ),
                         Text(
-                          requestData["amount"],
+                          requestData["totalAmount"],
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
                               fontSize: 20,
@@ -71,7 +70,7 @@ class _CustomExpandedListTileState extends State<CustomExpandedListTile> {
                 ),
               ),
               verticalSpaceRegular,
-              // expandedListTile(data: requestData)
+              expandedListTile(data: requestData)
             ],
           )),
     );

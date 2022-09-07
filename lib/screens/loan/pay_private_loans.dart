@@ -13,7 +13,9 @@ import 'package:http/http.dart' as http;
 
 class PayPrivateLoan extends StatefulWidget {
   final String? id;
-  const PayPrivateLoan({Key? key, this.id}) : super(key: key);
+  final String deptMemberShip;
+  const PayPrivateLoan({Key? key, this.id, required this.deptMemberShip})
+      : super(key: key);
 
   @override
   State<PayPrivateLoan> createState() => _PayPrivateLoanState();
@@ -76,8 +78,10 @@ class _PayPrivateLoanState extends State<PayPrivateLoan> {
           ),
         ));
       } else {
-        PagesGenerator.goTo(context,
-            name: "lender-loan-details", params: {"id": "${widget.id}"});
+        PagesGenerator.goTo(context, name: "lender-loan-details", params: {
+          "id": "${widget.id}",
+          "deptMemberShip": widget.deptMemberShip
+        });
       }
     } else {
       setState(() {
@@ -116,7 +120,10 @@ class _PayPrivateLoanState extends State<PayPrivateLoan> {
                       onPressed: () => {
                             PagesGenerator.goTo(context,
                                 name: "lender-loan-details",
-                                params: {"id": "${widget.id}"})
+                                params: {
+                                  "id": "${widget.id}",
+                                  "deptMemberShip": widget.deptMemberShip
+                                })
                           }),
                 ],
               ),

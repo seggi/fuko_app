@@ -91,13 +91,6 @@ class _ExpenseListState extends State<ExpenseList> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "${snapshot.data!.currencyCode}",
-                        style: const TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                            color: fkGreyText),
-                      ),
-                      Text(
                         "${double.parse(snapshot.data!.totalAmount)}",
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(

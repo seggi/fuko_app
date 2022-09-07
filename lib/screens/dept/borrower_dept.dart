@@ -188,8 +188,8 @@ class _BorrowerDeptListState extends State<BorrowerDeptList> {
           },
         ),
       ]),
-      SizedBox(
-        height: MediaQuery.of(context).size.height - 220,
+      Expanded(
+        // height: MediaQuery.of(context).size.height - 220,
         child: FutureBuilder(
           future: retrieveBorrowerDeptList,
           builder: (context, AsyncSnapshot snapshot) {
@@ -356,8 +356,7 @@ class _BorrowerDeptListState extends State<BorrowerDeptList> {
             },
           ),
         ]),
-        SizedBox(
-          height: MediaQuery.of(context).size.height - 220,
+        Expanded(
           child: FutureBuilder(
             future: retrieveBorrowerPaymentHistory,
             builder: (context, AsyncSnapshot snapshot) {
