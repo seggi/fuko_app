@@ -175,7 +175,7 @@ Future<List<RetrieveDept>> fetchBorrowerPaymentHistory(
 
   final response = await http.get(
       Uri.parse(Network.privatePaidDeptHistory +
-          "/$noteId/${loanMembership == null || loanMembership == "null" ? 0 : loanMembership}/$currencyCode"),
+          "/$noteId/${loanMembership == null || loanMembership == "0" ? 0 : loanMembership}/$currencyCode"),
       headers: Network.authorizedHeaders(token: token));
 
   if (response.statusCode == 200) {

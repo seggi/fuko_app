@@ -272,22 +272,22 @@ class PagesGenerator {
                     routes: [
                       GoRoute(
                         name: "save-dept",
-                        path: 'save-dept/:id',
+                        path: 'save-dept/:id/:loanMembership',
                         builder: (context, state) {
                           var data = state.params['id']!;
+                          var loanMembership = state.params['loanMembership']!;
                           return RecordBorrowerDept(
-                            id: data,
-                          );
+                              id: data, loanMembership: loanMembership);
                         },
                       ),
                       GoRoute(
                         name: "pay-private-dept",
-                        path: 'pay-private-dept/:id',
+                        path: 'pay-private-dept/:id/:loanMembership',
                         builder: (context, state) {
                           var data = state.params['id']!;
+                          var loanMembership = state.params['loanMembership']!;
                           return PayPrivateDept(
-                            id: data,
-                          );
+                              id: data, loanMembership: loanMembership);
                         },
                       ),
                     ]),

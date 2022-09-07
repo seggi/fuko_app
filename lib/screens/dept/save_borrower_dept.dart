@@ -17,7 +17,10 @@ import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
 class RecordBorrowerDept extends StatefulWidget {
   final String id;
-  const RecordBorrowerDept({Key? key, required this.id}) : super(key: key);
+  final String loanMembership;
+  const RecordBorrowerDept(
+      {Key? key, required this.id, required this.loanMembership})
+      : super(key: key);
 
   @override
   State<RecordBorrowerDept> createState() => _RecordBorrowerDeptState();
@@ -59,8 +62,10 @@ class _RecordBorrowerDeptState extends State<RecordBorrowerDept> {
 
         if (backendFeedBack.code == "success") {
           clearWidgetList(context);
-          PagesGenerator.goTo(context,
-              name: "borrower_dept_details", params: {"id": widget.id});
+          PagesGenerator.goTo(context, name: "borrower_dept_details", params: {
+            "id": widget.id,
+            "loanMembership": widget.loanMembership
+          });
           Navigator.of(context).pop();
         } else {
           scaffoldMessenger.showSnackBar(const SnackBar(
@@ -102,8 +107,11 @@ class _RecordBorrowerDeptState extends State<RecordBorrowerDept> {
                   IconButton(
                       icon: const Icon(Icons.cancel_outlined),
                       onPressed: () => PagesGenerator.goTo(context,
-                          name: "borrower_dept_details",
-                          params: {"id": deptCategoryId})),
+                              name: "borrower_dept_details",
+                              params: {
+                                "id": deptCategoryId,
+                                "loanMembership": widget.loanMembership
+                              })),
                   Row(
                     children: [
                       IconButton(
