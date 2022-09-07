@@ -102,12 +102,12 @@ Future<LoanList> fetchLoanAmount({setCurrency}) async {
 }
 
 Future<List<LoanList>> fetchLenderLoan(
-    {String? lenderId, currencyCode, deptMembership}) async {
+    {String? lenderId, currencyCode, deptMembership = 0}) async {
   var token = await UserPreferences.getToken();
 
   final response = await http.get(
       Uri.parse(Network.retrievePersonalLoan +
-          "/$lenderId/${deptMembership == "null" ? 0 : deptMembership}/$currencyCode"),
+          "/$lenderId/${deptMembership == 0 ? 0 : deptMembership}/$currencyCode"),
       headers: Network.authorizedHeaders(token: token));
 
   if (response.statusCode == 200) {
@@ -120,16 +120,18 @@ Future<List<LoanList>> fetchLenderLoan(
 }
 
 Future<LoanList> fetchTotalLoanAmount(
-    {String? lenderId, currencyCode, deptMembership}) async {
+    {String? lenderId, currencyCode, deptMembership = 0}) async {
   var token = await UserPreferences.getToken();
 
   final response = await http.get(
       Uri.parse(Network.retrievePersonalLoan +
-          "/$lenderId/${deptMembership == "null" ? 0 : deptMembership}/$currencyCode"),
+          "/$lenderId/${deptMembership == 0 ? 0 : deptMembership}/$currencyCode"),
       headers: Network.authorizedHeaders(token: token));
 
   if (response.statusCode == 200) {
-    return LoanList.fromJson(jsonDecode(response.body)["data"]);
+    var loanList = LoanList.fromJson(jsonDecode(response.body)["data"]);
+
+    return loanList;
   } else {
     throw Exception('Failed to load data');
   }

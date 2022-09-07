@@ -12,10 +12,7 @@ import 'package:intl/intl.dart';
 
 class LenderLoanList extends StatefulWidget {
   final String id;
-  final String deptMemberShip;
-  const LenderLoanList(
-      {Key? key, required this.id, required this.deptMemberShip})
-      : super(key: key);
+  const LenderLoanList({Key? key, required this.id}) : super(key: key);
 
   @override
   State<LenderLoanList> createState() => _LenderLoanListState();
@@ -34,14 +31,13 @@ class _LenderLoanListState extends State<LenderLoanList> {
   void initState() {
     super.initState();
     retrieveLenderLoanList = fetchLenderLoan(
-        lenderId: widget.id,
-        currencyCode: defaultCurrency,
-        deptMembership: widget.deptMemberShip);
+      lenderId: widget.id,
+      currencyCode: defaultCurrency,
+    );
     retrieveTotalAmount = fetchTotalLoanAmount(
-        lenderId: widget.id,
-        currencyCode: defaultCurrency,
-        deptMembership: widget.deptMemberShip);
-
+      lenderId: widget.id,
+      currencyCode: defaultCurrency,
+    );
     retrievePaymentHistory =
         fetchPaymentHistory(noteId: widget.id, currencyCode: defaultCurrency);
     retrieveTotalPaidAmount = fetchTotalLenderPaidAmount(
@@ -51,7 +47,6 @@ class _LenderLoanListState extends State<LenderLoanList> {
   @override
   Widget build(BuildContext context) {
     final loanCategoryId = widget.id;
-    final deptMemberShip = widget.deptMemberShip;
 
     FkManageProviders.save["save-lender-id"](context, itemData: widget.id);
     final screenTitle = FkManageProviders.get(context)['get-screen-title'];
@@ -62,13 +57,13 @@ class _LenderLoanListState extends State<LenderLoanList> {
 
     setState(() {
       retrieveLenderLoanList = fetchLenderLoan(
-          lenderId: loanCategoryId,
-          currencyCode: setCurrency,
-          deptMembership: deptMemberShip);
+        lenderId: loanCategoryId,
+        currencyCode: setCurrency,
+      );
       retrieveTotalAmount = fetchTotalLoanAmount(
-          lenderId: loanCategoryId,
-          currencyCode: setCurrency,
-          deptMembership: deptMemberShip);
+        lenderId: loanCategoryId,
+        currencyCode: setCurrency,
+      );
     });
 
     return FkTabBarView.tabBar(context, addFn: () {
@@ -184,8 +179,7 @@ class _LenderLoanListState extends State<LenderLoanList> {
           },
         ),
       ]),
-      SizedBox(
-        height: MediaQuery.of(context).size.height - 220,
+      Expanded(
         child: FutureBuilder(
           future: retrieveLenderLoanList,
           builder: (context, AsyncSnapshot snapshot) {
@@ -266,7 +260,7 @@ class _LenderLoanListState extends State<LenderLoanList> {
           const Align(
             alignment: Alignment.bottomLeft,
             child: Text(
-              "Total Amounts",
+              "Total Amount",
               style: TextStyle(
                   color: fkBlackText,
                   fontWeight: FontWeight.w400,
@@ -352,8 +346,7 @@ class _LenderLoanListState extends State<LenderLoanList> {
             },
           ),
         ]),
-        SizedBox(
-          height: MediaQuery.of(context).size.height - 220,
+        Expanded(
           child: FutureBuilder(
             future: retrievePaymentHistory,
             builder: (context, AsyncSnapshot snapshot) {

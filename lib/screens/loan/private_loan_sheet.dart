@@ -179,7 +179,6 @@ class _PrivateLoanSheetState extends State<PrivateLoanSheet> {
           verticalSpaceSmall,
         ]),
         SizedBox(
-          // height: MediaQuery.of(context).size.height - 290,
           child: FutureBuilder(
             future: retrievePrivateLoanList,
             builder: (context, AsyncSnapshot<List<LoanList>> snapshot) {
@@ -224,8 +223,6 @@ class _PrivateLoanSheetState extends State<PrivateLoanSheet> {
                             name: "lender-loan-details",
                             params: {
                               "id": "${snapshot.data?[index].id}",
-                              "deptMemberShip":
-                                  "${snapshot.data?[index].deptMemberShip}"
                             });
                       },
                     );

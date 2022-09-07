@@ -89,6 +89,8 @@ class _RecordLoanState extends State<RecordLoan> {
     final List newItems = FkManageProviders.get(context)["get-added-loan"];
     final totalAmount = FkManageProviders.get(context)["get-total-loan-amount"];
 
+    print(loanCategoryId);
+
     return FkScrollViewWidgets.body(context, itemList: [
       Container(
         padding: const EdgeInsets.all(20.0),
