@@ -92,13 +92,14 @@ class _SaveExpensesState extends State<SaveExpenses> {
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
     final List newItems = FkManageProviders.get(context)["add-expenses"];
     final totalAmount = FkManageProviders.get(context)["get-added-expenses"];
 
     return FkScrollViewWidgets.body(context, itemList: [
       Container(
         padding: const EdgeInsets.all(20.0),
-        height: MediaQuery.of(context).size.height,
+        height: height,
         child: Column(
           children: [
             SizedBox(
@@ -175,7 +176,8 @@ class _SaveExpensesState extends State<SaveExpenses> {
               ],
             ),
             verticalSpaceRegular,
-            Expanded(
+            SizedBox(
+              height: height / 2,
               child: newItems.isNotEmpty
                   ? ListView.builder(
                       itemCount: newItems.length,
