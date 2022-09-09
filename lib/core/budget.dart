@@ -17,6 +17,7 @@ class BudgetData {
   final String? envelope;
   final String? amountConsumed;
   final String? amountInitial;
+  final String? totalAmount;
 
   BudgetData(
       {this.createdAt,
@@ -29,6 +30,7 @@ class BudgetData {
       this.envelope,
       this.amountInitial,
       this.amountConsumed,
+      this.totalAmount,
       this.budgetCategory});
 
   factory BudgetData.fromJson(Map<String, dynamic> json) {
@@ -42,6 +44,7 @@ class BudgetData {
         amount: json["amount"].toString(),
         envelope: json["envelope"].toString(),
         budgetCategory: json['name'].toString(),
+        totalAmount: json["total_amount"].toString(),
         amountConsumed: json["amount_consumed"].toString(),
         amountInitial: json["budget_amount"].toString());
   }

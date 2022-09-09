@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fuko_app/core/notification.dart';
 import 'package:fuko_app/core/user_preferences.dart';
 import 'package:fuko_app/widgets/popup/alert_dialog.dart';
@@ -123,6 +124,13 @@ class _SaveExpensesState extends State<SaveExpenses> {
                           onPressed: () => saveExpenses(newItems),
                           icon: const Icon(
                             Icons.save,
+                            color: fkBlueText,
+                            size: 28,
+                          )),
+                      IconButton(
+                          onPressed: () {},
+                          icon: const Icon(
+                            Icons.receipt_long,
                             color: fkBlueText,
                             size: 28,
                           ))
