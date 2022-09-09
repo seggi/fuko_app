@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fuko_app/core/notification.dart';
 import 'package:fuko_app/core/user_preferences.dart';
 import 'package:fuko_app/widgets/popup/alert_dialog.dart';
@@ -92,13 +93,14 @@ class _SaveExpensesState extends State<SaveExpenses> {
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
     final List newItems = FkManageProviders.get(context)["add-expenses"];
     final totalAmount = FkManageProviders.get(context)["get-added-expenses"];
 
     return FkScrollViewWidgets.body(context, itemList: [
       Container(
         padding: const EdgeInsets.all(20.0),
-        height: MediaQuery.of(context).size.height,
+        height: height,
         child: Column(
           children: [
             SizedBox(
@@ -122,6 +124,13 @@ class _SaveExpensesState extends State<SaveExpenses> {
                           onPressed: () => saveExpenses(newItems),
                           icon: const Icon(
                             Icons.save,
+                            color: fkBlueText,
+                            size: 28,
+                          )),
+                      IconButton(
+                          onPressed: () {},
+                          icon: const Icon(
+                            Icons.receipt_long,
                             color: fkBlueText,
                             size: 28,
                           ))
@@ -175,7 +184,8 @@ class _SaveExpensesState extends State<SaveExpenses> {
               ],
             ),
             verticalSpaceRegular,
-            Expanded(
+            SizedBox(
+              height: height / 2,
               child: newItems.isNotEmpty
                   ? ListView.builder(
                       itemCount: newItems.length,

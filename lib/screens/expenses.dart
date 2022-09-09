@@ -58,11 +58,11 @@ class _ExpensesPageState extends State<ExpensesPage> {
             children: [
               Row(
                 children: [
-                  InkWell(
-                      onTap: () async {
+                  IconButton(
+                      onPressed: () async {
                         PagesGenerator.goTo(context, pathName: "/?status=true");
                       },
-                      child: const Icon(
+                      icon: const Icon(
                         Icons.arrow_back_ios,
                         size: 20,
                       )),

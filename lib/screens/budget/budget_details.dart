@@ -145,7 +145,7 @@ class _BudgetDetailsState extends State<BudgetDetails> {
                                         ),
                                         Column(children: [
                                           Text(
-                                              "${snapshot.data?[index].amountConsumed == 'null' ? "0.0" : snapshot.data?[index].amountConsumed}"),
+                                              "${snapshot.data?[index].totalAmount}"),
                                           verticalSpaceTiny,
                                           Text(
                                               "${snapshot.data?[index].amountInitial}")
