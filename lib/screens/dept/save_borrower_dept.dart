@@ -68,6 +68,7 @@ class _RecordBorrowerDeptState extends State<RecordBorrowerDept> {
             "id": widget.id,
             "loanMembership": widget.loanMembership
           });
+          FkManageProviders.remove['remove-envelope'](context);
           Navigator.of(context).pop();
         } else {
           scaffoldMessenger.showSnackBar(const SnackBar(
