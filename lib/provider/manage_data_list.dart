@@ -47,4 +47,9 @@ class SelectFromDataList extends ChangeNotifier {
     _requestNumber = requestNumber;
     notifyListeners();
   }
+
+  void removeEnvelope() {
+    _items.clear();
+    notifyListeners();
+  }
 }

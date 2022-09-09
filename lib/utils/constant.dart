@@ -10,6 +10,7 @@ var isAdmin = 1;
 int acceptRequest = 2;
 int rejectRequest = 3;
 String memberShipId = "0";
+int defaultEnvelop = 8;
 
 late Future<List<GetCurrencies>> retrieveCurrencies;
 late Future<List<GetMonths>> retrieveMonths;

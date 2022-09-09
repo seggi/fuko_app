@@ -28,7 +28,7 @@ class _BudgetEnvelopListState extends State<BudgetEnvelopList> {
 
   @override
   Widget build(BuildContext context) {
-    final setCurrencyId = FkManageProviders.save["add-default-currency"];
+    final saveSelectedEnvelop = FkManageProviders.save['save-select-item'];
     return IconButton(
       onPressed: () {
         showModalBottomSheet(
@@ -93,6 +93,17 @@ class _BudgetEnvelopListState extends State<BudgetEnvelopList> {
                                               snapshot.data?[index].isSelected =
                                                   newValue!;
                                             });
+                                            if (newValue == true) {
+                                              saveSelectedEnvelop(context,
+                                                  itemData: {
+                                                    "id":
+                                                        "${snapshot.data?[index].id}",
+                                                    "envelope":
+                                                        "${snapshot.data?[index].budgetCategory}",
+                                                    "amount":
+                                                        "${snapshot.data?[index].amountInitial}"
+                                                  });
+                                            }
                                             snapshot.data?[index].isSelected =
                                                 false;
                                             Navigator.pop(context);

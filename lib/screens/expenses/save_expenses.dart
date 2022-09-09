@@ -64,6 +64,7 @@ class _SaveExpensesState extends State<SaveExpenses> {
         if (backendFeedBack.code == "success") {
           clearWidgetList(context);
           PagesGenerator.goTo(context, pathName: "/expenses?status=true");
+          FkManageProviders.remove['remove-envelope'](context);
           Navigator.of(context).pop();
         } else {
           scaffoldMessenger.showSnackBar(const SnackBar(
@@ -102,6 +103,10 @@ class _SaveExpensesState extends State<SaveExpenses> {
     var getCurrency =
         selectedCurrency != '' ? selectedCurrency : defaultCurrency.toString();
 
+    final getEnvelope = FkManageProviders.get(context)['get-item-selected'];
+
+    final removeEnvelope = FkManageProviders.remove['remove-envelope'];
+
     return FkScrollViewWidgets.body(context, itemList: [
       Container(
         padding: const EdgeInsets.all(20.0),
@@ -114,8 +119,10 @@ class _SaveExpensesState extends State<SaveExpenses> {
                 children: [
                   IconButton(
                       icon: const Icon(Icons.cancel_outlined),
-                      onPressed: () =>
-                          PagesGenerator.goTo(context, pathName: "/expenses")),
+                      onPressed: () {
+                        PagesGenerator.goTo(context, pathName: "/expenses");
+                        removeEnvelope(context);
+                      }),
                   Row(
                     children: [
                       IconButton(
@@ -138,6 +145,20 @@ class _SaveExpensesState extends State<SaveExpenses> {
                 ],
               ),
             ),
+            verticalSpaceRegular,
+            getEnvelope.isEmpty
+                ? Container()
+                : Container(
+                    color: fkBlueLight,
+                    child: ListTile(
+                      leading: const Text(
+                        'Envelope: ',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      title: Text(getEnvelope['envelope'] ?? ""),
+                      subtitle: Text(getEnvelope['amount'] ?? ""),
+                    ),
+                  ),
             verticalSpaceRegular,
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
