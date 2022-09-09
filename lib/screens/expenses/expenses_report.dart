@@ -38,7 +38,6 @@ class _ExpenseReportState extends State<ExpenseReport> {
     var selectedCurrency =
         FkManageProviders.get(context)["get-default-currency"];
     var getStatus = FkManageProviders.get(context)["get-status"];
-    // final updateStatus = FkManageProviders.save["update-status"];
     var getCurrency =
         selectedCurrency != '' ? selectedCurrency : defaultCurrency.toString();
 

@@ -26,7 +26,6 @@ class _EditParticipatorState extends State<EditParticipator> {
   @override
   Widget build(BuildContext context) {
     final saveGroupMember = FkManageProviders.save['save-list-items'];
-
     final removeParticipator = FkManageProviders.remove['remove-participator'];
 
     return FkScrollViewWidgets.body(

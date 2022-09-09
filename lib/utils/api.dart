@@ -84,6 +84,7 @@ class Network {
   static String addEnvelope = "${liveUrl!}/budget/add-envelope-budget";
   static String getBudgetCategories = "${liveUrl!}/budget/budget-category";
   static String getEnvelopeList = "${liveUrl!}/budget/get-envelope";
+  static String retrieveEnvelopeList = "${liveUrl!}/budget/get-envelope-list";
 
   static String getGroupList = "${liveUrl!}/account/group/retrieve-group";
   static String createGroup = "${liveUrl!}/account/group/create-group";

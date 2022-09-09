@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fuko_app/core/notification.dart';
 import 'package:fuko_app/core/user_preferences.dart';
+import 'package:fuko_app/utils/constant.dart';
+import 'package:fuko_app/widgets/bottom_sheet/budget_envelop_list.dart';
 import 'package:fuko_app/widgets/popup/alert_dialog.dart';
 import 'package:http/http.dart' as http;
 
@@ -63,6 +64,7 @@ class _SaveExpensesState extends State<SaveExpenses> {
         if (backendFeedBack.code == "success") {
           clearWidgetList(context);
           PagesGenerator.goTo(context, pathName: "/expenses?status=true");
+          FkManageProviders.remove['remove-envelope'](context);
           Navigator.of(context).pop();
         } else {
           scaffoldMessenger.showSnackBar(const SnackBar(
@@ -96,6 +98,14 @@ class _SaveExpensesState extends State<SaveExpenses> {
     final height = MediaQuery.of(context).size.height;
     final List newItems = FkManageProviders.get(context)["add-expenses"];
     final totalAmount = FkManageProviders.get(context)["get-added-expenses"];
+    var selectedCurrency =
+        FkManageProviders.get(context)["get-default-currency"];
+    var getCurrency =
+        selectedCurrency != '' ? selectedCurrency : defaultCurrency.toString();
+
+    final getEnvelope = FkManageProviders.get(context)['get-item-selected'];
+
+    final removeEnvelope = FkManageProviders.remove['remove-envelope'];
 
     return FkScrollViewWidgets.body(context, itemList: [
       Container(
@@ -109,8 +119,10 @@ class _SaveExpensesState extends State<SaveExpenses> {
                 children: [
                   IconButton(
                       icon: const Icon(Icons.cancel_outlined),
-                      onPressed: () =>
-                          PagesGenerator.goTo(context, pathName: "/expenses")),
+                      onPressed: () {
+                        PagesGenerator.goTo(context, pathName: "/expenses");
+                        removeEnvelope(context);
+                      }),
                   Row(
                     children: [
                       IconButton(
@@ -127,18 +139,26 @@ class _SaveExpensesState extends State<SaveExpenses> {
                             color: fkBlueText,
                             size: 28,
                           )),
-                      IconButton(
-                          onPressed: () {},
-                          icon: const Icon(
-                            Icons.receipt_long,
-                            color: fkBlueText,
-                            size: 28,
-                          ))
+                      BudgetEnvelopList(currencyCode: getCurrency)
                     ],
                   )
                 ],
               ),
             ),
+            verticalSpaceRegular,
+            getEnvelope.isEmpty
+                ? Container()
+                : Container(
+                    color: fkBlueLight,
+                    child: ListTile(
+                      leading: const Text(
+                        'Envelope: ',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      title: Text(getEnvelope['envelope'] ?? ""),
+                      subtitle: Text(getEnvelope['amount'] ?? ""),
+                    ),
+                  ),
             verticalSpaceRegular,
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

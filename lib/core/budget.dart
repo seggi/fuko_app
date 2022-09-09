@@ -18,6 +18,7 @@ class BudgetData {
   final String? amountConsumed;
   final String? amountInitial;
   final String? totalAmount;
+  bool isSelected;
 
   BudgetData(
       {this.createdAt,
@@ -31,6 +32,7 @@ class BudgetData {
       this.amountInitial,
       this.amountConsumed,
       this.totalAmount,
+      this.isSelected = false,
       this.budgetCategory});
 
   factory BudgetData.fromJson(Map<String, dynamic> json) {
@@ -89,6 +91,23 @@ Future<List<BudgetData>> fetchBudgetEnvelope(
 
   final response = await http.get(
       Uri.parse("${Network.getEnvelopeList}/$getId/$currencyCode"),
+      headers: Network.authorizedHeaders(token: token));
+
+  if (response.statusCode == 200) {
+    var envelopeList = jsonDecode(response.body)["data"] as List;
+
+    return envelopeList.map((user) => BudgetData.fromJson(user)).toList();
+  } else {
+    throw Exception('Failed to load data');
+  }
+}
+
+Future<List<BudgetData>> fetchBudgetEnvelopeList(
+    {required String currencyCode}) async {
+  var token = await UserPreferences.getToken();
+
+  final response = await http.get(
+      Uri.parse("${Network.retrieveEnvelopeList}/$currencyCode"),
       headers: Network.authorizedHeaders(token: token));
 
   if (response.statusCode == 200) {

@@ -139,5 +139,8 @@ class FkManageProviders {
     "remove-participator": (context, {itemData}) =>
         Provider.of<SelectFromDataList>(context, listen: false)
             .removeParticipator(itemData),
+    "remove-envelope": (context) =>
+        Provider.of<SelectFromDataList>(context, listen: false)
+            .removeEnvelope(),
   };
 }
