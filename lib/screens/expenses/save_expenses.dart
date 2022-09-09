@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fuko_app/core/notification.dart';
 import 'package:fuko_app/core/user_preferences.dart';
+import 'package:fuko_app/utils/constant.dart';
+import 'package:fuko_app/widgets/bottom_sheet/budget_envelop_list.dart';
 import 'package:fuko_app/widgets/popup/alert_dialog.dart';
 import 'package:http/http.dart' as http;
 
@@ -96,6 +97,10 @@ class _SaveExpensesState extends State<SaveExpenses> {
     final height = MediaQuery.of(context).size.height;
     final List newItems = FkManageProviders.get(context)["add-expenses"];
     final totalAmount = FkManageProviders.get(context)["get-added-expenses"];
+    var selectedCurrency =
+        FkManageProviders.get(context)["get-default-currency"];
+    var getCurrency =
+        selectedCurrency != '' ? selectedCurrency : defaultCurrency.toString();
 
     return FkScrollViewWidgets.body(context, itemList: [
       Container(
@@ -127,13 +132,7 @@ class _SaveExpensesState extends State<SaveExpenses> {
                             color: fkBlueText,
                             size: 28,
                           )),
-                      IconButton(
-                          onPressed: () {},
-                          icon: const Icon(
-                            Icons.receipt_long,
-                            color: fkBlueText,
-                            size: 28,
-                          ))
+                      BudgetEnvelopList(currencyCode: getCurrency)
                     ],
                   )
                 ],
