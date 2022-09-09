@@ -104,7 +104,6 @@ class _SaveExpensesState extends State<SaveExpenses> {
         selectedCurrency != '' ? selectedCurrency : defaultCurrency.toString();
 
     final getEnvelope = FkManageProviders.get(context)['get-item-selected'];
-
     final removeEnvelope = FkManageProviders.remove['remove-envelope'];
 
     return FkScrollViewWidgets.body(context, itemList: [

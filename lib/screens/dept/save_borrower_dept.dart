@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:fuko_app/core/notification.dart';
 import 'package:fuko_app/core/user_preferences.dart';
+import 'package:fuko_app/utils/constant.dart';
+import 'package:fuko_app/widgets/bottom_sheet/budget_envelop_list.dart';
 import 'package:fuko_app/widgets/popup/alert_dialog.dart';
 import 'package:http/http.dart' as http;
 
@@ -66,6 +68,7 @@ class _RecordBorrowerDeptState extends State<RecordBorrowerDept> {
             "id": widget.id,
             "loanMembership": widget.loanMembership
           });
+          FkManageProviders.remove['remove-envelope'](context);
           Navigator.of(context).pop();
         } else {
           scaffoldMessenger.showSnackBar(const SnackBar(
@@ -93,6 +96,12 @@ class _RecordBorrowerDeptState extends State<RecordBorrowerDept> {
     final deptCategoryId = widget.id;
     final List newItems = FkManageProviders.get(context)["get-added-dept"];
     final totalAmount = FkManageProviders.get(context)["get-total-dept-amount"];
+    final removeEnvelope = FkManageProviders.remove['remove-envelope'];
+    var selectedCurrency =
+        FkManageProviders.get(context)["get-default-currency"];
+    final getEnvelope = FkManageProviders.get(context)['get-item-selected'];
+    var getCurrency =
+        selectedCurrency != '' ? selectedCurrency : defaultCurrency.toString();
 
     return FkScrollViewWidgets.body(context, itemList: [
       Container(
@@ -106,12 +115,15 @@ class _RecordBorrowerDeptState extends State<RecordBorrowerDept> {
                 children: [
                   IconButton(
                       icon: const Icon(Icons.cancel_outlined),
-                      onPressed: () => PagesGenerator.goTo(context,
-                              name: "borrower_dept_details",
-                              params: {
-                                "id": deptCategoryId,
-                                "loanMembership": widget.loanMembership
-                              })),
+                      onPressed: () {
+                        PagesGenerator.goTo(context,
+                            name: "borrower_dept_details",
+                            params: {
+                              "id": deptCategoryId,
+                              "loanMembership": widget.loanMembership
+                            });
+                        removeEnvelope(context);
+                      }),
                   Row(
                     children: [
                       IconButton(
@@ -127,12 +139,27 @@ class _RecordBorrowerDeptState extends State<RecordBorrowerDept> {
                             Icons.save,
                             color: fkBlueText,
                             size: 28,
-                          ))
+                          )),
+                      BudgetEnvelopList(currencyCode: getCurrency)
                     ],
                   )
                 ],
               ),
             ),
+            verticalSpaceRegular,
+            getEnvelope.isEmpty
+                ? Container()
+                : Container(
+                    color: fkBlueLight,
+                    child: ListTile(
+                      leading: const Text(
+                        'Envelope: ',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      title: Text(getEnvelope['envelope'] ?? ""),
+                      subtitle: Text(getEnvelope['amount'] ?? ""),
+                    ),
+                  ),
             verticalSpaceRegular,
             Container(
               alignment: Alignment.bottomLeft,

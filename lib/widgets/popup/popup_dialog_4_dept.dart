@@ -34,7 +34,7 @@ class _RegisterDeptState extends State<RegisterDept> {
   TextEditingController descriptionController = TextEditingController();
   late ScaffoldMessengerState scaffoldMessenger = ScaffoldMessenger.of(context);
 
-  Future registerDept({selectedCurrency = ""}) async {
+  Future registerDept({selectedCurrency = "", getEnvelope = ""}) async {
     FocusManager.instance.primaryFocus?.unfocus();
 
     Map newItem = {
@@ -43,6 +43,7 @@ class _RegisterDeptState extends State<RegisterDept> {
       "lent_at": todayDate,
       "currency_id":
           selectedCurrency != "" ? selectedCurrency : defaultCurrency,
+      "budget_detail_id": getEnvelope
     };
 
     if (amountController.text == "" || descriptionController.text == "") {
@@ -64,6 +65,7 @@ class _RegisterDeptState extends State<RegisterDept> {
   @override
   Widget build(BuildContext context) {
     var selectedCurrency = FkManageProviders.get(context)["get-currency"];
+    var getEnvelope = FkManageProviders.get(context)['get-item-selected'];
     return SizedBox(
       child: SingleChildScrollView(
         child: Form(
@@ -127,8 +129,9 @@ class _RegisterDeptState extends State<RegisterDept> {
                           color: fkDefaultColor,
                         )),
                     child: TextButton(
-                      onPressed: () =>
-                          registerDept(selectedCurrency: selectedCurrency),
+                      onPressed: () => registerDept(
+                          selectedCurrency: selectedCurrency,
+                          getEnvelope: getEnvelope),
                       child: const Icon(
                         Icons.add,
                         color: fkWhiteText,
