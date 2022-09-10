@@ -91,7 +91,6 @@ class _BudgetDetailsState extends State<BudgetDetails> {
               color: fkGreyText,
             ),
             //
-
             Expanded(
               child: FutureBuilder(
                 future: retrieveBudgetEnvelop,
@@ -118,6 +117,12 @@ class _BudgetDetailsState extends State<BudgetDetails> {
                           shrinkWrap: true,
                           itemCount: snapshot.data!.length,
                           itemBuilder: (BuildContext context, int index) {
+                            final computedAmount =
+                                snapshot.data?[index].initialAmount >=
+                                        snapshot.data?[index].totalAmount
+                                    ? "${snapshot.data?[index].initialAmount}"
+                                    : snapshot.data?[index].initialAmount -
+                                        snapshot.data?[index].totalAmount;
                             return InkWell(
                               child: Column(
                                 children: [
@@ -145,10 +150,24 @@ class _BudgetDetailsState extends State<BudgetDetails> {
                                         ),
                                         Column(children: [
                                           Text(
-                                              "${snapshot.data?[index].totalAmount}"),
+                                            "${snapshot.data?[index].totalAmount}",
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 14),
+                                          ),
                                           verticalSpaceTiny,
                                           Text(
-                                              "${snapshot.data?[index].amountInitial}")
+                                            "$computedAmount",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 14,
+                                                color: snapshot.data?[index]
+                                                            .initialAmount >=
+                                                        snapshot.data?[index]
+                                                            .totalAmount
+                                                    ? fkBlackText
+                                                    : Colors.deepOrange),
+                                          )
                                         ])
                                       ],
                                     ),

@@ -16,8 +16,8 @@ class BudgetData {
   final String? amount;
   final String? envelope;
   final String? amountConsumed;
-  final String? amountInitial;
-  final String? totalAmount;
+  final double? initialAmount;
+  final double? totalAmount;
   bool isSelected;
 
   BudgetData(
@@ -29,7 +29,7 @@ class BudgetData {
       this.budget,
       this.amount,
       this.envelope,
-      this.amountInitial,
+      this.initialAmount,
       this.amountConsumed,
       this.totalAmount,
       this.isSelected = false,
@@ -46,9 +46,9 @@ class BudgetData {
         amount: json["amount"].toString(),
         envelope: json["envelope"].toString(),
         budgetCategory: json['name'].toString(),
-        totalAmount: json["total_amount"].toString(),
+        totalAmount: json["total_amount"],
         amountConsumed: json["amount_consumed"].toString(),
-        amountInitial: json["budget_amount"].toString());
+        initialAmount: json["budget_amount"]);
   }
 }
 
