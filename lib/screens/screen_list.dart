@@ -41,3 +41,4 @@ export 'group/edit_participator.dart';
 export 'group/gr_request_sent.dart';
 export 'group/group_member.dart';
 export './notification.dart';
+export 'profile.dart';

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/utils/api.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:go_router/go_router.dart';
@@ -36,7 +37,10 @@ class NavDrawer extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.verified_user),
             title: const Text('Profile'),
-            onTap: () => {Navigator.of(context).pop()},
+            onTap: () {
+              PagesGenerator.goTo(context, pathName: "/profile");
+              Navigator.of(context).pop();
+            },
           ),
           ListTile(
             leading: const Icon(Icons.settings),
