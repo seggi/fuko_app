@@ -175,7 +175,6 @@ class _BudgetDetailsState extends State<BudgetDetails> {
                                   verticalSpaceSmall,
                                 ],
                               ),
-                              onTap: () {},
                             );
                           },
                         ),
