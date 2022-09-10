@@ -13,14 +13,13 @@ class FkContentBoxWidgets {
       username = "",
       widTxt = "",
       badgeTxt = "",
+      picture = "",
       List<Widget> itemList = const [],
       fn}) {
     if (screenName == "home") {
       return Scaffold(
         backgroundColor: fkDefaultColor,
-        drawer: NavDrawer(
-          username: username,
-        ),
+        drawer: NavDrawer(username: username, picture: picture),
         appBar: AppBar(elevation: 0.0, actions: [
           Padding(
             padding: const EdgeInsets.all(8.0),

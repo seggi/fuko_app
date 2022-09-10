@@ -7,6 +7,8 @@ class Network {
   static String login = liveUrl! + "/login";
   static String register = liveUrl! + "/signup";
   static String completeProfile = liveUrl! + "/profile/complete-profile";
+  static String getProfile = liveUrl! + "/profile/get-profile";
+  static String getPicture = liveUrl! + "/profile/get-picture";
   static Map<String, String> authorizedHeaders({token}) => {
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': "Bearer $token",

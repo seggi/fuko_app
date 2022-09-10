@@ -117,6 +117,7 @@ class _HomePageState extends State<HomePage> {
                     PagesGenerator.goTo(context, pathName: "/notification"),
                 username:
                     "${toBeginningOfSentenceCase("${userData['data']["username"]}")}",
+                picture: "${userData['data']["picture"]}",
                 itemList: [
                   FkContentBoxWidgets.buttonsItemsBox(context, itemList: [
                     verticalSpaceMedium,

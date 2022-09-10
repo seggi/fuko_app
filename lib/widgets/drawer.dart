@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fuko_app/utils/api.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -8,7 +9,9 @@ import '../provider/authentication.dart';
 
 class NavDrawer extends StatelessWidget {
   final String username;
-  const NavDrawer({Key? key, required this.username}) : super(key: key);
+  final String picture;
+  const NavDrawer({Key? key, required this.username, required this.picture})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,11 +25,13 @@ class NavDrawer extends StatelessWidget {
               username,
               style: const TextStyle(color: Colors.white, fontSize: 25),
             ),
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
                 color: fkDefaultColor,
                 image: DecorationImage(
                     fit: BoxFit.fill,
-                    image: AssetImage('assets/images/cover.jpg'))),
+                    image: picture == "null"
+                        ? const NetworkImage("")
+                        : NetworkImage("${Network.getPicture}/$picture"))),
           ),
           ListTile(
             leading: const Icon(Icons.verified_user),
