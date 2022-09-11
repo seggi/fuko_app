@@ -38,6 +38,12 @@ class PagesGenerator {
             },
           ),
           GoRoute(
+            path: 'upload-image',
+            builder: (context, state) {
+              return const UploadImage();
+            },
+          ),
+          GoRoute(
             path: 'dashboard',
             builder: (context, state) {
               final data = state.queryParams['status'];

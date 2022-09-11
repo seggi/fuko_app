@@ -42,3 +42,4 @@ export 'group/gr_request_sent.dart';
 export 'group/group_member.dart';
 export './notification.dart';
 export 'profile.dart';
+export 'profile/upload_picture.dart';
