@@ -31,18 +31,20 @@ class PagesGenerator {
         },
         routes: [
           GoRoute(
-            path: 'profile',
-            builder: (context, state) {
-              final data = state.queryParams['data'];
-              return ProfileScreen(data: data);
-            },
-          ),
-          GoRoute(
-            path: 'upload-image',
-            builder: (context, state) {
-              return const UploadImage();
-            },
-          ),
+              path: 'profile',
+              builder: (context, state) {
+                final data = state.queryParams['data'];
+                return ProfileScreen(data: data);
+              },
+              routes: [
+                GoRoute(
+                  path: 'upload-image',
+                  name: 'upload-image',
+                  builder: (context, state) {
+                    return const UploadImage();
+                  },
+                ),
+              ]),
           GoRoute(
             path: 'dashboard',
             builder: (context, state) {

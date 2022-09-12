@@ -17,6 +17,8 @@ class NavDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final String username = this.username;
+    final String picture = this.picture;
+    print(picture);
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,

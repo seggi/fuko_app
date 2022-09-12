@@ -127,7 +127,7 @@ class _HomePageState extends State<HomePage> {
                       width: MediaQuery.of(context).size.width,
                       child: SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
-                        child: Container(
+                        child: SizedBox(
                             width: MediaQuery.of(context).size.width,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,

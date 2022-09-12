@@ -1,8 +1,11 @@
 import 'dart:convert';
 import 'dart:ffi';
 import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:fuko_app/core/user_preferences.dart';
+import 'package:fuko_app/utils/api.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
@@ -17,6 +20,8 @@ class UploadImage extends StatefulWidget {
 }
 
 class _UploadImageState extends State<UploadImage> {
+  late String base64Image;
+  late String tmpFile;
   List<XFile>? _imageFileList;
 
   void _setImageFileListFromFile(XFile? value) {
@@ -25,113 +30,59 @@ class _UploadImageState extends State<UploadImage> {
 
   dynamic _pickImageError;
   bool isVideo = false;
-
-  VideoPlayerController? _controller;
-  VideoPlayerController? _toBeDisposed;
   String? _retrieveDataError;
 
   final ImagePicker _picker = ImagePicker();
-  final TextEditingController maxWidthController = TextEditingController();
-  final TextEditingController maxHeightController = TextEditingController();
-  final TextEditingController qualityController = TextEditingController();
 
-  Future<void> _playVideo(XFile? file) async {
-    if (file != null && mounted) {
-      await _disposeVideoController();
-      late VideoPlayerController controller;
-      if (kIsWeb) {
-        controller = VideoPlayerController.network(file.path);
-      } else {
-        controller = VideoPlayerController.file(File(file.path));
-      }
-      _controller = controller;
-      // In web, most browsers won't honor a programmatic call to .play
-      // if the video has a sound track (and is not muted).
-      // Mute the video so it auto-plays in web!
-      // This is not needed if the call to .play is the result of user
-      // interaction (clicking on a "play" button, for example).
-      const double volume = kIsWeb ? 0.0 : 1.0;
-      await controller.setVolume(volume);
-      await controller.initialize();
-      await controller.setLooping(true);
-      await controller.play();
-      setState(() {});
+  startUpload() {
+    // String fileName = tmpFile.path.split('/').last;
+    upload();
+  }
+
+  upload({String? fileName}) async {
+    var token = await UserPreferences.getToken();
+    var newToken = {'Authorization': 'Bearer $token'};
+
+    var request = http.MultipartRequest('POST', Uri.parse(Network.uploadImage));
+    request.files.add(http.MultipartFile('file',
+        File(tmpFile).readAsBytes().asStream(), File(tmpFile).lengthSync(),
+        filename: tmpFile.split("/").last));
+    request.headers.addAll(newToken);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
+    } else {
+      print(response.reasonPhrase);
     }
   }
 
   Future<void> _onImageButtonPressed(ImageSource source,
-      {BuildContext? context, bool isMultiImage = false}) async {
-    if (_controller != null) {
-      await _controller!.setVolume(0.0);
-    }
-    if (isVideo) {
-      final XFile? file = await _picker.pickVideo(
-          source: source, maxDuration: const Duration(seconds: 10));
-      await _playVideo(file);
-    } else if (isMultiImage) {
-      await _displayPickImageDialog(context!,
-          (double? maxWidth, double? maxHeight, int? quality) async {
-        try {
-          final List<XFile>? pickedFileList = await _picker.pickMultiImage(
-            maxWidth: maxWidth,
-            maxHeight: maxHeight,
-            imageQuality: quality,
-          );
-          setState(() {
-            _imageFileList = pickedFileList;
-          });
-        } catch (e) {
-          setState(() {
-            _pickImageError = e;
-          });
-        }
-      });
-    } else {
-      await _displayPickImageDialog(context!,
-          (double? maxWidth, double? maxHeight, int? quality) async {
-        try {
-          final XFile? pickedFile = await _picker.pickImage(
-            source: source,
-            maxWidth: maxWidth,
-            maxHeight: maxHeight,
-            imageQuality: quality,
-          );
-          setState(() {
-            _setImageFileListFromFile(pickedFile);
-          });
-        } catch (e) {
-          setState(() {
-            _pickImageError = e;
-          });
-        }
-      });
-    }
-  }
-
-  @override
-  void deactivate() {
-    if (_controller != null) {
-      _controller!.setVolume(0.0);
-      _controller!.pause();
-    }
-    super.deactivate();
+      {BuildContext? context}) async {
+    await _displayPickImageDialog(context!,
+        (double? maxWidth, double? maxHeight, int? quality) async {
+      try {
+        final XFile? pickedFile = await _picker.pickImage(
+          source: source,
+          maxWidth: maxWidth,
+          maxHeight: maxHeight,
+          imageQuality: quality,
+        );
+        setState(() {
+          _setImageFileListFromFile(pickedFile);
+        });
+      } catch (e) {
+        setState(() {
+          _pickImageError = e;
+        });
+      }
+    });
   }
 
   @override
   void dispose() {
-    _disposeVideoController();
-    maxWidthController.dispose();
-    maxHeightController.dispose();
-    qualityController.dispose();
     super.dispose();
-  }
-
-  Future<void> _disposeVideoController() async {
-    if (_toBeDisposed != null) {
-      await _toBeDisposed!.dispose();
-    }
-    _toBeDisposed = _controller;
-    _controller = null;
   }
 
   Widget _previewImages() {
@@ -145,13 +96,19 @@ class _UploadImageState extends State<UploadImage> {
         child: ListView.builder(
           key: UniqueKey(),
           itemBuilder: (BuildContext context, int index) {
-            // Why network for web?
-            // See https://pub.dev/packages/image_picker#getting-ready-for-the-web-platform
-            return Semantics(
-              label: 'image_picker_example_picked_image',
-              child: kIsWeb
-                  ? Image.network(_imageFileList![index].path)
-                  : Image.file(File(_imageFileList![index].path)),
+            tmpFile = _imageFileList![index].path;
+            base64Image = base64Encode(
+                File(_imageFileList![index].path).readAsBytesSync());
+            return Column(
+              children: [
+                Semantics(
+                  label: 'image_picker_example_picked_image',
+                  child: kIsWeb
+                      ? Image.network(_imageFileList![index].path)
+                      : Image.file(File(_imageFileList![index].path)),
+                ),
+                TextButton(onPressed: startUpload, child: Text("Take pic"))
+              ],
             );
           },
           itemCount: _imageFileList!.length,
@@ -180,19 +137,14 @@ class _UploadImageState extends State<UploadImage> {
       return;
     }
     if (response.file != null) {
-      if (response.type == RetrieveType.video) {
-        isVideo = true;
-        await _playVideo(response.file);
-      } else {
-        isVideo = false;
-        setState(() {
-          if (response.files == null) {
-            _setImageFileListFromFile(response.file);
-          } else {
-            _imageFileList = response.files;
-          }
-        });
-      }
+      isVideo = false;
+      setState(() {
+        if (response.files == null) {
+          _setImageFileListFromFile(response.file);
+        } else {
+          _imageFileList = response.files;
+        }
+      });
     } else {
       _retrieveDataError = response.exception!.code;
     }
@@ -202,11 +154,11 @@ class _UploadImageState extends State<UploadImage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Take picture"),
+        title: const Align(
+            alignment: Alignment.centerLeft, child: Text("Take picture")),
       ),
       body: Center(
-        child: !kIsWeb && defaultTargetPlatform == TargetPlatform.android ||
-                defaultTargetPlatform == TargetPlatform.iOS
+        child: !kIsWeb
             ? FutureBuilder<void>(
                 future: retrieveLostData(),
                 builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
@@ -220,17 +172,10 @@ class _UploadImageState extends State<UploadImage> {
                     case ConnectionState.done:
                       return _handlePreview();
                     default:
-                      if (snapshot.hasError) {
-                        return Text(
-                          'Pick image/video error: ${snapshot.error}}',
-                          textAlign: TextAlign.center,
-                        );
-                      } else {
-                        return const Text(
-                          'You have not yet picked an image.',
-                          textAlign: TextAlign.center,
-                        );
-                      }
+                      return const Text(
+                        'You have not yet picked an image.',
+                        textAlign: TextAlign.center,
+                      );
                   }
                 },
               )
@@ -244,7 +189,6 @@ class _UploadImageState extends State<UploadImage> {
             child: FloatingActionButton(
               backgroundColor: fkBlueText,
               onPressed: () {
-                isVideo = false;
                 _onImageButtonPressed(ImageSource.gallery, context: context);
               },
               heroTag: 'image0',
@@ -281,62 +225,147 @@ class _UploadImageState extends State<UploadImage> {
 
   Future<void> _displayPickImageDialog(
       BuildContext context, OnPickImageCallback onPick) async {
-    return showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('Add optional parameters'),
-            content: Column(
-              children: <Widget>[
-                TextField(
-                  controller: maxWidthController,
-                  keyboardType:
-                      const TextInputType.numberWithOptions(decimal: true),
-                  decoration: const InputDecoration(
-                      hintText: 'Enter maxWidth if desired'),
-                ),
-                TextField(
-                  controller: maxHeightController,
-                  keyboardType:
-                      const TextInputType.numberWithOptions(decimal: true),
-                  decoration: const InputDecoration(
-                      hintText: 'Enter maxHeight if desired'),
-                ),
-                TextField(
-                  controller: qualityController,
-                  keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                      hintText: 'Enter quality if desired'),
-                ),
-              ],
-            ),
-            actions: <Widget>[
-              TextButton(
-                child: const Text('CANCEL'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-              TextButton(
-                  child: const Text('PICK'),
-                  onPressed: () {
-                    final double? width = maxWidthController.text.isNotEmpty
-                        ? double.parse(maxWidthController.text)
-                        : null;
-                    final double? height = maxHeightController.text.isNotEmpty
-                        ? double.parse(maxHeightController.text)
-                        : null;
-                    final int? quality = qualityController.text.isNotEmpty
-                        ? int.parse(qualityController.text)
-                        : null;
-                    onPick(width, height, quality);
-                    Navigator.of(context).pop();
-                  }),
-            ],
-          );
-        });
+    return onPick(500, 800, 70);
   }
 }
 
 typedef OnPickImageCallback = void Function(
     double? maxWidth, double? maxHeight, int? quality);
+
+
+
+// =====================================UploadImage
+
+// static final String uploadEndPoint = '';
+//   File? _image;
+//   String status = '';
+//   late String base64Image;
+//   late File tmpFile;
+//   String errMessage = "Error uploading image";
+
+//   // getImagefromcamera() {
+//   //   var image = ImagePicker.pickImage(source: ImageSource.camera);
+//   //   setState(() {
+//   //     _image = image;
+//   //   });
+//   // }
+
+//   Future getImagefromGallery() async {
+//     final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+
+//     if (image == null) return;
+
+//     setState(() {
+//       _image = File(image!.path); // won't have any error now
+//     });
+//   }
+
+//   setStatus(String message) {
+//     setState(() {
+//       status = message;
+//     });
+//   }
+
+//   startUpload() {
+//     setStatus('Uploading Image...');
+//     if (null == tmpFile) {
+//       setStatus(errMessage);
+//     }
+//     String fileName = tmpFile.path.split('/').last;
+//     upload(fileName);
+//   }
+
+//   upload(String fileName) {
+//     Dio().post(" ", data: {
+//       'image': base64Image,
+//       'name': fileName,
+//     }).then((result) {
+//       // Navigator.push(context,
+//       // MaterialPageRoute(builder: (context) => CandidateRegisterPage()));
+//       setStatus(result.statusCode == 200 ? result.data : errMessage);
+//     }).catchError((error) {
+//       setStatus(error);
+//     });
+//   }
+
+//   Widget showImage() {
+//     late Future<File>? image = _image as Future<File>;
+//     return FutureBuilder(
+//       future: image,
+//       builder: (BuildContext content, AsyncSnapshot<File> snapshot) {
+//         if (snapshot.connectionState == ConnectionState.done &&
+//             null != snapshot.data) {
+//           // print(snapshot.data);
+//           tmpFile = snapshot.data!;
+//           base64Image = base64Encode(snapshot.data!.readAsBytesSync());
+//           return Flexible(child: Image.file(snapshot.data!, fit: BoxFit.fill));
+//         } else if (null != snapshot.error) {
+//           return const Text(
+//             'Error Picking Image',
+//             textAlign: TextAlign.center,
+//           );
+//         } else {
+//           return const Text(
+//             'No Image selected',
+//             textAlign: TextAlign.center,
+//           );
+//         }
+//       },
+//     );
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       // appBar: AppBar(
+//       //   title: Text("Set a picture"),
+//       //   backgroundColor: Color(0xff004D40),
+//       // ),
+//       body: Container(
+//         width: MediaQuery.of(context).size.width,
+//         margin: EdgeInsets.only(top: 0.0),
+//         child: Column(
+//           mainAxisAlignment: MainAxisAlignment.center,
+//           children: <Widget>[
+//             Padding(
+//               padding: const EdgeInsets.all(0.0),
+//               child: Container(
+//                 width: MediaQuery.of(context).size.width,
+//                 height: 400.0,
+//                 child: Center(
+//                   // child: _image == null
+//                   //     ? Text("No Image is picked")
+//                   //     : Image.file(_image, height: 400, fit: BoxFit.contain),
+//                   child: showImage(),
+//                 ),
+//               ),
+//             ),
+//             SizedBox(
+//               height: 80,
+//             ),
+//             Row(
+//               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//               children: <Widget>[
+//                 // FloatingActionButton(
+//                 //   onPressed: getImagefromcamera,
+//                 //   tooltip: "pickImage",
+//                 //   child: Icon(Icons.add_a_photo),
+//                 // ),
+//                 FloatingActionButton(
+//                   onPressed: getImagefromGallery,
+//                   tooltip: "Pick Image",
+//                   child: Icon(Icons.camera_alt),
+//                 ),
+//                 FloatingActionButton(
+//                   onPressed: startUpload,
+//                   tooltip: "Save info",
+//                   child: Icon(Icons.save),
+//                 )
+//               ],
+//             )
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }

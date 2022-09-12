@@ -63,7 +63,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 alignment: Alignment.center,
                 child: ElevatedButton(
                     onPressed: () =>
-                        PagesGenerator.goTo(context, pathName: "/upload-image"),
+                        PagesGenerator.goTo(context, name: "upload-image"),
                     child: const Text("Upload Image")),
               ),
               Expanded(
