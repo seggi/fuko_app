@@ -34,7 +34,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             alignment: Alignment.centerLeft, child: Text("Profile")),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () =>
+                PagesGenerator.goTo(context, name: "edit-user-profile"),
             icon: const Icon(
               Icons.edit,
             ),
@@ -123,7 +124,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             child: Text(
                           snapshot.error != null
                               ? "Failed to load data"
-                              : "Amount not available...",
+                              : "Data not available...",
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
                               fontSize: 16,

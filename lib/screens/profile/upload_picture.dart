@@ -1,7 +1,5 @@
 import 'dart:convert';
-import 'dart:ffi';
 import 'dart:io';
-import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fuko_app/core/user_preferences.dart';
@@ -9,7 +7,6 @@ import 'package:fuko_app/utils/api.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
-import 'package:video_player/video_player.dart';
 
 class UploadImage extends StatefulWidget {
   final String? data;
@@ -107,7 +104,9 @@ class _UploadImageState extends State<UploadImage> {
                       ? Image.network(_imageFileList![index].path)
                       : Image.file(File(_imageFileList![index].path)),
                 ),
-                TextButton(onPressed: startUpload, child: Text("Take pic"))
+                TextButton(
+                    onPressed: startUpload,
+                    child: const Text("Upload this picture"))
               ],
             );
           },
@@ -231,141 +230,3 @@ class _UploadImageState extends State<UploadImage> {
 
 typedef OnPickImageCallback = void Function(
     double? maxWidth, double? maxHeight, int? quality);
-
-
-
-// =====================================UploadImage
-
-// static final String uploadEndPoint = '';
-//   File? _image;
-//   String status = '';
-//   late String base64Image;
-//   late File tmpFile;
-//   String errMessage = "Error uploading image";
-
-//   // getImagefromcamera() {
-//   //   var image = ImagePicker.pickImage(source: ImageSource.camera);
-//   //   setState(() {
-//   //     _image = image;
-//   //   });
-//   // }
-
-//   Future getImagefromGallery() async {
-//     final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-
-//     if (image == null) return;
-
-//     setState(() {
-//       _image = File(image!.path); // won't have any error now
-//     });
-//   }
-
-//   setStatus(String message) {
-//     setState(() {
-//       status = message;
-//     });
-//   }
-
-//   startUpload() {
-//     setStatus('Uploading Image...');
-//     if (null == tmpFile) {
-//       setStatus(errMessage);
-//     }
-//     String fileName = tmpFile.path.split('/').last;
-//     upload(fileName);
-//   }
-
-//   upload(String fileName) {
-//     Dio().post(" ", data: {
-//       'image': base64Image,
-//       'name': fileName,
-//     }).then((result) {
-//       // Navigator.push(context,
-//       // MaterialPageRoute(builder: (context) => CandidateRegisterPage()));
-//       setStatus(result.statusCode == 200 ? result.data : errMessage);
-//     }).catchError((error) {
-//       setStatus(error);
-//     });
-//   }
-
-//   Widget showImage() {
-//     late Future<File>? image = _image as Future<File>;
-//     return FutureBuilder(
-//       future: image,
-//       builder: (BuildContext content, AsyncSnapshot<File> snapshot) {
-//         if (snapshot.connectionState == ConnectionState.done &&
-//             null != snapshot.data) {
-//           // print(snapshot.data);
-//           tmpFile = snapshot.data!;
-//           base64Image = base64Encode(snapshot.data!.readAsBytesSync());
-//           return Flexible(child: Image.file(snapshot.data!, fit: BoxFit.fill));
-//         } else if (null != snapshot.error) {
-//           return const Text(
-//             'Error Picking Image',
-//             textAlign: TextAlign.center,
-//           );
-//         } else {
-//           return const Text(
-//             'No Image selected',
-//             textAlign: TextAlign.center,
-//           );
-//         }
-//       },
-//     );
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       // appBar: AppBar(
-//       //   title: Text("Set a picture"),
-//       //   backgroundColor: Color(0xff004D40),
-//       // ),
-//       body: Container(
-//         width: MediaQuery.of(context).size.width,
-//         margin: EdgeInsets.only(top: 0.0),
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: <Widget>[
-//             Padding(
-//               padding: const EdgeInsets.all(0.0),
-//               child: Container(
-//                 width: MediaQuery.of(context).size.width,
-//                 height: 400.0,
-//                 child: Center(
-//                   // child: _image == null
-//                   //     ? Text("No Image is picked")
-//                   //     : Image.file(_image, height: 400, fit: BoxFit.contain),
-//                   child: showImage(),
-//                 ),
-//               ),
-//             ),
-//             SizedBox(
-//               height: 80,
-//             ),
-//             Row(
-//               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//               children: <Widget>[
-//                 // FloatingActionButton(
-//                 //   onPressed: getImagefromcamera,
-//                 //   tooltip: "pickImage",
-//                 //   child: Icon(Icons.add_a_photo),
-//                 // ),
-//                 FloatingActionButton(
-//                   onPressed: getImagefromGallery,
-//                   tooltip: "Pick Image",
-//                   child: Icon(Icons.camera_alt),
-//                 ),
-//                 FloatingActionButton(
-//                   onPressed: startUpload,
-//                   tooltip: "Save info",
-//                   child: Icon(Icons.save),
-//                 )
-//               ],
-//             )
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }

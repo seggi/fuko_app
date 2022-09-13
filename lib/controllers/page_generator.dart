@@ -44,6 +44,13 @@ class PagesGenerator {
                     return const UploadImage();
                   },
                 ),
+                GoRoute(
+                  path: 'edit-user-profile',
+                  name: 'edit-user-profile',
+                  builder: (context, state) {
+                    return const EditUserProfile();
+                  },
+                ),
               ]),
           GoRoute(
             path: 'dashboard',
