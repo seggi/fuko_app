@@ -1,3 +1,9 @@
+import 'dart:convert';
+
+import 'package:fuko_app/core/user_preferences.dart';
+import 'package:fuko_app/utils/api.dart';
+import 'package:http/http.dart' as http;
+
 class User {
   final Map? data;
   final int? userId;
@@ -39,5 +45,19 @@ class NewBorrower {
   NewBorrower({required this.userData});
   factory NewBorrower.fromJson(Map<String, dynamic> json) {
     return NewBorrower(userData: json["data"]);
+  }
+}
+
+Future<User> fetchProfile(
+    {String? noteId, currencyCode, loanMembership}) async {
+  var token = await UserPreferences.getToken();
+
+  final response = await http.get(Uri.parse(Network.getProfile),
+      headers: Network.authorizedHeaders(token: token));
+
+  if (response.statusCode == 201) {
+    return User.fromJson(jsonDecode(response.body)["data"]);
+  } else {
+    throw Exception('Failed to load data');
   }
 }

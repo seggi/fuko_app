@@ -117,6 +117,7 @@ class _HomePageState extends State<HomePage> {
                     PagesGenerator.goTo(context, pathName: "/notification"),
                 username:
                     "${toBeginningOfSentenceCase("${userData['data']["username"]}")}",
+                picture: "${userData['data']["picture"]}",
                 itemList: [
                   FkContentBoxWidgets.buttonsItemsBox(context, itemList: [
                     verticalSpaceMedium,
@@ -126,7 +127,7 @@ class _HomePageState extends State<HomePage> {
                       width: MediaQuery.of(context).size.width,
                       child: SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
-                        child: Container(
+                        child: SizedBox(
                             width: MediaQuery.of(context).size.width,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
