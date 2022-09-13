@@ -25,11 +25,11 @@ class _EditUserProfileState extends State<EditUserProfile> {
   bool isLoading = false;
   late Future<List<ProfileData>>? retrieveProfile;
 
-  TextEditingController firstNameController = TextEditingController();
-  TextEditingController lastNameController = TextEditingController();
-  TextEditingController phoneNumberController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController usernameController = TextEditingController();
+  late TextEditingController firstNameController = TextEditingController();
+  late TextEditingController lastNameController = TextEditingController();
+  late TextEditingController phoneNumberController = TextEditingController();
+  late TextEditingController emailController = TextEditingController();
+  late TextEditingController usernameController = TextEditingController();
 
   late final ScaffoldMessengerState? scaffoldMessenger =
       ScaffoldMessenger.of(context);
@@ -134,6 +134,17 @@ class _EditUserProfileState extends State<EditUserProfile> {
                               padding: const EdgeInsets.all(8),
                               itemCount: snapshot.data!.length,
                               itemBuilder: (BuildContext context, int index) {
+                                firstNameController.text =
+                                    snapshot.data[index].firstName;
+                                lastNameController.text =
+                                    snapshot.data[index].lastName;
+                                phoneNumberController.text =
+                                    snapshot.data[index].phone;
+                                emailController.text =
+                                    snapshot.data[index].email;
+                                usernameController.text =
+                                    snapshot.data[index].username;
+
                                 return Form(
                                     key: _formKey,
                                     child: Column(
@@ -143,30 +154,30 @@ class _EditUserProfileState extends State<EditUserProfile> {
                                                 firstNameController,
                                             hintTxt: "Your First Name",
                                             inpIcon: Icons.perm_identity),
-                                        verticalSpaceRegular,
+                                        verticalSpaceMedium,
                                         commonFormField(
                                             commonController:
                                                 lastNameController,
                                             hintTxt: "Your Last Name",
                                             inpIcon: Icons.perm_identity),
-                                        verticalSpaceRegular,
+                                        verticalSpaceMedium,
                                         commonFormField(
                                             commonController:
                                                 phoneNumberController,
                                             hintTxt: "Your Phone Number",
                                             inpIcon: Icons.phone),
-                                        verticalSpaceRegular,
+                                        verticalSpaceMedium,
                                         commonFormField(
                                             commonController: emailController,
                                             hintTxt: "Your Email",
                                             inpIcon: Icons.email_outlined),
-                                        verticalSpaceRegular,
+                                        verticalSpaceMedium,
                                         commonFormField(
                                             commonController:
                                                 usernameController,
                                             hintTxt: "Your Username",
                                             inpIcon: Icons.person_outline),
-                                        verticalSpaceRegular,
+                                        verticalSpaceMedium,
                                         Container(
                                           padding: const EdgeInsets.all(8.0),
                                           width:
@@ -177,7 +188,7 @@ class _EditUserProfileState extends State<EditUserProfile> {
                                                   BorderRadius.circular(8.0),
                                               border: Border.all(
                                                   color: fkGreyText,
-                                                  width: 2.0)),
+                                                  width: 1.0)),
                                           child: DropdownButtonHideUnderline(
                                             child: DropdownButton<String>(
                                               value: selectedItem,

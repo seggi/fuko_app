@@ -48,7 +48,7 @@ Widget birthDateFormField({birthDateController = ""}) {
   );
 }
 
-Widget commonFormField({commonController, hintTxt, inpIcon, initialV}) {
+Widget commonFormField({commonController, hintTxt, inpIcon}) {
   return TextFormField(
     controller: commonController,
     keyboardType: TextInputType.text,
@@ -56,10 +56,10 @@ Widget commonFormField({commonController, hintTxt, inpIcon, initialV}) {
     decoration: InputDecoration(
       hintText: '$hintTxt',
       suffixIcon: Icon(inpIcon, color: fkDefaultColor),
-      border: OutlineInputBorder(
-          borderSide:
-              const BorderSide(color: fkInputFormBorderColor, width: 1.0),
-          borderRadius: BorderRadius.circular(8.0)),
+      // border: OutlineInputBorder(
+      //     borderSide:
+      //         const BorderSide(color: fkInputFormBorderColor, width: 1.0),
+      //     borderRadius: BorderRadius.circular(8.0)),
     ),
   );
 }
