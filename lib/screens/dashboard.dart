@@ -130,7 +130,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
                   child: Text(
                     "Your current wallet amount is",
                     style: TextStyle(
-                        color: fkGreyText,
+                        color: fkDefaultColor,
                         fontWeight: FontWeight.w400,
                         fontSize: 16),
                   ),

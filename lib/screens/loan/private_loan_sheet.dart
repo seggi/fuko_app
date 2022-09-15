@@ -44,140 +44,142 @@ class _PrivateLoanSheetState extends State<PrivateLoanSheet> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        fkContentBoxWidgets.initialItems(itemList: [
-          verticalSpaceRegular,
-          SizedBox(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                FutureBuilder<LoanList>(
-                  future: retrieveLoanAmount,
-                  builder: (
-                    BuildContext context,
-                    AsyncSnapshot snapshot,
-                  ) {
-                    if (snapshot.hasData) {
-                      return Expanded(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "${double.parse(snapshot.data!.totalLoan)}",
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                      fontSize: 28,
-                                      fontWeight: FontWeight.w600,
-                                      color: fkBlackText),
-                                ),
-                              ],
-                            ),
-                            Container(
-                              alignment: Alignment.center,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(4.0),
-                                child: Container(
-                                  color: fkDefaultColor,
-                                  child: Row(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 8.0, right: 8.0),
-                                        child: Text(
-                                          "${snapshot.data!.currencyCode ?? ''}",
-                                          style: const TextStyle(
-                                              fontSize: 24,
-                                              fontWeight: FontWeight.w600,
-                                              color: fkWhiteText),
+        fkContentBoxWidgets.initialItems(
+          itemList: [
+            verticalSpaceRegular,
+            SizedBox(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  FutureBuilder<LoanList>(
+                    future: retrieveLoanAmount,
+                    builder: (
+                      BuildContext context,
+                      AsyncSnapshot snapshot,
+                    ) {
+                      if (snapshot.hasData) {
+                        return Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "${double.parse(snapshot.data!.totalLoan)}",
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                        fontSize: 28,
+                                        fontWeight: FontWeight.w600,
+                                        color: fkBlackText),
+                                  ),
+                                ],
+                              ),
+                              Container(
+                                alignment: Alignment.center,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(4.0),
+                                  child: Container(
+                                    color: fkDefaultColor,
+                                    child: Row(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 8.0, right: 8.0),
+                                          child: Text(
+                                            "${snapshot.data!.currencyCode ?? ''}",
+                                            style: const TextStyle(
+                                                fontSize: 24,
+                                                fontWeight: FontWeight.w600,
+                                                color: fkWhiteText),
+                                          ),
                                         ),
-                                      ),
-                                      const CurrencyButtonSheet(),
-                                    ],
+                                        const CurrencyButtonSheet(),
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                            )
-                          ],
-                        ),
-                      );
-                    } else if (snapshot.hasError) {
-                      return Expanded(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Center(
-                                child: Text(
-                              snapshot.error != null
-                                  ? "Failed to load data"
-                                  : "Amount not available...",
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  color: fkGreyText),
-                            )),
-                            Container(
-                              alignment: Alignment.center,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(4.0),
-                                child: Container(
-                                  color: fkDefaultColor,
-                                  child: Row(
-                                    children: const [CurrencyButtonSheet()],
+                              )
+                            ],
+                          ),
+                        );
+                      } else if (snapshot.hasError) {
+                        return Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Center(
+                                  child: Text(
+                                snapshot.error != null
+                                    ? "Failed to load data"
+                                    : "Amount not available...",
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                    color: fkGreyText),
+                              )),
+                              Container(
+                                alignment: Alignment.center,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(4.0),
+                                  child: Container(
+                                    color: fkDefaultColor,
+                                    child: Row(
+                                      children: const [CurrencyButtonSheet()],
+                                    ),
                                   ),
                                 ),
-                              ),
-                            )
-                          ],
-                        ),
-                      );
-                    }
-                    return Container(
-                        padding: const EdgeInsets.all(20.0),
-                        child: const Center(
-                            child: Text(
-                          "Loading Amount...",
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              color: fkGreyText),
-                        )));
-                  },
+                              )
+                            ],
+                          ),
+                        );
+                      }
+                      return Container(
+                          padding: const EdgeInsets.all(20.0),
+                          child: const Center(
+                              child: Text(
+                            "Loading Amount...",
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: fkGreyText),
+                          )));
+                    },
+                  ),
+                ],
+              ),
+            ),
+            verticalSpaceSmall,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Text(
+                    "Recorded info",
+                    style: TextStyle(
+                        color: fkBlackText,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14),
+                  ),
                 ),
+                InkWell(
+                    onTap: () {
+                      setState(() {
+                        retrieveLoanAmount =
+                            fetchLoanAmount(setCurrency: setCurrency);
+                        retrievePrivateLoanList = fetchPrivateLoanList();
+                      });
+                    },
+                    child: const Icon(Icons.refresh))
               ],
             ),
-          ),
-          verticalSpaceSmall,
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Align(
-                alignment: Alignment.bottomLeft,
-                child: Text(
-                  "Recorded info",
-                  style: TextStyle(
-                      color: fkBlackText,
-                      fontWeight: FontWeight.w400,
-                      fontSize: 14),
-                ),
-              ),
-              InkWell(
-                  onTap: () {
-                    setState(() {
-                      retrieveLoanAmount =
-                          fetchLoanAmount(setCurrency: setCurrency);
-                      retrievePrivateLoanList = fetchPrivateLoanList();
-                    });
-                  },
-                  child: const Icon(Icons.refresh))
-            ],
-          ),
-          verticalSpaceSmall,
-        ]),
+            verticalSpaceSmall,
+          ],
+        ),
         SizedBox(
           child: FutureBuilder(
             future: retrievePrivateLoanList,

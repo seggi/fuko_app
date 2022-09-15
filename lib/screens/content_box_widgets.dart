@@ -45,51 +45,83 @@ class FkContentBoxWidgets {
       );
     } else if (screenName == "groupe detail") {
       return Scaffold(
-        body: SafeArea(
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height,
-            child: Stack(
-              children: [...itemList],
+        body: DecoratedBox(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: gradientColor),
+          ),
+          child: SafeArea(
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height,
+              child: Stack(
+                children: [...itemList],
+              ),
             ),
           ),
         ),
       );
     } else if (screenName == "dashboard") {
       return Scaffold(
-        body: SafeArea(
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height,
-            child: Column(
-              children: [...itemList],
+        body: DecoratedBox(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: gradientColor),
+          ),
+          child: SafeArea(
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height,
+              child: Column(
+                children: [...itemList],
+              ),
             ),
           ),
         ),
       );
     } else if (mainScreesName.contains(screenName)) {
       return Scaffold(
-        body: SafeArea(
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height,
-            child: Column(
-              children: [...itemList],
+        body: DecoratedBox(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: gradientColor),
+          ),
+          child: SafeArea(
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height,
+              child: Column(
+                children: [...itemList],
+              ),
             ),
           ),
         ),
       );
     } else if (screenName == "dept" || screenName == "loan") {
       return Scaffold(
-        body: SafeArea(
-          child: NotificationListener<OverscrollIndicatorNotification>(
-            onNotification: (OverscrollIndicatorNotification? overscroll) {
-              overscroll!.disallowIndicator();
-              return true;
-            },
-            child: SizedBox(
-              // height: MediaQuery.of(context).size.height,
-              child: SingleChildScrollView(
-                physics: const ClampingScrollPhysics(),
-                child: Column(
-                  children: [...itemList],
+        body: DecoratedBox(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: gradientColor),
+          ),
+          child: SafeArea(
+            child: NotificationListener<OverscrollIndicatorNotification>(
+              onNotification: (OverscrollIndicatorNotification? overscroll) {
+                overscroll!.disallowIndicator();
+                return true;
+              },
+              child: SizedBox(
+                // height: MediaQuery.of(context).size.height,
+                child: SingleChildScrollView(
+                  physics: const ClampingScrollPhysics(),
+                  child: Column(
+                    children: [...itemList],
+                  ),
                 ),
               ),
             ),
@@ -114,11 +146,19 @@ class FkContentBoxWidgets {
     } else {
       return widTxt == ""
           ? Scaffold(
-              body: SafeArea(
-                child: SizedBox(
-                  height: MediaQuery.of(context).size.height,
-                  child: Column(
-                    children: [...itemList],
+              body: DecoratedBox(
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: gradientColor),
+                ),
+                child: SafeArea(
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height,
+                    child: Column(
+                      children: [...itemList],
+                    ),
                   ),
                 ),
               ),
@@ -132,10 +172,18 @@ class FkContentBoxWidgets {
               ),
             )
           : Scaffold(
-              body: SafeArea(
-                child: Expanded(
-                  child: Column(
-                    children: [...itemList],
+              body: DecoratedBox(
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: gradientColor),
+                ),
+                child: SafeArea(
+                  child: Expanded(
+                    child: Column(
+                      children: [...itemList],
+                    ),
                   ),
                 ),
               ),
@@ -199,8 +247,16 @@ class FkContentBoxWidgetsWithBottomBar {
             appBar: AppBar(
               title: Text(titleTxt),
             ),
-            body: Container(
-              child: screenBox,
+            body: DecoratedBox(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: gradientColor),
+              ),
+              child: Container(
+                child: screenBox,
+              ),
             ),
             bottomNavigationBar: BottomNavigationBar(
               items: [...bottomItemList],
@@ -213,8 +269,16 @@ class FkContentBoxWidgetsWithBottomBar {
             appBar: AppBar(
               title: Text(titleTxt),
             ),
-            body: Container(
-              child: screenBox,
+            body: DecoratedBox(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: gradientColor),
+              ),
+              child: Container(
+                child: screenBox,
+              ),
             ),
           );
   }
@@ -224,13 +288,21 @@ class FkAddDataFormBox {
   static Widget body(context, {List<Widget> itemList = const []}) {
     return Scaffold(
       appBar: AppBar(),
-      body: SafeArea(
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height,
-          child: Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [...itemList],
+      body: DecoratedBox(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: gradientColor),
+        ),
+        child: SafeArea(
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height,
+            child: Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [...itemList],
+                ),
               ),
             ),
           ),

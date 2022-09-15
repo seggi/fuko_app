@@ -80,14 +80,14 @@ class _ExpensesPageState extends State<ExpensesPage> {
                           PagesGenerator.goTo(context, name: "create-expense"),
                       icon: const Icon(
                         Icons.add_circle,
-                        color: fkBlueText,
+                        color: fkBlackText,
                       )),
                   IconButton(
                       onPressed: () =>
                           PagesGenerator.goTo(context, name: "expense-report"),
                       icon: const Icon(
                         Icons.manage_history,
-                        color: fkBlueText,
+                        color: fkBlackText,
                         size: 20,
                       )),
                 ],

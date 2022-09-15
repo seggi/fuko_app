@@ -56,11 +56,11 @@ class _SavingPageState extends State<SavingPage> {
           children: [
             Row(
               children: [
-                InkWell(
-                    onTap: () async {
+                IconButton(
+                    onPressed: () async {
                       PagesGenerator.goTo(context, pathName: "/?status=true");
                     },
-                    child: const Icon(
+                    icon: const Icon(
                       Icons.arrow_back_ios,
                       size: 20,
                     )),
@@ -77,14 +77,14 @@ class _SavingPageState extends State<SavingPage> {
                         PagesGenerator.goTo(context, name: "register-saving"),
                     icon: const Icon(
                       Icons.add_circle,
-                      color: fkBlueText,
+                      color: fkBlackText,
                     )),
                 IconButton(
                     onPressed: () =>
                         PagesGenerator.goTo(context, name: "saving-report"),
                     icon: const Icon(
                       Icons.manage_history,
-                      color: fkBlueText,
+                      color: fkBlackText,
                       size: 20,
                     )),
               ],
@@ -217,19 +217,15 @@ class _SavingPageState extends State<SavingPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(
-                      Icons.warning,
-                      color: Colors.orange,
-                    ),
                     horizontalSpaceSmall,
                     Container(
                       margin: const EdgeInsets.only(top: 10),
                       child: const Text(
                           "There is no saving recorded yet in this month...",
                           style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.red)),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                          )),
                     ),
                   ],
                 ),
