@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/core/default_data.dart';
@@ -212,21 +213,34 @@ class _LenderLoanListState extends State<LenderLoanList> {
 
                       return Container(
                         margin: const EdgeInsets.only(top: 0.0),
-                        child: reportCard(context,
-                            currencyCode: setCurrency,
-                            monthText: toBeginningOfSentenceCase(
-                                months[dateTime.month - 1]),
-                            leadingText: dateTime.day >= 10
-                                ? "${dateTime.day}"
-                                : "0${dateTime.day}",
-                            amount: snapshot.data?[index].amount,
-                            trailingText:
-                                "From: ${snapshot.data?[index].username}",
-                            titleTxt:
-                                snapshot.data?[index].description != "null"
-                                    ? "${snapshot.data?[index].description}"
-                                    : "No description",
-                            fn: () {}),
+                        child: Slidable(
+                          startActionPane: ActionPane(
+                            motion: const StretchMotion(),
+                            children: [
+                              SlidableAction(
+                                  flex: 2,
+                                  icon: Icons.update,
+                                  label: "Update name",
+                                  backgroundColor: updateBtnColor,
+                                  onPressed: ((context) {}))
+                            ],
+                          ),
+                          child: reportCard(context,
+                              currencyCode: setCurrency,
+                              monthText: toBeginningOfSentenceCase(
+                                  months[dateTime.month - 1]),
+                              leadingText: dateTime.day >= 10
+                                  ? "${dateTime.day}"
+                                  : "0${dateTime.day}",
+                              amount: snapshot.data?[index].amount,
+                              trailingText:
+                                  "From: ${snapshot.data?[index].username}",
+                              titleTxt:
+                                  snapshot.data?[index].description != "null"
+                                      ? "${snapshot.data?[index].description}"
+                                      : "No description",
+                              fn: () {}),
+                        ),
                       );
                     },
                   ),

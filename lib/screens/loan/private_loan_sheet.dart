@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/core/loan.dart';
@@ -197,8 +198,19 @@ class _PrivateLoanSheetState extends State<PrivateLoanSheet> {
                       );
                     }
 
-                    return InkWell(
-                      child: Card(
+                    return Card(
+                      child: Slidable(
+                        startActionPane: ActionPane(
+                          motion: const StretchMotion(),
+                          children: [
+                            SlidableAction(
+                                flex: 2,
+                                icon: Icons.update,
+                                label: "Update name",
+                                backgroundColor: updateBtnColor,
+                                onPressed: ((context) {}))
+                          ],
+                        ),
                         child: ListTile(
                           leading: const Icon(
                             Icons.account_circle_outlined,
@@ -216,18 +228,19 @@ class _PrivateLoanSheetState extends State<PrivateLoanSheet> {
                               ),
                             ),
                           ),
+                          onTap: () {
+                            screenTitle(context,
+                                screenTitle:
+                                    "${snapshot.data![index].lenderName}");
+                            PagesGenerator.goTo(context,
+                                name: "lender-loan-details",
+                                params: {
+                                  "id": "${snapshot.data?[index].id}",
+                                  "deptMemberShip": memberShipId
+                                });
+                          },
                         ),
                       ),
-                      onTap: () {
-                        screenTitle(context,
-                            screenTitle: "${snapshot.data![index].lenderName}");
-                        PagesGenerator.goTo(context,
-                            name: "lender-loan-details",
-                            params: {
-                              "id": "${snapshot.data?[index].id}",
-                              "deptMemberShip": memberShipId
-                            });
-                      },
                     );
                   },
                 );
