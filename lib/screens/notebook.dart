@@ -49,7 +49,7 @@ class _NotebookPageState extends State<NotebookPage> {
                       PagesGenerator.goTo(context, name: "pub-notebook"),
                   icon: const Icon(
                     Icons.add_circle,
-                    color: fkBlueText,
+                    color: fkBlackText,
                   ),
                 ),
                 IconButton(
@@ -58,7 +58,7 @@ class _NotebookPageState extends State<NotebookPage> {
                     icon: const FaIcon(
                       FontAwesomeIcons.squareArrowUpRight,
                       size: 18,
-                      color: fkBlueText,
+                      color: fkBlackText,
                     )),
               ],
             ),

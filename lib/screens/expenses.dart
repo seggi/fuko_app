@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/core/expenses.dart';
@@ -79,14 +80,14 @@ class _ExpensesPageState extends State<ExpensesPage> {
                           PagesGenerator.goTo(context, name: "create-expense"),
                       icon: const Icon(
                         Icons.add_circle,
-                        color: fkBlueText,
+                        color: fkBlackText,
                       )),
                   IconButton(
                       onPressed: () =>
                           PagesGenerator.goTo(context, name: "expense-report"),
                       icon: const Icon(
                         Icons.manage_history,
-                        color: fkBlueText,
+                        color: fkBlackText,
                         size: 20,
                       )),
                 ],
@@ -114,13 +115,6 @@ class _ExpensesPageState extends State<ExpensesPage> {
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                "${snapshot.data!.currencyCode}",
-                                style: const TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500,
-                                    color: fkGreyText),
-                              ),
                               Text(
                                 "${snapshot.data!.totalAmount}",
                                 overflow: TextOverflow.ellipsis,
@@ -233,77 +227,82 @@ class _ExpensesPageState extends State<ExpensesPage> {
                     itemBuilder: (BuildContext context, int index) {
                       var dateTime =
                           DateTime.parse("${snapshot.data?[index].createdAt}");
-                      return GestureDetector(
-                        onLongPress: () {
-                          screenTitle(context,
-                              screenTitle:
-                                  "${snapshot.data?[index].expenseName}");
-                          PagesGenerator.goTo(context,
-                              name: "update-expense-name",
-                              params: {
-                                "id": "${snapshot.data?[index].expenseId}"
-                              });
-                        },
-                        child: Container(
-                            margin: const EdgeInsets.only(top: 0.0),
-                            child: InkWell(
-                              child: Card(
-                                child: ListTile(
-                                  leading: const Icon(
-                                    Icons.notes,
-                                    color: fkBlueText,
-                                  ),
-                                  title: SizedBox(
-                                    width: 200,
-                                    child: Text(
-                                      snapshot.data?[index].expenseName ??
-                                          "No title provided",
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 16,
-                                      ),
-                                    ),
-                                  ),
-                                  trailing: Container(
-                                    margin: const EdgeInsets.only(top: 10),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      children: [
-                                        const Text("Created on",
-                                            style: TextStyle(
-                                              color: fkGreyText,
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 12,
-                                            )),
-                                        verticalSpaceTiny,
-                                        Text(
-                                          "${dateTime.year}-${dateTime.month}-${dateTime.day}",
-                                          overflow: TextOverflow.ellipsis,
-                                          style: const TextStyle(
-                                            color: fkBlueText,
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 14,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
+                      return Card(
+                        child: Slidable(
+                          startActionPane: ActionPane(
+                            motion: const StretchMotion(),
+                            children: [
+                              SlidableAction(
+                                  flex: 2,
+                                  icon: Icons.update,
+                                  label: "Update name",
+                                  backgroundColor: updateBtnColor,
+                                  onPressed: ((context) {
+                                    screenTitle(context,
+                                        screenTitle:
+                                            "${snapshot.data?[index].expenseName}");
+                                    PagesGenerator.goTo(context,
+                                        name: "update-expense-name",
+                                        params: {
+                                          "id":
+                                              "${snapshot.data?[index].expenseId}"
+                                        });
+                                  }))
+                            ],
+                          ),
+                          child: ListTile(
+                            leading: const Icon(
+                              Icons.notes,
+                              color: fkBlueText,
+                            ),
+                            title: SizedBox(
+                              width: 200,
+                              child: Text(
+                                snapshot.data?[index].expenseName ??
+                                    "No title provided",
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16,
                                 ),
                               ),
-                              onTap: () {
-                                screenTitle(context,
-                                    screenTitle:
-                                        "${snapshot.data?[index].expenseName}");
-                                PagesGenerator.goTo(context,
-                                    name: "expense-list",
-                                    params: {
-                                      "id": "${snapshot.data?[index].expenseId}"
-                                    });
-                              },
-                            )),
+                            ),
+                            trailing: Container(
+                              margin: const EdgeInsets.only(top: 10),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  const Text("Created on",
+                                      style: TextStyle(
+                                        color: fkGreyText,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 12,
+                                      )),
+                                  verticalSpaceTiny,
+                                  Text(
+                                    "${dateTime.year}-${dateTime.month}-${dateTime.day}",
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      color: fkBlueText,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            onTap: () {
+                              screenTitle(context,
+                                  screenTitle:
+                                      "${snapshot.data?[index].expenseName}");
+                              PagesGenerator.goTo(context,
+                                  name: "expense-list",
+                                  params: {
+                                    "id": "${snapshot.data?[index].expenseId}"
+                                  });
+                            },
+                          ),
+                        ),
                       );
                     },
                   ),

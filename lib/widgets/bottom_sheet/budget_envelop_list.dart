@@ -132,7 +132,7 @@ class _BudgetEnvelopListState extends State<BudgetEnvelopList> {
       },
       icon: const Icon(
         Icons.receipt_long,
-        color: fkBlueText,
+        color: fkBlackText,
       ),
     );
   }

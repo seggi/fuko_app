@@ -51,12 +51,12 @@ class _LoanPageState extends State<LoanPage> {
               children: [
                 Row(
                   children: [
-                    InkWell(
-                        onTap: () async {
+                    IconButton(
+                        onPressed: () async {
                           PagesGenerator.goTo(context,
                               pathName: "/?status=true");
                         },
-                        child: const Icon(Icons.arrow_back_ios)),
+                        icon: const Icon(Icons.arrow_back_ios)),
                     const Text(
                       "Loan",
                       style:
@@ -70,13 +70,13 @@ class _LoanPageState extends State<LoanPage> {
                         onPressed: () => customLoanBottomModalSheet(context),
                         icon: const Icon(
                           Icons.person_add_alt,
-                          color: fkBlueText,
+                          color: fkBlackText,
                         )),
                     IconButton(
                         onPressed: () {},
                         icon: const Icon(
                           Icons.search_sharp,
-                          color: fkBlueText,
+                          color: fkBlackText,
                         )),
                   ],
                 )

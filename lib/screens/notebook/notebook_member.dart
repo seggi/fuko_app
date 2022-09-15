@@ -74,7 +74,7 @@ class _NotebookMemberState extends State<NotebookMember> {
                           params: {"id": notebookId}),
                       icon: const Icon(
                         Icons.person_add_alt,
-                        color: fkBlueText,
+                        color: fkBlackText,
                       ))
                 ],
               )

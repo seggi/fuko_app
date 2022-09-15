@@ -1,3 +1,4 @@
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/utils/constant.dart';
 import 'package:fuko_app/widgets/bottom_sheet/currenncies.dart';
@@ -56,11 +57,11 @@ class _SavingPageState extends State<SavingPage> {
           children: [
             Row(
               children: [
-                InkWell(
-                    onTap: () async {
+                IconButton(
+                    onPressed: () async {
                       PagesGenerator.goTo(context, pathName: "/?status=true");
                     },
-                    child: const Icon(
+                    icon: const Icon(
                       Icons.arrow_back_ios,
                       size: 20,
                     )),
@@ -77,14 +78,14 @@ class _SavingPageState extends State<SavingPage> {
                         PagesGenerator.goTo(context, name: "register-saving"),
                     icon: const Icon(
                       Icons.add_circle,
-                      color: fkBlueText,
+                      color: fkBlackText,
                     )),
                 IconButton(
                     onPressed: () =>
                         PagesGenerator.goTo(context, name: "saving-report"),
                     icon: const Icon(
                       Icons.manage_history,
-                      color: fkBlueText,
+                      color: fkBlackText,
                       size: 20,
                     )),
               ],
@@ -217,19 +218,15 @@ class _SavingPageState extends State<SavingPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(
-                      Icons.warning,
-                      color: Colors.orange,
-                    ),
                     horizontalSpaceSmall,
                     Container(
                       margin: const EdgeInsets.only(top: 10),
                       child: const Text(
                           "There is no saving recorded yet in this month...",
                           style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.red)),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                          )),
                     ),
                   ],
                 ),
@@ -251,15 +248,28 @@ class _SavingPageState extends State<SavingPage> {
 
                     return Container(
                       margin: const EdgeInsets.only(top: 0.0),
-                      child: reportCard(context,
-                          monthText: toBeginningOfSentenceCase(
-                              months[dateTime.month - 1]),
-                          leadingText: "${dateTime.day}",
-                          currency: snapshot.data?[index].currencyCode,
-                          amount: snapshot.data?[index].amount,
-                          titleTxt: "${snapshot.data?[index].description}",
-                          bdTxt: snapshot.data?[index].description,
-                          fn: () {}),
+                      child: Slidable(
+                        startActionPane: ActionPane(
+                          motion: const StretchMotion(),
+                          children: [
+                            SlidableAction(
+                                flex: 2,
+                                icon: Icons.update,
+                                label: "Update title && amount",
+                                backgroundColor: updateBtnColor,
+                                onPressed: ((context) {}))
+                          ],
+                        ),
+                        child: reportCard(context,
+                            monthText: toBeginningOfSentenceCase(
+                                months[dateTime.month - 1]),
+                            leadingText: "${dateTime.day} s",
+                            currency: snapshot.data?[index].currencyCode,
+                            amount: snapshot.data?[index].amount,
+                            titleTxt: "${snapshot.data?[index].description}",
+                            bdTxt: snapshot.data?[index].description,
+                            fn: () {}),
+                      ),
                     );
                   },
                 ),

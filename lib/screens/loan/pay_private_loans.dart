@@ -115,7 +115,7 @@ class _PayPrivateLoanState extends State<PayPrivateLoan> {
                   IconButton(
                       icon: const Icon(
                         Icons.cancel_outlined,
-                        color: fkGreyText,
+                        color: fkBlackText,
                       ),
                       onPressed: () => {
                             PagesGenerator.goTo(context,
