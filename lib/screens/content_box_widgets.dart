@@ -116,7 +116,6 @@ class FkContentBoxWidgets {
                 return true;
               },
               child: SizedBox(
-                // height: MediaQuery.of(context).size.height,
                 child: SingleChildScrollView(
                   physics: const ClampingScrollPhysics(),
                   child: Column(
@@ -317,16 +316,24 @@ class FkAddDataFormBox {
 class FkScrollViewWidgets {
   static Widget body(context, {List<Widget> itemList = const []}) {
     return Scaffold(
-      body: SafeArea(
-        child: NotificationListener<OverscrollIndicatorNotification>(
-          onNotification: (OverscrollIndicatorNotification? overscroll) {
-            overscroll!.disallowIndicator();
-            return true;
-          },
-          child: SingleChildScrollView(
-            physics: const ClampingScrollPhysics(),
-            child: Column(
-              children: [...itemList],
+      body: DecoratedBox(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: gradientColor),
+        ),
+        child: SafeArea(
+          child: NotificationListener<OverscrollIndicatorNotification>(
+            onNotification: (OverscrollIndicatorNotification? overscroll) {
+              overscroll!.disallowIndicator();
+              return true;
+            },
+            child: SingleChildScrollView(
+              physics: const ClampingScrollPhysics(),
+              child: Column(
+                children: [...itemList],
+              ),
             ),
           ),
         ),

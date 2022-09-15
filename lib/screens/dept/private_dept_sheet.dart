@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/core/dept.dart';
@@ -198,8 +199,19 @@ class _PrivateDeptSheetState extends State<PrivateDeptSheet> {
                         child: Text('No data to show.'),
                       );
                     }
-                    return InkWell(
-                      child: Card(
+                    return Card(
+                      child: Slidable(
+                        startActionPane: ActionPane(
+                          motion: const StretchMotion(),
+                          children: [
+                            SlidableAction(
+                                flex: 2,
+                                icon: Icons.update,
+                                label: "Update name",
+                                backgroundColor: updateBtnColor,
+                                onPressed: ((context) {}))
+                          ],
+                        ),
                         child: ListTile(
                           leading: const Icon(
                             Icons.account_circle_outlined,
@@ -217,19 +229,19 @@ class _PrivateDeptSheetState extends State<PrivateDeptSheet> {
                               ),
                             ),
                           ),
+                          onTap: () {
+                            screenTitle(context,
+                                screenTitle:
+                                    "${snapshot.data?[index].borrowerName}");
+                            PagesGenerator.goTo(context,
+                                name: "borrower_dept_details",
+                                params: {
+                                  "id": "${snapshot.data?[index].borrowerId}",
+                                  "loanMembership": memberShipId
+                                });
+                          },
                         ),
                       ),
-                      onTap: () {
-                        screenTitle(context,
-                            screenTitle:
-                                "${snapshot.data?[index].borrowerName}");
-                        PagesGenerator.goTo(context,
-                            name: "borrower_dept_details",
-                            params: {
-                              "id": "${snapshot.data?[index].borrowerId}",
-                              "loanMembership": memberShipId
-                            });
-                      },
                     );
                   },
                 );

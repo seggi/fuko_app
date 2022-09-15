@@ -90,6 +90,7 @@ class _RecordLoanState extends State<RecordLoan> {
   @override
   Widget build(BuildContext context) {
     final loanCategoryId = widget.id;
+    final height = MediaQuery.of(context).size.height;
     final List newItems = FkManageProviders.get(context)["get-added-loan"];
     final totalAmount = FkManageProviders.get(context)["get-total-loan-amount"];
     final deptMemberShip = widget.deptMemberShip;
@@ -121,14 +122,14 @@ class _RecordLoanState extends State<RecordLoan> {
                           onPressed: () => _removeAllData(context),
                           icon: const Icon(
                             Icons.delete,
-                            color: Colors.red,
+                            color: fkBlackText,
                             size: 28,
                           )),
                       IconButton(
                           onPressed: () => saveLoan(newItems),
                           icon: const Icon(
                             Icons.save,
-                            color: fkBlueText,
+                            color: fkBlackText,
                             size: 28,
                           ))
                     ],
@@ -159,7 +160,8 @@ class _RecordLoanState extends State<RecordLoan> {
               ],
             ),
             verticalSpaceRegular,
-            Expanded(
+            SizedBox(
+              height: height / 3,
               child: newItems.isNotEmpty
                   ? ListView.builder(
                       itemCount: newItems.length,

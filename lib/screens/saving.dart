@@ -1,3 +1,4 @@
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/utils/constant.dart';
 import 'package:fuko_app/widgets/bottom_sheet/currenncies.dart';
@@ -247,15 +248,28 @@ class _SavingPageState extends State<SavingPage> {
 
                     return Container(
                       margin: const EdgeInsets.only(top: 0.0),
-                      child: reportCard(context,
-                          monthText: toBeginningOfSentenceCase(
-                              months[dateTime.month - 1]),
-                          leadingText: "${dateTime.day}",
-                          currency: snapshot.data?[index].currencyCode,
-                          amount: snapshot.data?[index].amount,
-                          titleTxt: "${snapshot.data?[index].description}",
-                          bdTxt: snapshot.data?[index].description,
-                          fn: () {}),
+                      child: Slidable(
+                        startActionPane: ActionPane(
+                          motion: const StretchMotion(),
+                          children: [
+                            SlidableAction(
+                                flex: 2,
+                                icon: Icons.update,
+                                label: "Update title && amount",
+                                backgroundColor: updateBtnColor,
+                                onPressed: ((context) {}))
+                          ],
+                        ),
+                        child: reportCard(context,
+                            monthText: toBeginningOfSentenceCase(
+                                months[dateTime.month - 1]),
+                            leadingText: "${dateTime.day} s",
+                            currency: snapshot.data?[index].currencyCode,
+                            amount: snapshot.data?[index].amount,
+                            titleTxt: "${snapshot.data?[index].description}",
+                            bdTxt: snapshot.data?[index].description,
+                            fn: () {}),
+                      ),
                     );
                   },
                 ),

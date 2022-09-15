@@ -115,7 +115,7 @@ class _PayPrivateDeptState extends State<PayPrivateDept> {
                   IconButton(
                       icon: const Icon(
                         Icons.cancel_outlined,
-                        color: fkGreyText,
+                        color: fkBlackText,
                       ),
                       onPressed: () => {
                             PagesGenerator.goTo(context,

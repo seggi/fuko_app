@@ -20,8 +20,6 @@ class _DeptPageState extends State<DeptPage> {
   FkContentBoxWidgets fkContentBoxWidgets = FkContentBoxWidgets();
 
   int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 20, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     PrivateDeptSheet(),
     PubMemberDeptNotebookSheet(),
@@ -68,13 +66,13 @@ class _DeptPageState extends State<DeptPage> {
                         onPressed: () => customBottomModalSheet(context),
                         icon: const Icon(
                           Icons.person_add_alt,
-                          color: fkBlueText,
+                          color: fkBlackText,
                         )),
                     IconButton(
                         onPressed: () {},
                         icon: const Icon(
                           Icons.search_sharp,
-                          color: fkBlueText,
+                          color: fkBlackText,
                         )),
                   ],
                 )

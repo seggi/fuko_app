@@ -128,14 +128,14 @@ class _SaveExpensesState extends State<SaveExpenses> {
                           onPressed: () => _removeAllData(context),
                           icon: const Icon(
                             Icons.delete,
-                            color: Colors.red,
+                            color: fkBlackText,
                             size: 28,
                           )),
                       IconButton(
                           onPressed: () => saveExpenses(newItems),
                           icon: const Icon(
                             Icons.save,
-                            color: fkBlueText,
+                            color: fkBlackText,
                             size: 28,
                           )),
                       BudgetEnvelopList(currencyCode: getCurrency)
@@ -204,7 +204,7 @@ class _SaveExpensesState extends State<SaveExpenses> {
             ),
             verticalSpaceRegular,
             SizedBox(
-              height: height / 2,
+              height: height / 3,
               child: newItems.isNotEmpty
                   ? ListView.builder(
                       itemCount: newItems.length,
