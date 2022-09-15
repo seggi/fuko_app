@@ -79,7 +79,7 @@ class _BudgetDetailsState extends State<BudgetDetails> {
                           },
                           icon: const Icon(
                             Icons.add_circle,
-                            color: fkBlueText,
+                            color: fkBlackText,
                           ))
                     ],
                   )

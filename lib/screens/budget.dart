@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/core/budget.dart';
@@ -97,20 +98,33 @@ class _BudgetScreenState extends State<BudgetScreen> {
 
                       return Column(
                         children: [
-                          BudgetBoxCard(
-                            createdAt:
-                                "${dateTime.day}-${dateTime.month}-${dateTime.year}",
-                            title: "${snapshot.data?[index].title}",
-                            fn: () {
-                              saveId(context,
-                                  id: "${snapshot.data?[index].id}");
+                          Slidable(
+                            startActionPane: ActionPane(
+                              motion: const StretchMotion(),
+                              children: [
+                                SlidableAction(
+                                    flex: 2,
+                                    icon: Icons.update,
+                                    label: "Update name",
+                                    backgroundColor: updateBtnColor,
+                                    onPressed: ((context) {}))
+                              ],
+                            ),
+                            child: BudgetBoxCard(
+                              createdAt:
+                                  "${dateTime.day}-${dateTime.month}-${dateTime.year}",
+                              title: "${snapshot.data?[index].title}",
+                              fn: () {
+                                saveId(context,
+                                    id: "${snapshot.data?[index].id}");
 
-                              PagesGenerator.goTo(context,
-                                  name: "budget-detail",
-                                  params: {
-                                    "title": "${snapshot.data?[index].title}"
-                                  });
-                            },
+                                PagesGenerator.goTo(context,
+                                    name: "budget-detail",
+                                    params: {
+                                      "title": "${snapshot.data?[index].title}"
+                                    });
+                              },
+                            ),
                           ),
                         ],
                       );
