@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/core/default_data.dart';
@@ -184,19 +185,19 @@ class _ExpenseListState extends State<ExpenseList> {
                       var dateTime =
                           DateTime.parse("${snapshot.data?[index].createdAt}");
 
-                      return Container(
-                        margin: const EdgeInsets.only(top: 0.0),
-                        child: reportCard(context,
-                            monthText: toBeginningOfSentenceCase(
-                                months[dateTime.month - 1]),
-                            leadingText: "${dateTime.day}",
-                            currency: "",
-                            amount: snapshot.data?[index].amount,
-                            titleTxt: snapshot.data?[index].description ??
-                                "No description",
-                            bdTxt: snapshot.data?[index].description,
-                            fn: () {}),
-                      );
+                      return reportCard(context,
+                          monthText: toBeginningOfSentenceCase(
+                              months[dateTime.month - 1]),
+                          leadingText: "${dateTime.day}",
+                          currency: "",
+                          expenseName: snapshot.data?[index].description ??
+                              "No description",
+                          expenseId: snapshot.data?[index].expenseId,
+                          amount: snapshot.data?[index].amount,
+                          titleTxt: snapshot.data?[index].description ??
+                              "No description",
+                          bdTxt: snapshot.data?[index].description,
+                          fn: () {});
                     },
                   ),
                 ),

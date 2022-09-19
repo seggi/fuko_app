@@ -31,12 +31,14 @@ class RetrieveDetailsExpenses {
   final String description;
   final String createdAt;
   final String updatedAat;
+  final String expenseId;
 
   RetrieveDetailsExpenses(
       {required this.currencyCode,
       required this.amount,
       required this.description,
       required this.createdAt,
+      required this.expenseId,
       required this.updatedAat});
 
   factory RetrieveDetailsExpenses.fromJson(Map<String, dynamic> json) {
@@ -45,7 +47,8 @@ class RetrieveDetailsExpenses {
         amount: json["amount"].toString(),
         description: json["description"].toString(),
         createdAt: json["created_at"].toString(),
-        updatedAat: json["updated_at"].toString());
+        updatedAat: json["updated_at"].toString(),
+        expenseId: json["id"].toString());
   }
 }
 
