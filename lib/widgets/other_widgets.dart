@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
+import 'package:fuko_app/utils/constant.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
@@ -64,6 +65,7 @@ Widget reportCard(context,
     trailingText,
     expenseName,
     expenseId,
+    expenseDescriptionId,
     String? bdTxt,
     fn}) {
   return ReportCard(
@@ -77,6 +79,7 @@ Widget reportCard(context,
       amount: amount,
       trailingText: trailingText,
       expenseId: expenseId,
+      expenseDescriptionId: expenseDescriptionId,
       titleTxt: titleTxt);
 }
 
@@ -94,6 +97,7 @@ class ReportCard extends StatefulWidget {
   final String? trailingText;
   final String? expenseName;
   final String? expenseId;
+  final String? expenseDescriptionId;
 
   const ReportCard(
       {Key? key,
@@ -109,6 +113,7 @@ class ReportCard extends StatefulWidget {
       this.trailingText,
       this.expenseName,
       this.expenseId,
+      this.expenseDescriptionId,
       this.currencyCode})
       : super(key: key);
 
@@ -126,6 +131,7 @@ class _ReportCardState extends State<ReportCard> {
     final trailingText = widget.trailingText;
     final expenseId = widget.expenseId;
     final expenseName = widget.expenseName;
+    final expenseDescriptionId = widget.expenseDescriptionId;
     final screenTitle = FkManageProviders.save["save-screen-title"];
 
     return Card(
@@ -139,9 +145,15 @@ class _ReportCardState extends State<ReportCard> {
                 label: "Edit description",
                 backgroundColor: updateBtnColor,
                 onPressed: ((context) {
-                  screenTitle(context, screenTitle: "$titleTxt");
+                  screenTitle(context,
+                      screenTitle: "$titleTxt",
+                      expenseDescriptionId: expenseDescriptionId);
                   PagesGenerator.goTo(context,
-                      name: "update-expense-name", params: {"id": expenseId!});
+                      name: "update-expense-name",
+                      params: {
+                        "id": expenseId!,
+                        "screenType": editExpenseDescription,
+                      });
                 }))
           ],
         ),

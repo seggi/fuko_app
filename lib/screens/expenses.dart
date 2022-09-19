@@ -241,11 +241,13 @@ class _ExpensesPageState extends State<ExpensesPage> {
                                   backgroundColor: updateBtnColor,
                                   onPressed: ((context) {
                                     screenTitle(context,
+                                        expenseDescriptionId: "",
                                         screenTitle:
                                             "${snapshot.data?[index].expenseName}");
                                     PagesGenerator.goTo(context,
                                         name: "update-expense-name",
                                         params: {
+                                          "screenType": editExpenseTitle,
                                           "id":
                                               "${snapshot.data?[index].expenseId}"
                                         });
@@ -283,6 +285,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
                                 )),
                             onTap: () {
                               screenTitle(context,
+                                  expenseDescriptionId: "",
                                   screenTitle:
                                       "${snapshot.data?[index].expenseName}");
                               PagesGenerator.goTo(context,

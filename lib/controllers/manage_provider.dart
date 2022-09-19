@@ -20,9 +20,10 @@ class FkManageProviders {
         Provider.of<AddExpenses>(context, listen: false).remove(itemData),
     "remove-all-expenses": (context) =>
         Provider.of<AddExpenses>(context, listen: false).removeFromList(),
-    "save-screen-title": (context, {screenTitle}) =>
-        Provider.of<AddExpenses>(context, listen: false)
-            .addScreenTitle(screenTitle),
+    "save-screen-title": (context, {screenTitle, expenseDescriptionId}) =>
+        Provider.of<AddExpenses>(context, listen: false).addScreenTitle(
+            screenTitle: screenTitle,
+            expenseDescriptionId: expenseDescriptionId),
     "add-currency": (context, {currencyId}) =>
         Provider.of<AddExpenses>(context, listen: false)
             .addCurrencyId(currencyId),
@@ -99,6 +100,8 @@ class FkManageProviders {
       "add-expenses": Provider.of<AddExpenses>(context).getNewItem,
       "get-added-expenses": Provider.of<AddExpenses>(context).getTotalAmount,
       "get-screen-title": Provider.of<AddExpenses>(context).screenTitle,
+      "get-expense-descriptionId":
+          Provider.of<AddExpenses>(context).expenseDescriptionId,
       "get-currency": Provider.of<AddExpenses>(context).currencyId,
       "get-default-currency":
           Provider.of<AddExpenses>(context).defaultCurrencyId,
@@ -142,5 +145,8 @@ class FkManageProviders {
     "remove-envelope": (context) =>
         Provider.of<SelectFromDataList>(context, listen: false)
             .removeEnvelope(),
+    "remove-expense-descriptionId": (context) =>
+        Provider.of<AddExpenses>(context, listen: false)
+            .removeExpenseDescriptionId()
   };
 }

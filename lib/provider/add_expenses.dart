@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class AddExpenses extends ChangeNotifier {
   String _status = 'false';
   var _screenTitle = '';
+  var _expenseDescriptionId = '';
   String _currencyId = '';
   String _defaultCurrencyId = '';
   String _monthNumber = '';
@@ -16,6 +17,7 @@ class AddExpenses extends ChangeNotifier {
   String get monthNumber => _monthNumber;
   String get defaultCurrencyId => _defaultCurrencyId;
   String get screenTitle => _screenTitle;
+  String get expenseDescriptionId => _expenseDescriptionId;
   String get getStatus => _status;
   double get getTotalAmount {
     // Compute total amount in the list
@@ -50,8 +52,14 @@ class AddExpenses extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addScreenTitle(String screenTitle) {
-    _screenTitle = screenTitle;
+  void addScreenTitle({String? screenTitle, String? expenseDescriptionId}) {
+    _screenTitle = screenTitle!;
+    _expenseDescriptionId = expenseDescriptionId!;
+    notifyListeners();
+  }
+
+  void removeExpenseDescriptionId() {
+    _expenseDescriptionId = "";
     notifyListeners();
   }
 

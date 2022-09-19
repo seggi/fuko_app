@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:fuko_app/utils/constant.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
@@ -12,7 +13,9 @@ import '../content_box_widgets.dart';
 
 class UpdateExpenseName extends StatefulWidget {
   final String? expenseId;
-  const UpdateExpenseName({Key? key, this.expenseId}) : super(key: key);
+  final String? screenType;
+  const UpdateExpenseName({Key? key, this.expenseId, this.screenType})
+      : super(key: key);
 
   @override
   State<UpdateExpenseName> createState() => _UpdateExpenseNameState();
@@ -26,12 +29,18 @@ class _UpdateExpenseNameState extends State<UpdateExpenseName> {
 
   late ScaffoldMessengerState scaffoldMessenger = ScaffoldMessenger.of(context);
 
-  Future updateExpenseName(expenseId) async {
+  Future updateExpenseName(expenseId, expenseDescriptionId) async {
     FocusManager.instance.primaryFocus?.unfocus();
     var token = await UserPreferences.getToken();
 
     Map newItem = {
       "expense_name": expenseNameController.text,
+      "type": editExpenseTitle
+    };
+
+    Map descriptionData = {
+      "description": expenseNameController.text,
+      "type": editExpenseDescription
     };
 
     if (expenseNameController.text == "") {
@@ -47,20 +56,44 @@ class _UpdateExpenseNameState extends State<UpdateExpenseName> {
         loading = true;
       });
 
-      final response = await http.put(
-          Uri.parse(Network.updateExpenseName + "/$expenseId"),
-          headers: Network.authorizedHeaders(token: token),
-          body: jsonEncode(newItem));
+      if (expenseDescriptionId == "" ||
+          expenseDescriptionId == "null" ||
+          expenseDescriptionId == null) {
+        final response = await http.put(
+            Uri.parse(Network.updateExpenseName + "/$expenseId"),
+            headers: Network.authorizedHeaders(token: token),
+            body: jsonEncode(newItem));
 
-      if (response.statusCode == 200) {
-        PagesGenerator.goTo(context, pathName: "/expenses?status=true");
-      } else {
-        scaffoldMessenger.showSnackBar(const SnackBar(
-          content: Text(
-            "Error from server",
-            style: TextStyle(color: Colors.red),
-          ),
-        ));
+        if (response.statusCode == 200) {
+          PagesGenerator.goTo(context, pathName: "/expenses?status=true");
+        } else {
+          scaffoldMessenger.showSnackBar(const SnackBar(
+            content: Text(
+              "Error from server",
+              style: TextStyle(color: Colors.red),
+            ),
+          ));
+        }
+      }
+
+      if (expenseDescriptionId != "" || expenseDescriptionId == null) {
+        final response = await http.put(
+            Uri.parse(Network.updateExpenseName + "/$expenseDescriptionId"),
+            headers: Network.authorizedHeaders(token: token),
+            body: jsonEncode(descriptionData));
+
+        if (response.statusCode == 200) {
+          PagesGenerator.goTo(context,
+              name: "expense-list", params: {"id": widget.expenseId!});
+          FkManageProviders.remove['remove-expense-descriptionId'](context);
+        } else {
+          scaffoldMessenger.showSnackBar(const SnackBar(
+            content: Text(
+              "Error from server",
+              style: TextStyle(color: Colors.red),
+            ),
+          ));
+        }
       }
     }
   }
@@ -68,8 +101,11 @@ class _UpdateExpenseNameState extends State<UpdateExpenseName> {
   @override
   Widget build(BuildContext context) {
     final expenseId = widget.expenseId;
+    final screenType = widget.screenType;
     final expenseName = FkManageProviders.get(context)['get-screen-title'];
-
+    final expenseDescriptionId =
+        FkManageProviders.get(context)['get-expense-descriptionId'];
+    print(expenseDescriptionId);
     return FkScrollViewWidgets.body(context, itemList: [
       Container(
           padding: const EdgeInsets.all(20.0),
@@ -81,17 +117,30 @@ class _UpdateExpenseNameState extends State<UpdateExpenseName> {
                 children: [
                   IconButton(
                       icon: const Icon(Icons.cancel_outlined),
-                      onPressed: () =>
-                          PagesGenerator.goTo(context, pathName: "/expenses")),
+                      onPressed: () {
+                        if (screenType == editExpenseTitle) {
+                          PagesGenerator.goTo(context, pathName: "/expenses");
+                        }
+
+                        if (screenType == editExpenseDescription) {
+                          PagesGenerator.goTo(context,
+                              name: "expense-list", params: {"id": expenseId!});
+                          FkManageProviders
+                              .remove['remove-expense-descriptionId'](context);
+                        }
+                      })
                 ],
               ),
             ),
             verticalSpaceLarge,
             Container(
               alignment: Alignment.bottomLeft,
-              child: const Text(
-                "Edit expense title",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+              child: Text(
+                screenType == editExpenseTitle
+                    ? "Edit expense title"
+                    : "Edit expense  description",
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
               ),
             ),
             verticalSpaceMedium,
@@ -125,7 +174,8 @@ class _UpdateExpenseNameState extends State<UpdateExpenseName> {
                             color: fkDefaultColor,
                           )),
                       child: TextButton(
-                        onPressed: () => updateExpenseName(expenseId),
+                        onPressed: () =>
+                            updateExpenseName(expenseId, expenseDescriptionId),
                         child: loading == false
                             ? const Icon(
                                 Icons.mode_edit,

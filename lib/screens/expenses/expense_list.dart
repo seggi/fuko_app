@@ -30,6 +30,7 @@ class _ExpenseListState extends State<ExpenseList> {
 
   @override
   Widget build(BuildContext context) {
+    final screenId = widget.id;
     var selectedCurrency =
         FkManageProviders.get(context)["get-default-currency"];
     var setCurrency =
@@ -39,7 +40,7 @@ class _ExpenseListState extends State<ExpenseList> {
 
     return FkContentBoxWidgets.body(context, 'savings', fn: () {
       PagesGenerator.goTo(context,
-          name: "save-expenses", params: {"id": widget.id});
+          name: "save-expenses", params: {"id": screenId});
     }, itemList: [
       Padding(
         padding: const EdgeInsets.only(right: 20.0, left: 20.0),
@@ -192,11 +193,12 @@ class _ExpenseListState extends State<ExpenseList> {
                           currency: "",
                           expenseName: snapshot.data?[index].description ??
                               "No description",
-                          expenseId: snapshot.data?[index].expenseId,
+                          expenseId: screenId,
                           amount: snapshot.data?[index].amount,
                           titleTxt: snapshot.data?[index].description ??
                               "No description",
                           bdTxt: snapshot.data?[index].description,
+                          expenseDescriptionId: snapshot.data?[index].expenseId,
                           fn: () {});
                     },
                   ),
