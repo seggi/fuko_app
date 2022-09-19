@@ -36,22 +36,22 @@ class _ExpenseListState extends State<ExpenseList> {
 
     final screenTitle = FkManageProviders.get(context)['get-screen-title'];
 
-    return FkContentBoxWidgets.body(context, 'savings list', fn: () {
+    return FkContentBoxWidgets.body(context, 'savings', fn: () {
       PagesGenerator.goTo(context,
           name: "save-expenses", params: {"id": widget.id});
     }, itemList: [
       Padding(
-        padding: const EdgeInsets.only(right: 20.0, left: 20.0, top: 20.0),
+        padding: const EdgeInsets.only(right: 20.0, left: 20.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Row(
               children: [
-                InkWell(
-                    onTap: () async {
+                IconButton(
+                    onPressed: () async {
                       PagesGenerator.goTo(context, pathName: "/expenses");
                     },
-                    child: const Icon(
+                    icon: const Icon(
                       Icons.arrow_back_ios,
                       size: 20,
                     )),
@@ -151,7 +151,7 @@ class _ExpenseListState extends State<ExpenseList> {
                   style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
-                      color: fkGreyText),
+                      color: fkBlackText),
                 )));
           },
         ),
@@ -202,13 +202,9 @@ class _ExpenseListState extends State<ExpenseList> {
                 ),
               );
             } else if (snapshot.hasError) {
-              return const Center(child: Text('Something went wrong:('));
+              return const Center(child: Text('Something went wrong 😟'));
             }
-            return const Center(
-              child: CircularProgressIndicator(
-                strokeWidth: 2.0,
-              ),
-            );
+            return const SizedBox();
           },
         ),
       ),

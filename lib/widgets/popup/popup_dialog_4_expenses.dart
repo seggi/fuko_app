@@ -11,7 +11,7 @@ void showDialogWithFields(context) {
     builder: (_) {
       return const AlertDialog(
         insetPadding: EdgeInsets.all(10.0),
-        title: Text('Add Expenses'),
+        title: Text('Add Expense'),
         contentPadding: EdgeInsets.all(10.0),
         content: AddExpenses(),
       );
@@ -65,8 +65,10 @@ class _AddExpensesState extends State<AddExpenses> {
   Widget build(BuildContext context) {
     var selectedCurrency = FkManageProviders.get(context)["get-currency"];
     var getEnvelope = FkManageProviders.get(context)['get-item-selected'];
-
-    return SizedBox(
+    final width = MediaQuery.of(context).size.width;
+    return Container(
+      width: width,
+      padding: const EdgeInsets.only(left: 8.0, right: 8.0),
       child: SingleChildScrollView(
         child: Form(
           key: _formKey,
@@ -100,45 +102,49 @@ class _AddExpensesState extends State<AddExpenses> {
                 onSaved: (String? value) {},
               ),
               verticalSpaceMedium,
-              Row(
-                children: [
-                  Container(
-                    width: 80,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.0),
-                        border: Border.all(
-                          width: 2.0,
+              Container(
+                width: width,
+                child: Row(
+                  children: [
+                    Container(
+                      width: 80,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8.0),
+                          border: Border.all(
+                            width: 2.0,
+                            color: Colors.red,
+                          )),
+                      child: TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: const Icon(
+                          Icons.cancel,
                           color: Colors.red,
-                        )),
-                    child: TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: const Icon(
-                        Icons.cancel,
-                        color: Colors.red,
+                        ),
                       ),
                     ),
-                  ),
-                  horizontalSpaceSmall,
-                  Container(
-                    width: 200,
-                    decoration: BoxDecoration(
-                        color: fkDefaultColor,
-                        borderRadius: BorderRadius.circular(8.0),
-                        border: Border.all(
-                          width: 2.0,
-                          color: fkDefaultColor,
-                        )),
-                    child: TextButton(
-                      onPressed: () => saveExpenses(
-                          selectedCurrency: selectedCurrency,
-                          getEnvelope: getEnvelope['id']),
-                      child: const Icon(
-                        Icons.add,
-                        color: fkWhiteText,
+                    horizontalSpaceSmall,
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: fkDefaultColor,
+                            borderRadius: BorderRadius.circular(8.0),
+                            border: Border.all(
+                              width: 2.0,
+                              color: fkDefaultColor,
+                            )),
+                        child: TextButton(
+                          onPressed: () => saveExpenses(
+                              selectedCurrency: selectedCurrency,
+                              getEnvelope: getEnvelope['id']),
+                          child: const Icon(
+                            Icons.add,
+                            color: fkWhiteText,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               )
             ],
           ),

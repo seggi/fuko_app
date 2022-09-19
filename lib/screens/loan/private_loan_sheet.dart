@@ -111,16 +111,17 @@ class _PrivateLoanSheetState extends State<PrivateLoanSheet> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Center(
-                                  child: Text(
-                                snapshot.error != null
-                                    ? "Failed to load data"
-                                    : "Amount not available...",
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
-                                    color: fkGreyText),
-                              )),
+                                child: Text(
+                                  snapshot.error != null
+                                      ? "Failed to load data"
+                                      : "Amount not available...",
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      color: fkGreyText),
+                                ),
+                              ),
                               Container(
                                 alignment: Alignment.center,
                                 child: ClipRRect(
@@ -138,16 +139,18 @@ class _PrivateLoanSheetState extends State<PrivateLoanSheet> {
                         );
                       }
                       return Container(
-                          padding: const EdgeInsets.all(20.0),
-                          child: const Center(
-                              child: Text(
+                        padding: const EdgeInsets.all(20.0),
+                        child: const Center(
+                          child: Text(
                             "Loading Amount...",
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
                                 color: fkGreyText),
-                          )));
+                          ),
+                        ),
+                      );
                     },
                   ),
                 ],

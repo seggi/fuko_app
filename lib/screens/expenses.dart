@@ -112,9 +112,20 @@ class _ExpensesPageState extends State<ExpensesPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Row(
+                          Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              const Align(
+                                alignment: Alignment.bottomLeft,
+                                child: Text(
+                                  "Total Expense Amount",
+                                  style: TextStyle(
+                                      color: fkBlackText,
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 14),
+                                ),
+                              ),
+                              verticalSpaceTiny,
                               Text(
                                 "${snapshot.data!.totalAmount}",
                                 overflow: TextOverflow.ellipsis,
@@ -199,15 +210,6 @@ class _ExpensesPageState extends State<ExpensesPage> {
             ],
           ),
         ),
-        verticalSpaceRegular,
-        const Align(
-          alignment: Alignment.bottomLeft,
-          child: Text(
-            "Expenses saved list",
-            style: TextStyle(
-                color: fkBlackText, fontWeight: FontWeight.w400, fontSize: 14),
-          ),
-        ),
       ]),
       Expanded(
         child: FutureBuilder(
@@ -235,7 +237,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
                               SlidableAction(
                                   flex: 2,
                                   icon: Icons.update,
-                                  label: "Update name",
+                                  label: "Edit title",
                                   backgroundColor: updateBtnColor,
                                   onPressed: ((context) {
                                     screenTitle(context,
@@ -266,31 +268,19 @@ class _ExpensesPageState extends State<ExpensesPage> {
                                 ),
                               ),
                             ),
-                            trailing: Container(
-                              margin: const EdgeInsets.only(top: 10),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  const Text("Created on",
-                                      style: TextStyle(
-                                        color: fkGreyText,
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 12,
-                                      )),
-                                  verticalSpaceTiny,
-                                  Text(
-                                    "${dateTime.year}-${dateTime.month}-${dateTime.day}",
-                                    overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(
-                                      color: fkBlueText,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+                            trailing: IconButton(
+                                onPressed: () {
+                                  PagesGenerator.goTo(context,
+                                      name: "save-expenses",
+                                      params: {
+                                        "id":
+                                            "${snapshot.data?[index].expenseId}"
+                                      });
+                                },
+                                icon: const Icon(
+                                  Icons.post_add_outlined,
+                                  color: fkDefaultColor,
+                                )),
                             onTap: () {
                               screenTitle(context,
                                   screenTitle:

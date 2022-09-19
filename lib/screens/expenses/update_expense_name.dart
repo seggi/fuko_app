@@ -90,7 +90,7 @@ class _UpdateExpenseNameState extends State<UpdateExpenseName> {
             Container(
               alignment: Alignment.bottomLeft,
               child: const Text(
-                "Update expense name",
+                "Edit expense title",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
               ),
             ),
@@ -128,7 +128,7 @@ class _UpdateExpenseNameState extends State<UpdateExpenseName> {
                         onPressed: () => updateExpenseName(expenseId),
                         child: loading == false
                             ? const Icon(
-                                Icons.add,
+                                Icons.mode_edit,
                                 color: fkWhiteText,
                               )
                             : const SizedBox(

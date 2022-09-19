@@ -63,7 +63,9 @@ class _SaveExpensesState extends State<SaveExpenses> {
 
         if (backendFeedBack.code == "success") {
           clearWidgetList(context);
-          PagesGenerator.goTo(context, pathName: "/expenses?status=true");
+          // PagesGenerator.goTo(context, pathName: "/expenses?status=true");
+          PagesGenerator.goTo(context,
+              name: "expense-list", params: {"id": expenseId});
           FkManageProviders.remove['remove-envelope'](context);
           Navigator.of(context).pop();
         } else {
