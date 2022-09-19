@@ -52,6 +52,8 @@ class _ExpenseListState extends State<ExpenseList> {
                 IconButton(
                     onPressed: () async {
                       PagesGenerator.goTo(context, pathName: "/expenses");
+                      FkManageProviders
+                          .remove['remove-expense-descriptionId'](context);
                     },
                     icon: const Icon(
                       Icons.arrow_back_ios,
@@ -194,6 +196,7 @@ class _ExpenseListState extends State<ExpenseList> {
                           expenseName: snapshot.data?[index].description ??
                               "No description",
                           expenseId: screenId,
+                          currencyCode: setCurrency,
                           amount: snapshot.data?[index].amount,
                           titleTxt: snapshot.data?[index].description ??
                               "No description",

@@ -21,9 +21,11 @@ class FkManageProviders {
     "remove-all-expenses": (context) =>
         Provider.of<AddExpenses>(context, listen: false).removeFromList(),
     "save-screen-title": (context, {screenTitle, expenseDescriptionId}) =>
-        Provider.of<AddExpenses>(context, listen: false).addScreenTitle(
-            screenTitle: screenTitle,
-            expenseDescriptionId: expenseDescriptionId),
+        Provider.of<AddExpenses>(context, listen: false)
+            .addScreenTitle(screenTitle: screenTitle),
+    "save-expense-descriptionId": (context, {expenseDescriptionId}) =>
+        Provider.of<AddExpenses>(context, listen: false)
+            .addExpenseDescriptionId(expenseDescriptionId),
     "add-currency": (context, {currencyId}) =>
         Provider.of<AddExpenses>(context, listen: false)
             .addCurrencyId(currencyId),

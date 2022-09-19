@@ -26,22 +26,13 @@ class _UpdateExpenseNameState extends State<UpdateExpenseName> {
   bool loading = false;
 
   TextEditingController expenseNameController = TextEditingController();
+  TextEditingController expenseAmountController = TextEditingController();
 
   late ScaffoldMessengerState scaffoldMessenger = ScaffoldMessenger.of(context);
 
   Future updateExpenseName(expenseId, expenseDescriptionId) async {
     FocusManager.instance.primaryFocus?.unfocus();
     var token = await UserPreferences.getToken();
-
-    Map newItem = {
-      "expense_name": expenseNameController.text,
-      "type": editExpenseTitle
-    };
-
-    Map descriptionData = {
-      "description": expenseNameController.text,
-      "type": editExpenseDescription
-    };
 
     if (expenseNameController.text == "") {
       scaffoldMessenger.showSnackBar(const SnackBar(
@@ -56,9 +47,11 @@ class _UpdateExpenseNameState extends State<UpdateExpenseName> {
         loading = true;
       });
 
-      if (expenseDescriptionId == "" ||
-          expenseDescriptionId == "null" ||
-          expenseDescriptionId == null) {
+      if (expenseDescriptionId.isEmpty) {
+        Map newItem = {
+          "expense_name": expenseNameController.text,
+        };
+
         final response = await http.put(
             Uri.parse(Network.updateExpenseName + "/$expenseId"),
             headers: Network.authorizedHeaders(token: token),
@@ -76,16 +69,23 @@ class _UpdateExpenseNameState extends State<UpdateExpenseName> {
         }
       }
 
-      if (expenseDescriptionId != "" || expenseDescriptionId == null) {
+      if (expenseDescriptionId.isNotEmpty) {
+        Map descriptionData = {
+          "amount": expenseAmountController.text,
+          "description": expenseNameController.text,
+          "currency_id": expenseDescriptionId['currency_id']
+        };
+
+        var id = expenseDescriptionId['id'];
+
         final response = await http.put(
-            Uri.parse(Network.updateExpenseName + "/$expenseDescriptionId"),
+            Uri.parse(Network.updateExpenseDetails + "/$id"),
             headers: Network.authorizedHeaders(token: token),
             body: jsonEncode(descriptionData));
 
         if (response.statusCode == 200) {
           PagesGenerator.goTo(context,
               name: "expense-list", params: {"id": widget.expenseId!});
-          FkManageProviders.remove['remove-expense-descriptionId'](context);
         } else {
           scaffoldMessenger.showSnackBar(const SnackBar(
             content: Text(
@@ -102,10 +102,11 @@ class _UpdateExpenseNameState extends State<UpdateExpenseName> {
   Widget build(BuildContext context) {
     final expenseId = widget.expenseId;
     final screenType = widget.screenType;
-    final expenseName = FkManageProviders.get(context)['get-screen-title'];
     final expenseDescriptionId =
         FkManageProviders.get(context)['get-expense-descriptionId'];
     print(expenseDescriptionId);
+    final screenTitle = FkManageProviders.get(context)['get-screen-title'];
+
     return FkScrollViewWidgets.body(context, itemList: [
       Container(
           padding: const EdgeInsets.all(20.0),
@@ -125,8 +126,6 @@ class _UpdateExpenseNameState extends State<UpdateExpenseName> {
                         if (screenType == editExpenseDescription) {
                           PagesGenerator.goTo(context,
                               name: "expense-list", params: {"id": expenseId!});
-                          FkManageProviders
-                              .remove['remove-expense-descriptionId'](context);
                         }
                       })
                 ],
@@ -150,19 +149,41 @@ class _UpdateExpenseNameState extends State<UpdateExpenseName> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    TextFormField(
-                      autofocus: true,
-                      controller: expenseNameController..text = expenseName,
-                      keyboardType: TextInputType.text,
-                      textInputAction: TextInputAction.done,
-                      decoration: InputDecoration(
-                          hintText: 'Expense name',
-                          border: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color: fkInputFormBorderColor, width: 1.0),
-                              borderRadius: BorderRadius.circular(8.0))),
-                      onSaved: (String? value) {},
-                    ),
+                    expenseDescriptionId != null ||
+                            expenseDescriptionId.isNotEmpty
+                        ? TextFormField(
+                            autofocus: true,
+                            controller: expenseNameController
+                              ..text = expenseDescriptionId['name'],
+                            keyboardType: TextInputType.text,
+                            textInputAction: TextInputAction.next,
+                            decoration: InputDecoration(
+                                hintText: 'Expense name',
+                                border: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: fkInputFormBorderColor,
+                                        width: 1.0),
+                                    borderRadius: BorderRadius.circular(8.0))),
+                            onSaved: (String? value) {},
+                          )
+                        : Container(),
+                    expenseDescriptionId == null
+                        ? TextFormField(
+                            autofocus: true,
+                            controller: expenseNameController
+                              ..text = screenTitle,
+                            keyboardType: TextInputType.text,
+                            textInputAction: TextInputAction.next,
+                            decoration: InputDecoration(
+                                hintText: 'Expense name',
+                                border: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: fkInputFormBorderColor,
+                                        width: 1.0),
+                                    borderRadius: BorderRadius.circular(8.0))),
+                            onSaved: (String? value) {},
+                          )
+                        : Container(),
                     verticalSpaceMedium,
                     Container(
                       width: MediaQuery.of(context).size.width,

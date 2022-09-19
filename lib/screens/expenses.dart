@@ -240,8 +240,8 @@ class _ExpensesPageState extends State<ExpensesPage> {
                                   label: "Edit title",
                                   backgroundColor: updateBtnColor,
                                   onPressed: ((context) {
+                                    //! save-expense-descriptionId
                                     screenTitle(context,
-                                        expenseDescriptionId: "",
                                         screenTitle:
                                             "${snapshot.data?[index].expenseName}");
                                     PagesGenerator.goTo(context,
@@ -285,9 +285,9 @@ class _ExpensesPageState extends State<ExpensesPage> {
                                 )),
                             onTap: () {
                               screenTitle(context,
-                                  expenseDescriptionId: "",
                                   screenTitle:
                                       "${snapshot.data?[index].expenseName}");
+
                               PagesGenerator.goTo(context,
                                   name: "expense-list",
                                   params: {
