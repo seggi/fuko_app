@@ -110,7 +110,7 @@ class _ExpenseReportState extends State<ExpenseReport> {
                             style: const TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w500,
-                                color: fkGreyText),
+                                color: fkBlackText),
                           ),
                           const SizedBox(
                             width: 2,

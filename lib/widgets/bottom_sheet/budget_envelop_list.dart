@@ -86,8 +86,8 @@ class _BudgetEnvelopListState extends State<BudgetEnvelopList> {
                                               snapshot.data?[index].isSelected,
                                           title: Text(
                                               "${snapshot.data?[index].budgetCategory}"),
-                                          subtitle: Text(snapshot
-                                              .data?[index].amountInitial),
+                                          subtitle: Text(
+                                              "${snapshot.data?[index].initialAmount}"),
                                           onChanged: (bool? newValue) {
                                             setState(() {
                                               snapshot.data?[index].isSelected =
@@ -101,7 +101,7 @@ class _BudgetEnvelopListState extends State<BudgetEnvelopList> {
                                                     "envelope":
                                                         "${snapshot.data?[index].budgetCategory}",
                                                     "amount":
-                                                        "${snapshot.data?[index].amountInitial}"
+                                                        "${snapshot.data?[index].initialAmount}"
                                                   });
                                             }
                                             snapshot.data?[index].isSelected =

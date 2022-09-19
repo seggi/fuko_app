@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:fuko_app/controllers/manage_provider.dart';
+import 'package:fuko_app/controllers/page_generator.dart';
+import 'package:fuko_app/utils/constant.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 
@@ -59,6 +63,9 @@ Widget reportCard(context,
     borrowerId,
     paymentStatus,
     trailingText,
+    expenseName,
+    expenseId,
+    expenseDescriptionId,
     String? bdTxt,
     fn}) {
   return ReportCard(
@@ -71,6 +78,8 @@ Widget reportCard(context,
       currency: currency,
       amount: amount,
       trailingText: trailingText,
+      expenseId: expenseId,
+      expenseDescriptionId: expenseDescriptionId,
       titleTxt: titleTxt);
 }
 
@@ -86,6 +95,9 @@ class ReportCard extends StatefulWidget {
   final String? borrowerId;
   final String? paymentStatus;
   final String? trailingText;
+  final String? expenseName;
+  final String? expenseId;
+  final String? expenseDescriptionId;
 
   const ReportCard(
       {Key? key,
@@ -99,6 +111,9 @@ class ReportCard extends StatefulWidget {
       this.borrowerId,
       this.paymentStatus,
       this.trailingText,
+      this.expenseName,
+      this.expenseId,
+      this.expenseDescriptionId,
       this.currencyCode})
       : super(key: key);
 
@@ -114,54 +129,86 @@ class _ReportCardState extends State<ReportCard> {
     final amount = widget.amount;
     final titleTxt = widget.titleTxt;
     final trailingText = widget.trailingText;
-
+    final expenseId = widget.expenseId;
+    final expenseName = widget.expenseName;
+    final expenseDescriptionId = widget.expenseDescriptionId;
+    final currencyId = widget.currencyCode;
+    final screenTitle = FkManageProviders.get(context)['get-screen-title'];
+    final saveScreenTitle = FkManageProviders.save["save-screen-title"];
     return Card(
-      child: ListTile(
-        leading: ClipRRect(
-          borderRadius: BorderRadius.circular(8),
-          child: Container(
-            width: 50,
-            height: 50,
-            padding: const EdgeInsets.all(8.0),
-            color: fkBlueText,
-            child: FittedBox(
-              child: Column(
-                children: [
-                  Text(
-                    monthText!,
-                    style: const TextStyle(fontSize: 15, color: fkWhiteText),
-                  ),
-                  Text(leadingText!,
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w800,
-                          fontSize: 24))
-                ],
+      child: Slidable(
+        startActionPane: ActionPane(
+          motion: const StretchMotion(),
+          children: [
+            SlidableAction(
+                flex: 2,
+                icon: Icons.update,
+                label: "Edit description",
+                backgroundColor: updateBtnColor,
+                onPressed: ((context) {
+                  saveScreenTitle(context,
+                      screenTitle: screenTitle,
+                      expenseDescriptionId: {
+                        "name": titleTxt,
+                        "id": expenseDescriptionId,
+                        "currency_id": currencyId
+                      });
+                  PagesGenerator.goTo(context,
+                      name: "update-expense-name",
+                      params: {
+                        "id": expenseId!,
+                        "screenType": editExpenseDescription,
+                      });
+                }))
+          ],
+        ),
+        child: ListTile(
+          leading: ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: Container(
+              width: 50,
+              height: 50,
+              padding: const EdgeInsets.all(8.0),
+              color: fkBlueText,
+              child: FittedBox(
+                child: Column(
+                  children: [
+                    Text(
+                      monthText!,
+                      style: const TextStyle(fontSize: 15, color: fkWhiteText),
+                    ),
+                    Text(leadingText!,
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w800,
+                            fontSize: 24))
+                  ],
+                ),
               ),
             ),
           ),
+          subtitle: Row(
+            children: [
+              Text(amount!,
+                  style: const TextStyle(
+                      color: fkGreyText,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 18))
+            ],
+          ),
+          title: Text(titleTxt!,
+              style: const TextStyle(
+                  color: fkBlackText,
+                  overflow: TextOverflow.visible,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 16)),
+          trailing: trailingText == "From: null" || trailingText == null
+              ? const Text("")
+              : Text(
+                  trailingText,
+                  style: const TextStyle(fontWeight: FontWeight.w300),
+                ),
         ),
-        subtitle: Row(
-          children: [
-            Text(amount!,
-                style: const TextStyle(
-                    color: fkGreyText,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 18))
-          ],
-        ),
-        title: Text(titleTxt!,
-            style: const TextStyle(
-                color: fkBlackText,
-                overflow: TextOverflow.visible,
-                fontWeight: FontWeight.w400,
-                fontSize: 16)),
-        trailing: trailingText == "From: null" || trailingText == null
-            ? const Text("")
-            : Text(
-                trailingText,
-                style: const TextStyle(fontWeight: FontWeight.w300),
-              ),
       ),
     );
   }

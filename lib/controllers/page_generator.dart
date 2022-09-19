@@ -188,10 +188,14 @@ class PagesGenerator {
               ),
               GoRoute(
                 name: "update-expense-name",
-                path: 'update-expense-name/:id',
+                path: 'update-expense-name/:id/:screenType',
                 builder: (context, state) {
-                  var data = state.params['id']!;
-                  return UpdateExpenseName(expenseId: data);
+                  var expenseId = state.params['id']!;
+                  var screenType = state.params['screenType']!;
+                  return UpdateExpenseName(
+                    expenseId: expenseId,
+                    screenType: screenType,
+                  );
                 },
               ),
               GoRoute(

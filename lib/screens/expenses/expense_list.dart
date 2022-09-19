@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/core/default_data.dart';
@@ -29,6 +30,7 @@ class _ExpenseListState extends State<ExpenseList> {
 
   @override
   Widget build(BuildContext context) {
+    final screenId = widget.id;
     var selectedCurrency =
         FkManageProviders.get(context)["get-default-currency"];
     var setCurrency =
@@ -36,22 +38,24 @@ class _ExpenseListState extends State<ExpenseList> {
 
     final screenTitle = FkManageProviders.get(context)['get-screen-title'];
 
-    return FkContentBoxWidgets.body(context, 'savings list', fn: () {
+    return FkContentBoxWidgets.body(context, 'savings', fn: () {
       PagesGenerator.goTo(context,
-          name: "save-expenses", params: {"id": widget.id});
+          name: "save-expenses", params: {"id": screenId});
     }, itemList: [
       Padding(
-        padding: const EdgeInsets.only(right: 20.0, left: 20.0, top: 20.0),
+        padding: const EdgeInsets.only(right: 20.0, left: 20.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Row(
               children: [
-                InkWell(
-                    onTap: () async {
+                IconButton(
+                    onPressed: () async {
                       PagesGenerator.goTo(context, pathName: "/expenses");
+                      FkManageProviders
+                          .remove['remove-expense-descriptionId'](context);
                     },
-                    child: const Icon(
+                    icon: const Icon(
                       Icons.arrow_back_ios,
                       size: 20,
                     )),
@@ -151,7 +155,7 @@ class _ExpenseListState extends State<ExpenseList> {
                   style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
-                      color: fkGreyText),
+                      color: fkBlackText),
                 )));
           },
         ),
@@ -184,31 +188,29 @@ class _ExpenseListState extends State<ExpenseList> {
                       var dateTime =
                           DateTime.parse("${snapshot.data?[index].createdAt}");
 
-                      return Container(
-                        margin: const EdgeInsets.only(top: 0.0),
-                        child: reportCard(context,
-                            monthText: toBeginningOfSentenceCase(
-                                months[dateTime.month - 1]),
-                            leadingText: "${dateTime.day}",
-                            currency: "",
-                            amount: snapshot.data?[index].amount,
-                            titleTxt: snapshot.data?[index].description ??
-                                "No description",
-                            bdTxt: snapshot.data?[index].description,
-                            fn: () {}),
-                      );
+                      return reportCard(context,
+                          monthText: toBeginningOfSentenceCase(
+                              months[dateTime.month - 1]),
+                          leadingText: "${dateTime.day}",
+                          currency: "",
+                          expenseName: snapshot.data?[index].description ??
+                              "No description",
+                          expenseId: screenId,
+                          currencyCode: setCurrency,
+                          amount: snapshot.data?[index].amount,
+                          titleTxt: snapshot.data?[index].description ??
+                              "No description",
+                          bdTxt: snapshot.data?[index].description,
+                          expenseDescriptionId: snapshot.data?[index].expenseId,
+                          fn: () {});
                     },
                   ),
                 ),
               );
             } else if (snapshot.hasError) {
-              return const Center(child: Text('Something went wrong:('));
+              return const Center(child: Text('Something went wrong 😟'));
             }
-            return const Center(
-              child: CircularProgressIndicator(
-                strokeWidth: 2.0,
-              ),
-            );
+            return const SizedBox();
           },
         ),
       ),

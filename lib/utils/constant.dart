@@ -11,6 +11,8 @@ int acceptRequest = 2;
 int rejectRequest = 3;
 String memberShipId = "0";
 int defaultEnvelop = 8;
+String editExpenseDescription = "edit-expense-description";
+String editExpenseTitle = "edit-expense-title";
 
 late Future<List<GetCurrencies>> retrieveCurrencies;
 late Future<List<GetMonths>> retrieveMonths;
