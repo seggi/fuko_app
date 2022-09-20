@@ -370,20 +370,6 @@ class FkTabBarView {
                   indicatorColor: Colors.deepOrange,
                   tabs: [...pageTitle],
                 ),
-                actions: [
-                  IconButton(
-                      onPressed: addFn,
-                      icon: const Icon(
-                        Icons.add_circle_outline,
-                        color: fkWhiteText,
-                      )),
-                  IconButton(
-                      onPressed: paymentFn,
-                      icon: const Icon(
-                        Icons.payment,
-                        color: fkWhiteText,
-                      ))
-                ],
               )
             ];
           },
