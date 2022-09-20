@@ -71,23 +71,16 @@ class _LenderLoanListState extends State<LenderLoanList> {
           deptMembership: deptMemberShip);
     });
 
-    return FkTabBarView.tabBar(context, addFn: () {
-      PagesGenerator.goTo(context,
-          name: "save-loan",
-          params: {"id": loanCategoryId, "deptMemberShip": deptMemberShip});
-    }, paymentFn: () {
-      PagesGenerator.goTo(
-        context,
-        name: "pay-private-loan",
-        params: {"id": loanCategoryId, "deptMemberShip": deptMemberShip},
-      );
-    }, screenTitle: screenTitle, pageTitle: const [
-      Tab(child: Text("Loan")),
-      Tab(child: Text("Amount Paid"))
-    ], page: [
-      pageOne(),
-      pageTwo()
-    ]);
+    return FkTabBarView.tabBar(context,
+        screenTitle: screenTitle,
+        pageTitle: const [
+          Tab(child: Text("Loan")),
+          Tab(child: Text("Amount Paid"))
+        ],
+        page: [
+          pageOne(),
+          pageTwo()
+        ]);
   }
 
   Widget pageOne() {

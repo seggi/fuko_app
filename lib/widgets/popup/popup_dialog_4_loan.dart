@@ -64,7 +64,10 @@ class _RegisterLoanState extends State<RegisterLoan> {
   @override
   Widget build(BuildContext context) {
     var selectedCurrency = FkManageProviders.get(context)["get-currency"];
-    return SizedBox(
+    final width = MediaQuery.of(context).size.width;
+    return Container(
+      width: width,
+      padding: const EdgeInsets.only(left: 8.0, right: 8.0),
       child: SingleChildScrollView(
         child: Form(
           key: _formKey,
@@ -117,21 +120,22 @@ class _RegisterLoanState extends State<RegisterLoan> {
                     ),
                   ),
                   horizontalSpaceSmall,
-                  Container(
-                    width: 200,
-                    decoration: BoxDecoration(
-                        color: fkDefaultColor,
-                        borderRadius: BorderRadius.circular(8.0),
-                        border: Border.all(
-                          width: 2.0,
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
                           color: fkDefaultColor,
-                        )),
-                    child: TextButton(
-                      onPressed: () =>
-                          registerLoan(selectedCurrency: selectedCurrency),
-                      child: const Icon(
-                        Icons.add,
-                        color: fkWhiteText,
+                          borderRadius: BorderRadius.circular(8.0),
+                          border: Border.all(
+                            width: 2.0,
+                            color: fkDefaultColor,
+                          )),
+                      child: TextButton(
+                        onPressed: () =>
+                            registerLoan(selectedCurrency: selectedCurrency),
+                        child: const Icon(
+                          Icons.add,
+                          color: fkWhiteText,
+                        ),
                       ),
                     ),
                   ),

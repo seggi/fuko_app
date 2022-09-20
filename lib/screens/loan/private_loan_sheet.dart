@@ -68,7 +68,8 @@ class _PrivateLoanSheetState extends State<PrivateLoanSheet> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "${double.parse(snapshot.data!.totalLoan)}",
+                                    moneyFormat(
+                                        amount: snapshot.data!.totalLoan),
                                     overflow: TextOverflow.ellipsis,
                                     style: const TextStyle(
                                         fontSize: 28,
@@ -229,6 +230,43 @@ class _PrivateLoanSheetState extends State<PrivateLoanSheet> {
                                 fontWeight: FontWeight.w600,
                                 fontSize: 16,
                               ),
+                            ),
+                          ),
+                          trailing: SizedBox(
+                            width: 100,
+                            child: Row(
+                              children: [
+                                IconButton(
+                                  onPressed: () {
+                                    PagesGenerator.goTo(context,
+                                        name: "save-loan",
+                                        params: {
+                                          "id": "${snapshot.data?[index].id}",
+                                          "deptMemberShip": memberShipId
+                                        });
+                                  },
+                                  icon: const Icon(
+                                    Icons.post_add,
+                                    color: fkBlackText,
+                                  ),
+                                ),
+                                IconButton(
+                                  onPressed: () {
+                                    PagesGenerator.goTo(
+                                      context,
+                                      name: "pay-private-loan",
+                                      params: {
+                                        "id": "${snapshot.data?[index].id}",
+                                        "deptMemberShip": memberShipId
+                                      },
+                                    );
+                                  },
+                                  icon: const Icon(
+                                    Icons.payments_outlined,
+                                    color: fkBlackText,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                           onTap: () {

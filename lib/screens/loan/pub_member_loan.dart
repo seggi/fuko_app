@@ -191,6 +191,45 @@ class _PubMemberLoanNotebookSheetState
                               ),
                             ),
                           ),
+                          trailing: SizedBox(
+                            width: 100,
+                            child: Row(
+                              children: [
+                                IconButton(
+                                  onPressed: () {
+                                    PagesGenerator.goTo(context,
+                                        name: "save-loan",
+                                        params: {
+                                          "id": "${snapshot.data?[index].id}",
+                                          "deptMemberShip":
+                                              "${snapshot.data?[index].deptMemberShip}"
+                                        });
+                                  },
+                                  icon: const Icon(
+                                    Icons.post_add,
+                                    color: fkBlackText,
+                                  ),
+                                ),
+                                IconButton(
+                                  onPressed: () {
+                                    PagesGenerator.goTo(
+                                      context,
+                                      name: "pay-private-loan",
+                                      params: {
+                                        "id": "${snapshot.data?[index].id}",
+                                        "deptMemberShip":
+                                            "${snapshot.data?[index].deptMemberShip}"
+                                      },
+                                    );
+                                  },
+                                  icon: const Icon(
+                                    Icons.payments_outlined,
+                                    color: fkBlackText,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                       ),
                       onTap: () {
