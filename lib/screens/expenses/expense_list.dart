@@ -38,6 +38,10 @@ class _ExpenseListState extends State<ExpenseList> {
 
     final screenTitle = FkManageProviders.get(context)['get-screen-title'];
 
+    final saveScreenTitle = FkManageProviders.save["save-screen-title"];
+    final saveExpenseDescriptionId =
+        FkManageProviders.save["save-expense-descriptionId"];
+
     return FkContentBoxWidgets.body(context, 'savings', fn: () {
       PagesGenerator.goTo(context,
           name: "save-expenses", params: {"id": screenId});
@@ -202,7 +206,24 @@ class _ExpenseListState extends State<ExpenseList> {
                               "No description",
                           bdTxt: snapshot.data?[index].description,
                           expenseDescriptionId: snapshot.data?[index].expenseId,
-                          fn: () {});
+                          fn: () {
+                        saveScreenTitle(context, screenTitle: screenTitle);
+
+                        saveExpenseDescriptionId(context,
+                            expenseDescriptionId: {
+                              "name": snapshot.data?[index].description ??
+                                  "No description",
+                              "id": snapshot.data?[index].expenseId,
+                              "currency_id": setCurrency
+                            });
+
+                        PagesGenerator.goTo(context,
+                            name: "update-expense-name",
+                            params: {
+                              "id": screenId,
+                              "screenType": editExpenseDescription,
+                            });
+                      });
                     },
                   ),
                 ),

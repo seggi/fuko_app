@@ -44,3 +44,4 @@ export './notification.dart';
 export 'profile.dart';
 export 'profile/upload_picture.dart';
 export 'profile/edit_profile.dart';
+export 'saving/update_saving.dart';

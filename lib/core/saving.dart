@@ -9,12 +9,14 @@ class RetrieveSaving {
   final String? createdAt;
   final String? updatedAat;
   final String? currencyCode;
+  final String? id;
 
   RetrieveSaving(
       {this.amount,
       this.description,
       this.createdAt,
       this.updatedAat,
+      this.id,
       this.currencyCode});
 
   factory RetrieveSaving.fromJson(Map<String, dynamic> json) {
@@ -23,6 +25,7 @@ class RetrieveSaving {
         description: json["description"].toString(),
         createdAt: json["created_at"].toString(),
         updatedAat: json["updated_at"].toString(),
+        id: json["id"].toString(),
         currencyCode: json["code"].toString());
   }
 }

@@ -42,6 +42,8 @@ class _SavingPageState extends State<SavingPage> {
     var setCurrency =
         selectedCurrency != '' ? selectedCurrency : defaultCurrency.toString();
 
+    final saveSavingData = FkManageProviders.save["save-select-item"];
+
     setState(() {
       retrieveSavingTotal = fetchRetrieveSavingTotal(setCurrency: setCurrency);
       retrieveSavings = fetchRetrieveSaving(setCurrency: setCurrency);
@@ -60,6 +62,7 @@ class _SavingPageState extends State<SavingPage> {
                 IconButton(
                     onPressed: () async {
                       PagesGenerator.goTo(context, pathName: "/?status=true");
+                      FkManageProviders.remove['remove-items'];
                     },
                     icon: const Icon(
                       Icons.arrow_back_ios,
@@ -232,29 +235,26 @@ class _SavingPageState extends State<SavingPage> {
 
                     return Container(
                       margin: const EdgeInsets.only(top: 0.0),
-                      child: Slidable(
-                        startActionPane: ActionPane(
-                          motion: const StretchMotion(),
-                          children: [
-                            SlidableAction(
-                                flex: 2,
-                                icon: Icons.update,
-                                label: "Update title && amount",
-                                backgroundColor: updateBtnColor,
-                                onPressed: ((context) {}))
-                          ],
-                        ),
-                        child: reportCard(context,
-                            monthText: toBeginningOfSentenceCase(
-                                months[dateTime.month - 1]),
-                            leadingText: "${dateTime.day} s",
-                            currency: snapshot.data?[index].currencyCode,
-                            amount: moneyFormat(
-                                amount: snapshot.data?[index].amount),
-                            titleTxt: "${snapshot.data?[index].description}",
-                            bdTxt: snapshot.data?[index].description,
-                            fn: () {}),
-                      ),
+                      child: reportCard(context,
+                          monthText: toBeginningOfSentenceCase(
+                              months[dateTime.month - 1]),
+                          leadingText: "${dateTime.day}",
+                          currency: snapshot.data?[index].currencyCode,
+                          amount:
+                              moneyFormat(amount: snapshot.data?[index].amount),
+                          titleTxt: "${snapshot.data?[index].description}",
+                          bdTxt: snapshot.data?[index].description, fn: () {
+                        saveSavingData(context, itemData: {
+                          "description": "${snapshot.data?[index].description}",
+                          "id": snapshot.data?[index].id,
+                          "amount": snapshot.data?[index].amount
+                        });
+
+                        PagesGenerator.goTo(
+                          context,
+                          name: "update-saving",
+                        );
+                      }),
                     );
                   },
                 ),
