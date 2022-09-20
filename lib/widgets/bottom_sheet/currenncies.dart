@@ -29,110 +29,94 @@ class _CurrencyButtonSheetState extends State<CurrencyButtonSheet> {
       onPressed: () {
         showModalBottomSheet(
             context: context,
+            isScrollControlled: true,
             builder: (context) {
-              return Column(
-                children: [
-                  verticalSpaceSmall,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text(
-                          "Currencies",
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold),
+              return FractionallySizedBox(
+                heightFactor: 0.9,
+                child: Column(
+                  children: [
+                    verticalSpaceSmall,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.all(20.0),
+                          child: Text(
+                            "Currencies",
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
                         ),
-                      ),
-                      // Container(
-                      //   padding: const EdgeInsets.all(8.0),
-                      //   child: SizedBox(
-                      //     width: 280,
-                      //     child: TextField(
-                      //       decoration: InputDecoration(
-                      //         contentPadding: const EdgeInsets.all(2.0),
-                      //         hintText: 'Search',
-                      //         prefixIcon: const Icon(Icons.search),
-                      //         border: OutlineInputBorder(
-                      //             borderSide: const BorderSide(
-                      //                 width: 1.0, color: fkGreyText),
-                      //             borderRadius: BorderRadius.circular(4.0)),
-                      //       ),ƒ
-                      //       autofocus: true,
-                      //       onChanged: (value) {
-                      //         setState(() {
-                      //           searchString = value.toLowerCase();
-                      //         });
-                      //       },
-                      //     ),
-                      //   ),
-                      // ),
-                    ],
-                  ),
-                  verticalSpaceSmall,
-                  Expanded(
-                    child: FutureBuilder(
-                      future: retrieveCurrencies,
-                      builder: (
-                        BuildContext context,
-                        AsyncSnapshot snapshot,
-                      ) {
-                        if (snapshot.hasData) {
-                          if (snapshot.data.isEmpty) {
-                            return Container(
-                                margin: const EdgeInsets.only(top: 0.0),
-                                child: const Center(
-                                    child: Text("No expense saved yet!")));
-                          }
-                          return SizedBox(
-                            child: NotificationListener<
-                                OverscrollIndicatorNotification>(
-                              onNotification: (OverscrollIndicatorNotification?
-                                  overscroll) {
-                                overscroll!.disallowIndicator();
-                                return true;
-                              },
-                              child: ListView.builder(
-                                shrinkWrap: true,
-                                padding: const EdgeInsets.all(8),
-                                itemCount: snapshot.data!.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return Container(
-                                      margin: const EdgeInsets.only(top: 0.0),
-                                      child: Card(
-                                        child: ListTile(
-                                          leading: const Icon(
-                                              Icons.currency_exchange),
-                                          title: Text(
-                                              "${snapshot.data?[index].currencyCode}"),
-                                          subtitle: Text(snapshot
-                                                  .data?[index].description ??
-                                              "No description"),
-                                          onTap: () {
-                                            setCurrencyId(context,
-                                                currencyId: snapshot
-                                                    .data?[index].currencyId);
-                                            Navigator.pop(context);
-                                          },
-                                        ),
-                                      ));
+                        IconButton(
+                            onPressed: () => Navigator.pop(context),
+                            icon: const Icon(Icons.cancel_outlined))
+                      ],
+                    ),
+                    verticalSpaceSmall,
+                    Expanded(
+                      child: FutureBuilder(
+                        future: retrieveCurrencies,
+                        builder: (
+                          BuildContext context,
+                          AsyncSnapshot snapshot,
+                        ) {
+                          if (snapshot.hasData) {
+                            if (snapshot.data.isEmpty) {
+                              return Container(
+                                  margin: const EdgeInsets.only(top: 0.0),
+                                  child: const Center(
+                                      child: Text("No currencies found!")));
+                            }
+                            return SizedBox(
+                              child: NotificationListener<
+                                  OverscrollIndicatorNotification>(
+                                onNotification:
+                                    (OverscrollIndicatorNotification?
+                                        overscroll) {
+                                  overscroll!.disallowIndicator();
+                                  return true;
                                 },
+                                child: ListView.builder(
+                                  shrinkWrap: true,
+                                  padding: const EdgeInsets.all(8),
+                                  itemCount: snapshot.data!.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return Card(
+                                      child: ListTile(
+                                        leading:
+                                            const Icon(Icons.currency_exchange),
+                                        title: Text(
+                                            "${snapshot.data?[index].currencyCode}"),
+                                        subtitle: Text(
+                                            snapshot.data?[index].description ??
+                                                "No description"),
+                                        onTap: () {
+                                          setCurrencyId(context,
+                                              currencyId: snapshot
+                                                  .data?[index].currencyId);
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                    );
+                                  },
+                                ),
                               ),
+                            );
+                          } else if (snapshot.hasError) {
+                            return const Center(
+                                child: Text('Something went wrong:('));
+                          }
+                          return const Center(
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2.0,
                             ),
                           );
-                        } else if (snapshot.hasError) {
-                          return const Center(
-                              child: Text('Something went wrong:('));
-                        }
-                        return const Center(
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2.0,
-                          ),
-                        );
-                      },
+                        },
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               );
             });
       },

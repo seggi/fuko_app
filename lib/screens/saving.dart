@@ -116,7 +116,7 @@ class _SavingPageState extends State<SavingPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "${double.parse(snapshot.data!.totalAmount)}",
+                                moneyFormat(amount: snapshot.data!.totalAmount),
                                 overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
                                     fontSize: 28,
@@ -185,29 +185,13 @@ class _SavingPageState extends State<SavingPage> {
                   }
                   return Container(
                       padding: const EdgeInsets.all(20.0),
-                      child: const Center(
-                          child: Text(
-                        "Loading Amount...",
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: fkGreyText),
-                      )));
+                      child: const Center());
                 },
               ),
             ],
           ),
         ),
         verticalSpaceTiny,
-        const Align(
-          alignment: Alignment.bottomLeft,
-          child: Text(
-            "Current month savings",
-            style: TextStyle(
-                color: fkBlackText, fontWeight: FontWeight.w400, fontSize: 14),
-          ),
-        ),
       ]),
       FutureBuilder<List<RetrieveSaving>>(
         future: retrieveSavings,
@@ -265,7 +249,8 @@ class _SavingPageState extends State<SavingPage> {
                                 months[dateTime.month - 1]),
                             leadingText: "${dateTime.day} s",
                             currency: snapshot.data?[index].currencyCode,
-                            amount: snapshot.data?[index].amount,
+                            amount: moneyFormat(
+                                amount: snapshot.data?[index].amount),
                             titleTxt: "${snapshot.data?[index].description}",
                             bdTxt: snapshot.data?[index].description,
                             fn: () {}),

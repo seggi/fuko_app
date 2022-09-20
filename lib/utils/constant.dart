@@ -2,6 +2,7 @@ import 'package:fuko_app/core/budget.dart';
 import 'package:fuko_app/core/currency_data.dart';
 import 'package:fuko_app/core/months_data.dart';
 import 'package:intl/intl.dart';
+import 'package:money_formatter/money_formatter.dart';
 
 var defaultCurrency = 150;
 var income = 1;
@@ -68,3 +69,8 @@ List<Map<String, Object>> budgetPeriodList = [
         "Use Annualized Budget when you want to project the actual current year amounts to the end of the year."
   },
 ];
+
+moneyFormat({amount}) {
+  MoneyFormatter formattedAmount = MoneyFormatter(amount: double.parse(amount));
+  return formattedAmount.output.nonSymbol;
+}
