@@ -10,34 +10,32 @@ import '../../widgets/shared/style.dart';
 import '../../widgets/shared/ui_helper.dart';
 import '../content_box_widgets.dart';
 
-class UpdateSaving extends StatefulWidget {
-  const UpdateSaving({Key? key}) : super(key: key);
+class UpdateLoan extends StatefulWidget {
+  const UpdateLoan({Key? key}) : super(key: key);
 
   @override
-  State<UpdateSaving> createState() => _UpdateSavingState();
+  State<UpdateLoan> createState() => _UpdateLoanState();
 }
 
-class _UpdateSavingState extends State<UpdateSaving> {
+class _UpdateLoanState extends State<UpdateLoan> {
   final _formKey = GlobalKey();
   bool loading = false;
 
-  TextEditingController descriptionController = TextEditingController();
-  TextEditingController amountController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
 
   late ScaffoldMessengerState scaffoldMessenger = ScaffoldMessenger.of(context);
 
-  Future updateSavingData(
-    savingData,
+  Future updateLoanName(
+    loanData,
   ) async {
     FocusManager.instance.primaryFocus?.unfocus();
     var token = await UserPreferences.getToken();
-    var savingId = savingData["id"];
+    var loanId = loanData["id"];
     Map newItem = {
-      "description": descriptionController.text,
-      "amount": amountController.text,
+      "partner_name": nameController.text,
     };
 
-    if (descriptionController.text == "") {
+    if (nameController.text == "") {
       scaffoldMessenger.showSnackBar(const SnackBar(
           content: Text(
         "Please fill all fields.",
@@ -51,13 +49,16 @@ class _UpdateSavingState extends State<UpdateSaving> {
       });
 
       final response = await http.put(
-          Uri.parse(Network.updateSaving + "/$savingId"),
+          Uri.parse(Network.updateLoanName + "/$loanId"),
           headers: Network.authorizedHeaders(token: token),
           body: jsonEncode(newItem));
 
       if (response.statusCode == 200) {
-        PagesGenerator.goTo(context, pathName: "/saving?status=true");
+        PagesGenerator.goTo(context, pathName: "/loan?status=true");
       } else {
+        setState(() {
+          loading = false;
+        });
         scaffoldMessenger.showSnackBar(const SnackBar(
           content: Text(
             "Error from server",
@@ -70,7 +71,7 @@ class _UpdateSavingState extends State<UpdateSaving> {
 
   @override
   Widget build(BuildContext context) {
-    final getSaving = FkManageProviders.get(context)['get-item-selected'];
+    final getLoanData = FkManageProviders.get(context)['get-item-selected'];
 
     return FkScrollViewWidgets.body(context, itemList: [
       Container(
@@ -84,7 +85,7 @@ class _UpdateSavingState extends State<UpdateSaving> {
                   IconButton(
                       icon: const Icon(Icons.cancel_outlined),
                       onPressed: () => PagesGenerator.goTo(context,
-                          pathName: "/saving?status=true"))
+                          pathName: "/loan?status=true"))
                 ],
               ),
             ),
@@ -92,7 +93,7 @@ class _UpdateSavingState extends State<UpdateSaving> {
             Container(
               alignment: Alignment.bottomLeft,
               child: const Text(
-                "Edit saving",
+                "Edit loan",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
               ),
             ),
@@ -105,26 +106,12 @@ class _UpdateSavingState extends State<UpdateSaving> {
                   children: [
                     TextFormField(
                       autofocus: true,
-                      controller: descriptionController
-                        ..text = getSaving['description'],
+                      controller: nameController
+                        ..text = getLoanData['lender_name'],
                       keyboardType: TextInputType.text,
                       textInputAction: TextInputAction.next,
                       decoration: InputDecoration(
-                          hintText: 'Saving name',
-                          border: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color: fkInputFormBorderColor, width: 1.0),
-                              borderRadius: BorderRadius.circular(8.0))),
-                      onSaved: (String? value) {},
-                    ),
-                    verticalSpaceRegular,
-                    TextFormField(
-                      autofocus: true,
-                      controller: amountController..text = getSaving['amount'],
-                      keyboardType: TextInputType.text,
-                      textInputAction: TextInputAction.next,
-                      decoration: InputDecoration(
-                          hintText: 'Saving amount',
+                          hintText: 'Loan name',
                           border: OutlineInputBorder(
                               borderSide: const BorderSide(
                                   color: fkInputFormBorderColor, width: 1.0),
@@ -142,7 +129,7 @@ class _UpdateSavingState extends State<UpdateSaving> {
                             color: fkDefaultColor,
                           )),
                       child: TextButton(
-                        onPressed: () => updateSavingData(getSaving),
+                        onPressed: () => updateLoanName(getLoanData),
                         child: loading == false
                             ? const Icon(
                                 Icons.mode_edit,

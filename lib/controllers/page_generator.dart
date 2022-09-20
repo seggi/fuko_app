@@ -334,6 +334,11 @@ class PagesGenerator {
               },
               routes: [
                 GoRoute(
+                  name: "update-loan",
+                  path: 'update-loan',
+                  builder: (context, state) => const UpdateLoan(),
+                ),
+                GoRoute(
                   name: "add-lender-manually",
                   path: 'add-lender-manually',
                   builder: (context, state) => const AddLenderManually(),

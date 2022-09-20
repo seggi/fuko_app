@@ -18,8 +18,6 @@ class _LoanPageState extends State<LoanPage> {
   FkContentBoxWidgets fkContentBoxWidgets = FkContentBoxWidgets();
 
   int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 20, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     PrivateLoanSheet(),
     PubMemberLoanNotebookSheet()

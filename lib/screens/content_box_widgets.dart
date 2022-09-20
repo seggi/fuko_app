@@ -117,7 +117,7 @@ class FkContentBoxWidgets {
               },
               child: SizedBox(
                 child: SingleChildScrollView(
-                  physics: const ClampingScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   child: Column(
                     children: [...itemList],
                   ),
