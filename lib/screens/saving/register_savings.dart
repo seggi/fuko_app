@@ -82,13 +82,14 @@ class _RegisterSavingScreenState extends State<RegisterSavingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
     final List newItems = FkManageProviders.get(context)["get-savings-item"];
     final totalAmount = FkManageProviders.get(context)["get-added-saving"];
 
     return FkScrollViewWidgets.body(context, itemList: [
       Container(
         padding: const EdgeInsets.all(20.0),
-        height: MediaQuery.of(context).size.height,
+        height: height,
         child: Column(
           children: [
             SizedBox(
@@ -105,14 +106,14 @@ class _RegisterSavingScreenState extends State<RegisterSavingScreen> {
                           onPressed: () => _removeAllData(context),
                           icon: const Icon(
                             Icons.delete,
-                            color: Colors.red,
+                            color: fkBlackText,
                             size: 28,
                           )),
                       IconButton(
                           onPressed: () => saveSaving(newItems),
                           icon: const Icon(
                             Icons.save,
-                            color: fkBlueText,
+                            color: fkBlackText,
                             size: 28,
                           ))
                     ],
@@ -160,7 +161,8 @@ class _RegisterSavingScreenState extends State<RegisterSavingScreen> {
               ],
             ),
             verticalSpaceRegular,
-            Expanded(
+            SizedBox(
+              height: height / 3,
               child: newItems.isNotEmpty
                   ? ListView.builder(
                       itemCount: newItems.length,

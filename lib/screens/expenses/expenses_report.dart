@@ -116,7 +116,7 @@ class _ExpenseReportState extends State<ExpenseReport> {
                             width: 2,
                           ),
                           Text(
-                            "${snapshot.data!.totalAmount}",
+                            moneyFormat(amount: snapshot.data!.totalAmount),
                             overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
                                 fontSize: 24,
@@ -151,10 +151,9 @@ class _ExpenseReportState extends State<ExpenseReport> {
                               data: {
                                 "month": "${snapshot.data[index].month}",
                                 "currency": "",
-                                "totalAmount":
-                                    "${snapshot.data[index].totalAmount}",
-                                "description":
-                                    "Achat 4 sacs du Riz & 4 d'huiles",
+                                "totalAmount": moneyFormat(
+                                    amount: snapshot.data[index].totalAmount),
+                                "description": "",
                                 "detailsData": snapshot.data[index]!.data
                               },
                             ),

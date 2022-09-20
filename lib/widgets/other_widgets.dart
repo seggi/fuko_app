@@ -67,7 +67,7 @@ Widget reportCard(context,
     expenseId,
     expenseDescriptionId,
     String? bdTxt,
-    fn}) {
+    Function? fn}) {
   return ReportCard(
       paymentStatus: paymentStatus,
       borrowerId: borrowerId,
@@ -80,6 +80,7 @@ Widget reportCard(context,
       trailingText: trailingText,
       expenseId: expenseId,
       expenseDescriptionId: expenseDescriptionId,
+      fn: fn,
       titleTxt: titleTxt);
 }
 
@@ -98,6 +99,7 @@ class ReportCard extends StatefulWidget {
   final String? expenseName;
   final String? expenseId;
   final String? expenseDescriptionId;
+  final Function? fn;
 
   const ReportCard(
       {Key? key,
@@ -114,7 +116,8 @@ class ReportCard extends StatefulWidget {
       this.expenseName,
       this.expenseId,
       this.expenseDescriptionId,
-      this.currencyCode})
+      this.currencyCode,
+      this.fn})
       : super(key: key);
 
   @override
@@ -124,6 +127,7 @@ class ReportCard extends StatefulWidget {
 class _ReportCardState extends State<ReportCard> {
   @override
   Widget build(BuildContext context) {
+    final fn = widget.fn;
     final monthText = widget.monthText;
     final leadingText = widget.leadingText;
     final amount = widget.amount;
@@ -133,8 +137,7 @@ class _ReportCardState extends State<ReportCard> {
     final expenseName = widget.expenseName;
     final expenseDescriptionId = widget.expenseDescriptionId;
     final currencyId = widget.currencyCode;
-    final screenTitle = FkManageProviders.get(context)['get-screen-title'];
-    final saveScreenTitle = FkManageProviders.save["save-screen-title"];
+
     return Card(
       child: Slidable(
         startActionPane: ActionPane(
@@ -145,21 +148,7 @@ class _ReportCardState extends State<ReportCard> {
                 icon: Icons.update,
                 label: "Edit description",
                 backgroundColor: updateBtnColor,
-                onPressed: ((context) {
-                  saveScreenTitle(context,
-                      screenTitle: screenTitle,
-                      expenseDescriptionId: {
-                        "name": titleTxt,
-                        "id": expenseDescriptionId,
-                        "currency_id": currencyId
-                      });
-                  PagesGenerator.goTo(context,
-                      name: "update-expense-name",
-                      params: {
-                        "id": expenseId!,
-                        "screenType": editExpenseDescription,
-                      });
-                }))
+                onPressed: ((context) => fn!()))
           ],
         ),
         child: ListTile(

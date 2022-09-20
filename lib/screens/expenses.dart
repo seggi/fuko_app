@@ -41,7 +41,6 @@ class _ExpensesPageState extends State<ExpensesPage> {
         FkManageProviders.get(context)["get-default-currency"];
     var setCurrency =
         selectedCurrency != '' ? selectedCurrency : defaultCurrency.toString();
-
     final screenTitle = FkManageProviders.save["save-screen-title"];
 
     if (widget.status == "true") {
@@ -76,12 +75,13 @@ class _ExpensesPageState extends State<ExpensesPage> {
               Row(
                 children: [
                   IconButton(
-                      onPressed: () =>
-                          PagesGenerator.goTo(context, name: "create-expense"),
-                      icon: const Icon(
-                        Icons.add_circle,
-                        color: fkBlackText,
-                      )),
+                    onPressed: () =>
+                        PagesGenerator.goTo(context, name: "create-expense"),
+                    icon: const Icon(
+                      Icons.add_circle,
+                      color: fkBlackText,
+                    ),
+                  ),
                   IconButton(
                       onPressed: () =>
                           PagesGenerator.goTo(context, name: "expense-report"),
@@ -127,7 +127,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
                               ),
                               verticalSpaceTiny,
                               Text(
-                                "${snapshot.data!.totalAmount}",
+                                moneyFormat(amount: snapshot.data!.totalAmount),
                                 overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
                                     fontSize: 28,
@@ -196,15 +196,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
                   }
                   return Container(
                       padding: const EdgeInsets.all(20.0),
-                      child: const Center(
-                          child: Text(
-                        "Loading Amount...",
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: fkGreyText),
-                      )));
+                      child: const Center());
                 },
               ),
             ],
@@ -240,7 +232,6 @@ class _ExpensesPageState extends State<ExpensesPage> {
                                   label: "Edit title",
                                   backgroundColor: updateBtnColor,
                                   onPressed: ((context) {
-                                    //! save-expense-descriptionId
                                     screenTitle(context,
                                         screenTitle:
                                             "${snapshot.data?[index].expenseName}");

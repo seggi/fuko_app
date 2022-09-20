@@ -111,13 +111,13 @@ class _SavingReportState extends State<SavingReport> {
                             style: const TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w500,
-                                color: fkGreyText),
+                                color: fkBlackText),
                           ),
                           const SizedBox(
                             width: 2,
                           ),
                           Text(
-                            "${snapshot.data!.totalAmount}",
+                            moneyFormat(amount: snapshot.data!.totalAmount),
                             overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
                                 fontSize: 24,
@@ -152,8 +152,8 @@ class _SavingReportState extends State<SavingReport> {
                               data: {
                                 "month": "${snapshot.data[index].month}",
                                 "currency": "",
-                                "totalAmount":
-                                    "${snapshot.data[index].totalAmount}",
+                                "totalAmount": moneyFormat(
+                                    amount: snapshot.data[index].totalAmount),
                                 "detailsData": snapshot.data[index]!.data
                               },
                             ),

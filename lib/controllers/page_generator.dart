@@ -261,6 +261,13 @@ class PagesGenerator {
                   return const SavingReport();
                 },
               ),
+              GoRoute(
+                name: "update-saving",
+                path: 'update-saving',
+                builder: (context, state) {
+                  return const UpdateSaving();
+                },
+              ),
             ],
           ),
           GoRoute(
