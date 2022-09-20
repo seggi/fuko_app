@@ -37,6 +37,7 @@ class _PrivateLoanSheetState extends State<PrivateLoanSheet> {
         FkManageProviders.get(context)["get-default-currency"];
     var setCurrency =
         selectedCurrency != '' ? selectedCurrency : defaultCurrency.toString();
+    final saveLoanData = FkManageProviders.save["save-select-item"];
 
     setState(() {
       retrieveLoanAmount = fetchLoanAmount(setCurrency: setCurrency);
@@ -196,19 +197,27 @@ class _PrivateLoanSheetState extends State<PrivateLoanSheet> {
                         );
                       }
 
-                      return Card(
-                        child: Slidable(
-                          startActionPane: ActionPane(
-                            motion: const StretchMotion(),
-                            children: [
-                              SlidableAction(
-                                  flex: 2,
-                                  icon: Icons.update,
-                                  label: "Update name",
-                                  backgroundColor: updateBtnColor,
-                                  onPressed: ((context) {}))
-                            ],
-                          ),
+                      return Slidable(
+                        startActionPane: ActionPane(
+                          motion: const StretchMotion(),
+                          children: [
+                            SlidableAction(
+                                flex: 2,
+                                icon: Icons.update,
+                                label: "Update name",
+                                backgroundColor: updateBtnColor,
+                                onPressed: ((context) {
+                                  saveLoanData(context, itemData: {
+                                    "id": "${snapshot.data?[index].id}",
+                                    "lender_name":
+                                        "${snapshot.data?[index].lenderName != "null" ? snapshot.data![index].lenderName : 'No name provided'}"
+                                  });
+                                  PagesGenerator.goTo(context,
+                                      name: "update-loan");
+                                }))
+                          ],
+                        ),
+                        child: Card(
                           child: ListTile(
                             leading: const Icon(
                               Icons.account_circle_outlined,
