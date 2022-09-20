@@ -104,7 +104,7 @@ class _UpdateExpenseNameState extends State<UpdateExpenseName> {
     final screenType = widget.screenType;
     final expenseDescriptionId =
         FkManageProviders.get(context)['get-expense-descriptionId'];
-    print(expenseDescriptionId);
+
     final screenTitle = FkManageProviders.get(context)['get-screen-title'];
 
     return FkScrollViewWidgets.body(context, itemList: [
@@ -149,8 +149,7 @@ class _UpdateExpenseNameState extends State<UpdateExpenseName> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    expenseDescriptionId != null ||
-                            expenseDescriptionId.isNotEmpty
+                    expenseDescriptionId.isNotEmpty
                         ? TextFormField(
                             autofocus: true,
                             controller: expenseNameController
@@ -167,7 +166,7 @@ class _UpdateExpenseNameState extends State<UpdateExpenseName> {
                             onSaved: (String? value) {},
                           )
                         : Container(),
-                    expenseDescriptionId == null
+                    expenseDescriptionId.isEmpty
                         ? TextFormField(
                             autofocus: true,
                             controller: expenseNameController

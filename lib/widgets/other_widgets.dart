@@ -135,6 +135,8 @@ class _ReportCardState extends State<ReportCard> {
     final currencyId = widget.currencyCode;
     final screenTitle = FkManageProviders.get(context)['get-screen-title'];
     final saveScreenTitle = FkManageProviders.save["save-screen-title"];
+    final saveExpenseDescriptionId =
+        FkManageProviders.save["save-expense-descriptionId"];
     return Card(
       child: Slidable(
         startActionPane: ActionPane(
@@ -146,13 +148,14 @@ class _ReportCardState extends State<ReportCard> {
                 label: "Edit description",
                 backgroundColor: updateBtnColor,
                 onPressed: ((context) {
-                  saveScreenTitle(context,
-                      screenTitle: screenTitle,
-                      expenseDescriptionId: {
-                        "name": titleTxt,
-                        "id": expenseDescriptionId,
-                        "currency_id": currencyId
-                      });
+                  saveScreenTitle(context, screenTitle: screenTitle);
+
+                  saveExpenseDescriptionId(context, expenseDescriptionId: {
+                    "name": titleTxt,
+                    "id": expenseDescriptionId,
+                    "currency_id": currencyId
+                  });
+
                   PagesGenerator.goTo(context,
                       name: "update-expense-name",
                       params: {
