@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
+import 'package:fuko_app/core/loan.dart';
 import 'package:fuko_app/screens/content_box_widgets.dart';
 import 'package:fuko_app/screens/loan/private_loan_sheet.dart';
 import 'package:fuko_app/screens/loan/pub_member_loan.dart';
+import 'package:fuko_app/utils/constant.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/show_modal_bottom_sheet.dart';
 
@@ -18,9 +20,9 @@ class _LoanPageState extends State<LoanPage> {
   FkContentBoxWidgets fkContentBoxWidgets = FkContentBoxWidgets();
 
   int _selectedIndex = 0;
-  static const List<Widget> _widgetOptions = <Widget>[
-    PrivateLoanSheet(),
-    PubMemberLoanNotebookSheet()
+  late final List<Widget> _widgetOptions = <Widget>[
+    const PrivateLoanSheet(),
+    const PubMemberLoanNotebookSheet()
   ];
 
   void _onItemTapped(int index) {
@@ -31,10 +33,6 @@ class _LoanPageState extends State<LoanPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.status == "true") {
-      setState(() {});
-    }
-
     return FkContentBoxWidgets.body(context, 'dept',
         selectedIndex: _selectedIndex,
         onItemTapped: _onItemTapped,
