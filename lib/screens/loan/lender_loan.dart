@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fuko_app/controllers/manage_provider.dart';
-import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/core/default_data.dart';
 import 'package:fuko_app/core/loan.dart';
 import 'package:fuko_app/screens/content_box_widgets.dart';
@@ -14,6 +13,7 @@ import 'package:intl/intl.dart';
 class LenderLoanList extends StatefulWidget {
   final String id;
   final String deptMemberShip;
+
   const LenderLoanList(
       {Key? key, required this.id, required this.deptMemberShip})
       : super(key: key);
@@ -52,7 +52,6 @@ class _LenderLoanListState extends State<LenderLoanList> {
   Widget build(BuildContext context) {
     final loanCategoryId = widget.id;
     final deptMemberShip = widget.deptMemberShip;
-
     // final saveLenderId = FkManageProviders.save["save-lender-id"](context, itemData: widget.id);
     final screenTitle = FkManageProviders.get(context)['get-screen-title'];
     var selectedCurrency =
