@@ -229,6 +229,45 @@ class _PrivateDeptSheetState extends State<PrivateDeptSheet> {
                               ),
                             ),
                           ),
+                          trailing: SizedBox(
+                            width: 100,
+                            child: Row(
+                              children: [
+                                IconButton(
+                                  onPressed: () {
+                                    PagesGenerator.goTo(context,
+                                        name: "save-dept",
+                                        params: {
+                                          "id":
+                                              "${snapshot.data?[index].borrowerId}",
+                                          "loanMembership": memberShipId
+                                        });
+                                  },
+                                  icon: const Icon(
+                                    Icons.post_add,
+                                    color: fkBlackText,
+                                  ),
+                                ),
+                                IconButton(
+                                  onPressed: () {
+                                    PagesGenerator.goTo(
+                                      context,
+                                      name: "pay-private-dept",
+                                      params: {
+                                        "id":
+                                            "${snapshot.data?[index].borrowerId}",
+                                        "loanMembership": memberShipId
+                                      },
+                                    );
+                                  },
+                                  icon: const Icon(
+                                    Icons.payments_outlined,
+                                    color: fkBlackText,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                           onTap: () {
                             screenTitle(context,
                                 screenTitle:

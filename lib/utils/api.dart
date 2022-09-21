@@ -14,6 +14,7 @@ class Network {
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': "Bearer $token",
       };
+
   static String globalAmount = liveUrl! + "/account/global-amount";
   static String addExpenses = liveUrl! + "/account/add-expenses-details";
   static String getExpenses = liveUrl! + "/account/expenses";
@@ -29,6 +30,7 @@ class Network {
       liveUrl! + "/account/savings/retrieve-saving-report";
   static String createExpense = liveUrl! + "/account/create-expenses";
   static String expensesDetails = liveUrl! + "/account/expense-details";
+
   static String getExpensesDetailsByMonth =
       liveUrl! + "/account/expenses-by-month";
   static String getBorrowerList =
