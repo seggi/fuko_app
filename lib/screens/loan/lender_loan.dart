@@ -53,7 +53,7 @@ class _LenderLoanListState extends State<LenderLoanList> {
     final loanCategoryId = widget.id;
     final deptMemberShip = widget.deptMemberShip;
 
-    FkManageProviders.save["save-lender-id"](context, itemData: widget.id);
+    // final saveLenderId = FkManageProviders.save["save-lender-id"](context, itemData: widget.id);
     final screenTitle = FkManageProviders.get(context)['get-screen-title'];
     var selectedCurrency =
         FkManageProviders.get(context)["get-default-currency"];
