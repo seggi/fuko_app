@@ -5,6 +5,9 @@ class SelectFromDataList extends ChangeNotifier {
   Map _periods = {};
   String _requestNumber = '';
   String _id = '';
+  double _computeTotalAmount = 0.0;
+  double _amountOne = 0.0;
+  double _amountTwo = 0.0;
   final List _itemList = [];
 
   Map get getNewItem => _items;
@@ -12,6 +15,9 @@ class SelectFromDataList extends ChangeNotifier {
   String get getId => _id;
   List get getNewItemList => _itemList;
   String get getRequestNumber => _requestNumber;
+  double get getTotalComputedAmount => _computeTotalAmount;
+  double get getAmountOne => _amountOne;
+  double get getAmountTwo => _amountTwo;
 
   void add(Map item) {
     _items = item;
@@ -50,6 +56,28 @@ class SelectFromDataList extends ChangeNotifier {
 
   void removeEnvelope() {
     _items.clear();
+    notifyListeners();
+  }
+
+  void amountOne(double amount) {
+    _amountOne = amount;
+    notifyListeners();
+  }
+
+  void amountTwo(double amount) {
+    _amountTwo = amount;
+    notifyListeners();
+  }
+
+  void manageTotalAmount() {
+    _computeTotalAmount = _amountOne + _amountTwo;
+    notifyListeners();
+  }
+
+  void removeTotalAmount() {
+    _amountTwo = 0.0;
+    _amountOne = 0.0;
+    print("::::");
     notifyListeners();
   }
 }

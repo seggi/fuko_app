@@ -272,6 +272,8 @@ class _PrivateDeptSheetState extends State<PrivateDeptSheet> {
                             screenTitle(context,
                                 screenTitle:
                                     "${snapshot.data?[index].borrowerName}");
+                            FkManageProviders
+                                .remove['remove-amount-saved'](context);
                             PagesGenerator.goTo(context,
                                 name: "borrower_dept_details",
                                 params: {

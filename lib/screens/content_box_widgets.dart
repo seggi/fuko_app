@@ -349,6 +349,7 @@ class FkTabBarView {
       {addFn,
       paymentFn,
       String? screenTitle,
+      String? totalAmount,
       List<Widget> pageTitle = const [],
       List<Widget> page = const []}) {
     return DefaultTabController(
@@ -360,9 +361,26 @@ class FkTabBarView {
             return <Widget>[
               SliverAppBar(
                 backgroundColor: const Color(0xFF2C384A),
-                title: Text('$screenTitle',
-                    style: const TextStyle(
-                        fontWeight: FontWeight.w600, fontSize: 18.0)),
+                title: Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Text('$screenTitle',
+                      style: const TextStyle(
+                          fontWeight: FontWeight.w600, fontSize: 18.0)),
+                ),
+                actions: [
+                  Center(
+                    child: Container(
+                      margin: const EdgeInsets.only(right: 20.0),
+                      child: Text(totalAmount ?? "0.0",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 24.0,
+                              color: double.parse(totalAmount!) >= 0
+                                  ? Colors.green
+                                  : Colors.red)),
+                    ),
+                  )
+                ],
                 pinned: true,
                 floating: true,
                 bottom: TabBar(

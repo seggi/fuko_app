@@ -93,6 +93,12 @@ class FkManageProviders {
     "save-request-number": (context, {number}) =>
         Provider.of<SelectFromDataList>(context, listen: false)
             .saveRequestNumber(number),
+    "save-amount-one": (context, {amount}) =>
+        Provider.of<SelectFromDataList>(context, listen: false)
+            .amountOne(amount),
+    "save-amount-two": (context, {amount}) =>
+        Provider.of<SelectFromDataList>(context, listen: false)
+            .amountTwo(amount),
   };
 
   static get(context) {
@@ -135,6 +141,10 @@ class FkManageProviders {
       "get-list-items": Provider.of<SelectFromDataList>(context).getNewItemList,
       "get-request-number":
           Provider.of<SelectFromDataList>(context).getRequestNumber,
+      "get-total-computed-amount":
+          Provider.of<SelectFromDataList>(context).getTotalComputedAmount,
+      "get-amount-one": Provider.of<SelectFromDataList>(context).getAmountOne,
+      "get-amount-two": Provider.of<SelectFromDataList>(context).getAmountTwo,
     };
   }
 
@@ -149,6 +159,9 @@ class FkManageProviders {
             .removeEnvelope(),
     "remove-expense-descriptionId": (context) =>
         Provider.of<AddExpenses>(context, listen: false)
-            .removeExpenseDescriptionId()
+            .removeExpenseDescriptionId(),
+    "remove-amount-saved": (context) =>
+        Provider.of<SelectFromDataList>(context, listen: false)
+            .removeTotalAmount()
   };
 }

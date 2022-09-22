@@ -22,6 +22,8 @@ class BorrowerDeptList extends StatefulWidget {
 }
 
 class _BorrowerDeptListState extends State<BorrowerDeptList> {
+  late double deptAmount = 0.0;
+  late String totalComputedAmount;
   FkContentBoxWidgets fkContentBoxWidgets = FkContentBoxWidgets();
 
   late Future<List<RetrieveDept>> retrieveBorrowerDeptList;
@@ -62,6 +64,7 @@ class _BorrowerDeptListState extends State<BorrowerDeptList> {
         FkManageProviders.get(context)["get-default-currency"];
     var setCurrency =
         selectedCurrency != '' ? selectedCurrency : defaultCurrency.toString();
+    var totalComputedAmount = computedAmount(context);
 
     setState(() {
       retrieveBorrowerDeptList = fetchBorrowerDept(
@@ -75,7 +78,8 @@ class _BorrowerDeptListState extends State<BorrowerDeptList> {
           loanMembership: loanMembership);
     });
 
-    return FkTabBarView.tabBar(context, addFn: () {
+    return FkTabBarView.tabBar(context,
+        totalAmount: totalComputedAmount.toString(), addFn: () {
       PagesGenerator.goTo(context, name: "save-dept", params: {
         "id": deptCategoryId,
         "loanMembership": widget.loanMembership
@@ -118,6 +122,10 @@ class _BorrowerDeptListState extends State<BorrowerDeptList> {
             AsyncSnapshot snapshot,
           ) {
             if (snapshot.hasData) {
+              FkManageProviders.save["save-amount-one"](context,
+                  amount: double.parse(snapshot.data!.totalDept));
+              computedAmount(context,
+                  amount: double.parse(snapshot.data!.totalDept));
               return Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -286,6 +294,8 @@ class _BorrowerDeptListState extends State<BorrowerDeptList> {
               AsyncSnapshot snapshot,
             ) {
               if (snapshot.hasData) {
+                FkManageProviders.save["save-amount-two"](context,
+                    amount: double.parse(snapshot.data!.paidAmount));
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
