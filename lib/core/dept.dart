@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/core/user_preferences.dart';
 import 'package:fuko_app/utils/api.dart';
 import 'package:http/http.dart' as http;
@@ -160,7 +161,6 @@ Future<List<RetrieveDept>> fetchBorrowerDept(
   if (response.statusCode == 200) {
     var borrowerDataList =
         jsonDecode(response.body)["data"]["dept_list"] as List;
-
     return borrowerDataList
         .map((expense) => RetrieveDept.fromJson(expense))
         .toList();
@@ -206,8 +206,40 @@ Future<RetrieveDept> fetchTotalPaidAmount(
   }
 }
 
+Future retrieveTotalDept(
+    {context,
+    String? borrowerId,
+    currencyCode,
+    loanMembership,
+    String? noteId}) async {
+  var token = await UserPreferences.getToken();
+  var saveAmount = FkManageProviders.save["save-amount-one"];
+  var saveAmountTwo = FkManageProviders.save["save-amount-two"];
+
+  final response = await http.get(
+      Uri.parse(Network.getBorrowerDept + "/$borrowerId/$currencyCode"),
+      headers: Network.authorizedHeaders(token: token));
+
+  final responseOne = await http.get(
+      Uri.parse(Network.privatePaidDeptHistory +
+          "/$noteId/${loanMembership == null || loanMembership == "null" ? 0 : loanMembership}/$currencyCode"),
+      headers: Network.authorizedHeaders(token: token));
+
+  if (response.statusCode == 200) {
+    saveAmount(context,
+        amount: jsonDecode(response.body)["data"]["total_dept"]);
+    saveAmountTwo(context,
+        amount: jsonDecode(responseOne.body)["data"]["paid_amount"]);
+
+    var totalAmount = RetrieveDept.fromJson(jsonDecode(response.body)["data"]);
+    return totalAmount;
+  } else {
+    throw Exception('Failed to load data');
+  }
+}
+
 Future<RetrieveDept> fetchTotalDeptAmount(
-    {String? borrowerId, currencyCode, loanMembership}) async {
+    {context, String? borrowerId, currencyCode, loanMembership}) async {
   var token = await UserPreferences.getToken();
 
   final response = await http.get(
@@ -215,7 +247,8 @@ Future<RetrieveDept> fetchTotalDeptAmount(
       headers: Network.authorizedHeaders(token: token));
 
   if (response.statusCode == 200) {
-    return RetrieveDept.fromJson(jsonDecode(response.body)["data"]);
+    var totalAmount = RetrieveDept.fromJson(jsonDecode(response.body)["data"]);
+    return totalAmount;
   } else {
     throw Exception('Failed to load data');
   }

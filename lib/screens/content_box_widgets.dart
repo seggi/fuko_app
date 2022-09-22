@@ -348,6 +348,7 @@ class FkTabBarView {
   static Widget tabBar(context,
       {addFn,
       paymentFn,
+      calculateFn,
       String? screenTitle,
       String? totalAmount,
       List<Widget> pageTitle = const [],
@@ -379,7 +380,10 @@ class FkTabBarView {
                                   ? Colors.green
                                   : Colors.red)),
                     ),
-                  )
+                  ),
+                  IconButton(
+                      onPressed: calculateFn,
+                      icon: const Icon(Icons.calculate_outlined))
                 ],
                 pinned: true,
                 floating: true,
