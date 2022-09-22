@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/core/budget.dart';
 import 'package:fuko_app/core/currency_data.dart';
 import 'package:fuko_app/core/months_data.dart';
@@ -73,4 +75,11 @@ List<Map<String, Object>> budgetPeriodList = [
 moneyFormat({amount}) {
   MoneyFormatter formattedAmount = MoneyFormatter(amount: double.parse(amount));
   return formattedAmount.output.nonSymbol;
+}
+
+computedAmount(BuildContext context) {
+  var amountOne = FkManageProviders.get(context)["get-amount-one"];
+  var amountTwo = FkManageProviders.get(context)["get-amount-two"];
+  var totalComputedAmount = (amountOne - amountTwo).toString();
+  return totalComputedAmount = totalComputedAmount;
 }

@@ -22,6 +22,8 @@ class BorrowerDeptList extends StatefulWidget {
 }
 
 class _BorrowerDeptListState extends State<BorrowerDeptList> {
+  late double deptAmount = 0.0;
+  late String totalComputedAmount;
   FkContentBoxWidgets fkContentBoxWidgets = FkContentBoxWidgets();
 
   late Future<List<RetrieveDept>> retrieveBorrowerDeptList;
@@ -29,6 +31,7 @@ class _BorrowerDeptListState extends State<BorrowerDeptList> {
 
   late Future<List<RetrieveDept>> retrieveBorrowerPaymentHistory;
   late Future<RetrieveDept> retrieveBorrowerTotalPaidAmount;
+  late Future fetchTotalDept;
 
   @override
   void initState() {
@@ -38,7 +41,15 @@ class _BorrowerDeptListState extends State<BorrowerDeptList> {
         currencyCode: defaultCurrency,
         loanMembership: widget.loanMembership);
     retrieveBorrowerTotalAmount = fetchTotalDeptAmount(
+        context: context,
         borrowerId: widget.id,
+        currencyCode: defaultCurrency,
+        loanMembership: widget.loanMembership);
+
+    fetchTotalDept = retrieveTotalDept(
+        context: context,
+        borrowerId: widget.id,
+        noteId: widget.id,
         currencyCode: defaultCurrency,
         loanMembership: widget.loanMembership);
 
@@ -46,6 +57,7 @@ class _BorrowerDeptListState extends State<BorrowerDeptList> {
         noteId: widget.id,
         currencyCode: defaultCurrency,
         loanMembership: widget.loanMembership);
+
     retrieveBorrowerTotalPaidAmount = fetchTotalPaidAmount(
         noteId: widget.id,
         currencyCode: defaultCurrency,
@@ -62,6 +74,7 @@ class _BorrowerDeptListState extends State<BorrowerDeptList> {
         FkManageProviders.get(context)["get-default-currency"];
     var setCurrency =
         selectedCurrency != '' ? selectedCurrency : defaultCurrency.toString();
+    var totalComputedAmount = computedAmount(context);
 
     setState(() {
       retrieveBorrowerDeptList = fetchBorrowerDept(
@@ -75,24 +88,52 @@ class _BorrowerDeptListState extends State<BorrowerDeptList> {
           loanMembership: loanMembership);
     });
 
-    return FkTabBarView.tabBar(context, addFn: () {
-      PagesGenerator.goTo(context, name: "save-dept", params: {
-        "id": deptCategoryId,
-        "loanMembership": widget.loanMembership
-      });
-    }, paymentFn: () {
-      PagesGenerator.goTo(
-        context,
-        name: "pay-private-dept",
-        params: {"id": deptCategoryId, "loanMembership": widget.loanMembership},
-      );
-    }, screenTitle: screenTitle, pageTitle: const [
-      Tab(child: Text("Dept")),
-      Tab(child: Text("Amount Paid"))
-    ], page: [
-      pageOne(),
-      pageTwo()
-    ]);
+    return FkTabBarView.tabBar(context,
+        calculateFn: () {
+          setState(() {
+            retrieveBorrowerDeptList = fetchBorrowerDept(
+                borrowerId: deptCategoryId,
+                currencyCode: setCurrency,
+                loanMembership: widget.loanMembership);
+
+            retrieveBorrowerTotalAmount = fetchTotalDeptAmount(
+                borrowerId: deptCategoryId,
+                currencyCode: setCurrency,
+                loanMembership: loanMembership);
+
+            fetchTotalDept = retrieveTotalDept(
+                context: context,
+                borrowerId: widget.id,
+                currencyCode: defaultCurrency,
+                loanMembership: widget.loanMembership);
+          });
+        },
+        totalAmount: totalComputedAmount.toString(),
+        addFn: () {
+          PagesGenerator.goTo(context, name: "save-dept", params: {
+            "id": deptCategoryId,
+            "loanMembership": widget.loanMembership
+          });
+        },
+        paymentFn: () {
+          PagesGenerator.goTo(
+            context,
+            name: "pay-private-dept",
+            params: {
+              "id": deptCategoryId,
+              "loanMembership": widget.loanMembership
+            },
+          );
+        },
+        screenTitle: screenTitle,
+        pageTitle: const [
+          Tab(child: Text("Dept")),
+          Tab(child: Text("Amount Paid"))
+        ],
+        page: [
+          pageOne(),
+          pageTwo()
+        ]);
   }
 
   Widget pageOne() {
@@ -286,6 +327,8 @@ class _BorrowerDeptListState extends State<BorrowerDeptList> {
               AsyncSnapshot snapshot,
             ) {
               if (snapshot.hasData) {
+                FkManageProviders.save["save-amount-two"](context,
+                    amount: double.parse(snapshot.data!.paidAmount));
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
