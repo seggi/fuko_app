@@ -1,5 +1,6 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
+import 'package:fuko_app/utils/constant.dart';
 import 'package:fuko_app/widgets/drawer.dart';
 
 import '../widgets/shared/style.dart';
@@ -372,7 +373,7 @@ class FkTabBarView {
                   Center(
                     child: Container(
                       margin: const EdgeInsets.only(right: 20.0),
-                      child: Text(totalAmount ?? "0.0",
+                      child: Text(moneyFormat(amount: totalAmount) ?? "0.0",
                           style: TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: 24.0,

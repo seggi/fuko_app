@@ -280,6 +280,8 @@ class _PrivateLoanSheetState extends State<PrivateLoanSheet> {
                                           screenTitle(context,
                                               screenTitle:
                                                   "${snapshot.data![index].lenderName}");
+                                          FkManageProviders.remove[
+                                              'remove-amount-saved'](context);
                                           PagesGenerator.goTo(context,
                                               name: "lender-loan-details",
                                               params: {

@@ -47,12 +47,12 @@ class _DeptPageState extends State<DeptPage> {
               children: [
                 Row(
                   children: [
-                    InkWell(
-                        onTap: () async {
+                    IconButton(
+                        onPressed: () async {
                           PagesGenerator.goTo(context,
                               pathName: "/?status=true");
                         },
-                        child: const Icon(Icons.arrow_back_ios)),
+                        icon: const Icon(Icons.arrow_back_ios)),
                     const Text(
                       "Dept",
                       style:

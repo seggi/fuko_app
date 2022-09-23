@@ -140,15 +140,7 @@ class _PrivateDeptSheetState extends State<PrivateDeptSheet> {
                     }
                     return Container(
                         padding: const EdgeInsets.all(20.0),
-                        child: const Center(
-                            child: Text(
-                          "Loading Amount...",
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              color: fkGreyText),
-                        )));
+                        child: const Center());
                   },
                 ),
               ],
