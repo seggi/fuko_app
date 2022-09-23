@@ -77,7 +77,6 @@ class SelectFromDataList extends ChangeNotifier {
   void removeTotalAmount() {
     _amountTwo = 0.0;
     _amountOne = 0.0;
-    print("::::");
     notifyListeners();
   }
 }

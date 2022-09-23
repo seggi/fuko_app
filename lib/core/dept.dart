@@ -227,9 +227,9 @@ Future retrieveTotalDept(
 
   if (response.statusCode == 200) {
     saveAmount(context,
-        amount: jsonDecode(response.body)["data"]["total_dept"]);
+        amount: jsonDecode(response!.body)["data"]["total_dept"]);
     saveAmountTwo(context,
-        amount: jsonDecode(responseOne.body)["data"]["paid_amount"]);
+        amount: jsonDecode(responseOne!.body)["data"]["paid_amount"]);
 
     var totalAmount = RetrieveDept.fromJson(jsonDecode(response.body)["data"]);
     return totalAmount;

@@ -30,6 +30,7 @@ class _LenderLoanListState extends State<LenderLoanList> {
 
   late Future<List<LoanList>> retrievePaymentHistory;
   late Future<LoanList> retrieveTotalPaidAmount;
+  late Future fetchTotalLoan;
 
   @override
   void initState() {
@@ -46,18 +47,27 @@ class _LenderLoanListState extends State<LenderLoanList> {
         fetchPaymentHistory(noteId: widget.id, currencyCode: defaultCurrency);
     retrieveTotalPaidAmount = fetchTotalLenderPaidAmount(
         noteId: widget.id, currencyCode: defaultCurrency);
+
+    fetchTotalLoan = retrieveTotalLoan(
+        context: context,
+        lenderId: widget.id,
+        noteId: widget.id,
+        currencyCode: defaultCurrency,
+        loanMembership: widget.deptMemberShip);
   }
 
   @override
   Widget build(BuildContext context) {
     final loanCategoryId = widget.id;
     final deptMemberShip = widget.deptMemberShip;
-    // final saveLenderId = FkManageProviders.save["save-lender-id"](context, itemData: widget.id);
+    // final saveLenderId =
+    // FkManageProviders.save["save-lender-id"](context, itemData: widget.id);
     final screenTitle = FkManageProviders.get(context)['get-screen-title'];
     var selectedCurrency =
         FkManageProviders.get(context)["get-default-currency"];
     var setCurrency =
         selectedCurrency != '' ? selectedCurrency : defaultCurrency.toString();
+    var totalComputedAmount = computedAmount(context);
 
     setState(() {
       retrieveLenderLoanList = fetchLenderLoan(
@@ -71,15 +81,20 @@ class _LenderLoanListState extends State<LenderLoanList> {
     });
 
     return FkTabBarView.tabBar(context,
-        screenTitle: screenTitle,
-        pageTitle: const [
-          Tab(child: Text("Loan")),
-          Tab(child: Text("Amount Paid"))
-        ],
-        page: [
-          pageOne(),
-          pageTwo()
-        ]);
+        totalAmount: totalComputedAmount.toString(), calculateFn: () {
+      fetchTotalLoan = retrieveTotalLoan(
+          context: context,
+          lenderId: loanCategoryId,
+          noteId: widget.id,
+          currencyCode: setCurrency,
+          loanMembership: widget.deptMemberShip);
+    }, screenTitle: screenTitle, pageTitle: const [
+      Tab(child: Text("Loan")),
+      Tab(child: Text("Amount Paid"))
+    ], page: [
+      pageOne(),
+      pageTwo()
+    ]);
   }
 
   Widget pageOne() {

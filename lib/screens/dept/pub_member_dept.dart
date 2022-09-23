@@ -198,6 +198,8 @@ class _PubMemberDeptNotebookSheetState
                       onTap: () {
                         screenTitle(context,
                             screenTitle: "${snapshot.data?[index].username}");
+                        FkManageProviders
+                            .remove['remove-amount-saved'](context);
                         PagesGenerator.goTo(context,
                             name: "borrower_dept_details",
                             params: {

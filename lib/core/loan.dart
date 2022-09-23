@@ -1,5 +1,9 @@
+// ignore_for_file: unrelated_type_equality_checks
+
 import 'dart:convert';
 
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/core/user_preferences.dart';
 import 'package:fuko_app/utils/api.dart';
 import 'package:http/http.dart' as http;
@@ -67,6 +71,38 @@ Future<List<LoanList>> fetchPrivateLoanList() async {
     var loanList = jsonDecode(response.body)["data"] as List;
 
     return loanList.map((user) => LoanList.fromJson(user)).toList();
+  } else {
+    throw Exception('Failed to load data');
+  }
+}
+
+Future retrieveTotalLoan(
+    {context,
+    String? lenderId,
+    currencyCode,
+    String? noteId,
+    String? loanMembership}) async {
+  var token = await UserPreferences.getToken();
+  var saveAmount = FkManageProviders.save["save-amount-one"];
+  var saveAmountTwo = FkManageProviders.save["save-amount-two"];
+
+  final response = await http.get(
+      Uri.parse(Network.retrievePersonalLoan +
+          "/$lenderId/${loanMembership == 0 ? 0 : loanMembership}/$currencyCode"),
+      headers: Network.authorizedHeaders(token: token));
+
+  final responseOne = await http.get(
+      Uri.parse(Network.retrievedPaidAmount + "/$noteId/$currencyCode"),
+      headers: Network.authorizedHeaders(token: token));
+
+  if (response.statusCode == 200) {
+    saveAmount(context,
+        amount: jsonDecode(response!.body)["data"]["total_loan"]);
+    saveAmountTwo(context,
+        amount: jsonDecode(responseOne!.body)["data"]["paid_amount"]);
+
+    var totalAmount = LoanList.fromJson(jsonDecode(response.body)["data"]);
+    return totalAmount;
   } else {
     throw Exception('Failed to load data');
   }
