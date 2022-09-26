@@ -3,6 +3,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/core/dept.dart';
+import 'package:fuko_app/core/global_amount.dart';
 import 'package:fuko_app/screens/content_box_widgets.dart';
 import 'package:fuko_app/utils/constant.dart';
 import 'package:fuko_app/widgets/bottom_sheet/currenncies.dart';
@@ -21,13 +22,14 @@ class _PrivateDeptSheetState extends State<PrivateDeptSheet> {
 
 // RetrieveBorrowersList
 
-  late Future<RetrieveBorrowersList> retrieveDeptAmount;
+  late Future<GlobalAmount> retrieveGlobalTotalDeptAndLoanAmount;
   late Future<List<RetrieveBorrowersList>> retrieveBorrowerList;
 
   @override
   void initState() {
     super.initState();
-    retrieveDeptAmount = fetchDeptAmount(setCurrency: defaultCurrency);
+    retrieveGlobalTotalDeptAndLoanAmount = fetchGlobalTotalDeptAndLoanAmount(
+        currencyId: defaultCurrency.toString());
     retrieveBorrowerList = fetchBorrowerList();
   }
 
@@ -40,7 +42,8 @@ class _PrivateDeptSheetState extends State<PrivateDeptSheet> {
         selectedCurrency != '' ? selectedCurrency : defaultCurrency.toString();
 
     setState(() {
-      retrieveDeptAmount = fetchDeptAmount(setCurrency: setCurrency);
+      retrieveGlobalTotalDeptAndLoanAmount =
+          fetchGlobalTotalDeptAndLoanAmount(currencyId: setCurrency);
       retrieveBorrowerList = fetchBorrowerList();
     });
 
@@ -54,8 +57,8 @@ class _PrivateDeptSheetState extends State<PrivateDeptSheet> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                FutureBuilder<RetrieveBorrowersList>(
-                  future: retrieveDeptAmount,
+                FutureBuilder<GlobalAmount>(
+                  future: retrieveGlobalTotalDeptAndLoanAmount,
                   builder: (
                     BuildContext context,
                     AsyncSnapshot snapshot,
@@ -69,7 +72,7 @@ class _PrivateDeptSheetState extends State<PrivateDeptSheet> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "${double.parse(snapshot.data!.totalDept)}",
+                                  moneyFormat(amount: snapshot.data!.totalDept),
                                   overflow: TextOverflow.ellipsis,
                                   style: const TextStyle(
                                       fontSize: 28,
@@ -163,8 +166,9 @@ class _PrivateDeptSheetState extends State<PrivateDeptSheet> {
               InkWell(
                   onTap: () {
                     setState(() {
-                      retrieveDeptAmount =
-                          fetchDeptAmount(setCurrency: setCurrency);
+                      retrieveGlobalTotalDeptAndLoanAmount =
+                          fetchGlobalTotalDeptAndLoanAmount(
+                              currencyId: setCurrency);
                       retrieveBorrowerList = fetchBorrowerList();
                     });
                   },

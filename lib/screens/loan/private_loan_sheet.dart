@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fuko_app/controllers/manage_provider.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
+import 'package:fuko_app/core/global_amount.dart';
 import 'package:fuko_app/core/loan.dart';
 import 'package:fuko_app/screens/content_box_widgets.dart';
 import 'package:fuko_app/utils/constant.dart';
@@ -20,12 +21,13 @@ class _PrivateLoanSheetState extends State<PrivateLoanSheet> {
   late GlobalKey<ScaffoldState> _scaffoldKey;
   FkContentBoxWidgets fkContentBoxWidgets = FkContentBoxWidgets();
 
-  late Future<LoanList> retrieveLoanAmount;
+  late Future<GlobalAmount> retrieveLoanAmount;
   late Future<List<LoanList>> retrievePrivateLoanList;
 
   @override
   void initState() {
-    retrieveLoanAmount = fetchLoanAmount(setCurrency: defaultCurrency);
+    retrieveLoanAmount = fetchGlobalTotalDeptAndLoanAmount(
+        currencyId: defaultCurrency.toString());
     retrievePrivateLoanList = fetchPrivateLoanList();
     super.initState();
   }
@@ -63,7 +65,7 @@ class _PrivateLoanSheetState extends State<PrivateLoanSheet> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                FutureBuilder<LoanList>(
+                                FutureBuilder<GlobalAmount>(
                                   future: retrieveLoanAmount,
                                   builder: (
                                     BuildContext context,
@@ -319,7 +321,8 @@ class _PrivateLoanSheetState extends State<PrivateLoanSheet> {
           onRefresh: () {
             return Future.delayed(const Duration(seconds: 1), () {
               setState(() {
-                retrieveLoanAmount = fetchLoanAmount(setCurrency: setCurrency);
+                retrieveLoanAmount =
+                    fetchGlobalTotalDeptAndLoanAmount(currencyId: setCurrency);
                 retrievePrivateLoanList = fetchPrivateLoanList();
               });
 
