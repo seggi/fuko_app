@@ -169,31 +169,71 @@ class _PubMemberDeptNotebookSheetState
                     return InkWell(
                       child: Card(
                         child: ListTile(
-                          leading: const Icon(
-                            Icons.account_circle_outlined,
-                            size: 30,
-                          ),
-                          title: SizedBox(
-                            width: 200,
-                            child: Text(
-                              "${snapshot.data?[index].username}",
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 16,
+                            leading: const Icon(
+                              Icons.account_circle_outlined,
+                              size: 30,
+                            ),
+                            title: SizedBox(
+                              width: 200,
+                              child: Text(
+                                "${snapshot.data?[index].username}",
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16,
+                                ),
                               ),
                             ),
-                          ),
-                          subtitle: SizedBox(
-                            width: 200,
-                            child: Text(
-                              "${snapshot.data?[index].lastName} ${snapshot.data?[index].firstName}",
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 16,
+                            subtitle: SizedBox(
+                              width: 200,
+                              child: Text(
+                                "${snapshot.data?[index].lastName} ${snapshot.data?[index].firstName}",
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16,
+                                ),
                               ),
                             ),
-                          ),
-                        ),
+                            trailing: SizedBox(
+                              width: 100,
+                              child: Row(
+                                children: [
+                                  IconButton(
+                                    onPressed: () {
+                                      PagesGenerator.goTo(context,
+                                          name: "save-dept",
+                                          params: {
+                                            "id":
+                                                "${snapshot.data?[index].borrowerId}",
+                                            "loanMembership":
+                                                "${snapshot.data?[index].loanMembership}"
+                                          });
+                                    },
+                                    icon: const Icon(
+                                      Icons.post_add,
+                                      color: fkBlackText,
+                                    ),
+                                  ),
+                                  IconButton(
+                                    onPressed: () {
+                                      PagesGenerator.goTo(
+                                        context,
+                                        name: "pay-private-dept",
+                                        params: {
+                                          "id":
+                                              "${snapshot.data?[index].borrowerId}",
+                                          "loanMembership":
+                                              "${snapshot.data?[index].loanMembership}"
+                                        },
+                                      );
+                                    },
+                                    icon: const Icon(
+                                      Icons.payments_outlined,
+                                      color: fkBlackText,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )),
                       ),
                       onTap: () {
                         screenTitle(context,
