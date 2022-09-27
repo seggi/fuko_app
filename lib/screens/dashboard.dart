@@ -28,7 +28,8 @@ class _DashBoardPageState extends State<DashBoardPage> {
   @override
   void initState() {
     super.initState();
-    globalAmount = fetchGlobalAmount(currencyId: defaultCurrency.toString());
+    globalAmount = fetchGlobalTotalDeptAndLoanAmount(
+        currencyId: defaultCurrency.toString());
   }
 
   @override
@@ -40,7 +41,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
         selectedCurrency != '' ? selectedCurrency : defaultCurrency.toString();
 
     setState(() {
-      globalAmount = fetchGlobalAmount(currencyId: setCurrency);
+      globalAmount = fetchGlobalTotalDeptAndLoanAmount(currencyId: setCurrency);
     });
 
     return Container(
@@ -60,7 +61,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
             onRefresh: () {
               return Future.delayed(const Duration(seconds: 1), () {
                 setState(() {
-                  globalAmount = fetchGlobalAmount();
+                  globalAmount = fetchGlobalTotalDeptAndLoanAmount();
                 });
 
                 // ignore: deprecated_member_use
@@ -85,18 +86,10 @@ class _DashBoardPageState extends State<DashBoardPage> {
         if (snapshot.hasData) {
           MoneyFormatter totalAmount =
               MoneyFormatter(amount: double.parse(snapshot.data!.globalAmount));
-          var totalExpense = double.parse(
-                  snapshot.data!.globalAmountDetails['expenses'].toString())
-              .toInt();
-          var totalSavings = double.parse(
-                  snapshot.data!.globalAmountDetails['savings'].toString())
-              .toInt();
-          var totalLoan = double.parse(
-                  snapshot.data!.globalAmountDetails['loans'].toString())
-              .toInt();
-          var totalDept = double.parse(
-                  snapshot.data!.globalAmountDetails['dept'].toString())
-              .toInt();
+          var totalExpense = double.parse(snapshot.data!.totalExpenses).toInt();
+          var totalSavings = double.parse(snapshot.data!.totalSavings).toInt();
+          var totalLoan = double.parse(snapshot.data!.totalLoan).toInt();
+          var totalDept = double.parse(snapshot.data!.totalDept).toInt();
 
           return FkContentBoxWidgets.body(context, 'dashboard', itemList: [
             Padding(
@@ -105,7 +98,6 @@ class _DashBoardPageState extends State<DashBoardPage> {
                 children: [
                   IconButton(
                       onPressed: () async {
-                        var token = await UserPreferences.getToken();
                         PagesGenerator.goTo(context, pathName: "/?status=true");
                       },
                       icon: const Icon(
@@ -142,9 +134,9 @@ class _DashBoardPageState extends State<DashBoardPage> {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          const Text(
-                            "Rwf",
-                            style: TextStyle(
+                          Text(
+                            snapshot.data!.currencyCode,
+                            style: const TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w500,
                                 color: fkBlackText),

@@ -75,7 +75,7 @@ class _GroupDetailState extends State<GroupDetail> {
                           name: "add-contribution"),
                       icon: const Icon(
                         Icons.add_circle_outline,
-                        color: fkBlueText,
+                        color: fkBlackText,
                       ),
                     ),
                     IconButton(
@@ -83,7 +83,7 @@ class _GroupDetailState extends State<GroupDetail> {
                           name: "group-member", params: {"id": groupId}),
                       icon: const Icon(
                         Icons.group_outlined,
-                        color: fkBlueText,
+                        color: fkBlackText,
                         size: 30,
                       ),
                     ),

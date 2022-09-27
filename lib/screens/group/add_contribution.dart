@@ -130,7 +130,7 @@ class _AddContributionState extends State<AddContribution> {
                             params: {"groupId": groupId}),
                         icon: const Icon(
                           Icons.edit_note_outlined,
-                          color: fkBlueText,
+                          color: fkBlackText,
                           size: 28,
                         ))
                   ],

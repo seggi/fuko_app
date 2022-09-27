@@ -98,20 +98,6 @@ class _HomePageState extends State<HomePage> {
       ) {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasData) {
-            MoneyFormatter totalAmount = MoneyFormatter(
-                amount: double.parse(snapshot.data!.globalAmount));
-            var totalExpense =
-                moneyFormat(amount: snapshot.data!.totalExpenses);
-            MoneyFormatter totalSavings = MoneyFormatter(
-                amount: double.parse(
-                    snapshot.data!.globalAmountDetails['savings'].toString()));
-            MoneyFormatter totalLoan = MoneyFormatter(
-                amount: double.parse(
-                    snapshot.data!.globalAmountDetails['loans'].toString()));
-            MoneyFormatter totalDept = MoneyFormatter(
-                amount: double.parse(
-                    snapshot.data!.globalAmountDetails['dept'].toString()));
-
             return FkContentBoxWidgets.body(context, 'home',
                 badgeTxt: badgeTxt,
                 fn: () =>
