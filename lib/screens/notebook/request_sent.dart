@@ -29,31 +29,32 @@ class _RequestSentState extends State<RequestSent> {
     return Container(
         child: FkContentBoxWidgets.body(context, 'notebook', itemList: [
       Padding(
-          padding: const EdgeInsets.only(right: 20.0, left: 20.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  IconButton(
-                      iconSize: 18,
-                      onPressed: () =>
-                          PagesGenerator.goTo(context, pathName: "/notebook"),
-                      icon: const Icon(
-                        Icons.arrow_back_ios,
-                        size: 20,
-                      )),
-                  const Text(
-                    "Request sent",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  )
-                ],
-              ),
-              Row(
-                children: const [],
-              )
-            ],
-          )),
+        padding: const EdgeInsets.only(right: 20.0, left: 20.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                IconButton(
+                    iconSize: 18,
+                    onPressed: () =>
+                        PagesGenerator.goTo(context, pathName: "/notebook"),
+                    icon: const Icon(
+                      Icons.arrow_back_ios,
+                      size: 20,
+                    )),
+                const Text(
+                  "Request sent",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                )
+              ],
+            ),
+            Row(
+              children: const [],
+            )
+          ],
+        ),
+      ),
       Expanded(
         child: FutureBuilder(
           future: notebookRequestSent,

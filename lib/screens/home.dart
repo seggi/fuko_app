@@ -37,7 +37,8 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    globalAmount = fetchGlobalAmount(currencyId: defaultCurrency.toString());
+    globalAmount = fetchGlobalTotalDeptAndLoanAmount(
+        currencyId: defaultCurrency.toString());
     retrieveIncomingRequest = fetchIncomingRequest(context: context);
   }
 
@@ -50,7 +51,7 @@ class _HomePageState extends State<HomePage> {
         selectedCurrency != '' ? selectedCurrency : defaultCurrency.toString();
 
     setState(() {
-      globalAmount = fetchGlobalAmount(currencyId: getCurrency);
+      globalAmount = fetchGlobalTotalDeptAndLoanAmount(currencyId: getCurrency);
     });
 
     return Container(
@@ -69,7 +70,8 @@ class _HomePageState extends State<HomePage> {
             onRefresh: () {
               return Future.delayed(const Duration(seconds: 1), () {
                 setState(() {
-                  globalAmount = fetchGlobalAmount(currencyId: getCurrency);
+                  globalAmount = fetchGlobalTotalDeptAndLoanAmount(
+                      currencyId: getCurrency);
                   retrieveIncomingRequest =
                       fetchIncomingRequest(context: context);
                 });
@@ -98,9 +100,8 @@ class _HomePageState extends State<HomePage> {
           if (snapshot.hasData) {
             MoneyFormatter totalAmount = MoneyFormatter(
                 amount: double.parse(snapshot.data!.globalAmount));
-            MoneyFormatter totalExpense = MoneyFormatter(
-                amount: double.parse(
-                    snapshot.data!.globalAmountDetails['expenses'].toString()));
+            var totalExpense =
+                moneyFormat(amount: snapshot.data!.totalExpenses);
             MoneyFormatter totalSavings = MoneyFormatter(
                 amount: double.parse(
                     snapshot.data!.globalAmountDetails['savings'].toString()));
@@ -222,29 +223,33 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           homeCard(
                               leadingIcon: Icons.calculate,
-                              currency: "Rwf",
-                              amount: totalExpense.output.nonSymbol,
+                              currency: snapshot.data!.currencyCode,
+                              amount: moneyFormat(
+                                  amount: snapshot.data!.totalExpenses),
                               titleTxt: "Expenses",
                               fn: () => context.go('/expenses')),
                           verticalSpaceTiny,
                           homeCard(
                               leadingIcon: Icons.savings,
-                              currency: "Rwf",
-                              amount: totalSavings.output.nonSymbol,
+                              currency: snapshot.data!.currencyCode,
+                              amount: moneyFormat(
+                                  amount: snapshot.data!.totalSavings),
                               titleTxt: "Savings",
                               fn: () => context.go('/saving')),
                           verticalSpaceTiny,
                           homeCard(
                               leadingIcon: Icons.account_balance,
-                              currency: "Rwf",
-                              amount: totalLoan.output.nonSymbol,
+                              currency: snapshot.data!.currencyCode,
+                              amount:
+                                  moneyFormat(amount: snapshot.data!.totalLoan),
                               titleTxt: "Loan",
                               fn: () => context.go('/loan')),
                           verticalSpaceTiny,
                           homeCard(
                               leadingIcon: Icons.money_off,
-                              currency: "Rwf",
-                              amount: totalDept.output.nonSymbol,
+                              currency: snapshot.data!.currencyCode,
+                              amount:
+                                  moneyFormat(amount: snapshot.data!.totalDept),
                               titleTxt: "Dept",
                               fn: () => context.go('/dept')),
                           verticalSpaceTiny,
@@ -296,9 +301,8 @@ class _HomePageState extends State<HomePage> {
             padding: const EdgeInsets.all(20.0),
             child: Center(
               child: Container(
-                decoration: BoxDecoration(
-                    color: fkWhiteText,
-                    borderRadius: BorderRadius.circular(8.0)),
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(8.0)),
                 padding: const EdgeInsets.symmetric(vertical: 20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -308,10 +312,14 @@ class _HomePageState extends State<HomePage> {
                       height: 20,
                       child: CircularProgressIndicator(
                         strokeWidth: 2.0,
+                        color: fkWhiteText,
                       ),
                     ),
                     horizontalSpaceRegular,
-                    Text("Loading info...")
+                    Text(
+                      "Loading info...",
+                      style: TextStyle(color: fkWhiteText),
+                    )
                   ],
                 ),
               ),
