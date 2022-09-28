@@ -14,7 +14,6 @@ import 'package:fuko_app/widgets/other_widgets.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 import 'package:go_router/go_router.dart';
-import 'package:money_formatter/money_formatter.dart';
 // ignore: implementation_imports
 import 'package:provider/src/provider.dart';
 
@@ -39,7 +38,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     globalAmount = fetchGlobalTotalDeptAndLoanAmount(
         currencyId: defaultCurrency.toString());
-    retrieveIncomingRequest = fetchIncomingRequest(context: context);
+    retrieveIncomingRequest = fetchIncomingRequest(context);
   }
 
   @override
@@ -72,8 +71,7 @@ class _HomePageState extends State<HomePage> {
                 setState(() {
                   globalAmount = fetchGlobalTotalDeptAndLoanAmount(
                       currencyId: getCurrency);
-                  retrieveIncomingRequest =
-                      fetchIncomingRequest(context: context);
+                  retrieveIncomingRequest = fetchIncomingRequest(context);
                 });
 
                 // ignore: deprecated_member_use
