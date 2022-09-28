@@ -47,11 +47,11 @@ class _BorrowerDeptListState extends State<BorrowerDeptList> {
         loanMembership: widget.loanMembership);
 
     fetchTotalDept = retrieveTotalDept(
-        context: context,
-        borrowerId: widget.id,
-        noteId: widget.id,
-        currencyCode: defaultCurrency,
-        loanMembership: widget.loanMembership);
+      context: context,
+      borrowerId: widget.id,
+      noteId: widget.id,
+      currencyCode: defaultCurrency,
+    );
 
     retrieveBorrowerPaymentHistory = fetchBorrowerPaymentHistory(
         noteId: widget.id,

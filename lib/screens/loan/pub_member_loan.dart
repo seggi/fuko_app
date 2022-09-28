@@ -62,7 +62,7 @@ class _PubMemberLoanNotebookSheetState
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       fkContentBoxWidgets.initialItems(itemList: [
-                        verticalSpaceRegular,
+                        verticalSpaceTiny,
                         SizedBox(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -125,6 +125,21 @@ class _PubMemberLoanNotebookSheetState
                               ),
                             ],
                           ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: const [
+                            Align(
+                              alignment: Alignment.bottomLeft,
+                              child: Text(
+                                "Loan notebook member",
+                                style: TextStyle(
+                                    color: fkBlackText,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 14),
+                              ),
+                            ),
+                          ],
                         ),
                         verticalSpaceSmall,
                       ]),

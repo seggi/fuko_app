@@ -4,17 +4,21 @@ import 'package:fuko_app/utils/api.dart';
 import 'package:http/http.dart' as http;
 
 class GlobalAmount {
-  late final String globalAmount;
-  late final Map globalAmountDetails;
+  late final String? globalAmount;
+  late final Map? globalAmountDetails;
   late final String? totalDept;
   late final String? totalLoan;
   late final String? currencyCode;
+  late final String? totalExpenses;
+  late final String? totalSavings;
 
   GlobalAmount(
-      {required this.globalAmount,
-      required this.globalAmountDetails,
+      {this.globalAmount,
+      this.globalAmountDetails,
       this.totalDept,
       this.currencyCode,
+      this.totalExpenses,
+      this.totalSavings,
       this.totalLoan});
 
   factory GlobalAmount.fromJson(Map<String, dynamic> responseData) {
@@ -23,6 +27,8 @@ class GlobalAmount {
         globalAmountDetails: responseData['global_amount_details'],
         totalDept: responseData['total_depts'].toString(),
         totalLoan: responseData['total_loans'].toString(),
+        totalExpenses: responseData['total_expenses'].toString(),
+        totalSavings: responseData['total_savings'].toString(),
         currencyCode: responseData['currencyCode'].toString());
   }
 }

@@ -14,7 +14,6 @@ import 'package:fuko_app/widgets/other_widgets.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 import 'package:go_router/go_router.dart';
-import 'package:money_formatter/money_formatter.dart';
 // ignore: implementation_imports
 import 'package:provider/src/provider.dart';
 
@@ -37,8 +36,9 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    globalAmount = fetchGlobalAmount(currencyId: defaultCurrency.toString());
-    retrieveIncomingRequest = fetchIncomingRequest(context: context);
+    globalAmount = fetchGlobalTotalDeptAndLoanAmount(
+        currencyId: defaultCurrency.toString());
+    retrieveIncomingRequest = fetchIncomingRequest(context);
   }
 
   @override
@@ -50,7 +50,7 @@ class _HomePageState extends State<HomePage> {
         selectedCurrency != '' ? selectedCurrency : defaultCurrency.toString();
 
     setState(() {
-      globalAmount = fetchGlobalAmount(currencyId: getCurrency);
+      globalAmount = fetchGlobalTotalDeptAndLoanAmount(currencyId: getCurrency);
     });
 
     return Container(
@@ -69,9 +69,9 @@ class _HomePageState extends State<HomePage> {
             onRefresh: () {
               return Future.delayed(const Duration(seconds: 1), () {
                 setState(() {
-                  globalAmount = fetchGlobalAmount(currencyId: getCurrency);
-                  retrieveIncomingRequest =
-                      fetchIncomingRequest(context: context);
+                  globalAmount = fetchGlobalTotalDeptAndLoanAmount(
+                      currencyId: getCurrency);
+                  retrieveIncomingRequest = fetchIncomingRequest(context);
                 });
 
                 // ignore: deprecated_member_use
@@ -96,21 +96,6 @@ class _HomePageState extends State<HomePage> {
       ) {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasData) {
-            MoneyFormatter totalAmount = MoneyFormatter(
-                amount: double.parse(snapshot.data!.globalAmount));
-            MoneyFormatter totalExpense = MoneyFormatter(
-                amount: double.parse(
-                    snapshot.data!.globalAmountDetails['expenses'].toString()));
-            MoneyFormatter totalSavings = MoneyFormatter(
-                amount: double.parse(
-                    snapshot.data!.globalAmountDetails['savings'].toString()));
-            MoneyFormatter totalLoan = MoneyFormatter(
-                amount: double.parse(
-                    snapshot.data!.globalAmountDetails['loans'].toString()));
-            MoneyFormatter totalDept = MoneyFormatter(
-                amount: double.parse(
-                    snapshot.data!.globalAmountDetails['dept'].toString()));
-
             return FkContentBoxWidgets.body(context, 'home',
                 badgeTxt: badgeTxt,
                 fn: () =>
@@ -222,29 +207,33 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           homeCard(
                               leadingIcon: Icons.calculate,
-                              currency: "Rwf",
-                              amount: totalExpense.output.nonSymbol,
+                              currency: snapshot.data!.currencyCode,
+                              amount: moneyFormat(
+                                  amount: snapshot.data!.totalExpenses),
                               titleTxt: "Expenses",
                               fn: () => context.go('/expenses')),
                           verticalSpaceTiny,
                           homeCard(
                               leadingIcon: Icons.savings,
-                              currency: "Rwf",
-                              amount: totalSavings.output.nonSymbol,
+                              currency: snapshot.data!.currencyCode,
+                              amount: moneyFormat(
+                                  amount: snapshot.data!.totalSavings),
                               titleTxt: "Savings",
                               fn: () => context.go('/saving')),
                           verticalSpaceTiny,
                           homeCard(
                               leadingIcon: Icons.account_balance,
-                              currency: "Rwf",
-                              amount: totalLoan.output.nonSymbol,
+                              currency: snapshot.data!.currencyCode,
+                              amount:
+                                  moneyFormat(amount: snapshot.data!.totalLoan),
                               titleTxt: "Loan",
                               fn: () => context.go('/loan')),
                           verticalSpaceTiny,
                           homeCard(
                               leadingIcon: Icons.money_off,
-                              currency: "Rwf",
-                              amount: totalDept.output.nonSymbol,
+                              currency: snapshot.data!.currencyCode,
+                              amount:
+                                  moneyFormat(amount: snapshot.data!.totalDept),
                               titleTxt: "Dept",
                               fn: () => context.go('/dept')),
                           verticalSpaceTiny,
@@ -296,9 +285,8 @@ class _HomePageState extends State<HomePage> {
             padding: const EdgeInsets.all(20.0),
             child: Center(
               child: Container(
-                decoration: BoxDecoration(
-                    color: fkWhiteText,
-                    borderRadius: BorderRadius.circular(8.0)),
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(8.0)),
                 padding: const EdgeInsets.symmetric(vertical: 20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -308,10 +296,14 @@ class _HomePageState extends State<HomePage> {
                       height: 20,
                       child: CircularProgressIndicator(
                         strokeWidth: 2.0,
+                        color: fkWhiteText,
                       ),
                     ),
                     horizontalSpaceRegular,
-                    Text("Loading info...")
+                    Text(
+                      "Loading info...",
+                      style: TextStyle(color: fkWhiteText),
+                    )
                   ],
                 ),
               ),

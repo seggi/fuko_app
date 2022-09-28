@@ -143,7 +143,7 @@ class _AddBudgetDetailsState extends State<AddBudgetDetails> {
                   children: [
                     TextFormField(
                         autofocus: true,
-                        controller: addBudgeAmountController,
+                        // controller: addBudgeAmountController,
                         keyboardType: TextInputType.text,
                         textInputAction: TextInputAction.done,
                         initialValue: selectedItem['name'],

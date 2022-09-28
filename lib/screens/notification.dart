@@ -33,7 +33,7 @@ class _NotificationState extends State<Notification> {
   @override
   void initState() {
     super.initState();
-    retrieveIncomingRequest = fetchIncomingRequest(context: context);
+    retrieveIncomingRequest = fetchIncomingRequest(context);
   }
 
   @override

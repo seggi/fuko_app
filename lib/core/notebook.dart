@@ -81,14 +81,15 @@ Future<List<Notebook>> fetchNotebookMember({String? notebookId}) async {
   }
 }
 
-Future<List<Notebook>> fetchIncomingRequest({context}) async {
+Future<List<Notebook>> fetchIncomingRequest(context) async {
   var token = await UserPreferences.getToken();
   final response = await http.get(Uri.parse(Network.getInComingRequest),
       headers: Network.authorizedHeaders(token: token));
 
   if (response.statusCode == 200) {
     var notebookMember = jsonDecode(response.body)["data"] as List;
-    FkManageProviders.save["save-request-number"](context, number: "${2}");
+    FkManageProviders.save["save-request-number"](context,
+        number: "${notebookMember.length}");
     return notebookMember.map((dept) => Notebook.fromJson(dept)).toList();
   } else {
     throw Exception('Failed to load data');

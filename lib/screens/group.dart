@@ -69,15 +69,15 @@ class _GroupePageState extends State<GroupePage> {
                       onPressed: () =>
                           PagesGenerator.goTo(context, name: "create-group"),
                       icon: const Icon(
-                        Icons.add_circle,
-                        color: fkBlueText,
+                        Icons.add_circle_outline,
+                        color: fkBlackText,
                       )),
                   IconButton(
                     onPressed: () =>
                         PagesGenerator.goTo(context, name: "gr-request-sent"),
                     icon: const Icon(
                       FontAwesomeIcons.squareArrowUpRight,
-                      color: fkBlueText,
+                      color: fkBlackText,
                       size: 20,
                     ),
                   )
