@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "274704867992",
+    "project_id": "fuko-5aa50",
+    "storage_bucket": "fuko-5aa50.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:274704867992:android:1c09fead4f5133ca5aa6ed",
+        "android_client_info": {
+          "package_name": "com.example.fuko_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "274704867992-a8mvn4a7jini0v6rn2thtjfi2gk25amf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCO4tTXYn1GozDphigmQTFofUyHsbZihzs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "274704867992-a8mvn4a7jini0v6rn2thtjfi2gk25amf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

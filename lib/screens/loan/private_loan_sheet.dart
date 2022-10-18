@@ -18,7 +18,6 @@ class PrivateLoanSheet extends StatefulWidget {
 }
 
 class _PrivateLoanSheetState extends State<PrivateLoanSheet> {
-  late GlobalKey<ScaffoldState> _scaffoldKey;
   FkContentBoxWidgets fkContentBoxWidgets = FkContentBoxWidgets();
 
   late Future<GlobalAmount> retrieveLoanAmount;
@@ -327,7 +326,7 @@ class _PrivateLoanSheetState extends State<PrivateLoanSheet> {
               });
 
               // ignore: deprecated_member_use
-              _scaffoldKey.currentState!.showSnackBar(
+              ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
                   content: Text('Page Refreshed'),
                 ),

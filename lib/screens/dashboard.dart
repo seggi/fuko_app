@@ -20,7 +20,6 @@ class DashBoardPage extends StatefulWidget {
 }
 
 class _DashBoardPageState extends State<DashBoardPage> {
-  late GlobalKey<ScaffoldState> _scaffoldKey;
   FkContentBoxWidgets fkContentBoxWidgets = FkContentBoxWidgets();
 
   late Future<GlobalAmount> globalAmount;
@@ -65,7 +64,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
                 });
 
                 // ignore: deprecated_member_use
-                _scaffoldKey.currentState!.showSnackBar(
+                ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
                     content: Text('Page Refreshed'),
                   ),
