@@ -27,7 +27,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late GlobalKey<ScaffoldState> _scaffoldKey;
   FkContentBoxWidgets fkContentBoxWidgets = FkContentBoxWidgets();
 
   late Future<GlobalAmount> globalAmount;
@@ -75,7 +74,7 @@ class _HomePageState extends State<HomePage> {
                 });
 
                 // ignore: deprecated_member_use
-                _scaffoldKey.currentState!.showSnackBar(
+                ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
                     content: Text('Page Refreshed'),
                   ),

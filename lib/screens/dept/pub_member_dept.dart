@@ -284,7 +284,7 @@ class _PubMemberDeptNotebookSheetState
             });
 
             // ignore: deprecated_member_use
-            _scaffoldKey.currentState!.showSnackBar(
+            ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
                 content: Text('Page Refreshed'),
               ),
