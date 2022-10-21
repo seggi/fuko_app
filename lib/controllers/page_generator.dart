@@ -53,6 +53,13 @@ class PagesGenerator {
                 ),
               ]),
           GoRoute(
+              path: 'settings',
+              builder: (context, state) {
+                final data = state.queryParams['data'];
+                return SettingScreen(data: data);
+              },
+              routes: []),
+          GoRoute(
             path: 'dashboard',
             builder: (context, state) {
               final data = state.queryParams['status'];

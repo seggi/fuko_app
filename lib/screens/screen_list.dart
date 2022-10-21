@@ -46,3 +46,4 @@ export 'profile/upload_picture.dart';
 export 'profile/edit_profile.dart';
 export 'saving/update_saving.dart';
 export 'loan/update_loan.dart';
+export 'settings.dart';
