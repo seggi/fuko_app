@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fuko_app/controllers/page_generator.dart';
 import 'package:fuko_app/core/profile.dart';
+import 'package:fuko_app/widgets/bottom_sheet/currenncies.dart';
 import 'package:fuko_app/widgets/shared/style.dart';
 import 'package:fuko_app/widgets/shared/ui_helper.dart';
 import 'package:intl/intl.dart';
@@ -85,21 +86,37 @@ class _SettingScreenState extends State<SettingScreen> {
                           : Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                SizedBox(
-                                  width: 300,
-                                  child: TextField(
-                                      controller:
-                                          changeDefaultCurrencyController,
-                                      keyboardType: TextInputType.text,
-                                      textInputAction: TextInputAction.done,
-                                      decoration: InputDecoration(
-                                          hintText: 'Choose currency',
-                                          border: OutlineInputBorder(
-                                              borderSide: const BorderSide(
-                                                  color: fkInputFormBorderColor,
-                                                  width: 1.0),
-                                              borderRadius:
-                                                  BorderRadius.circular(8.0)))),
+                                Container(
+                                  width: 200,
+                                  color: fkBlueText,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Container(
+                                        width: 120,
+                                        padding: const EdgeInsets.all(8.0),
+                                        alignment: Alignment.center,
+                                        child: const Text("USD",
+                                            style: TextStyle(
+                                                color: fkWhiteText,
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 16)),
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                          color: fkDefaultColor,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: const [
+                                              CurrencyButtonSheet(),
+                                            ],
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ),
                                 IconButton(
                                     onPressed: () => setState(() {
@@ -150,21 +167,37 @@ class _SettingScreenState extends State<SettingScreen> {
                           : Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                SizedBox(
-                                  width: 300,
-                                  child: TextField(
-                                      controller:
-                                          changeDefaultCurrencyController,
-                                      keyboardType: TextInputType.text,
-                                      textInputAction: TextInputAction.done,
-                                      decoration: InputDecoration(
-                                          hintText: 'Choose group currency',
-                                          border: OutlineInputBorder(
-                                              borderSide: const BorderSide(
-                                                  color: fkInputFormBorderColor,
-                                                  width: 1.0),
-                                              borderRadius:
-                                                  BorderRadius.circular(8.0)))),
+                                Container(
+                                  width: 200,
+                                  color: fkBlueText,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Container(
+                                        width: 120,
+                                        padding: const EdgeInsets.all(8.0),
+                                        alignment: Alignment.center,
+                                        child: const Text("USD",
+                                            style: TextStyle(
+                                                color: fkWhiteText,
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 16)),
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                          color: fkDefaultColor,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: const [
+                                              CurrencyButtonSheet(),
+                                            ],
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ),
                                 IconButton(
                                     onPressed: () => setState(() {
