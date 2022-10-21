@@ -47,7 +47,10 @@ class NavDrawer extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.settings),
             title: const Text('Settings'),
-            onTap: () => {Navigator.of(context).pop()},
+            onTap: () {
+              PagesGenerator.goTo(context, pathName: "/settings");
+              Navigator.of(context).pop();
+            },
           ),
           ListTile(
             leading: const Icon(Icons.border_color),
