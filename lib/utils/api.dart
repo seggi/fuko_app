@@ -70,6 +70,12 @@ class Network {
   static String currencies = liveUrl! + "/manage_request/retrieve-curries";
   static String yearsList = liveUrl! + "/manage_request/retrieve-years";
   static String expenseReport = liveUrl! + "/account//expense-report";
+  static String setDefaultCurrency =
+      "${liveUrl!}/manage_request/set-default-currency";
+  static String getDefaultCurrency =
+      "${liveUrl!}/manage_request/retrieve-default-currency";
+  static String changeDefaultCurrency =
+      "${liveUrl!}/manage_request/change-default-currency";
 
   static String getPrivateLoanList =
       liveUrl! + "/account/loans/personal-loan-notebook";
