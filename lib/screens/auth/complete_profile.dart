@@ -59,9 +59,10 @@ class _CompleteProfileState extends State<CompleteProfile> {
         "last_name": lastNameController.text,
         "phone": phoneNumberController.text,
         "status": true,
-        "user_id": userData['data']['user_id'],
         "gender": selectedItem
       };
+
+      print(data);
 
       final response = await http.post(Uri.parse(Network.completeProfile),
           headers: Network.authorizedHeaders(token: userData["token"]),
@@ -137,7 +138,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
               child: Text(
                 "Welcome to FUKO, Please fill these fields before you start",
                 style: TextStyle(
-                    color: fkGreyText,
+                    color: fkBlackText,
                     fontWeight: FontWeight.w300,
                     fontSize: 14),
               ),

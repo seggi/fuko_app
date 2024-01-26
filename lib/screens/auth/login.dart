@@ -67,6 +67,7 @@ class _LoginPageState extends State<LoginPage> {
               <String, String>{'email': email, 'password': password}));
 
       // Save token in local storage and manage it
+
       if (response.statusCode == 201) {
         User user = User.fromJson(jsonDecode(response.body));
 

@@ -22,7 +22,7 @@ Future main() async {
   );
 }
 
-void initialization(BuildContext context) async {
+Future<void> initialization(BuildContext context) async {
   await Future.delayed(const Duration(seconds: 1));
 }
 

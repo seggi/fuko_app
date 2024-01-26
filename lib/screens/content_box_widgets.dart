@@ -1,3 +1,4 @@
+import 'package:badges/badges.dart' as badges;
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:fuko_app/utils/constant.dart';
@@ -24,7 +25,7 @@ class FkContentBoxWidgets {
         appBar: AppBar(elevation: 0.0, actions: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Badge(
+            child: badges.Badge(
               badgeContent: Text(
                 badgeTxt,
                 style: const TextStyle(color: fkWhiteText),

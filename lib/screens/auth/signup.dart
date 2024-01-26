@@ -142,7 +142,7 @@ class _SignUpPageState extends State<SignUpPage> {
             Align(
               alignment: Alignment.bottomLeft,
               child: Text(
-                "To get access to our sevices please register first.",
+                "To get access to our services please register first.",
                 style: TextStyle(
                     color: fkGreyText,
                     fontWeight: FontWeight.w300,
@@ -187,7 +187,7 @@ class _SignUpPageState extends State<SignUpPage> {
           verticalSpaceRegular,
           authButton(
             context: context,
-            title: 'Login',
+            title: "Back to login",
             btnColor: ftBtnColorBgSolid,
             textColor: fkWhiteText,
             fn: () => PagesGenerator.goTo(context, pathName: "/login"),

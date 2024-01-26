@@ -1,4 +1,10 @@
 {
-  "cSpell.words": ["Autovalidate", "fuko", "overscroll", "prefs", "subloc"],
+  "cSpell.words": [
+    "Autovalidate",
+    "fuko",
+    "overscroll",
+    "prefs",
+    "subloc"
+  ],
   "java.configuration.updateBuildConfiguration": "automatic"
 }
